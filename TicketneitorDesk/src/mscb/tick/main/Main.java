@@ -9,11 +9,11 @@ import java.awt.MouseInfo;
 import java.awt.Point;
 import mscb.tick.asuntoSecundarios.vista.AsuntoSec;
 import mscb.tick.asuntoSecundarios.vista.NuevoAsuntoSecFrame;
-import mscb.tick.asuntos.vista.Asuntos;
+import mscb.tick.asuntos.vista.AsuntosPrin;
 import mscb.tick.asuntos.vista.NuevoAsuntoFrame;
 import mscb.tick.encargadoAsuntos.vista.EncargadoAsuntos;
-import mscb.tick.entidades.AsuntoPrincipal;
-import mscb.tick.entidades.Ticket;
+import mscb.tick.entidades.Asuntos;
+import mscb.tick.entidades.Tickets;
 import mscb.tick.listener.Listener;
 import mscb.tick.login.Login;
 import mscb.tick.login.MenuPrincipal;
@@ -23,10 +23,10 @@ import mscb.tick.tickets.vista.NuevoTicket;
 import mscb.tick.tickets.vista.ObservacionF;
 import mscb.tick.tickets.vista.ResponderF;
 import mscb.tick.tickets.vista.RespuestaF;
-import mscb.tick.tickets.vista.Tickets;
+import mscb.tick.tickets.vista.TicketsV;
 import mscb.tick.usuarios.vista.CambiarClaveFrame;
 import mscb.tick.usuarios.vista.NuevoUsuarioF;
-import mscb.tick.usuarios.vista.Usuarios;
+import mscb.tick.usuarios.vista.UsuariosV;
 
 /**
  *
@@ -45,24 +45,24 @@ public class Main extends javax.swing.JFrame {
     private MenuPrincipal mppal;
     private Info inf;
         
-    private Usuarios usu;
+    private UsuariosV usu;
     private NuevoUsuarioF formUsuario;
     private CambiarClaveFrame cambiarCl;
     
     private NuevoTicket formTicket;
-    private Tickets tabTick;
+    private TicketsV tabTick;
     
     private EncargadoAsuntos asignarEncargado;
         
     private MisTickets misTickets;
     
     private ObservacionF observacion;
-        private Ticket miTick;
+        private Tickets miTick;
     
         private ResponderF responder;
     private RespuestaF respuesta;
     
-    private Asuntos asuntos;
+    private AsuntosPrin asuntos;
     private NuevoAsuntoFrame nuevoAsunto;
     
     private AsuntoSec asuntoSec;
@@ -117,7 +117,7 @@ public class Main extends javax.swing.JFrame {
      * Llama a la ventana con la tabla de usuarios y sus menus.
      */
     public void ventanausuarios(){
-        usu = Usuarios.getUsuarios(this);
+        usu = UsuariosV.getUsuarios(this);
         
         if(!usu.isVisible() == false){
             getContentPane().add(usu);
@@ -168,7 +168,7 @@ public class Main extends javax.swing.JFrame {
      * Ventana con tabla de tickets
      */
     public void tickets(){
-        tabTick = Tickets.getTickets(this);
+        tabTick = TicketsV.getTickets(this);
         
         if(!tabTick.isVisible()==false){
             getContentPane().add(tabTick);
@@ -207,7 +207,7 @@ public class Main extends javax.swing.JFrame {
     /**
      * Muestra ventana con observacion
      */
-    public void Observaciones(Ticket miTick){
+    public void Observaciones(Tickets miTick){
         if(observacion == null){
             observacion = new ObservacionF(miTick, this);
         }else{
@@ -219,7 +219,7 @@ public class Main extends javax.swing.JFrame {
     /**
      * Formulario de respuesta para tickets
      */
-    public void Respuestas(Ticket miTick){
+    public void Respuestas(Tickets miTick){
         if(responder == null){
             responder = new ResponderF(miTick, this);
         }else{
@@ -231,7 +231,7 @@ public class Main extends javax.swing.JFrame {
     /**
      * Muestra ventana con respuestas
      */
-    public void verRespuestas(Ticket miTick){
+    public void verRespuestas(Tickets miTick){
         if(respuesta == null){
             respuesta = new RespuestaF(miTick, this);
         }else{
@@ -245,7 +245,7 @@ public class Main extends javax.swing.JFrame {
      * Muestra ventana con asuntos
      */
     public void asuntos(){
-        asuntos = Asuntos.getAsuntos(this);
+        asuntos = AsuntosPrin.getAsuntos(this);
         
         if(!asuntos.isVisible() == false){
             getContentPane().add(asuntos);
@@ -285,7 +285,7 @@ public class Main extends javax.swing.JFrame {
     /**
      * Muestra ventana nuevo asunto secundario
      */
-    public void nuevoAsuntoSecundario(AsuntoPrincipal miAsuntoPP){
+    public void nuevoAsuntoSecundario(Asuntos miAsuntoPP){
         if(nuevoAsuntoSec == null){
             nuevoAsuntoSec = new NuevoAsuntoSecFrame(this, miAsuntoPP);
         }else{

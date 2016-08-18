@@ -6,17 +6,13 @@
 package mscb.tick.controladores;
 
 import java.io.Serializable;
+import java.util.List;
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
 import javax.persistence.Query;
 import javax.persistence.EntityNotFoundException;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
-import mscb.tick.entidades.Ticket;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import mscb.tick.controladores.exceptions.IllegalOrphanException;
 import mscb.tick.controladores.exceptions.NonexistentEntityException;
 import mscb.tick.entidades.AreaSistemas;
 
@@ -36,29 +32,11 @@ public class AreaSistemasJpaController implements Serializable {
     }
 
     public void create(AreaSistemas areaSistemas) {
-        if (areaSistemas.getTicketCollection() == null) {
-            areaSistemas.setTicketCollection(new ArrayList<Ticket>());
-        }
         EntityManager em = null;
         try {
             em = getEntityManager();
             em.getTransaction().begin();
-            Collection<Ticket> attachedTicketCollection = new ArrayList<Ticket>();
-            for (Ticket ticketCollectionTicketToAttach : areaSistemas.getTicketCollection()) {
-                ticketCollectionTicketToAttach = em.getReference(ticketCollectionTicketToAttach.getClass(), ticketCollectionTicketToAttach.getIdTicket());
-                attachedTicketCollection.add(ticketCollectionTicketToAttach);
-            }
-            areaSistemas.setTicketCollection(attachedTicketCollection);
             em.persist(areaSistemas);
-            for (Ticket ticketCollectionTicket : areaSistemas.getTicketCollection()) {
-                AreaSistemas oldFkAreaSistemasOfTicketCollectionTicket = ticketCollectionTicket.getFkAreaSistemas();
-                ticketCollectionTicket.setFkAreaSistemas(areaSistemas);
-                ticketCollectionTicket = em.merge(ticketCollectionTicket);
-                if (oldFkAreaSistemasOfTicketCollectionTicket != null) {
-                    oldFkAreaSistemasOfTicketCollectionTicket.getTicketCollection().remove(ticketCollectionTicket);
-                    oldFkAreaSistemasOfTicketCollectionTicket = em.merge(oldFkAreaSistemasOfTicketCollectionTicket);
-                }
-            }
             em.getTransaction().commit();
         } finally {
             if (em != null) {
@@ -67,45 +45,12 @@ public class AreaSistemasJpaController implements Serializable {
         }
     }
 
-    public void edit(AreaSistemas areaSistemas) throws IllegalOrphanException, NonexistentEntityException, Exception {
+    public void edit(AreaSistemas areaSistemas) throws NonexistentEntityException, Exception {
         EntityManager em = null;
         try {
             em = getEntityManager();
             em.getTransaction().begin();
-            AreaSistemas persistentAreaSistemas = em.find(AreaSistemas.class, areaSistemas.getIdAreaSistemas());
-            Collection<Ticket> ticketCollectionOld = persistentAreaSistemas.getTicketCollection();
-            Collection<Ticket> ticketCollectionNew = areaSistemas.getTicketCollection();
-            List<String> illegalOrphanMessages = null;
-            for (Ticket ticketCollectionOldTicket : ticketCollectionOld) {
-                if (!ticketCollectionNew.contains(ticketCollectionOldTicket)) {
-                    if (illegalOrphanMessages == null) {
-                        illegalOrphanMessages = new ArrayList<String>();
-                    }
-                    illegalOrphanMessages.add("You must retain Ticket " + ticketCollectionOldTicket + " since its fkAreaSistemas field is not nullable.");
-                }
-            }
-            if (illegalOrphanMessages != null) {
-                throw new IllegalOrphanException(illegalOrphanMessages);
-            }
-            Collection<Ticket> attachedTicketCollectionNew = new ArrayList<Ticket>();
-            for (Ticket ticketCollectionNewTicketToAttach : ticketCollectionNew) {
-                ticketCollectionNewTicketToAttach = em.getReference(ticketCollectionNewTicketToAttach.getClass(), ticketCollectionNewTicketToAttach.getIdTicket());
-                attachedTicketCollectionNew.add(ticketCollectionNewTicketToAttach);
-            }
-            ticketCollectionNew = attachedTicketCollectionNew;
-            areaSistemas.setTicketCollection(ticketCollectionNew);
             areaSistemas = em.merge(areaSistemas);
-            for (Ticket ticketCollectionNewTicket : ticketCollectionNew) {
-                if (!ticketCollectionOld.contains(ticketCollectionNewTicket)) {
-                    AreaSistemas oldFkAreaSistemasOfTicketCollectionNewTicket = ticketCollectionNewTicket.getFkAreaSistemas();
-                    ticketCollectionNewTicket.setFkAreaSistemas(areaSistemas);
-                    ticketCollectionNewTicket = em.merge(ticketCollectionNewTicket);
-                    if (oldFkAreaSistemasOfTicketCollectionNewTicket != null && !oldFkAreaSistemasOfTicketCollectionNewTicket.equals(areaSistemas)) {
-                        oldFkAreaSistemasOfTicketCollectionNewTicket.getTicketCollection().remove(ticketCollectionNewTicket);
-                        oldFkAreaSistemasOfTicketCollectionNewTicket = em.merge(oldFkAreaSistemasOfTicketCollectionNewTicket);
-                    }
-                }
-            }
             em.getTransaction().commit();
         } catch (Exception ex) {
             String msg = ex.getLocalizedMessage();
@@ -123,7 +68,7 @@ public class AreaSistemasJpaController implements Serializable {
         }
     }
 
-    public void destroy(Integer id) throws IllegalOrphanException, NonexistentEntityException {
+    public void destroy(Integer id) throws NonexistentEntityException {
         EntityManager em = null;
         try {
             em = getEntityManager();
@@ -134,17 +79,6 @@ public class AreaSistemasJpaController implements Serializable {
                 areaSistemas.getIdAreaSistemas();
             } catch (EntityNotFoundException enfe) {
                 throw new NonexistentEntityException("The areaSistemas with id " + id + " no longer exists.", enfe);
-            }
-            List<String> illegalOrphanMessages = null;
-            Collection<Ticket> ticketCollectionOrphanCheck = areaSistemas.getTicketCollection();
-            for (Ticket ticketCollectionOrphanCheckTicket : ticketCollectionOrphanCheck) {
-                if (illegalOrphanMessages == null) {
-                    illegalOrphanMessages = new ArrayList<String>();
-                }
-                illegalOrphanMessages.add("This AreaSistemas (" + areaSistemas + ") cannot be destroyed since the Ticket " + ticketCollectionOrphanCheckTicket + " in its ticketCollection field has a non-nullable fkAreaSistemas field.");
-            }
-            if (illegalOrphanMessages != null) {
-                throw new IllegalOrphanException(illegalOrphanMessages);
             }
             em.remove(areaSistemas);
             em.getTransaction().commit();

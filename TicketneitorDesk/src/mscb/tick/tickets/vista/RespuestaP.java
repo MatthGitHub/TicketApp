@@ -5,7 +5,7 @@
  */
 package mscb.tick.tickets.vista;
 
-import mscb.tick.entidades.Ticket;
+import mscb.tick.entidades.Tickets;
 import mscb.tick.main.Main;
 import mscb.tick.util.MenuP;
 
@@ -15,13 +15,13 @@ import mscb.tick.util.MenuP;
  */
 public class RespuestaP extends MenuP {
     private static RespuestaP estePanel;
-    private Ticket miTick;
+    private Tickets miTick;
     private Main mainFrameO;
     private RespuestaF mainFrame;
     /**
      * Creates new form RespuestaP
      */
-    private RespuestaP(Ticket miTick, RespuestaF mainFrame) {
+    private RespuestaP(Tickets miTick, RespuestaF mainFrame) {
         initComponents();
         setSize(520, 300);
         setVisible(true);
@@ -34,7 +34,7 @@ public class RespuestaP extends MenuP {
         txtA_obser.setEditable(false);
     }
     
-    public static RespuestaP getRespuestaP(Ticket miTick,RespuestaF mainFrame){
+    public static RespuestaP getRespuestaP(Tickets miTick,RespuestaF mainFrame){
         if(estePanel == null){
             estePanel = new RespuestaP(miTick,mainFrame);
         }

@@ -18,7 +18,7 @@ public class Actualizador extends Thread {
 
     private Listener diferencia;
     private MisTickets misTi;
-    private Tickets tickets;
+    private TicketsV tickets;
     private Main mainFrame;
     private int ran = 1;
 
@@ -34,7 +34,7 @@ public class Actualizador extends Thread {
             if (diferencia.diferencias == true) {
                 System.out.println("Hay diferencias en BD");
                 misTi = MisTickets.getMisTickets(mainFrame);
-                tickets = Tickets.getTickets(mainFrame);
+                tickets = TicketsV.getTickets(mainFrame);
                 misTi.llenarTabla();
                 tickets.llenarTabla();
                 diferencia.diferencias = false;

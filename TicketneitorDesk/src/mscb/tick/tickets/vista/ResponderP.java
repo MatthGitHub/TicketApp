@@ -6,7 +6,7 @@
 package mscb.tick.tickets.vista;
 
 import javax.swing.JOptionPane;
-import mscb.tick.entidades.Ticket;
+import mscb.tick.entidades.Tickets;
 import mscb.tick.login.Login;
 import mscb.tick.login.servicios.LoginEJB;
 import mscb.tick.main.Main;
@@ -21,13 +21,13 @@ public class ResponderP extends MenuP {
     private ResponderF mainFrame;
     Main mainFrameO;
     private static ResponderP estePanel;
-    private Ticket miTick;
+    private Tickets miTick;
     private TicketServ serviciosT;
     private MisTickets panelMisti;
     /**
      * Creates new form ResponderP
      */
-    private ResponderP(Ticket miTick, ResponderF mainFrame) {
+    private ResponderP(Tickets miTick, ResponderF mainFrame) {
         initComponents();
         panelMisti = MisTickets.getMisTickets(mainFrameO);
         this.mainFrame = mainFrame;
@@ -39,7 +39,7 @@ public class ResponderP extends MenuP {
         setVisible(true);
     }
     
-    public static ResponderP getResponder(Ticket miTick, ResponderF mainFrame){
+    public static ResponderP getResponder(Tickets miTick, ResponderF mainFrame){
         if(estePanel == null ){
             estePanel = new ResponderP(miTick, mainFrame);
         }

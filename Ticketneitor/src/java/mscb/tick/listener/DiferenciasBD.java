@@ -9,8 +9,8 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
-import mscb.tick.controladores.TicketJpaController;
-import mscb.tick.entidades.Ticket;
+import mscb.tick.controladores.TicketsJpaController;
+import mscb.tick.entidades.Tickets;
 import mscb.tick.tickets.servicios.TicketServ;
 
 /**
@@ -19,11 +19,11 @@ import mscb.tick.tickets.servicios.TicketServ;
  */
 public class DiferenciasBD {
 
-    private List<Ticket> miLista;
-    public static List<Ticket> cacheDatos;
+    private List<Tickets> miLista;
+    public static List<Tickets> cacheDatos;
     private static DiferenciasBD single;
     private TicketServ serviciosT;
-    public static List<Ticket> nuevosTick;
+    public static List<Tickets> nuevosTick;
 
     private DiferenciasBD() {
         serviciosT = new TicketServ();

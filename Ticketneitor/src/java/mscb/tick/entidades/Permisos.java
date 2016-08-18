@@ -6,7 +6,7 @@
 package mscb.tick.entidades;
 
 import java.io.Serializable;
-import java.util.Collection;
+import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -33,6 +33,10 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Permisos.findByIdPermiso", query = "SELECT p FROM Permisos p WHERE p.idPermiso = :idPermiso"),
     @NamedQuery(name = "Permisos.findByNombrePermiso", query = "SELECT p FROM Permisos p WHERE p.nombrePermiso = :nombrePermiso")})
 public class Permisos implements Serializable {
+
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "fkPermiso")
+    private List<Usuarios> usuariosList;
+
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -42,8 +46,6 @@ public class Permisos implements Serializable {
     @Basic(optional = false)
     @Column(name = "nombre_permiso")
     private String nombrePermiso;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "fkPermiso")
-    private Collection<Usuario> usuarioCollection;
 
     public Permisos() {
     }
@@ -73,15 +75,6 @@ public class Permisos implements Serializable {
         this.nombrePermiso = nombrePermiso;
     }
 
-    @XmlTransient
-    public Collection<Usuario> getUsuarioCollection() {
-        return usuarioCollection;
-    }
-
-    public void setUsuarioCollection(Collection<Usuario> usuarioCollection) {
-        this.usuarioCollection = usuarioCollection;
-    }
-
     @Override
     public int hashCode() {
         int hash = 0;
@@ -105,6 +98,15 @@ public class Permisos implements Serializable {
     @Override
     public String toString() {
         return this.nombrePermiso;
+    }
+
+    @XmlTransient
+    public List<Usuarios> getUsuariosList() {
+        return usuariosList;
+    }
+
+    public void setUsuariosList(List<Usuarios> usuariosList) {
+        this.usuariosList = usuariosList;
     }
     
 }

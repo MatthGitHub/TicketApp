@@ -13,9 +13,9 @@ import mscb.tick.areaSistemas.servicios.AreaSistemaServ;
 import mscb.tick.asuntoPrincipal.servicios.AsuntoPrincipalServ;
 import mscb.tick.asuntoSecundario.servicios.AsuntoSecundarioServ;
 import mscb.tick.entidades.AreaSistemas;
-import mscb.tick.entidades.AsuntoPrincipal;
-import mscb.tick.entidades.AsuntoSecundario;
-import mscb.tick.entidades.Ticket;
+import mscb.tick.entidades.Asuntos;
+import mscb.tick.entidades.Servicios;
+import mscb.tick.entidades.Tickets;
 import mscb.tick.estados.servicios.EstadoServ;
 import mscb.tick.login.Login;
 import mscb.tick.login.servicios.LoginEJB;
@@ -31,11 +31,11 @@ public class NuevoTicket extends MenuP {
     Main mainFrame;
     private static NuevoTicket form;
     private AsuntoPrincipalServ serviciosPrincipal;
-    private List <AsuntoPrincipal> miListaAP;
+    private List <Asuntos> miListaAP;
     private AsuntoSecundarioServ serviciosSecundario;
-    private List <AsuntoSecundario> miListaAS;
+    private List <Servicios> miListaAS;
     int b;
-    private Ticket miTick;
+    private Tickets miTick;
     private Date fecha;
     private AreaSistemaServ sis;
     private TicketServ serviciosT;
@@ -287,9 +287,9 @@ public class NuevoTicket extends MenuP {
             serviciosEst = new EstadoServ();
             serviciosT = new TicketServ();
             sis = new AreaSistemaServ();
-            miTick = new Ticket();
+            miTick = new Tickets();
             fecha = new Date();
-            miTick.setAsunto((AsuntoSecundario) cmbx_asuntoSecundario.getSelectedItem());
+            miTick.setAsunto((Servicios) cmbx_asuntoSecundario.getSelectedItem());
             miTick.setFecha(fecha);
             miTick.setFkAreaEmisor(LoginEJB.usuario.getFkEmpleado().getFkArea());
             miTick.setFkUsuarioEmisor(LoginEJB.usuario);
@@ -359,7 +359,7 @@ public class NuevoTicket extends MenuP {
             b =0;
             txtA_obs.setText("");
             serviciosSecundario = new AsuntoSecundarioServ();
-            miListaAS = serviciosSecundario.traerPorAreaPrincipal((AsuntoPrincipal) cmbx_asuntoPrincipal.getSelectedItem());
+            miListaAS = serviciosSecundario.traerPorAreaPrincipal((Asuntos) cmbx_asuntoPrincipal.getSelectedItem());
             cmbx_asuntoSecundario.removeAllItems();
             for(int i = 0; i < miListaAS.size();i++){
                 cmbx_asuntoSecundario.addItem(miListaAS.get(i));

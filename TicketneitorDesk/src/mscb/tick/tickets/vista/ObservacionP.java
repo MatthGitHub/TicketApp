@@ -5,7 +5,7 @@
  */
 package mscb.tick.tickets.vista;
 
-import mscb.tick.entidades.Ticket;
+import mscb.tick.entidades.Tickets;
 import mscb.tick.main.Main;
 import mscb.tick.util.MenuP;
 
@@ -15,13 +15,13 @@ import mscb.tick.util.MenuP;
  */
 public class ObservacionP extends MenuP {
     private static ObservacionP estePanel;
-    private Ticket miTick;
+    private Tickets miTick;
     private Main mainFrameO;
     private ObservacionF mainFrame;
     /**
      * Creates new form Observacion
      */
-    private ObservacionP(Ticket miTick, ObservacionF mainFrame) {
+    private ObservacionP(Tickets miTick, ObservacionF mainFrame) {
         initComponents();
         setSize(520, 300);
         setVisible(true);
@@ -34,7 +34,7 @@ public class ObservacionP extends MenuP {
         txtA_obser.setEditable(false);
     }
     
-    public static ObservacionP getObservacionP(Ticket miTick,ObservacionF mainFrame){
+    public static ObservacionP getObservacionP(Tickets miTick,ObservacionF mainFrame){
         if(estePanel == null){
             estePanel = new ObservacionP(miTick,mainFrame);
         }

@@ -12,27 +12,28 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
-import mscb.tick.controladores.UsuarioJpaController;
+import mscb.tick.controladores.UsuariosJpaController;
 import mscb.tick.controladores.exceptions.IllegalOrphanException;
 import mscb.tick.controladores.exceptions.NonexistentEntityException;
-import mscb.tick.entidades.Usuario;
+import mscb.tick.entidades.Usuarios;
 
 /**
  *
  * @author Administrador
  */
 public class UsuarioServ {
-    private List<Usuario> miLista;
-    private Usuario miUsuario;
+    private List<Usuarios> miLista;
+    private Usuarios miUsuario;
     private Date miFecha;
+    EntityManagerFactory emf = Persistence.createEntityManagerFactory("TicketneitorPU");
+    UsuariosJpaController jpa = new UsuariosJpaController(emf);
     
-    public Usuario buscarUsuario(String nombre, String clave){
-        EntityManagerFactory emf = Persistence.createEntityManagerFactory("TicketneitorPU");
-        UsuarioJpaController jpa = new UsuarioJpaController(emf);
-        miLista = new ArrayList<>();
-        miUsuario = new Usuario();
+    public Usuarios buscarUsuario(String nombre, String clave){
         
-        miLista = jpa.findUsuarioEntities();
+        miLista = new ArrayList<>();
+        miUsuario = new Usuarios();
+        
+        miLista = jpa.findUsuariosEntities();
         for(int i = 0; i < miLista.size();i++){
             if(miLista.get(i).getNombreUsuario().equals(nombre)){
                 miUsuario.setNombreUsuario("si");
@@ -55,17 +56,11 @@ public class UsuarioServ {
         return miUsuario;
     }
     
-    public List <Usuario> traerTodos(){
-        EntityManagerFactory emf = Persistence.createEntityManagerFactory("TicketneitorPU");
-        UsuarioJpaController jpa = new UsuarioJpaController(emf);
-
-        return jpa.findUsuarioEntities();
+    public List <Usuarios> traerTodos(){
+        return jpa.findUsuariosEntities();
     }
     
-    public int persistirUsuario(Usuario aGuardar){
-        EntityManagerFactory emf = Persistence.createEntityManagerFactory("TicketneitorPU");
-        UsuarioJpaController jpa = new UsuarioJpaController(emf);
-        
+    public int persistirUsuario(Usuarios aGuardar){
         try {
             jpa.create(aGuardar);
             return 1;
@@ -77,9 +72,6 @@ public class UsuarioServ {
          }
     
     public int eliminarUsuario(int id){
-        EntityManagerFactory emf = Persistence.createEntityManagerFactory("TicketneitorPU");
-        UsuarioJpaController jpa = new UsuarioJpaController(emf);
-        
         try {
             jpa.destroy(id);
         } catch (IllegalOrphanException ex) {
@@ -93,10 +85,8 @@ public class UsuarioServ {
     }
     
     public int deshabilitarUsuario(int id){
-        EntityManagerFactory emf = Persistence.createEntityManagerFactory("TicketneitorPU");
-        UsuarioJpaController jpa = new UsuarioJpaController(emf);
-        Usuario usu;
-        usu = jpa.findUsuario(id);
+        Usuarios usu;
+        usu = jpa.findUsuarios(id);
         usu.setActivo(false);
         
         try {
@@ -113,10 +103,8 @@ public class UsuarioServ {
     }
     
     public int habilitarUsuario(int id){
-        EntityManagerFactory emf = Persistence.createEntityManagerFactory("TicketneitorPU");
-        UsuarioJpaController jpa = new UsuarioJpaController(emf);
-        Usuario usu;
-        usu = jpa.findUsuario(id);
+        Usuarios usu;
+        usu = jpa.findUsuarios(id);
         usu.setActivo(true);
         
         try {
@@ -133,10 +121,8 @@ public class UsuarioServ {
     }
     
     public int resetClave(int id){
-        EntityManagerFactory emf = Persistence.createEntityManagerFactory("TicketneitorPU");
-        UsuarioJpaController jpa = new UsuarioJpaController(emf);
-        Usuario usu;
-        usu = jpa.findUsuario(id);
+        Usuarios usu;
+        usu = jpa.findUsuarios(id);
         usu.setContrasenia(usu.getFkEmpleado().getNombre());
         
         try {
@@ -151,10 +137,7 @@ public class UsuarioServ {
         return 0;
     }
     
-    public int cambiarClave(Usuario usu ,String clave){
-        EntityManagerFactory emf = Persistence.createEntityManagerFactory("TicketneitorPU");
-        UsuarioJpaController jpa = new UsuarioJpaController(emf);
-        
+    public int cambiarClave(Usuarios usu ,String clave){
         usu.setContrasenia(clave);
         
         try {
@@ -171,14 +154,12 @@ public class UsuarioServ {
     }
     
     
-    public List<Usuario> traerSistemas(){
-        EntityManagerFactory emf = Persistence.createEntityManagerFactory("TicketneitorPU");
-        UsuarioJpaController jpa = new UsuarioJpaController(emf);
+    public List<Usuarios> traerSistemas(){
         miLista = new ArrayList<>();
-        List<Usuario> aux;
+        List<Usuarios> aux;
         aux = new ArrayList<>();
         
-        miLista = jpa.findUsuarioEntities();
+        miLista = jpa.findUsuariosEntities();
         for(int i = 0; i < miLista.size();i++){
             if(miLista.get(i).getFkEmpleado().getFkArea().getIdArea().equals(38)){
                 aux.add(miLista.get(i));
@@ -189,10 +170,7 @@ public class UsuarioServ {
     }
     
     
-    public int modificarUsuario(Usuario aModif){
-        EntityManagerFactory emf = Persistence.createEntityManagerFactory("TicketneitorPU");
-        UsuarioJpaController jpa = new UsuarioJpaController(emf);
-        
+    public int modificarUsuario(Usuarios aModif){
         try {
             jpa.edit(aModif);
             return 0;

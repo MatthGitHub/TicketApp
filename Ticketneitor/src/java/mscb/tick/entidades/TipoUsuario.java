@@ -29,6 +29,7 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "TipoUsuario.findByIdTipoUsuario", query = "SELECT t FROM TipoUsuario t WHERE t.idTipoUsuario = :idTipoUsuario"),
     @NamedQuery(name = "TipoUsuario.findByNombreTipoUsuario", query = "SELECT t FROM TipoUsuario t WHERE t.nombreTipoUsuario = :nombreTipoUsuario")})
 public class TipoUsuario implements Serializable {
+
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

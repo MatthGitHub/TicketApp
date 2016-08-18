@@ -47,7 +47,7 @@ public class Listener extends Thread {
             
             if(f != 0){
                 for(int i = 0; i < f; i++){
-                    if(LoginEJB.usuario.getAsuntoSecundarioCollection().contains(DiferenciasBD.nuevosTick.get(i).getAsunto())){
+                    if(LoginEJB.usuario.getServiciosList().contains(DiferenciasBD.nuevosTick.get(i).getAsunto())){
                     /*JOptionPane.showMessageDialog(null, "Tiene un nuevo pedido de "
                             +DiferenciasBD.nuevosTick.get(i).getFkUsuarioEmisor()
                             +" - "+DiferenciasBD.nuevosTick.get(i).getFkAreaEmisor());

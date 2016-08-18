@@ -14,9 +14,9 @@ import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 import mscb.tick.asuntoPrincipal.servicios.AsuntoPrincipalServ;
 import mscb.tick.asuntoSecundario.servicios.AsuntoSecundarioServ;
-import mscb.tick.entidades.AsuntoPrincipal;
-import mscb.tick.entidades.AsuntoSecundario;
-import mscb.tick.entidades.Usuario;
+import mscb.tick.entidades.Asuntos;
+import mscb.tick.entidades.Servicios;
+import mscb.tick.entidades.Usuarios;
 import mscb.tick.main.Main;
 import mscb.tick.usuarios.servicios.UsuarioServ;
 import mscb.tick.util.MenuP;
@@ -29,11 +29,11 @@ public class EncargadoAsuntos extends MenuP {
 
     Main mainFrame;
     private static EncargadoAsuntos estePanel;
-    private List<Usuario> miListaU;
+    private List<Usuarios> miListaU;
     private UsuarioServ serviciosU;
-    private List<AsuntoSecundario> miListaA;
+    private List<Servicios> miListaA;
     private AsuntoSecundarioServ serviciosA;
-    private List<AsuntoPrincipal> miListaP;
+    private List<Asuntos> miListaP;
     private AsuntoPrincipalServ serviciosP;
     private DefaultTableModel modelo;
 
@@ -75,7 +75,7 @@ public class EncargadoAsuntos extends MenuP {
 
     private void cargarComboBoxAsuntoS() {
         serviciosA = new AsuntoSecundarioServ();
-        miListaA = serviciosA.traerPorAreaPrincipal((AsuntoPrincipal) cmbx_asuntosP.getSelectedItem());
+        miListaA = serviciosA.traerPorAreaPrincipal((Asuntos) cmbx_asuntosP.getSelectedItem());
         cmbx_asuntosS.removeAllItems();
         for (int i = 0; i < miListaA.size(); i++) {
             cmbx_asuntosS.addItem(miListaA.get(i));
@@ -96,10 +96,10 @@ public class EncargadoAsuntos extends MenuP {
         vaciarTabla(jt_asuntos);
         
         String v[] = new String[2];
-        List<AsuntoSecundario> aux = new ArrayList<>();
+        List<Servicios> aux = new ArrayList<>();
         
-        int a = miListaU.get(miListaU.indexOf(cmbx_usuarios.getSelectedItem())).getAsuntoSecundarioCollection().size();
-        List<AsuntoSecundario> miLi = (List<AsuntoSecundario>) miListaU.get(miListaU.indexOf(cmbx_usuarios.getSelectedItem())).getAsuntoSecundarioCollection();
+        int a = miListaU.get(miListaU.indexOf(cmbx_usuarios.getSelectedItem())).getServiciosList().size();
+        List<Servicios> miLi = (List<Servicios>) miListaU.get(miListaU.indexOf(cmbx_usuarios.getSelectedItem())).getServiciosList();
 
         for (int i = 0; i < a; i++) {
             v[0] = miLi.get(i).getPertenece().getNombre();
@@ -335,8 +335,8 @@ public class EncargadoAsuntos extends MenuP {
     private void btn_agregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_agregarActionPerformed
         // TODO add your handling code here:
         if (JOptionPane.showConfirmDialog(mainFrame, "Seguro desea agregar este asunto?", "Seguro", JOptionPane.YES_NO_OPTION) == 0) {
-            Usuario miUsuario = (Usuario) cmbx_usuarios.getSelectedItem();
-            miUsuario.getAsuntoSecundarioCollection().add((AsuntoSecundario) cmbx_asuntosS.getSelectedItem());
+            Usuarios miUsuario = (Usuarios) cmbx_usuarios.getSelectedItem();
+            miUsuario.getServiciosList().add((Servicios) cmbx_asuntosS.getSelectedItem());
             serviciosU = new UsuarioServ();
             if (serviciosU.modificarUsuario(miUsuario) == 0) {
                 JOptionPane.showMessageDialog(mainFrame, "Asunto agregado!");
@@ -356,12 +356,12 @@ public class EncargadoAsuntos extends MenuP {
                 serviciosA = new AsuntoSecundarioServ();
                 serviciosP = new AsuntoPrincipalServ();
                 
-                Usuario miUsuario = (Usuario) cmbx_usuarios.getSelectedItem();
+                Usuarios miUsuario = (Usuarios) cmbx_usuarios.getSelectedItem();
                 
-                List <AsuntoSecundario> asuntos = serviciosA.traerTodos();
-                List <AsuntoPrincipal> asuntoP = serviciosP.traerTodos();
-                AsuntoSecundario miAsu = new AsuntoSecundario();
-                AsuntoPrincipal miAsup = new AsuntoPrincipal();
+                List <Servicios> asuntos = serviciosA.traerTodos();
+                List <Asuntos> asuntoP = serviciosP.traerTodos();
+               Servicios miAsu = new Servicios();
+                Asuntos miAsup = new Asuntos();
                 
                 for(int i = 0; i < asuntoP.size(); i ++ ){
                     if(asuntoP.get(i).getNombre().equals(modelo.getValueAt(jt_asuntos.getSelectedRow(), 0))){
@@ -375,7 +375,7 @@ public class EncargadoAsuntos extends MenuP {
                         miAsu = asuntos.get(i);
                     }
                 }
-                miUsuario.getAsuntoSecundarioCollection().remove(miAsu);
+                miUsuario.getServiciosList().remove(miAsu);
                 serviciosU = new UsuarioServ();
                 if (serviciosU.modificarUsuario(miUsuario) == 0) {
                     JOptionPane.showMessageDialog(mainFrame, "Asunto quitado!");

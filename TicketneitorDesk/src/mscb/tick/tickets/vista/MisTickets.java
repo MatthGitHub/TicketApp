@@ -12,7 +12,7 @@ import java.util.Locale;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
-import mscb.tick.entidades.Ticket;
+import mscb.tick.entidades.Tickets;
 import mscb.tick.login.Login;
 import mscb.tick.login.servicios.LoginEJB;
 import mscb.tick.main.Main;
@@ -27,7 +27,7 @@ public class MisTickets extends MenuP {
     Main mainFrame;
     private static MisTickets estePanel;
     private TicketServ serviciosT;
-    private List<Ticket> miLista;
+    private List<Tickets> miLista;
     private DefaultTableModel modelo;
     
     /**
@@ -88,7 +88,7 @@ public class MisTickets extends MenuP {
 
     }
     
-    private void llenarTablaBuscador(List <Ticket> busca) {
+    private void llenarTablaBuscador(List <Tickets> busca) {
         vaciarTabla(jt_tickets);
         String v[] = new String[7];
         DateFormat dateFormatter;

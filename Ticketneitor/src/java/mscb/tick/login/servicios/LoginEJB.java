@@ -6,22 +6,21 @@
 package mscb.tick.login.servicios;
 
 import java.util.List;
-import mscb.tick.entidades.Usuario;
+import mscb.tick.entidades.Usuarios;
 import mscb.tick.usuarios.servicios.UsuarioServ;
-
 /**
  *
  * @author Matth
  */
 public class LoginEJB {
 
-    public static Usuario usuario;
+    public static Usuarios usuario;
     private UsuarioServ serviciosU;
-    private List<Usuario> miLista;
+    private List<Usuarios> miLista;
     public static String mensaje;
 
     public LoginEJB() {
-        usuario = new Usuario();
+        usuario = new Usuarios();
     }
 
     public boolean login(String nombre, String clave) {

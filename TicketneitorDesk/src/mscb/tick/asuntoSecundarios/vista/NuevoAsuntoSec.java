@@ -9,8 +9,8 @@ import mscb.tick.asuntos.vista.*;
 import javax.swing.JOptionPane;
 import mscb.tick.asuntoPrincipal.servicios.AsuntoPrincipalServ;
 import mscb.tick.asuntoSecundario.servicios.AsuntoSecundarioServ;
-import mscb.tick.entidades.AsuntoPrincipal;
-import mscb.tick.entidades.AsuntoSecundario;
+import mscb.tick.entidades.Asuntos;
+import mscb.tick.entidades.Servicios;
 import mscb.tick.main.Main;
 import mscb.tick.util.MenuP;
 
@@ -23,14 +23,14 @@ public class NuevoAsuntoSec extends MenuP {
     Main mainFrameO;
     private static NuevoAsuntoSec nuevoAsunto;
     private AsuntoSecundarioServ serviciosA;
-    private AsuntoPrincipal miAsuntoPP;
-    private AsuntoSecundario miAsunto;
+    private Asuntos miAsuntoPP;
+    private Servicios miAsunto;
     private AsuntoSec asuntos;
     
     /**
      * Creates new form NuevoAsunto singleton
      */
-    private NuevoAsuntoSec(NuevoAsuntoSecFrame mainFrame,Main mainFrameO,AsuntoPrincipal miAsuntoPP) {
+    private NuevoAsuntoSec(NuevoAsuntoSecFrame mainFrame,Main mainFrameO,Asuntos miAsuntoPP) {
         initComponents();
         this.mainFrameO = mainFrameO;
         this.mainFrame = mainFrame;
@@ -41,7 +41,7 @@ public class NuevoAsuntoSec extends MenuP {
         txt_nombreAsunto.requestFocus();
     }
     
-    public static NuevoAsuntoSec getNuevoAsunto(NuevoAsuntoSecFrame mainFrame,Main mainFrameO,AsuntoPrincipal miAsuntoPP){
+    public static NuevoAsuntoSec getNuevoAsunto(NuevoAsuntoSecFrame mainFrame,Main mainFrameO,Asuntos miAsuntoPP){
         if(nuevoAsunto == null){
             nuevoAsunto = new NuevoAsuntoSec(mainFrame,mainFrameO,miAsuntoPP);
         }
@@ -137,11 +137,11 @@ public class NuevoAsuntoSec extends MenuP {
         if(!txt_nombreAsunto.getText().trim().isEmpty()){
             if(JOptionPane.showConfirmDialog(mainFrame, "Guardar?", "Confirmar", JOptionPane.YES_NO_OPTION) == 0){
                 serviciosA = new AsuntoSecundarioServ();
-                miAsunto = new AsuntoSecundario();
+                miAsunto = new Servicios();
                 miAsunto.setPertenece(miAsuntoPP);
                 miAsunto.setNombreasuntoS(txt_nombreAsunto.getText());
                 if(serviciosA.nuevoASunto(miAsunto)){
-                    miAsuntoPP.getAsuntoSecundarioCollection().add(miAsunto);
+                    miAsuntoPP.getServiciosList().add(miAsunto);
                     asuntos = AsuntoSec.getAsuntoSec(mainFrameO);
                     asuntos.llenarTabla(serviciosA.traerPorAreaPrincipal(miAsuntoPP));
                     JOptionPane.showMessageDialog(mainFrame, "Asunto cargado!");

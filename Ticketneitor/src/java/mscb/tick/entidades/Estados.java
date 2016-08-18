@@ -6,7 +6,7 @@
 package mscb.tick.entidades;
 
 import java.io.Serializable;
-import java.util.Collection;
+import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -32,6 +32,10 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Estados.findByIdEstado", query = "SELECT e FROM Estados e WHERE e.idEstado = :idEstado"),
     @NamedQuery(name = "Estados.findByNombre", query = "SELECT e FROM Estados e WHERE e.nombre = :nombre")})
 public class Estados implements Serializable {
+
+    @OneToMany(mappedBy = "fkEstado")
+    private List<Tickets> ticketsList;
+
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -41,8 +45,6 @@ public class Estados implements Serializable {
     @Basic(optional = false)
     @Column(name = "nombre")
     private String nombre;
-    @OneToMany(mappedBy = "fkEstado")
-    private Collection<Ticket> ticketCollection;
 
     public Estados() {
     }
@@ -72,15 +74,6 @@ public class Estados implements Serializable {
         this.nombre = nombre;
     }
 
-    @XmlTransient
-    public Collection<Ticket> getTicketCollection() {
-        return ticketCollection;
-    }
-
-    public void setTicketCollection(Collection<Ticket> ticketCollection) {
-        this.ticketCollection = ticketCollection;
-    }
-
     @Override
     public int hashCode() {
         int hash = 0;
@@ -103,7 +96,16 @@ public class Estados implements Serializable {
 
     @Override
     public String toString() {
-        return "mscb.tick.entidades.Estados[ idEstado=" + idEstado + " ]";
+        return this.nombre;
+    }
+
+    @XmlTransient
+    public List<Tickets> getTicketsList() {
+        return ticketsList;
+    }
+
+    public void setTicketsList(List<Tickets> ticketsList) {
+        this.ticketsList = ticketsList;
     }
     
 }

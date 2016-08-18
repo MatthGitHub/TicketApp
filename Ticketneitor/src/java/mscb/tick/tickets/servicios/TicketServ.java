@@ -13,8 +13,8 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import javax.persistence.Query;
-import mscb.tick.controladores.TicketJpaController;
-import mscb.tick.entidades.Ticket;
+import mscb.tick.controladores.TicketsJpaController;
+import mscb.tick.entidades.Tickets;
 import mscb.tick.login.servicios.LoginEJB;
 
 //import mscb.tick.login.Login;
@@ -25,11 +25,10 @@ import mscb.tick.login.servicios.LoginEJB;
  */
 public class TicketServ {
     private static Query q;
+    EntityManagerFactory emf = Persistence.createEntityManagerFactory("TicketneitorPU");
+    TicketsJpaController jpa = new TicketsJpaController(emf);
     
-    public int nuevoTicket(Ticket nuevo){
-        EntityManagerFactory emf = Persistence.createEntityManagerFactory("TicketneitorPU");
-        TicketJpaController jpa = new TicketJpaController(emf);
-        
+    public int nuevoTicket(Tickets nuevo){
         try{
             jpa.create(nuevo);
             return 0;
@@ -39,16 +38,12 @@ public class TicketServ {
         }
     }
     
-    public List<Ticket> traerTodos(){
-        EntityManagerFactory emf = Persistence.createEntityManagerFactory("TicketneitorPU");
-        TicketJpaController jpa = new TicketJpaController(emf);
-        
-        return jpa.findTicketEntities();
+    public List<Tickets> traerTodos(){
+        return jpa.findTicketsEntities();
     }
     
     
-    public List <Ticket> buscar(String busca){
-        EntityManagerFactory emf = Persistence.createEntityManagerFactory("TicketneitorPU");
+    public List <Tickets> buscar(String busca){
         EntityManager em = emf.createEntityManager();
         
         q = em.createQuery("SELECT DISTINCT t "
@@ -65,12 +60,9 @@ public class TicketServ {
                 + "OR asi.nombreArea LIKE :patron");
         q.setParameter("patron", "%"+ busca+"%");
         return q.getResultList();
-             
-        
     }
     
-    public List <Ticket> buscar(int id){
-        EntityManagerFactory emf = Persistence.createEntityManagerFactory("TicketneitorPU");
+    public List <Tickets> buscar(int id){
         EntityManager em = emf.createEntityManager();
         
         q = em.createQuery("SELECT t FROM Ticket t WHERE t.idTicket LIKE :patron");
@@ -81,31 +73,23 @@ public class TicketServ {
      * 
      * @return 
      */
-    public List <Ticket> buscarPorUsuarioAsunto(){
-        EntityManagerFactory emf = Persistence.createEntityManagerFactory("TicketneitorPU");
-        TicketJpaController jpa = new TicketJpaController(emf);
-        List<Ticket> miLista = jpa.findTicketEntities();
-        List<Ticket> aux = new ArrayList<>();
+    public List <Tickets> buscarPorUsuarioAsunto(){
+        List<Tickets> miLista = jpa.findTicketsEntities();
+        List<Tickets> aux = new ArrayList<>();
         
         for(int i = 0; i < miLista.size(); i ++){
-            if(LoginEJB.usuario.getAsuntoSecundarioCollection().contains(miLista.get(i).getAsunto())){
+            if(LoginEJB.usuario.getServiciosList().contains(miLista.get(i).getAsunto())){
                 aux.add(miLista.get(i));
             }
         }
         return aux;
     }
     
-    public Ticket buscarUno(int id){
-        EntityManagerFactory emf  = Persistence.createEntityManagerFactory("TicketneitorPU");
-        TicketJpaController jpa  = new TicketJpaController(emf);
-        
-        return jpa.findTicket(id);
+    public Tickets buscarUno(int id){
+        return jpa.findTickets(id);
     }
     
-    public int modificarTicket(Ticket miTick){
-        EntityManagerFactory emf = Persistence.createEntityManagerFactory("TicketneitorPU");
-        TicketJpaController jpa = new TicketJpaController(emf);
-        
+    public int modificarTicket(Tickets miTick){
         try {
             jpa.edit(miTick);
             return 0;

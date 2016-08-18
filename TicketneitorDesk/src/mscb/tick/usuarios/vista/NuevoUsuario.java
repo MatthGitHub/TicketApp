@@ -11,9 +11,9 @@ import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 import mscb.tick.empleados.servicios.EmpleadoServ;
-import mscb.tick.entidades.Empleado;
+import mscb.tick.entidades.Empleados;
 import mscb.tick.entidades.Permisos;
-import mscb.tick.entidades.Usuario;
+import mscb.tick.entidades.Usuarios;
 import mscb.tick.main.Main;
 import mscb.tick.permisos.servicios.PermisoServ;
 import mscb.tick.usuarios.servicios.UsuarioServ;
@@ -28,12 +28,12 @@ public class NuevoUsuario extends MenuP {
     NuevoUsuarioF mainFrame;
     Main mainFrameO;
     private EmpleadoServ buscaE;
-    private List <Empleado> listaEmp;
+    private List <Empleados> listaEmp;
     private PermisoServ buscaP;
     private List <Permisos> listaPer;
-    private Usuario nuevoUsu;
+    private Usuarios nuevoUsu;
     private UsuarioServ guardarU;
-    private Usuarios tabla;
+    private UsuariosV tabla;
     private DefaultTableModel modelo;
     /**
      * Creates new form NuevoUsuario
@@ -69,7 +69,7 @@ public class NuevoUsuario extends MenuP {
         }
     }
     
-    private void llenarTabla(List<Empleado> aCargar){
+    private void llenarTabla(List<Empleados> aCargar){
         vaciarTabla(jt_empleados);
         String[] v = new String[3];
         
@@ -81,7 +81,7 @@ public class NuevoUsuario extends MenuP {
         }
     }
     
-    private Empleado traerEmpleado(){
+    private Empleados traerEmpleado(){
         return buscaE.traerEmpleado(Integer.parseInt(modelo.getValueAt(jt_empleados.getSelectedRow(), 2).toString()));
     }
     
@@ -284,7 +284,7 @@ public class NuevoUsuario extends MenuP {
             if(txt_clave.getText().trim().length() > 0){
                 if(JOptionPane.showConfirmDialog(estePanel, "Seguro desea guardar?") == 0){
                     guardarU = new UsuarioServ();
-                    nuevoUsu = new Usuario();
+                    nuevoUsu = new Usuarios();
                     nuevoUsu.setActivo(true);
                     nuevoUsu.setContrasenia(txt_clave.getText());
                     nuevoUsu.setNombreUsuario(txt_nombre.getText());
@@ -292,7 +292,7 @@ public class NuevoUsuario extends MenuP {
                     nuevoUsu.setFkPermiso((Permisos) cmbx_permisos.getSelectedItem());
                     if(guardarU.persistirUsuario(nuevoUsu) == 1){
                         JOptionPane.showMessageDialog(estePanel, "Usuario guardado!");
-                        tabla = Usuarios.getUsuarios(mainFrameO);
+                        tabla = UsuariosV.getUsuarios(mainFrameO);
                         tabla.cargarTablaUsuarios();
                         mainFrame.setVisible(false);
                         this.setVisible(false);

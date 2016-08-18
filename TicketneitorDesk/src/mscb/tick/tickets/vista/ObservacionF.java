@@ -7,7 +7,7 @@ package mscb.tick.tickets.vista;
 
 import java.awt.MouseInfo;
 import java.awt.Point;
-import mscb.tick.entidades.Ticket;
+import mscb.tick.entidades.Tickets;
 import mscb.tick.main.Main;
 
 /**
@@ -23,7 +23,7 @@ public class ObservacionF extends javax.swing.JFrame {
     /**
      * Creates new form ObservacionF
      */
-    public ObservacionF(Ticket miTick, Main mainFrame) {
+    public ObservacionF(Tickets miTick, Main mainFrame) {
         initComponents();
         setLocationRelativeTo(null);
         this.mainFrame = mainFrame;
@@ -37,7 +37,7 @@ public class ObservacionF extends javax.swing.JFrame {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     
-    public void Observacion(Ticket miTick){
+    public void Observacion(Tickets miTick){
         obser = ObservacionP.getObservacionP(miTick,this);
         
         if(!obser.isVisible() == false){

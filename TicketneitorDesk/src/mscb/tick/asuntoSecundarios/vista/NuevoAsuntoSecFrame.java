@@ -8,7 +8,7 @@ package mscb.tick.asuntoSecundarios.vista;
 import mscb.tick.asuntos.vista.*;
 import java.awt.MouseInfo;
 import java.awt.Point;
-import mscb.tick.entidades.AsuntoPrincipal;
+import mscb.tick.entidades.Asuntos;
 import mscb.tick.main.Main;
 
 /**
@@ -23,7 +23,7 @@ public class NuevoAsuntoSecFrame extends javax.swing.JFrame {
     /**
      * Creates new form NuevoAsuntoFrame
      */
-    public NuevoAsuntoSecFrame(Main mainFrame,AsuntoPrincipal miAsuntoPP) {
+    public NuevoAsuntoSecFrame(Main mainFrame,Asuntos miAsuntoPP) {
         initComponents();
         this.mainFrame = mainFrame;
         setSize(260, 320);
@@ -37,7 +37,7 @@ public class NuevoAsuntoSecFrame extends javax.swing.JFrame {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     
-    public void nuevoAsunto(AsuntoPrincipal miAsuntoPP){
+    public void nuevoAsunto(Asuntos miAsuntoPP){
         nuevoAsunto = NuevoAsuntoSec.getNuevoAsunto(this,mainFrame,miAsuntoPP);
         
         if(!nuevoAsunto.isVisible() == false){

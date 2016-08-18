@@ -10,8 +10,8 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import javax.persistence.Query;
-import mscb.tick.controladores.EmpleadoJpaController;
-import mscb.tick.entidades.Empleado;
+import mscb.tick.controladores.EmpleadosJpaController;
+import mscb.tick.entidades.Empleados;
 
 /**
  *
@@ -19,25 +19,19 @@ import mscb.tick.entidades.Empleado;
  */
 public class EmpleadoServ {
     private static Query q;
-    
-    public List <Empleado> traerTodos(){
-        EntityManagerFactory emf = Persistence.createEntityManagerFactory("TicketneitorPU");
-        EmpleadoJpaController jpa = new EmpleadoJpaController(emf);
+    EntityManagerFactory emf = Persistence.createEntityManagerFactory("TicketneitorPU");
+    EmpleadosJpaController jpa = new EmpleadosJpaController(emf);
         
-        return jpa.findEmpleadoEntities();
+    public List <Empleados> traerTodos(){
+        return jpa.findEmpleadosEntities();
     }
     
-    public Empleado traerEmpleado(int id){
-        EntityManagerFactory emf = Persistence.createEntityManagerFactory("TicketneitorPU");
-        EmpleadoJpaController jpa = new EmpleadoJpaController(emf);
-        
-        return jpa.findEmpleado(id);
+    public Empleados traerEmpleado(int id){
+        return jpa.findEmpleados(id);
     }
     
-    public List<Empleado> traerEmpleados(String patron){
-        EntityManagerFactory emf = Persistence.createEntityManagerFactory("TicketneitorPU");
+    public List<Empleados> traerEmpleados(String patron){
         EntityManager em = emf.createEntityManager();
-        EmpleadoJpaController jpa = new EmpleadoJpaController(emf);
         
         q = em.createQuery("SELECT DISTINCT e "
                 + "FROM Empleado e "

@@ -6,19 +6,15 @@
 package mscb.tick.controladores;
 
 import java.io.Serializable;
+import java.util.List;
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
 import javax.persistence.Query;
 import javax.persistence.EntityNotFoundException;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
-import mscb.tick.entidades.Usuario;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import mscb.tick.controladores.exceptions.IllegalOrphanException;
-import mscb.tick.controladores.exceptions.NonexistentEntityException;
 import mscb.tick.entidades.Permisos;
+import mscb.tick.controladores.exceptions.NonexistentEntityException;
 
 /**
  *
@@ -36,29 +32,11 @@ public class PermisosJpaController implements Serializable {
     }
 
     public void create(Permisos permisos) {
-        if (permisos.getUsuarioCollection() == null) {
-            permisos.setUsuarioCollection(new ArrayList<Usuario>());
-        }
         EntityManager em = null;
         try {
             em = getEntityManager();
             em.getTransaction().begin();
-            Collection<Usuario> attachedUsuarioCollection = new ArrayList<Usuario>();
-            for (Usuario usuarioCollectionUsuarioToAttach : permisos.getUsuarioCollection()) {
-                usuarioCollectionUsuarioToAttach = em.getReference(usuarioCollectionUsuarioToAttach.getClass(), usuarioCollectionUsuarioToAttach.getIdUsuario());
-                attachedUsuarioCollection.add(usuarioCollectionUsuarioToAttach);
-            }
-            permisos.setUsuarioCollection(attachedUsuarioCollection);
             em.persist(permisos);
-            for (Usuario usuarioCollectionUsuario : permisos.getUsuarioCollection()) {
-                Permisos oldFkPermisoOfUsuarioCollectionUsuario = usuarioCollectionUsuario.getFkPermiso();
-                usuarioCollectionUsuario.setFkPermiso(permisos);
-                usuarioCollectionUsuario = em.merge(usuarioCollectionUsuario);
-                if (oldFkPermisoOfUsuarioCollectionUsuario != null) {
-                    oldFkPermisoOfUsuarioCollectionUsuario.getUsuarioCollection().remove(usuarioCollectionUsuario);
-                    oldFkPermisoOfUsuarioCollectionUsuario = em.merge(oldFkPermisoOfUsuarioCollectionUsuario);
-                }
-            }
             em.getTransaction().commit();
         } finally {
             if (em != null) {
@@ -67,45 +45,12 @@ public class PermisosJpaController implements Serializable {
         }
     }
 
-    public void edit(Permisos permisos) throws IllegalOrphanException, NonexistentEntityException, Exception {
+    public void edit(Permisos permisos) throws NonexistentEntityException, Exception {
         EntityManager em = null;
         try {
             em = getEntityManager();
             em.getTransaction().begin();
-            Permisos persistentPermisos = em.find(Permisos.class, permisos.getIdPermiso());
-            Collection<Usuario> usuarioCollectionOld = persistentPermisos.getUsuarioCollection();
-            Collection<Usuario> usuarioCollectionNew = permisos.getUsuarioCollection();
-            List<String> illegalOrphanMessages = null;
-            for (Usuario usuarioCollectionOldUsuario : usuarioCollectionOld) {
-                if (!usuarioCollectionNew.contains(usuarioCollectionOldUsuario)) {
-                    if (illegalOrphanMessages == null) {
-                        illegalOrphanMessages = new ArrayList<String>();
-                    }
-                    illegalOrphanMessages.add("You must retain Usuario " + usuarioCollectionOldUsuario + " since its fkPermiso field is not nullable.");
-                }
-            }
-            if (illegalOrphanMessages != null) {
-                throw new IllegalOrphanException(illegalOrphanMessages);
-            }
-            Collection<Usuario> attachedUsuarioCollectionNew = new ArrayList<Usuario>();
-            for (Usuario usuarioCollectionNewUsuarioToAttach : usuarioCollectionNew) {
-                usuarioCollectionNewUsuarioToAttach = em.getReference(usuarioCollectionNewUsuarioToAttach.getClass(), usuarioCollectionNewUsuarioToAttach.getIdUsuario());
-                attachedUsuarioCollectionNew.add(usuarioCollectionNewUsuarioToAttach);
-            }
-            usuarioCollectionNew = attachedUsuarioCollectionNew;
-            permisos.setUsuarioCollection(usuarioCollectionNew);
             permisos = em.merge(permisos);
-            for (Usuario usuarioCollectionNewUsuario : usuarioCollectionNew) {
-                if (!usuarioCollectionOld.contains(usuarioCollectionNewUsuario)) {
-                    Permisos oldFkPermisoOfUsuarioCollectionNewUsuario = usuarioCollectionNewUsuario.getFkPermiso();
-                    usuarioCollectionNewUsuario.setFkPermiso(permisos);
-                    usuarioCollectionNewUsuario = em.merge(usuarioCollectionNewUsuario);
-                    if (oldFkPermisoOfUsuarioCollectionNewUsuario != null && !oldFkPermisoOfUsuarioCollectionNewUsuario.equals(permisos)) {
-                        oldFkPermisoOfUsuarioCollectionNewUsuario.getUsuarioCollection().remove(usuarioCollectionNewUsuario);
-                        oldFkPermisoOfUsuarioCollectionNewUsuario = em.merge(oldFkPermisoOfUsuarioCollectionNewUsuario);
-                    }
-                }
-            }
             em.getTransaction().commit();
         } catch (Exception ex) {
             String msg = ex.getLocalizedMessage();
@@ -123,7 +68,7 @@ public class PermisosJpaController implements Serializable {
         }
     }
 
-    public void destroy(Integer id) throws IllegalOrphanException, NonexistentEntityException {
+    public void destroy(Integer id) throws NonexistentEntityException {
         EntityManager em = null;
         try {
             em = getEntityManager();
@@ -134,17 +79,6 @@ public class PermisosJpaController implements Serializable {
                 permisos.getIdPermiso();
             } catch (EntityNotFoundException enfe) {
                 throw new NonexistentEntityException("The permisos with id " + id + " no longer exists.", enfe);
-            }
-            List<String> illegalOrphanMessages = null;
-            Collection<Usuario> usuarioCollectionOrphanCheck = permisos.getUsuarioCollection();
-            for (Usuario usuarioCollectionOrphanCheckUsuario : usuarioCollectionOrphanCheck) {
-                if (illegalOrphanMessages == null) {
-                    illegalOrphanMessages = new ArrayList<String>();
-                }
-                illegalOrphanMessages.add("This Permisos (" + permisos + ") cannot be destroyed since the Usuario " + usuarioCollectionOrphanCheckUsuario + " in its usuarioCollection field has a non-nullable fkPermiso field.");
-            }
-            if (illegalOrphanMessages != null) {
-                throw new IllegalOrphanException(illegalOrphanMessages);
             }
             em.remove(permisos);
             em.getTransaction().commit();

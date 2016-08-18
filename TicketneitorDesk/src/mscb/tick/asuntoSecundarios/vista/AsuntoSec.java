@@ -11,8 +11,8 @@ import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 import mscb.tick.asuntoPrincipal.servicios.AsuntoPrincipalServ;
 import mscb.tick.asuntoSecundario.servicios.AsuntoSecundarioServ;
-import mscb.tick.entidades.AsuntoPrincipal;
-import mscb.tick.entidades.AsuntoSecundario;
+import mscb.tick.entidades.Asuntos;
+import mscb.tick.entidades.Servicios;
 import mscb.tick.main.Main;
 import mscb.tick.util.MenuP;
 
@@ -25,11 +25,11 @@ public class AsuntoSec extends MenuP {
     private static AsuntoSec asuntoSec;
     private AsuntoSecundarioServ serviciosASec;
     private AsuntoPrincipalServ serviciosA;
-    private List<AsuntoPrincipal> misAsuntosP;
-    private List<AsuntoSecundario> misAsuntoSS;
+    private List<Asuntos> misAsuntosP;
+    private List<Servicios> misAsuntoSS;
     private DefaultTableModel modelo;
     private String opt;
-    private AsuntoPrincipal obj;
+    private Asuntos obj;
     /**
      * Creates new form AsuntoSec
      */
@@ -67,7 +67,7 @@ public class AsuntoSec extends MenuP {
         }
     }
     
-    public void llenarTabla(List<AsuntoSecundario> aCargar){
+    public void llenarTabla(List<Servicios> aCargar){
         vaciarTabla(jt_asuntoSec);
         String[] v = new String[3];
         modelo = (DefaultTableModel) jt_asuntoSec.getModel();
@@ -253,7 +253,7 @@ public class AsuntoSec extends MenuP {
         if((cmbx_asuntos.getSelectedIndex() == 0)||(cmbx_asuntos.getSelectedIndex() == 1)){
             opt = (String) cmbx_asuntos.getSelectedItem();
         }else{
-            obj = (AsuntoPrincipal) cmbx_asuntos.getSelectedItem();
+            obj = (Asuntos) cmbx_asuntos.getSelectedItem();
         }
         
         if(opt != null){

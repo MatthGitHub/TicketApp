@@ -8,26 +8,23 @@ package mscb.tick.asuntoPrincipal.servicios;
 import java.util.List;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
-import mscb.tick.controladores.AsuntoPrincipalJpaController;
-import mscb.tick.entidades.AsuntoPrincipal;
+import mscb.tick.controladores.AsuntosJpaController;
+import mscb.tick.controladores.ServiciosJpaController;
+import mscb.tick.entidades.Asuntos;
 
 /**
  *
  * @author Administrador
  */
 public class AsuntoPrincipalServ {
+    EntityManagerFactory emf = Persistence.createEntityManagerFactory("TicketneitorPU");
+    AsuntosJpaController jpa = new AsuntosJpaController(emf);
     
-    public List <AsuntoPrincipal> traerTodos(){
-        EntityManagerFactory emf = Persistence.createEntityManagerFactory("TicketneitorPU");
-        AsuntoPrincipalJpaController jpa = new AsuntoPrincipalJpaController(emf);
-        
-        return jpa.findAsuntoPrincipalEntities();
+    public List <Asuntos> traerTodos(){
+        return jpa.findAsuntosEntities();
     }
     
-    public boolean nuevoAsunto(AsuntoPrincipal nuevo){
-        EntityManagerFactory emf = Persistence.createEntityManagerFactory("TicketneitorPU");
-        AsuntoPrincipalJpaController jpa = new AsuntoPrincipalJpaController(emf);
-        
+    public boolean nuevoAsunto(Asuntos nuevo){
         try{
             jpa.create(nuevo);
             return true;
@@ -38,9 +35,6 @@ public class AsuntoPrincipalServ {
     }
     
     public boolean eliminarAsunto(int id){
-        EntityManagerFactory emf = Persistence.createEntityManagerFactory("TicketneitorPU");
-        AsuntoPrincipalJpaController jpa = new AsuntoPrincipalJpaController(emf);
-        
         try{
             jpa.destroy(id);
             return true;

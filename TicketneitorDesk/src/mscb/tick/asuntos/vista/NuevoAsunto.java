@@ -7,7 +7,7 @@ package mscb.tick.asuntos.vista;
 
 import javax.swing.JOptionPane;
 import mscb.tick.asuntoPrincipal.servicios.AsuntoPrincipalServ;
-import mscb.tick.entidades.AsuntoPrincipal;
+import mscb.tick.entidades.Asuntos;
 import mscb.tick.main.Main;
 import mscb.tick.util.MenuP;
 
@@ -20,8 +20,8 @@ public class NuevoAsunto extends MenuP {
     Main mainFrameO;
     private static NuevoAsunto nuevoAsunto;
     private AsuntoPrincipalServ serviciosA;
-    private AsuntoPrincipal miAsunto;
-    private Asuntos asuntos;
+    private Asuntos miAsunto;
+    private AsuntosPrin asuntos;
     
     /**
      * Creates new form NuevoAsunto singleton
@@ -118,10 +118,10 @@ public class NuevoAsunto extends MenuP {
         if(!txt_nombreAsunto.getText().trim().isEmpty()){
             if(JOptionPane.showConfirmDialog(mainFrame, "Guardar?", "Confirmar", JOptionPane.YES_NO_OPTION) == 0){
                 serviciosA = new AsuntoPrincipalServ();
-                miAsunto = new AsuntoPrincipal();
+                miAsunto = new Asuntos();
                 miAsunto.setNombre(txt_nombreAsunto.getText());
                 if(serviciosA.nuevoAsunto(miAsunto)){
-                    asuntos = Asuntos.getAsuntos(mainFrameO);
+                    asuntos = AsuntosPrin.getAsuntos(mainFrameO);
                     asuntos.llenarTablar();
                     JOptionPane.showMessageDialog(mainFrame, "Asunto cargado!");
                 }else{

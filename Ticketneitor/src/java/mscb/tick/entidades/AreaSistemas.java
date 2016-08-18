@@ -6,7 +6,7 @@
 package mscb.tick.entidades;
 
 import java.io.Serializable;
-import java.util.Collection;
+import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -33,6 +33,10 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "AreaSistemas.findByIdAreaSistemas", query = "SELECT a FROM AreaSistemas a WHERE a.idAreaSistemas = :idAreaSistemas"),
     @NamedQuery(name = "AreaSistemas.findByNombreArea", query = "SELECT a FROM AreaSistemas a WHERE a.nombreArea = :nombreArea")})
 public class AreaSistemas implements Serializable {
+
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "fkAreaSistemas")
+    private List<Tickets> ticketsList;
+
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -42,8 +46,6 @@ public class AreaSistemas implements Serializable {
     @Basic(optional = false)
     @Column(name = "nombre_area")
     private String nombreArea;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "fkAreaSistemas")
-    private Collection<Ticket> ticketCollection;
 
     public AreaSistemas() {
     }
@@ -73,15 +75,6 @@ public class AreaSistemas implements Serializable {
         this.nombreArea = nombreArea;
     }
 
-    @XmlTransient
-    public Collection<Ticket> getTicketCollection() {
-        return ticketCollection;
-    }
-
-    public void setTicketCollection(Collection<Ticket> ticketCollection) {
-        this.ticketCollection = ticketCollection;
-    }
-
     @Override
     public int hashCode() {
         int hash = 0;
@@ -104,7 +97,16 @@ public class AreaSistemas implements Serializable {
 
     @Override
     public String toString() {
-        return "mscb.tick.entidades.AreaSistemas[ idAreaSistemas=" + idAreaSistemas + " ]";
+        return this.nombreArea;
+    }
+
+    @XmlTransient
+    public List<Tickets> getTicketsList() {
+        return ticketsList;
+    }
+
+    public void setTicketsList(List<Tickets> ticketsList) {
+        this.ticketsList = ticketsList;
     }
     
 }
