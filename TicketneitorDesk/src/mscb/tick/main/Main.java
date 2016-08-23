@@ -68,6 +68,7 @@ public class Main extends javax.swing.JFrame {
     private AsuntoSec asuntoSec;
     private NuevoAsuntoSecFrame nuevoAsuntoSec;
     
+    
             
     /**
      * Creates new form Main
@@ -80,6 +81,10 @@ public class Main extends javax.swing.JFrame {
         ventanaLogin();
         escuchador.start();
         actualizador.start();
+    }
+    
+    public Main getMainFrame(){
+        return this;
     }
     /**
      * Llamada a la ventana del Login

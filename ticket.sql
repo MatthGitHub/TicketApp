@@ -1,13 +1,13 @@
 -- phpMyAdmin SQL Dump
--- version 4.4.3
+-- version 3.5.1
 -- http://www.phpmyadmin.net
 --
 -- Servidor: localhost
--- Tiempo de generación: 03-06-2016 a las 03:44:32
--- Versión del servidor: 5.6.24
--- Versión de PHP: 5.6.8
+-- Tiempo de generación: 23-08-2016 a las 14:19:43
+-- Versión del servidor: 5.5.24-log
+-- Versión de PHP: 5.3.13
 
-SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
 
 
@@ -23,21 +23,22 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `area`
+-- Estructura de tabla para la tabla `areas`
 --
 
-CREATE TABLE IF NOT EXISTS `area` (
-  `id_area` int(11) NOT NULL,
+CREATE TABLE IF NOT EXISTS `areas` (
+  `id_area` int(11) NOT NULL AUTO_INCREMENT,
   `nombre_area` varchar(30) COLLATE utf8_spanish2_ci NOT NULL,
   `direccion` varchar(30) COLLATE utf8_spanish2_ci DEFAULT NULL,
-  `correo` varchar(45) COLLATE utf8_spanish2_ci DEFAULT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=9183 DEFAULT CHARSET=utf8 COLLATE=utf8_spanish2_ci;
+  `correo` varchar(45) COLLATE utf8_spanish2_ci DEFAULT NULL,
+  PRIMARY KEY (`id_area`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_spanish2_ci AUTO_INCREMENT=9183 ;
 
 --
--- Volcado de datos para la tabla `area`
+-- Volcado de datos para la tabla `areas`
 --
 
-INSERT INTO `area` (`id_area`, `nombre_area`, `direccion`, `correo`) VALUES
+INSERT INTO `areas` (`id_area`, `nombre_area`, `direccion`, `correo`) VALUES
 (1, 'secretaria privada - intendenc', NULL, NULL),
 (6, 'dpto. de asuntos legales', NULL, NULL),
 (7, 'secretaria', NULL, NULL),
@@ -168,9 +169,10 @@ INSERT INTO `area` (`id_area`, `nombre_area`, `direccion`, `correo`) VALUES
 --
 
 CREATE TABLE IF NOT EXISTS `area_sistemas` (
-  `id_area_sistemas` int(11) NOT NULL,
-  `nombre_area` varchar(30) COLLATE utf8_spanish2_ci NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COLLATE=utf8_spanish2_ci;
+  `id_area_sistemas` int(11) NOT NULL AUTO_INCREMENT,
+  `nombre_area` varchar(30) COLLATE utf8_spanish2_ci NOT NULL,
+  PRIMARY KEY (`id_area_sistemas`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_spanish2_ci AUTO_INCREMENT=3 ;
 
 --
 -- Volcado de datos para la tabla `area_sistemas`
@@ -183,19 +185,20 @@ INSERT INTO `area_sistemas` (`id_area_sistemas`, `nombre_area`) VALUES
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `asunto_principal`
+-- Estructura de tabla para la tabla `asuntos`
 --
 
-CREATE TABLE IF NOT EXISTS `asunto_principal` (
-  `id_asuntoP` int(11) NOT NULL,
-  `nombre` varchar(50) COLLATE utf8_spanish2_ci NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8 COLLATE=utf8_spanish2_ci;
+CREATE TABLE IF NOT EXISTS `asuntos` (
+  `id_asuntoP` int(11) NOT NULL AUTO_INCREMENT,
+  `nombre` varchar(50) COLLATE utf8_spanish2_ci NOT NULL,
+  PRIMARY KEY (`id_asuntoP`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_spanish2_ci AUTO_INCREMENT=11 ;
 
 --
--- Volcado de datos para la tabla `asunto_principal`
+-- Volcado de datos para la tabla `asuntos`
 --
 
-INSERT INTO `asunto_principal` (`id_asuntoP`, `nombre`) VALUES
+INSERT INTO `asuntos` (`id_asuntoP`, `nombre`) VALUES
 (1, 'PGM'),
 (2, 'WebDoc'),
 (3, 'Bariloche.gov'),
@@ -210,67 +213,39 @@ INSERT INTO `asunto_principal` (`id_asuntoP`, `nombre`) VALUES
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `asunto_secundario`
+-- Estructura de tabla para la tabla `base_conocimiento`
 --
 
-CREATE TABLE IF NOT EXISTS `asunto_secundario` (
-  `id_asuntoS` int(11) NOT NULL,
-  `nombre_asuntoS` varchar(50) COLLATE utf8_spanish2_ci NOT NULL,
-  `pertenece` int(11) NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=27 DEFAULT CHARSET=utf8 COLLATE=utf8_spanish2_ci;
-
---
--- Volcado de datos para la tabla `asunto_secundario`
---
-
-INSERT INTO `asunto_secundario` (`id_asuntoS`, `nombre_asuntoS`, `pertenece`) VALUES
-(1, 'Usuarios (Alta - Baja - Permisos)', 1),
-(2, 'Usuarios (Alta - Baja - Permisos)', 2),
-(3, 'Usuarios (Alta - Baja - Permisos)', 10),
-(4, 'No puedo abrir', 5),
-(5, 'No envia los mails', 5),
-(6, 'No recibo mails', 5),
-(7, 'Alta de nueva casilla de correo', 5),
-(8, 'Baja de casilla de correo', 5),
-(9, 'Diferencia', 6),
-(10, 'Error de vinculacion', 6),
-(11, 'No prende la computadora', 7),
-(12, 'No anda el mouse/teclado/monitor', 7),
-(13, 'Pedido de nueva computadora', 7),
-(14, 'Pedido de mouse/teclado/monitor', 7),
-(15, 'Pedido de nueva conexion de red', 7),
-(16, 'No hay conexion a internet', 8),
-(17, 'No tengo tono en el telefono', 8),
-(18, 'No hay conexion a la red', 8),
-(19, 'Pedido de nueva conexion', 8),
-(20, 'Pedido de nuevo telefono/linea', 8),
-(21, 'Impresion de recibos', 9),
-(22, 'Modificacion de novedades', 9),
-(23, 'Quitar disposicion', 1),
-(24, 'Anular cedulon', 1),
-(25, 'Reclamo', 3),
-(26, 'Reclamo', 4);
+CREATE TABLE IF NOT EXISTS `base_conocimiento` (
+  `id_resolucion` int(11) NOT NULL AUTO_INCREMENT,
+  `resolucion` varchar(500) NOT NULL,
+  `fk_ticket` int(11) NOT NULL,
+  PRIMARY KEY (`id_resolucion`),
+  KEY `fk_ticket` (`fk_ticket`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `empleado`
+-- Estructura de tabla para la tabla `empleados`
 --
 
-CREATE TABLE IF NOT EXISTS `empleado` (
-  `id_empleado` int(11) NOT NULL,
+CREATE TABLE IF NOT EXISTS `empleados` (
+  `id_empleado` int(11) NOT NULL AUTO_INCREMENT,
   `nombre` varchar(30) COLLATE utf8_spanish2_ci NOT NULL,
   `apellido` varchar(30) COLLATE utf8_spanish2_ci NOT NULL,
   `documento` varchar(10) COLLATE utf8_spanish2_ci NOT NULL,
   `fk_area` int(11) NOT NULL,
-  `legajo` int(11) NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=2851 DEFAULT CHARSET=utf8 COLLATE=utf8_spanish2_ci;
+  `legajo` int(11) NOT NULL,
+  PRIMARY KEY (`id_empleado`),
+  KEY `fk_area` (`fk_area`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_spanish2_ci AUTO_INCREMENT=2851 ;
 
 --
--- Volcado de datos para la tabla `empleado`
+-- Volcado de datos para la tabla `empleados`
 --
 
-INSERT INTO `empleado` (`id_empleado`, `nombre`, `apellido`, `documento`, `fk_area`, `legajo`) VALUES
+INSERT INTO `empleados` (`id_empleado`, `nombre`, `apellido`, `documento`, `fk_area`, `legajo`) VALUES
 (1, 'matias', 'benditti', '35593648', 38, 1),
 (2, 'ernesto', 'nahuel', '14245647', 144, 2),
 (3, 'segundo', 'mato', '10675520', 61, 3),
@@ -1244,7 +1219,7 @@ INSERT INTO `empleado` (`id_empleado`, `nombre`, `apellido`, `documento`, `fk_ar
 (1416, 'roberto', 'navarro', '25825800', 145, 21331),
 (1417, 'segundo', 'nicolas', '8216410', 8, 21329),
 (1418, 'laura', 'nicole', '28932911', 9168, 11478);
-INSERT INTO `empleado` (`id_empleado`, `nombre`, `apellido`, `documento`, `fk_area`, `legajo`) VALUES
+INSERT INTO `empleados` (`id_empleado`, `nombre`, `apellido`, `documento`, `fk_area`, `legajo`) VALUES
 (1419, 'francisco', 'ñancufil', '24828682', 61, 11219),
 (1420, 'mario', 'ñancufil', '27965482', 80, 11159),
 (1421, 'ricardo', 'obando', '31552190', 8, 11658),
@@ -2173,7 +2148,7 @@ INSERT INTO `empleado` (`id_empleado`, `nombre`, `apellido`, `documento`, `fk_ar
 (2348, 'maria magdalena', 'cotaro', '11846228', 11, 11367),
 (2349, 'jose luis', 'gamin', '0', 9181, 12171),
 (2350, 'matias mariano', 'grande', '31943012', 143, 11415);
-INSERT INTO `empleado` (`id_empleado`, `nombre`, `apellido`, `documento`, `fk_area`, `legajo`) VALUES
+INSERT INTO `empleados` (`id_empleado`, `nombre`, `apellido`, `documento`, `fk_area`, `legajo`) VALUES
 (2351, 'luis adolfo', 'piedrabuena', '30391634', 38, 13244),
 (2352, 'andrea fabiana', 'villalobos', '27520443', 144, 12800),
 (2353, 'hector segundo', 'carrasco cardenas', '92766787', 9181, 12679),
@@ -2678,19 +2653,21 @@ INSERT INTO `empleado` (`id_empleado`, `nombre`, `apellido`, `documento`, `fk_ar
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `encargado_asunto`
+-- Estructura de tabla para la tabla `encargado_servicios`
 --
 
-CREATE TABLE IF NOT EXISTS `encargado_asunto` (
+CREATE TABLE IF NOT EXISTS `encargado_servicios` (
   `usuario` int(11) NOT NULL,
-  `asunto` int(11) NOT NULL
+  `asunto` int(11) NOT NULL,
+  KEY `usuario` (`usuario`),
+  KEY `asunto` (`asunto`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish2_ci;
 
 --
--- Volcado de datos para la tabla `encargado_asunto`
+-- Volcado de datos para la tabla `encargado_servicios`
 --
 
-INSERT INTO `encargado_asunto` (`usuario`, `asunto`) VALUES
+INSERT INTO `encargado_servicios` (`usuario`, `asunto`) VALUES
 (3, 1),
 (3, 23),
 (3, 24),
@@ -2713,7 +2690,8 @@ INSERT INTO `encargado_asunto` (`usuario`, `asunto`) VALUES
 (4, 5),
 (6, 11),
 (6, 12),
-(4, 7);
+(4, 7),
+(4, 8);
 
 -- --------------------------------------------------------
 
@@ -2722,9 +2700,10 @@ INSERT INTO `encargado_asunto` (`usuario`, `asunto`) VALUES
 --
 
 CREATE TABLE IF NOT EXISTS `estados` (
-  `id_estado` int(11) NOT NULL,
-  `nombre` varchar(30) COLLATE utf8_spanish2_ci NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8 COLLATE=utf8_spanish2_ci;
+  `id_estado` int(11) NOT NULL AUTO_INCREMENT,
+  `nombre` varchar(30) COLLATE utf8_spanish2_ci NOT NULL,
+  PRIMARY KEY (`id_estado`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_spanish2_ci AUTO_INCREMENT=5 ;
 
 --
 -- Volcado de datos para la tabla `estados`
@@ -2739,13 +2718,33 @@ INSERT INTO `estados` (`id_estado`, `nombre`) VALUES
 -- --------------------------------------------------------
 
 --
+-- Estructura de tabla para la tabla `historial_tickets`
+--
+
+CREATE TABLE IF NOT EXISTS `historial_tickets` (
+  `id_historial` int(11) NOT NULL AUTO_INCREMENT,
+  `fk_ticket` int(11) NOT NULL,
+  `fk_usuario_emisor` int(11) NOT NULL,
+  `fk_usuario_receptor` int(11) NOT NULL,
+  `fecha` date NOT NULL,
+  PRIMARY KEY (`id_historial`),
+  KEY `fk_ticket` (`fk_ticket`,`fk_usuario_emisor`,`fk_usuario_receptor`),
+  KEY `fk_usuario_receptor` (`fk_usuario_receptor`),
+  KEY `fk_usuario_emisor` (`fk_usuario_emisor`),
+  KEY `fecha` (`fecha`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+
+-- --------------------------------------------------------
+
+--
 -- Estructura de tabla para la tabla `permisos`
 --
 
 CREATE TABLE IF NOT EXISTS `permisos` (
-  `id_permiso` int(11) NOT NULL,
-  `nombre_permiso` varchar(30) COLLATE utf8_spanish2_ci NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COLLATE=utf8_spanish2_ci;
+  `id_permiso` int(11) NOT NULL AUTO_INCREMENT,
+  `nombre_permiso` varchar(30) COLLATE utf8_spanish2_ci NOT NULL,
+  PRIMARY KEY (`id_permiso`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_spanish2_ci AUTO_INCREMENT=3 ;
 
 --
 -- Volcado de datos para la tabla `permisos`
@@ -2764,40 +2763,83 @@ INSERT INTO `permisos` (`id_permiso`, `nombre_permiso`) VALUES
 CREATE TABLE IF NOT EXISTS `respuestas` (
   `id_ticket` int(11) NOT NULL,
   `id_usuario` int(11) NOT NULL,
-  `respuesta` varchar(1000) COLLATE utf8_spanish2_ci DEFAULT NULL
+  `respuesta` varchar(1000) COLLATE utf8_spanish2_ci DEFAULT NULL,
+  PRIMARY KEY (`id_ticket`),
+  KEY `id_usuario` (`id_usuario`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish2_ci;
 
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `ticket`
+-- Estructura de tabla para la tabla `servicios`
 --
 
-CREATE TABLE IF NOT EXISTS `ticket` (
-  `id_ticket` int(11) NOT NULL,
+CREATE TABLE IF NOT EXISTS `servicios` (
+  `id_asuntoS` int(11) NOT NULL AUTO_INCREMENT,
+  `nombre_asuntoS` varchar(50) COLLATE utf8_spanish2_ci NOT NULL,
+  `pertenece` int(11) NOT NULL,
+  PRIMARY KEY (`id_asuntoS`),
+  KEY `pertenece` (`pertenece`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_spanish2_ci AUTO_INCREMENT=27 ;
+
+--
+-- Volcado de datos para la tabla `servicios`
+--
+
+INSERT INTO `servicios` (`id_asuntoS`, `nombre_asuntoS`, `pertenece`) VALUES
+(1, 'Usuarios (Alta - Baja - Permisos)', 1),
+(2, 'Usuarios (Alta - Baja - Permisos)', 2),
+(3, 'Usuarios (Alta - Baja - Permisos)', 10),
+(4, 'No puedo abrir', 5),
+(5, 'No envia los mails', 5),
+(6, 'No recibo mails', 5),
+(7, 'Alta de nueva casilla de correo', 5),
+(8, 'Baja de casilla de correo', 5),
+(9, 'Diferencia', 6),
+(10, 'Error de vinculacion', 6),
+(11, 'No prende la computadora', 7),
+(12, 'No anda el mouse/teclado/monitor', 7),
+(13, 'Pedido de nueva computadora', 7),
+(14, 'Pedido de mouse/teclado/monitor', 7),
+(15, 'Pedido de nueva conexion de red', 7),
+(16, 'No hay conexion a internet', 8),
+(17, 'No tengo tono en el telefono', 8),
+(18, 'No hay conexion a la red', 8),
+(19, 'Pedido de nueva conexion', 8),
+(20, 'Pedido de nuevo telefono/linea', 8),
+(21, 'Impresion de recibos', 9),
+(22, 'Modificacion de novedades', 9),
+(23, 'Quitar disposicion', 1),
+(24, 'Anular cedulon', 1),
+(25, 'Reclamo', 3),
+(26, 'Reclamo', 4);
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `tickets`
+--
+
+CREATE TABLE IF NOT EXISTS `tickets` (
+  `id_ticket` int(11) NOT NULL AUTO_INCREMENT,
   `fecha` date NOT NULL,
   `hora` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `fk_area_emisor` int(11) NOT NULL,
   `fk_usuario_emisor` int(11) NOT NULL,
-  `fk_area_sistemas` int(11) NOT NULL,
+  `fk_area_sistemas` int(11) DEFAULT NULL,
   `asunto` int(11) NOT NULL,
   `observacion` varchar(1500) COLLATE utf8_spanish2_ci DEFAULT NULL,
   `usuario_receptor` int(11) DEFAULT NULL,
   `respuesta` varchar(1500) COLLATE utf8_spanish2_ci DEFAULT NULL,
-  `fk_estado` int(11) DEFAULT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=48 DEFAULT CHARSET=utf8 COLLATE=utf8_spanish2_ci;
-
---
--- Volcado de datos para la tabla `ticket`
---
-
-INSERT INTO `ticket` (`id_ticket`, `fecha`, `hora`, `fk_area_emisor`, `fk_usuario_emisor`, `fk_area_sistemas`, `asunto`, `observacion`, `usuario_receptor`, `respuesta`, `fk_estado`) VALUES
-(42, '2016-02-29', '2016-03-02 15:22:23', 38, 3, 1, 23, 'Por favor quitar disposicion 1997-A-2016. Muchas gracias.\nlalalala', 3, 'n iononmnono\n', 1),
-(43, '2016-03-01', '2016-03-02 15:27:35', 38, 3, 1, 24, 'Anular el cedulon: 009875487. Fue emitido por error.', 3, 'lalalalalalalalnononoo', 1),
-(44, '2016-03-02', '2016-03-02 15:47:10', 38, 3, 1, 10, 'No funciona nmadaaa cssmmm', NULL, NULL, 1),
-(45, '2016-03-02', '2016-03-02 15:57:40', 38, 3, 1, 2, 'Escribir nombre, apellido y un usuario de referencia \ncon los permisos solicitados', NULL, NULL, 1),
-(46, '2016-03-11', '2016-03-11 22:13:05', 38, 3, 2, 4, 'dfsdfsdfsdf', NULL, NULL, 1),
-(47, '2016-03-11', '2016-03-11 22:15:15', 38, 3, 2, 12, '', NULL, NULL, 1);
+  `fk_estado` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id_ticket`),
+  KEY `fk_area_emisor` (`fk_area_emisor`,`fk_usuario_emisor`,`fk_area_sistemas`,`usuario_receptor`),
+  KEY `fk_usuario_emisor` (`fk_usuario_emisor`,`fk_area_sistemas`,`usuario_receptor`),
+  KEY `fk_area_sistemas` (`fk_area_sistemas`),
+  KEY `usuario_receptor` (`usuario_receptor`),
+  KEY `asunto` (`asunto`),
+  KEY `fk_estado` (`fk_estado`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_spanish2_ci AUTO_INCREMENT=74 ;
 
 -- --------------------------------------------------------
 
@@ -2806,9 +2848,10 @@ INSERT INTO `ticket` (`id_ticket`, `fecha`, `hora`, `fk_area_emisor`, `fk_usuari
 --
 
 CREATE TABLE IF NOT EXISTS `tipo_usuario` (
-  `id_tipo_usuario` int(11) NOT NULL,
-  `nombre_tipo_usuario` varchar(30) COLLATE utf8_spanish2_ci NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COLLATE=utf8_spanish2_ci;
+  `id_tipo_usuario` int(11) NOT NULL AUTO_INCREMENT,
+  `nombre_tipo_usuario` varchar(30) COLLATE utf8_spanish2_ci NOT NULL,
+  PRIMARY KEY (`id_tipo_usuario`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_spanish2_ci AUTO_INCREMENT=3 ;
 
 --
 -- Volcado de datos para la tabla `tipo_usuario`
@@ -2821,217 +2864,92 @@ INSERT INTO `tipo_usuario` (`id_tipo_usuario`, `nombre_tipo_usuario`) VALUES
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `usuario`
+-- Estructura de tabla para la tabla `usuarios`
 --
 
-CREATE TABLE IF NOT EXISTS `usuario` (
-  `id_usuario` int(11) NOT NULL,
+CREATE TABLE IF NOT EXISTS `usuarios` (
+  `id_usuario` int(11) NOT NULL AUTO_INCREMENT,
   `nombre_usuario` varchar(10) COLLATE utf8_spanish2_ci NOT NULL,
-  `contrasenia` varchar(15) COLLATE utf8_spanish2_ci NOT NULL,
+  `contrasenia` varchar(36) COLLATE utf8_spanish2_ci NOT NULL,
   `fk_empleado` int(11) NOT NULL,
   `activo` tinyint(1) NOT NULL,
-  `fk_permiso` int(11) NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8 COLLATE=utf8_spanish2_ci;
+  `fk_permiso` int(11) NOT NULL,
+  `id_extreme` varchar(180) COLLATE utf8_spanish2_ci DEFAULT NULL,
+  PRIMARY KEY (`id_usuario`),
+  KEY `fk_empleado` (`fk_empleado`),
+  KEY `fk_permiso` (`fk_permiso`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_spanish2_ci AUTO_INCREMENT=7 ;
 
 --
--- Volcado de datos para la tabla `usuario`
+-- Volcado de datos para la tabla `usuarios`
 --
 
-INSERT INTO `usuario` (`id_usuario`, `nombre_usuario`, `contrasenia`, `fk_empleado`, `activo`, `fk_permiso`) VALUES
-(3, 'mbenditti', 'matias', 1, 1, 1),
-(4, 'gdinardo', 'gus', 146, 1, 1),
-(5, 'esosa', 'sosa', 2507, 1, 2),
-(6, 'adaniel', 'dani', 2555, 1, 2);
+INSERT INTO `usuarios` (`id_usuario`, `nombre_usuario`, `contrasenia`, `fk_empleado`, `activo`, `fk_permiso`, `id_extreme`) VALUES
+(3, 'mbenditti', '090c36e3bb39377468363197afb3e91b', 1, 1, 1, NULL),
+(4, 'gdinardo', '4c96f8324e3ba54a99e78249b95daa30', 146, 1, 1, NULL),
+(6, 'dalvarez', 'aa47f8215c6f30a0dcdb2a36a9f4168e', 2555, 1, 2, NULL);
 
---
--- Índices para tablas volcadas
---
-
---
--- Indices de la tabla `area`
---
-ALTER TABLE `area`
-  ADD PRIMARY KEY (`id_area`);
-
---
--- Indices de la tabla `area_sistemas`
---
-ALTER TABLE `area_sistemas`
-  ADD PRIMARY KEY (`id_area_sistemas`);
-
---
--- Indices de la tabla `asunto_principal`
---
-ALTER TABLE `asunto_principal`
-  ADD PRIMARY KEY (`id_asuntoP`);
-
---
--- Indices de la tabla `asunto_secundario`
---
-ALTER TABLE `asunto_secundario`
-  ADD PRIMARY KEY (`id_asuntoS`),
-  ADD KEY `pertenece` (`pertenece`);
-
---
--- Indices de la tabla `empleado`
---
-ALTER TABLE `empleado`
-  ADD PRIMARY KEY (`id_empleado`),
-  ADD KEY `fk_area` (`fk_area`);
-
---
--- Indices de la tabla `encargado_asunto`
---
-ALTER TABLE `encargado_asunto`
-  ADD KEY `usuario` (`usuario`),
-  ADD KEY `asunto` (`asunto`);
-
---
--- Indices de la tabla `estados`
---
-ALTER TABLE `estados`
-  ADD PRIMARY KEY (`id_estado`);
-
---
--- Indices de la tabla `permisos`
---
-ALTER TABLE `permisos`
-  ADD PRIMARY KEY (`id_permiso`);
-
---
--- Indices de la tabla `respuestas`
---
-ALTER TABLE `respuestas`
-  ADD PRIMARY KEY (`id_ticket`),
-  ADD KEY `id_usuario` (`id_usuario`);
-
---
--- Indices de la tabla `ticket`
---
-ALTER TABLE `ticket`
-  ADD PRIMARY KEY (`id_ticket`),
-  ADD KEY `fk_area_emisor` (`fk_area_emisor`,`fk_usuario_emisor`,`fk_area_sistemas`,`usuario_receptor`),
-  ADD KEY `fk_usuario_emisor` (`fk_usuario_emisor`,`fk_area_sistemas`,`usuario_receptor`),
-  ADD KEY `fk_area_sistemas` (`fk_area_sistemas`),
-  ADD KEY `usuario_receptor` (`usuario_receptor`),
-  ADD KEY `asunto` (`asunto`),
-  ADD KEY `fk_estado` (`fk_estado`);
-
---
--- Indices de la tabla `tipo_usuario`
---
-ALTER TABLE `tipo_usuario`
-  ADD PRIMARY KEY (`id_tipo_usuario`);
-
---
--- Indices de la tabla `usuario`
---
-ALTER TABLE `usuario`
-  ADD PRIMARY KEY (`id_usuario`),
-  ADD KEY `fk_empleado` (`fk_empleado`),
-  ADD KEY `fk_permiso` (`fk_permiso`);
-
---
--- AUTO_INCREMENT de las tablas volcadas
---
-
---
--- AUTO_INCREMENT de la tabla `area`
---
-ALTER TABLE `area`
-  MODIFY `id_area` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=9183;
---
--- AUTO_INCREMENT de la tabla `area_sistemas`
---
-ALTER TABLE `area_sistemas`
-  MODIFY `id_area_sistemas` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=3;
---
--- AUTO_INCREMENT de la tabla `asunto_principal`
---
-ALTER TABLE `asunto_principal`
-  MODIFY `id_asuntoP` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=11;
---
--- AUTO_INCREMENT de la tabla `asunto_secundario`
---
-ALTER TABLE `asunto_secundario`
-  MODIFY `id_asuntoS` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=27;
---
--- AUTO_INCREMENT de la tabla `empleado`
---
-ALTER TABLE `empleado`
-  MODIFY `id_empleado` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=2851;
---
--- AUTO_INCREMENT de la tabla `estados`
---
-ALTER TABLE `estados`
-  MODIFY `id_estado` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=5;
---
--- AUTO_INCREMENT de la tabla `permisos`
---
-ALTER TABLE `permisos`
-  MODIFY `id_permiso` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=3;
---
--- AUTO_INCREMENT de la tabla `ticket`
---
-ALTER TABLE `ticket`
-  MODIFY `id_ticket` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=48;
---
--- AUTO_INCREMENT de la tabla `tipo_usuario`
---
-ALTER TABLE `tipo_usuario`
-  MODIFY `id_tipo_usuario` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=3;
---
--- AUTO_INCREMENT de la tabla `usuario`
---
-ALTER TABLE `usuario`
-  MODIFY `id_usuario` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=7;
 --
 -- Restricciones para tablas volcadas
 --
 
 --
--- Filtros para la tabla `asunto_secundario`
+-- Filtros para la tabla `base_conocimiento`
 --
-ALTER TABLE `asunto_secundario`
-  ADD CONSTRAINT `asunto_secundario_ibfk_1` FOREIGN KEY (`pertenece`) REFERENCES `asunto_principal` (`id_asuntoP`);
+ALTER TABLE `base_conocimiento`
+  ADD CONSTRAINT `base_conocimiento_ibfk_1` FOREIGN KEY (`fk_ticket`) REFERENCES `tickets` (`id_ticket`);
 
 --
--- Filtros para la tabla `empleado`
+-- Filtros para la tabla `empleados`
 --
-ALTER TABLE `empleado`
-  ADD CONSTRAINT `empleado_ibfk_1` FOREIGN KEY (`fk_area`) REFERENCES `area` (`id_area`);
+ALTER TABLE `empleados`
+  ADD CONSTRAINT `empleados_ibfk_1` FOREIGN KEY (`fk_area`) REFERENCES `areas` (`id_area`);
 
 --
--- Filtros para la tabla `encargado_asunto`
+-- Filtros para la tabla `encargado_servicios`
 --
-ALTER TABLE `encargado_asunto`
-  ADD CONSTRAINT `encargado_asunto_ibfk_1` FOREIGN KEY (`usuario`) REFERENCES `usuario` (`id_usuario`),
-  ADD CONSTRAINT `encargado_asunto_ibfk_2` FOREIGN KEY (`asunto`) REFERENCES `asunto_secundario` (`id_asuntoS`);
+ALTER TABLE `encargado_servicios`
+  ADD CONSTRAINT `encargado_servicios_ibfk_1` FOREIGN KEY (`usuario`) REFERENCES `usuarios` (`id_usuario`),
+  ADD CONSTRAINT `encargado_servicios_ibfk_2` FOREIGN KEY (`asunto`) REFERENCES `servicios` (`id_asuntoS`);
+
+--
+-- Filtros para la tabla `historial_tickets`
+--
+ALTER TABLE `historial_tickets`
+  ADD CONSTRAINT `historial_tickets_ibfk_3` FOREIGN KEY (`fk_usuario_receptor`) REFERENCES `usuarios` (`id_usuario`),
+  ADD CONSTRAINT `historial_tickets_ibfk_1` FOREIGN KEY (`fk_ticket`) REFERENCES `tickets` (`id_ticket`),
+  ADD CONSTRAINT `historial_tickets_ibfk_2` FOREIGN KEY (`fk_usuario_emisor`) REFERENCES `usuarios` (`id_usuario`);
 
 --
 -- Filtros para la tabla `respuestas`
 --
 ALTER TABLE `respuestas`
-  ADD CONSTRAINT `respuestas_ibfk_1` FOREIGN KEY (`id_ticket`) REFERENCES `ticket` (`id_ticket`),
-  ADD CONSTRAINT `respuestas_ibfk_2` FOREIGN KEY (`id_usuario`) REFERENCES `usuario` (`id_usuario`);
+  ADD CONSTRAINT `respuestas_ibfk_1` FOREIGN KEY (`id_ticket`) REFERENCES `tickets` (`id_ticket`),
+  ADD CONSTRAINT `respuestas_ibfk_2` FOREIGN KEY (`id_usuario`) REFERENCES `usuarios` (`id_usuario`);
 
 --
--- Filtros para la tabla `ticket`
+-- Filtros para la tabla `servicios`
 --
-ALTER TABLE `ticket`
-  ADD CONSTRAINT `ticket_ibfk_1` FOREIGN KEY (`fk_area_emisor`) REFERENCES `area` (`id_area`),
-  ADD CONSTRAINT `ticket_ibfk_10` FOREIGN KEY (`fk_estado`) REFERENCES `estados` (`id_estado`),
-  ADD CONSTRAINT `ticket_ibfk_2` FOREIGN KEY (`fk_usuario_emisor`) REFERENCES `usuario` (`id_usuario`),
-  ADD CONSTRAINT `ticket_ibfk_4` FOREIGN KEY (`usuario_receptor`) REFERENCES `usuario` (`id_usuario`),
-  ADD CONSTRAINT `ticket_ibfk_5` FOREIGN KEY (`fk_area_sistemas`) REFERENCES `area_sistemas` (`id_area_sistemas`),
-  ADD CONSTRAINT `ticket_ibfk_8` FOREIGN KEY (`asunto`) REFERENCES `asunto_secundario` (`id_asuntoS`);
+ALTER TABLE `servicios`
+  ADD CONSTRAINT `servicios_ibfk_1` FOREIGN KEY (`pertenece`) REFERENCES `asuntos` (`id_asuntoP`);
 
 --
--- Filtros para la tabla `usuario`
+-- Filtros para la tabla `tickets`
 --
-ALTER TABLE `usuario`
-  ADD CONSTRAINT `usuario_ibfk_1` FOREIGN KEY (`fk_empleado`) REFERENCES `empleado` (`id_empleado`),
-  ADD CONSTRAINT `usuario_ibfk_2` FOREIGN KEY (`fk_permiso`) REFERENCES `permisos` (`id_permiso`);
+ALTER TABLE `tickets`
+  ADD CONSTRAINT `tickets_ibfk_1` FOREIGN KEY (`fk_area_emisor`) REFERENCES `areas` (`id_area`),
+  ADD CONSTRAINT `tickets_ibfk_10` FOREIGN KEY (`fk_estado`) REFERENCES `estados` (`id_estado`),
+  ADD CONSTRAINT `tickets_ibfk_2` FOREIGN KEY (`fk_usuario_emisor`) REFERENCES `usuarios` (`id_usuario`),
+  ADD CONSTRAINT `tickets_ibfk_4` FOREIGN KEY (`usuario_receptor`) REFERENCES `usuarios` (`id_usuario`),
+  ADD CONSTRAINT `tickets_ibfk_5` FOREIGN KEY (`fk_area_sistemas`) REFERENCES `area_sistemas` (`id_area_sistemas`),
+  ADD CONSTRAINT `tickets_ibfk_8` FOREIGN KEY (`asunto`) REFERENCES `servicios` (`id_asuntoS`);
+
+--
+-- Filtros para la tabla `usuarios`
+--
+ALTER TABLE `usuarios`
+  ADD CONSTRAINT `usuarios_ibfk_1` FOREIGN KEY (`fk_empleado`) REFERENCES `empleados` (`id_empleado`),
+  ADD CONSTRAINT `usuarios_ibfk_2` FOREIGN KEY (`fk_permiso`) REFERENCES `permisos` (`id_permiso`);
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;

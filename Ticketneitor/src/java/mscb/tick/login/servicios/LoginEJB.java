@@ -7,6 +7,7 @@ package mscb.tick.login.servicios;
 
 import java.util.List;
 import mscb.tick.entidades.Usuarios;
+import mscb.tick.seguridad.MD5;
 import mscb.tick.usuarios.servicios.UsuarioServ;
 /**
  *
@@ -18,12 +19,16 @@ public class LoginEJB {
     private UsuarioServ serviciosU;
     private List<Usuarios> miLista;
     public static String mensaje;
+    private MD5 md5;
 
     public LoginEJB() {
         usuario = new Usuarios();
     }
 
     public boolean login(String nombre, String clave) {
+        md5 = new MD5();
+        clave = md5.md5(clave);
+        
         serviciosU = new UsuarioServ();
         miLista = serviciosU.traerTodos();
         for (int i = 0; i < miLista.size(); i++) {

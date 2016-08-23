@@ -34,7 +34,7 @@ public class EmpleadoServ {
         EntityManager em = emf.createEntityManager();
         
         q = em.createQuery("SELECT DISTINCT e "
-                + "FROM Empleado e "
+                + "FROM Empleados e "
                 + "WHERE e.nombre LIKE :patron "
                 + "OR e.apellido LIKE :patron ");
         q.setParameter("patron", "%"+ patron+"%");

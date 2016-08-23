@@ -9,9 +9,11 @@ import java.sql.Time;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
+import mscb.tick.entidades.Tickets;
 import mscb.tick.login.servicios.LoginEJB;
-//import mscb.tick.tickets.vista.MisTickets;
-//import mscb.tick.tickets.vista.Tickets;
+import mscb.tick.main.Main;
+import mscb.tick.tickets.vista.MisTickets;
+import mscb.tick.tickets.vista.TicketsV;
 
 /**
  *
@@ -22,6 +24,8 @@ public class Listener extends Thread {
     private static int ran;
     private static Listener listener;
     public boolean diferencias;
+    //private TicketsV panelAdmTi = TicketsV.getTickets(mainFrame);
+    //private MisTickets panelMisti = MisTickets.getMisTickets(mainFrame);
     
     private Listener(int ran){
         this.ran = ran;
@@ -54,10 +58,10 @@ public class Listener extends Thread {
                     */
                     System.out.println("Hay nuevos tickets: "+LoginEJB.usuario.getNombreUsuario());
                     diferencias = true;
-                    //panelAdmTi = Tickets.getTickets(mainFrame);
+                   // panelAdmTi = TicketsV.getTickets(mainFrame);
                     //panelMisti = MisTickets.getMisTickets(mainFrame);
-                    //panelAdmTi.llenarTabla();
-                    //panelMisti.llenarTabla();
+                   // panelAdmTi.llenarTabla();
+                   // panelMisti.llenarTabla();
                     }
                 }
                 

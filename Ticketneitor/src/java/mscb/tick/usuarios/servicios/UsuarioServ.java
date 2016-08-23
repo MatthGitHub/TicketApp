@@ -16,6 +16,7 @@ import mscb.tick.controladores.UsuariosJpaController;
 import mscb.tick.controladores.exceptions.IllegalOrphanException;
 import mscb.tick.controladores.exceptions.NonexistentEntityException;
 import mscb.tick.entidades.Usuarios;
+import mscb.tick.seguridad.MD5;
 
 /**
  *
@@ -27,6 +28,7 @@ public class UsuarioServ {
     private Date miFecha;
     EntityManagerFactory emf = Persistence.createEntityManagerFactory("TicketneitorPU");
     UsuariosJpaController jpa = new UsuariosJpaController(emf);
+    private MD5 md5;
     
     public Usuarios buscarUsuario(String nombre, String clave){
         
@@ -61,11 +63,16 @@ public class UsuarioServ {
     }
     
     public int persistirUsuario(Usuarios aGuardar){
+        md5 = new MD5();
         try {
+            aGuardar.setContrasenia(md5.md5(aGuardar.getContrasenia()));
+            System.out.println(aGuardar.getContrasenia());
             jpa.create(aGuardar);
+            System.out.println("Usuario cargado exitosamente");
             return 1;
         } catch (Exception e) {
-            System.out.println("Error en la carga");
+            System.out.println(aGuardar.getContrasenia());
+            System.out.println("Error en la carga de usuario - "+e);
             return 0;
         }
             

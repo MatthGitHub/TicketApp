@@ -12,12 +12,10 @@ import javax.swing.JOptionPane;
 import mscb.tick.areaSistemas.servicios.AreaSistemaServ;
 import mscb.tick.asuntoPrincipal.servicios.AsuntoPrincipalServ;
 import mscb.tick.asuntoSecundario.servicios.AsuntoSecundarioServ;
-import mscb.tick.entidades.AreaSistemas;
 import mscb.tick.entidades.Asuntos;
 import mscb.tick.entidades.Servicios;
 import mscb.tick.entidades.Tickets;
 import mscb.tick.estados.servicios.EstadoServ;
-import mscb.tick.login.Login;
 import mscb.tick.login.servicios.LoginEJB;
 import mscb.tick.main.Main;
 import mscb.tick.tickets.servicios.TicketServ;
@@ -76,7 +74,7 @@ public class NuevoTicket extends MenuP {
      * en base a 2 switch, uno para el cmbx principal y otro para el cmbx secundario.
      */
     public void label(){
-        //Swit para ver el asunto prçincipal
+        //Switch para ver el asunto prçincipal
         switch(cmbx_asuntoPrincipal.getSelectedItem().toString()){
             case "PGM":
                 //Switch para ver los asuntos secundarios de PGM

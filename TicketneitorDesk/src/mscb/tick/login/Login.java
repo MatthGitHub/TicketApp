@@ -10,14 +10,9 @@ import java.awt.Image;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import javax.swing.UIManager;
-import javax.swing.plaf.ColorUIResource;
-import javax.swing.plaf.OptionPaneUI;
-import mscb.tick.entidades.Usuarios;
 import mscb.tick.login.servicios.LoginEJB;
 import mscb.tick.main.Main;
 import mscb.tick.usuarios.servicios.UsuarioServ;
-import mscb.tick.util.MenuP;
 
 /**
  *

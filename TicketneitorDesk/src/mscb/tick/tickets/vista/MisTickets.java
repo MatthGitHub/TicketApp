@@ -72,7 +72,11 @@ public class MisTickets extends MenuP {
             v[1] = dateFormatter.format(miLista.get(i).getFecha()).toString();
             v[2] = miLista.get(i).getFkAreaEmisor().getNombreArea();
             v[3] = miLista.get(i).getFkUsuarioEmisor().getNombreUsuario();
-            v[4] = miLista.get(i).getFkAreaSistemas().getNombreArea();
+            if(miLista.get(i).getFkAreaSistemas() == null){
+                v[4] = "Unknow";
+            }else{
+                 v[4] = miLista.get(i).getFkAreaSistemas().getNombreArea();
+            }
             v[5] = miLista.get(i).getAsunto().getPertenece().getNombre() + " - " + miLista.get(i).getAsunto().getNombreasuntoS();
             if(miLista.get(i).getUsuarioReceptor() == null){
                 v[6] = "No aun";
