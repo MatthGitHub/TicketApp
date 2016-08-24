@@ -6,7 +6,9 @@
 package mscb.tick.tickets.vista;
 
 import javax.swing.JOptionPane;
+import mscb.tick.entidades.Estados;
 import mscb.tick.entidades.Tickets;
+import mscb.tick.estados.servicios.EstadoServ;
 import mscb.tick.login.Login;
 import mscb.tick.login.servicios.LoginEJB;
 import mscb.tick.main.Main;
@@ -188,8 +190,12 @@ public class ResponderP extends MenuP {
         // TODO add your handling code here:
         if(JOptionPane.showConfirmDialog(mainFrame, "Confirmar", "Seguro desea enviar?", JOptionPane.YES_NO_OPTION) == 0){
             serviciosT = new TicketServ();
+            Estados estad = new Estados();
+            EstadoServ serviciosE = new EstadoServ();
+            estad = serviciosE.traerEstado(4);
             miTick.setRespuesta(txtA_respuesta.getText());
             miTick.setUsuarioReceptor(LoginEJB.usuario);
+            miTick.setFkEstado(estad);
             if(serviciosT.modificarTicket(miTick)==0){
                 JOptionPane.showMessageDialog(mainFrame, "Respuesta Enviada!");
                 panelMisti.llenarTabla();

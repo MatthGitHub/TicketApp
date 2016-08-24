@@ -24,6 +24,7 @@ import mscb.tick.tickets.vista.ObservacionF;
 import mscb.tick.tickets.vista.ResponderF;
 import mscb.tick.tickets.vista.RespuestaF;
 import mscb.tick.tickets.vista.TicketsV;
+import mscb.tick.tickets.vista.TransferenciaF;
 import mscb.tick.usuarios.vista.CambiarClaveFrame;
 import mscb.tick.usuarios.vista.NuevoUsuarioF;
 import mscb.tick.usuarios.vista.UsuariosV;
@@ -52,15 +53,18 @@ public class Main extends javax.swing.JFrame {
     private NuevoTicket formTicket;
     private TicketsV tabTick;
     
+    
+    
     private EncargadoAsuntos asignarEncargado;
         
     private MisTickets misTickets;
     
     private ObservacionF observacion;
-        private Tickets miTick;
+    private Tickets miTick;
     
-        private ResponderF responder;
+    private ResponderF responder;
     private RespuestaF respuesta;
+    private TransferenciaF transferir;
     
     private AsuntosPrin asuntos;
     private NuevoAsuntoFrame nuevoAsunto;
@@ -242,6 +246,16 @@ public class Main extends javax.swing.JFrame {
         }else{
             respuesta.setVisible(true);
             respuesta.RespuestaMeth(miTick);
+        }
+        revalidate();
+    }
+    
+    public void transferirTicket(Tickets miTick){
+        if(transferir == null){
+            transferir = new TransferenciaF(miTick, this);
+        }else{
+            transferir.setVisible(true);
+            transferir.TransPanel(miTick);
         }
         revalidate();
     }

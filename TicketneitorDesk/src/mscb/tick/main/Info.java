@@ -41,7 +41,7 @@ public class Info extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setUndecorated(true);
 
-        jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "by Matias B.", javax.swing.border.TitledBorder.LEFT, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Script MT Bold", 0, 18), java.awt.Color.black)); // NOI18N
+        jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "by Matias B.", javax.swing.border.TitledBorder.LEFT, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Script MT Bold", 0, 18))); // NOI18N
 
         btn_gud.setText("Gud");
         btn_gud.addActionListener(new java.awt.event.ActionListener() {
@@ -55,7 +55,7 @@ public class Info extends javax.swing.JFrame {
         jTextArea2.setFont(new java.awt.Font("Script MT Bold", 2, 14)); // NOI18N
         jTextArea2.setRows(5);
         jTextArea2.setTabSize(7);
-        jTextArea2.setText("Programa para que dejen de llamar\npor telefono....\n\nMuchas gracias...\n\nM.B.");
+        jTextArea2.setText("Programa para que dejen \nde llamar por telefono....\n\nMuchas gracias...\n\nSistemas.");
         jScrollPane2.setViewportView(jTextArea2);
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);

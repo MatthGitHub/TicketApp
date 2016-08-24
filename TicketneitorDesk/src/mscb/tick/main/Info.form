@@ -40,7 +40,6 @@
           <Border info="org.netbeans.modules.form.compat2.border.TitledBorderInfo">
             <TitledBorder justification="1" title="by Matias B.">
               <Font PropertyName="font" name="Script MT Bold" size="18" style="0"/>
-              <Color PropertyName="color" blue="0" green="0" id="black" palette="1" red="0" type="palette"/>
             </TitledBorder>
           </Border>
         </Property>
@@ -94,7 +93,7 @@
                 </Property>
                 <Property name="rows" type="int" value="5"/>
                 <Property name="tabSize" type="int" value="7"/>
-                <Property name="text" type="java.lang.String" value="Programa para que dejen de llamar&#xa;por telefono....&#xa;&#xa;Muchas gracias...&#xa;&#xa;M.B."/>
+                <Property name="text" type="java.lang.String" value="Programa para que dejen &#xa;de llamar por telefono....&#xa;&#xa;Muchas gracias...&#xa;&#xa;Sistemas."/>
               </Properties>
             </Component>
           </SubComponents>

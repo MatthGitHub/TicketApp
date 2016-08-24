@@ -17,6 +17,7 @@ import mscb.tick.asuntoSecundario.servicios.AsuntoSecundarioServ;
 import mscb.tick.entidades.Asuntos;
 import mscb.tick.entidades.Servicios;
 import mscb.tick.entidades.Usuarios;
+import mscb.tick.login.servicios.LoginEJB;
 import mscb.tick.main.Main;
 import mscb.tick.usuarios.servicios.UsuarioServ;
 import mscb.tick.util.MenuP;
@@ -30,6 +31,7 @@ public class EncargadoAsuntos extends MenuP {
     Main mainFrame;
     private static EncargadoAsuntos estePanel;
     private List<Usuarios> miListaU;
+    private Usuarios user;
     private UsuarioServ serviciosU;
     private List<Servicios> miListaA;
     private AsuntoSecundarioServ serviciosA;
@@ -99,8 +101,9 @@ public class EncargadoAsuntos extends MenuP {
         List<Servicios> aux = new ArrayList<>();
         
         int a = miListaU.get(miListaU.indexOf(cmbx_usuarios.getSelectedItem())).getServiciosList().size();
-        List<Servicios> miLi = (List<Servicios>) miListaU.get(miListaU.indexOf(cmbx_usuarios.getSelectedItem())).getServiciosList();
-
+        //List<Servicios> miLi = (List<Servicios>) miListaU.get(miListaU.indexOf(cmbx_usuarios.getSelectedItem())).getServiciosList();
+        List<Servicios> miLi = user.getServiciosList();
+        
         for (int i = 0; i < a; i++) {
             v[0] = miLi.get(i).getPertenece().getNombre();
             v[1] = miLi.get(i).getNombreasuntoS();
@@ -206,6 +209,11 @@ public class EncargadoAsuntos extends MenuP {
         btn_guardar.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         btn_guardar.setForeground(new java.awt.Color(255, 255, 255));
         btn_guardar.setText("guardar");
+        btn_guardar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_guardarActionPerformed(evt);
+            }
+        });
 
         jLabel1.setFont(new java.awt.Font("Bradley Hand ITC", 0, 18)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(255, 255, 255));
@@ -324,6 +332,7 @@ public class EncargadoAsuntos extends MenuP {
         // TODO add your handling code here:
         cmbx_asuntosP.setVisible(true);
         lbl_asuntos.setVisible(true);
+        user = (Usuarios) cmbx_usuarios.getSelectedItem();
         cargarTabla();
     }//GEN-LAST:event_cmbx_usuariosActionPerformed
 
@@ -335,12 +344,15 @@ public class EncargadoAsuntos extends MenuP {
     private void btn_agregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_agregarActionPerformed
         // TODO add your handling code here:
         if (JOptionPane.showConfirmDialog(mainFrame, "Seguro desea agregar este asunto?", "Seguro", JOptionPane.YES_NO_OPTION) == 0) {
-            Usuarios miUsuario = (Usuarios) cmbx_usuarios.getSelectedItem();
-            miUsuario.getServiciosList().add((Servicios) cmbx_asuntosS.getSelectedItem());
+            //Usuarios miUsuario = (Usuarios) cmbx_usuarios.getSelectedItem();
+            user.getServiciosList().add((Servicios) cmbx_asuntosS.getSelectedItem());
             serviciosU = new UsuarioServ();
-            if (serviciosU.modificarUsuario(miUsuario) == 0) {
+            if (serviciosU.modificarUsuario(user) == 0) {
                 JOptionPane.showMessageDialog(mainFrame, "Asunto agregado!");
                 cargarTabla();
+                if(user.equals(LoginEJB.usuario)){
+                    LoginEJB.usuario.getServiciosList().add((Servicios) cmbx_asuntosS.getSelectedItem());
+                }
             } else {
                 JOptionPane.showMessageDialog(mainFrame, "Error al agregar asunto!");
             }
@@ -386,6 +398,10 @@ public class EncargadoAsuntos extends MenuP {
             }
         }
     }//GEN-LAST:event_btn_quitarActionPerformed
+
+    private void btn_guardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_guardarActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btn_guardarActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

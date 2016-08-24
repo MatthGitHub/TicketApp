@@ -5,23 +5,16 @@
  */
 package mscb.tick.tickets.vista;
 
-import java.awt.Component;
-import static java.awt.Desktop.Action.EDIT;
-import java.awt.MouseInfo;
-import java.awt.Point;
 import java.text.DateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.Locale;
-import javax.swing.JButton;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
-import javax.swing.UIManager;
-import javax.swing.plaf.ColorUIResource;
 import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableCellRenderer;
+import mscb.tick.entidades.Estados;
 import mscb.tick.entidades.Tickets;
+import mscb.tick.estados.servicios.EstadoServ;
 import mscb.tick.main.Main;
 import mscb.tick.tickets.servicios.TicketServ;
 import mscb.tick.util.MenuP;
@@ -63,6 +56,7 @@ public class TicketsV extends MenuP {
     public void llenarTabla() {
         vaciarTabla(jt_tickets);
         miLista = serviciosT.traerTodos();
+        cambiarEstadoDeTickets();
         String v[] = new String[7];
         DateFormat dateFormatter;
         dateFormatter = DateFormat.getDateInstance(DateFormat.SHORT, Locale.US);
@@ -72,11 +66,12 @@ public class TicketsV extends MenuP {
             v[1] = dateFormatter.format(miLista.get(i).getFecha()).toString();
             v[2] = miLista.get(i).getFkAreaEmisor().getNombreArea();
             v[3] = miLista.get(i).getFkUsuarioEmisor().getNombreUsuario();
-            if(miLista.get(i).getFkAreaSistemas() == null){
+            /*if(miLista.get(i).getFkAreaSistemas() == null){
                 v[4] = "Unknow";
             }else{
                  v[4] = miLista.get(i).getFkAreaSistemas().getNombreArea();
-            }
+            }*/
+            v[4] = miLista.get(i).getFkEstado().getNombre();
             v[5] = miLista.get(i).getAsunto().getPertenece().getNombre() + " - " + miLista.get(i).getAsunto().getNombreasuntoS();
             if(miLista.get(i).getUsuarioReceptor() == null){
                 v[6] = "No aun";
@@ -101,7 +96,8 @@ public class TicketsV extends MenuP {
             v[1] = dateFormatter.format(busca.get(i).getFecha()).toString();
             v[2] = busca.get(i).getFkAreaEmisor().getNombreArea();
             v[3] = busca.get(i).getFkUsuarioEmisor().getNombreUsuario();
-            v[4] = busca.get(i).getFkAreaSistemas().getNombreArea();
+            //v[4] = busca.get(i).getFkAreaSistemas().getNombreArea();
+            v[4] = miLista.get(i).getFkEstado().getNombre();
             v[5] = busca.get(i).getAsunto().getPertenece().getNombre() + " - " + busca.get(i).getAsunto().getNombreasuntoS();
             if(miLista.get(i).getUsuarioReceptor() == null){
                 v[6] = "No aun";
@@ -115,7 +111,19 @@ public class TicketsV extends MenuP {
         revalidate();
 
     }
-    
+    /**
+     *Cambia el estado de los tickets enviados a recibidos 
+     */
+    private void cambiarEstadoDeTickets(){
+        EstadoServ esta = new EstadoServ();
+        Estados estado = esta.traerEstado(2);
+        for(int i = 0; i < miLista.size(); i++){
+            if(miLista.get(i).getFkEstado().getIdEstado() == 1){
+                miLista.get(i).setFkEstado(estado);
+                serviciosT.modificarTicket(miLista.get(i));
+            }
+        }
+    }
     
 
     private void vaciarTabla(JTable tabla) {
@@ -214,7 +222,7 @@ public class TicketsV extends MenuP {
         jLabel1.setText("Buscar:");
 
         txt_buscar.setBackground(new java.awt.Color(0, 102, 204));
-        txt_buscar.setFont(new java.awt.Font("Bradley Hand ITC", 0, 14)); // NOI18N
+        txt_buscar.setFont(new java.awt.Font("Candara", 0, 14)); // NOI18N
         txt_buscar.setForeground(new java.awt.Color(255, 255, 255));
         txt_buscar.setText("Usuario, asunto, area...");
         txt_buscar.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -233,7 +241,7 @@ public class TicketsV extends MenuP {
         jLabel2.setText("Buscar:");
 
         txt_id.setBackground(new java.awt.Color(0, 102, 204));
-        txt_id.setFont(new java.awt.Font("Bradley Hand ITC", 0, 14)); // NOI18N
+        txt_id.setFont(new java.awt.Font("Candara", 0, 14)); // NOI18N
         txt_id.setForeground(new java.awt.Color(255, 255, 255));
         txt_id.setText("Nº de ticket....");
         txt_id.addMouseListener(new java.awt.event.MouseAdapter() {

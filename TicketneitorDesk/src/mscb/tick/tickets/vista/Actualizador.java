@@ -53,5 +53,5 @@ public class Actualizador extends Thread {
             System.out.println("Error en el metodo de espera del Thread Listener");
         }
     }
-
+    
 }
