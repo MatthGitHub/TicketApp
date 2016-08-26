@@ -11,4 +11,5 @@
         <property name="driverClass" value="com.mysql.jdbc.Driver"/>
     </jdbc-connection-pool>
     <jdbc-resource enabled="true" jndi-name="java:app/tickets" object-type="user" pool-name="mysql_ticket_rootPool"/>
+    <jdbc-resource enabled="true" jndi-name="java:app/tik" object-type="user" pool-name="mysql_ticket_rootPool"/>
 </resources>

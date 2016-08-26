@@ -8,7 +8,6 @@ package mscb.tick.entidades;
 import java.io.Serializable;
 import java.util.List;
 import javax.persistence.Basic;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -34,9 +33,6 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "AreaSistemas.findByNombreArea", query = "SELECT a FROM AreaSistemas a WHERE a.nombreArea = :nombreArea")})
 public class AreaSistemas implements Serializable {
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "fkAreaSistemas")
-    private List<Tickets> ticketsList;
-
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -46,6 +42,8 @@ public class AreaSistemas implements Serializable {
     @Basic(optional = false)
     @Column(name = "nombre_area")
     private String nombreArea;
+    @OneToMany(mappedBy = "fkAreaSistemas")
+    private List<Tickets> ticketsList;
 
     public AreaSistemas() {
     }
@@ -75,6 +73,15 @@ public class AreaSistemas implements Serializable {
         this.nombreArea = nombreArea;
     }
 
+    @XmlTransient
+    public List<Tickets> getTicketsList() {
+        return ticketsList;
+    }
+
+    public void setTicketsList(List<Tickets> ticketsList) {
+        this.ticketsList = ticketsList;
+    }
+
     @Override
     public int hashCode() {
         int hash = 0;
@@ -98,15 +105,6 @@ public class AreaSistemas implements Serializable {
     @Override
     public String toString() {
         return this.nombreArea;
-    }
-
-    @XmlTransient
-    public List<Tickets> getTicketsList() {
-        return ticketsList;
-    }
-
-    public void setTicketsList(List<Tickets> ticketsList) {
-        this.ticketsList = ticketsList;
     }
     
 }

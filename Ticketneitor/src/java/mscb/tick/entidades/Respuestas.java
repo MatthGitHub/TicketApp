@@ -106,7 +106,7 @@ public class Respuestas implements Serializable {
 
     @Override
     public String toString() {
-        return "mscb.tick.entidades.Respuestas[ idTicket=" + idTicket + " ]";
+        return this.respuesta;
     }
     
 }

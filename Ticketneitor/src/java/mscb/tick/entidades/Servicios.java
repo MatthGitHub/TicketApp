@@ -48,11 +48,11 @@ public class Servicios implements Serializable {
     private String nombreasuntoS;
     @ManyToMany(mappedBy = "serviciosList")
     private List<Usuarios> usuariosList;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "asunto")
+    private List<Tickets> ticketsList;
     @JoinColumn(name = "pertenece", referencedColumnName = "id_asuntoP")
     @ManyToOne(optional = false)
     private Asuntos pertenece;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "asunto")
-    private List<Tickets> ticketsList;
 
     public Servicios() {
     }
@@ -91,14 +91,6 @@ public class Servicios implements Serializable {
         this.usuariosList = usuariosList;
     }
 
-    public Asuntos getPertenece() {
-        return pertenece;
-    }
-
-    public void setPertenece(Asuntos pertenece) {
-        this.pertenece = pertenece;
-    }
-
     @XmlTransient
     public List<Tickets> getTicketsList() {
         return ticketsList;
@@ -106,6 +98,14 @@ public class Servicios implements Serializable {
 
     public void setTicketsList(List<Tickets> ticketsList) {
         this.ticketsList = ticketsList;
+    }
+
+    public Asuntos getPertenece() {
+        return pertenece;
+    }
+
+    public void setPertenece(Asuntos pertenece) {
+        this.pertenece = pertenece;
     }
 
     @Override

@@ -129,8 +129,9 @@ public class UsuarioServ {
     
     public int resetClave(int id){
         Usuarios usu;
+        md5 = new MD5();
         usu = jpa.findUsuarios(id);
-        usu.setContrasenia(usu.getFkEmpleado().getNombre());
+        usu.setContrasenia(md5.md5(usu.getFkEmpleado().getNombre()));
         
         try {
             jpa.edit(usu);
@@ -145,8 +146,9 @@ public class UsuarioServ {
     }
     
     public int cambiarClave(Usuarios usu ,String clave){
+        md5 = new MD5();
+        clave = md5.md5(clave);
         usu.setContrasenia(clave);
-        
         try {
             jpa.edit(usu);
             return 0;
@@ -191,6 +193,18 @@ public class UsuarioServ {
             return 1;
         }
         
+    }
+    
+    public Usuarios buscarUsuarioPorNombre(String nombre){
+        List<Usuarios> miListaU = jpa.findUsuariosEntities();
+        for(int i = 0; i < miListaU.size(); i++){
+            if(miListaU.get(i).getNombreUsuario().equalsIgnoreCase(nombre)){
+                return miListaU.get(i);
+            }
+        }
+        Usuarios miUsu = new Usuarios();
+        miUsu.setNombreUsuario("No se encontro");
+        return miUsu;
     }
     
 }

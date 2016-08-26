@@ -14,13 +14,18 @@ import mscb.tick.entidades.Respuestas;
 import mscb.tick.entidades.Areas;
 import mscb.tick.entidades.Usuarios;
 import mscb.tick.entidades.Servicios;
+import mscb.tick.entidades.Estados;
+import mscb.tick.entidades.AreaSistemas;
+import mscb.tick.entidades.RazonesTransferencias;
+import mscb.tick.entidades.BaseConocimiento;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
+import mscb.tick.entidades.HistorialTickets;
+import mscb.tick.entidades.Tickets;
 import mscb.tick.controladores.exceptions.IllegalOrphanException;
 import mscb.tick.controladores.exceptions.NonexistentEntityException;
-import mscb.tick.entidades.Tickets;
 
 /**
  *
@@ -38,6 +43,12 @@ public class TicketsJpaController implements Serializable {
     }
 
     public void create(Tickets tickets) {
+        if (tickets.getBaseConocimientoList() == null) {
+            tickets.setBaseConocimientoList(new ArrayList<BaseConocimiento>());
+        }
+        if (tickets.getHistorialTicketsList() == null) {
+            tickets.setHistorialTicketsList(new ArrayList<HistorialTickets>());
+        }
         EntityManager em = null;
         try {
             em = getEntityManager();
@@ -67,6 +78,33 @@ public class TicketsJpaController implements Serializable {
                 asunto = em.getReference(asunto.getClass(), asunto.getIdasuntoS());
                 tickets.setAsunto(asunto);
             }
+            Estados fkEstado = tickets.getFkEstado();
+            if (fkEstado != null) {
+                fkEstado = em.getReference(fkEstado.getClass(), fkEstado.getIdEstado());
+                tickets.setFkEstado(fkEstado);
+            }
+            AreaSistemas fkAreaSistemas = tickets.getFkAreaSistemas();
+            if (fkAreaSistemas != null) {
+                fkAreaSistemas = em.getReference(fkAreaSistemas.getClass(), fkAreaSistemas.getIdAreaSistemas());
+                tickets.setFkAreaSistemas(fkAreaSistemas);
+            }
+            RazonesTransferencias fkRazon = tickets.getFkRazon();
+            if (fkRazon != null) {
+                fkRazon = em.getReference(fkRazon.getClass(), fkRazon.getIdRazon());
+                tickets.setFkRazon(fkRazon);
+            }
+            List<BaseConocimiento> attachedBaseConocimientoList = new ArrayList<BaseConocimiento>();
+            for (BaseConocimiento baseConocimientoListBaseConocimientoToAttach : tickets.getBaseConocimientoList()) {
+                baseConocimientoListBaseConocimientoToAttach = em.getReference(baseConocimientoListBaseConocimientoToAttach.getClass(), baseConocimientoListBaseConocimientoToAttach.getIdResolucion());
+                attachedBaseConocimientoList.add(baseConocimientoListBaseConocimientoToAttach);
+            }
+            tickets.setBaseConocimientoList(attachedBaseConocimientoList);
+            List<HistorialTickets> attachedHistorialTicketsList = new ArrayList<HistorialTickets>();
+            for (HistorialTickets historialTicketsListHistorialTicketsToAttach : tickets.getHistorialTicketsList()) {
+                historialTicketsListHistorialTicketsToAttach = em.getReference(historialTicketsListHistorialTicketsToAttach.getClass(), historialTicketsListHistorialTicketsToAttach.getIdHistorial());
+                attachedHistorialTicketsList.add(historialTicketsListHistorialTicketsToAttach);
+            }
+            tickets.setHistorialTicketsList(attachedHistorialTicketsList);
             em.persist(tickets);
             if (respuestas != null) {
                 Tickets oldTicketsOfRespuestas = respuestas.getTickets();
@@ -93,6 +131,36 @@ public class TicketsJpaController implements Serializable {
                 asunto.getTicketsList().add(tickets);
                 asunto = em.merge(asunto);
             }
+            if (fkEstado != null) {
+                fkEstado.getTicketsList().add(tickets);
+                fkEstado = em.merge(fkEstado);
+            }
+            if (fkAreaSistemas != null) {
+                fkAreaSistemas.getTicketsList().add(tickets);
+                fkAreaSistemas = em.merge(fkAreaSistemas);
+            }
+            if (fkRazon != null) {
+                fkRazon.getTicketsList().add(tickets);
+                fkRazon = em.merge(fkRazon);
+            }
+            for (BaseConocimiento baseConocimientoListBaseConocimiento : tickets.getBaseConocimientoList()) {
+                Tickets oldFkTicketOfBaseConocimientoListBaseConocimiento = baseConocimientoListBaseConocimiento.getFkTicket();
+                baseConocimientoListBaseConocimiento.setFkTicket(tickets);
+                baseConocimientoListBaseConocimiento = em.merge(baseConocimientoListBaseConocimiento);
+                if (oldFkTicketOfBaseConocimientoListBaseConocimiento != null) {
+                    oldFkTicketOfBaseConocimientoListBaseConocimiento.getBaseConocimientoList().remove(baseConocimientoListBaseConocimiento);
+                    oldFkTicketOfBaseConocimientoListBaseConocimiento = em.merge(oldFkTicketOfBaseConocimientoListBaseConocimiento);
+                }
+            }
+            for (HistorialTickets historialTicketsListHistorialTickets : tickets.getHistorialTicketsList()) {
+                Tickets oldFkTicketOfHistorialTicketsListHistorialTickets = historialTicketsListHistorialTickets.getFkTicket();
+                historialTicketsListHistorialTickets.setFkTicket(tickets);
+                historialTicketsListHistorialTickets = em.merge(historialTicketsListHistorialTickets);
+                if (oldFkTicketOfHistorialTicketsListHistorialTickets != null) {
+                    oldFkTicketOfHistorialTicketsListHistorialTickets.getHistorialTicketsList().remove(historialTicketsListHistorialTickets);
+                    oldFkTicketOfHistorialTicketsListHistorialTickets = em.merge(oldFkTicketOfHistorialTicketsListHistorialTickets);
+                }
+            }
             em.getTransaction().commit();
         } finally {
             if (em != null) {
@@ -117,12 +185,38 @@ public class TicketsJpaController implements Serializable {
             Usuarios usuarioReceptorNew = tickets.getUsuarioReceptor();
             Servicios asuntoOld = persistentTickets.getAsunto();
             Servicios asuntoNew = tickets.getAsunto();
+            Estados fkEstadoOld = persistentTickets.getFkEstado();
+            Estados fkEstadoNew = tickets.getFkEstado();
+            AreaSistemas fkAreaSistemasOld = persistentTickets.getFkAreaSistemas();
+            AreaSistemas fkAreaSistemasNew = tickets.getFkAreaSistemas();
+            RazonesTransferencias fkRazonOld = persistentTickets.getFkRazon();
+            RazonesTransferencias fkRazonNew = tickets.getFkRazon();
+            List<BaseConocimiento> baseConocimientoListOld = persistentTickets.getBaseConocimientoList();
+            List<BaseConocimiento> baseConocimientoListNew = tickets.getBaseConocimientoList();
+            List<HistorialTickets> historialTicketsListOld = persistentTickets.getHistorialTicketsList();
+            List<HistorialTickets> historialTicketsListNew = tickets.getHistorialTicketsList();
             List<String> illegalOrphanMessages = null;
             if (respuestasOld != null && !respuestasOld.equals(respuestasNew)) {
                 if (illegalOrphanMessages == null) {
                     illegalOrphanMessages = new ArrayList<String>();
                 }
                 illegalOrphanMessages.add("You must retain Respuestas " + respuestasOld + " since its tickets field is not nullable.");
+            }
+            for (BaseConocimiento baseConocimientoListOldBaseConocimiento : baseConocimientoListOld) {
+                if (!baseConocimientoListNew.contains(baseConocimientoListOldBaseConocimiento)) {
+                    if (illegalOrphanMessages == null) {
+                        illegalOrphanMessages = new ArrayList<String>();
+                    }
+                    illegalOrphanMessages.add("You must retain BaseConocimiento " + baseConocimientoListOldBaseConocimiento + " since its fkTicket field is not nullable.");
+                }
+            }
+            for (HistorialTickets historialTicketsListOldHistorialTickets : historialTicketsListOld) {
+                if (!historialTicketsListNew.contains(historialTicketsListOldHistorialTickets)) {
+                    if (illegalOrphanMessages == null) {
+                        illegalOrphanMessages = new ArrayList<String>();
+                    }
+                    illegalOrphanMessages.add("You must retain HistorialTickets " + historialTicketsListOldHistorialTickets + " since its fkTicket field is not nullable.");
+                }
             }
             if (illegalOrphanMessages != null) {
                 throw new IllegalOrphanException(illegalOrphanMessages);
@@ -147,6 +241,32 @@ public class TicketsJpaController implements Serializable {
                 asuntoNew = em.getReference(asuntoNew.getClass(), asuntoNew.getIdasuntoS());
                 tickets.setAsunto(asuntoNew);
             }
+            if (fkEstadoNew != null) {
+                fkEstadoNew = em.getReference(fkEstadoNew.getClass(), fkEstadoNew.getIdEstado());
+                tickets.setFkEstado(fkEstadoNew);
+            }
+            if (fkAreaSistemasNew != null) {
+                fkAreaSistemasNew = em.getReference(fkAreaSistemasNew.getClass(), fkAreaSistemasNew.getIdAreaSistemas());
+                tickets.setFkAreaSistemas(fkAreaSistemasNew);
+            }
+            if (fkRazonNew != null) {
+                fkRazonNew = em.getReference(fkRazonNew.getClass(), fkRazonNew.getIdRazon());
+                tickets.setFkRazon(fkRazonNew);
+            }
+            List<BaseConocimiento> attachedBaseConocimientoListNew = new ArrayList<BaseConocimiento>();
+            for (BaseConocimiento baseConocimientoListNewBaseConocimientoToAttach : baseConocimientoListNew) {
+                baseConocimientoListNewBaseConocimientoToAttach = em.getReference(baseConocimientoListNewBaseConocimientoToAttach.getClass(), baseConocimientoListNewBaseConocimientoToAttach.getIdResolucion());
+                attachedBaseConocimientoListNew.add(baseConocimientoListNewBaseConocimientoToAttach);
+            }
+            baseConocimientoListNew = attachedBaseConocimientoListNew;
+            tickets.setBaseConocimientoList(baseConocimientoListNew);
+            List<HistorialTickets> attachedHistorialTicketsListNew = new ArrayList<HistorialTickets>();
+            for (HistorialTickets historialTicketsListNewHistorialTicketsToAttach : historialTicketsListNew) {
+                historialTicketsListNewHistorialTicketsToAttach = em.getReference(historialTicketsListNewHistorialTicketsToAttach.getClass(), historialTicketsListNewHistorialTicketsToAttach.getIdHistorial());
+                attachedHistorialTicketsListNew.add(historialTicketsListNewHistorialTicketsToAttach);
+            }
+            historialTicketsListNew = attachedHistorialTicketsListNew;
+            tickets.setHistorialTicketsList(historialTicketsListNew);
             tickets = em.merge(tickets);
             if (respuestasNew != null && !respuestasNew.equals(respuestasOld)) {
                 Tickets oldTicketsOfRespuestas = respuestasNew.getTickets();
@@ -189,6 +309,52 @@ public class TicketsJpaController implements Serializable {
                 asuntoNew.getTicketsList().add(tickets);
                 asuntoNew = em.merge(asuntoNew);
             }
+            if (fkEstadoOld != null && !fkEstadoOld.equals(fkEstadoNew)) {
+                fkEstadoOld.getTicketsList().remove(tickets);
+                fkEstadoOld = em.merge(fkEstadoOld);
+            }
+            if (fkEstadoNew != null && !fkEstadoNew.equals(fkEstadoOld)) {
+                fkEstadoNew.getTicketsList().add(tickets);
+                fkEstadoNew = em.merge(fkEstadoNew);
+            }
+            if (fkAreaSistemasOld != null && !fkAreaSistemasOld.equals(fkAreaSistemasNew)) {
+                fkAreaSistemasOld.getTicketsList().remove(tickets);
+                fkAreaSistemasOld = em.merge(fkAreaSistemasOld);
+            }
+            if (fkAreaSistemasNew != null && !fkAreaSistemasNew.equals(fkAreaSistemasOld)) {
+                fkAreaSistemasNew.getTicketsList().add(tickets);
+                fkAreaSistemasNew = em.merge(fkAreaSistemasNew);
+            }
+            if (fkRazonOld != null && !fkRazonOld.equals(fkRazonNew)) {
+                fkRazonOld.getTicketsList().remove(tickets);
+                fkRazonOld = em.merge(fkRazonOld);
+            }
+            if (fkRazonNew != null && !fkRazonNew.equals(fkRazonOld)) {
+                fkRazonNew.getTicketsList().add(tickets);
+                fkRazonNew = em.merge(fkRazonNew);
+            }
+            for (BaseConocimiento baseConocimientoListNewBaseConocimiento : baseConocimientoListNew) {
+                if (!baseConocimientoListOld.contains(baseConocimientoListNewBaseConocimiento)) {
+                    Tickets oldFkTicketOfBaseConocimientoListNewBaseConocimiento = baseConocimientoListNewBaseConocimiento.getFkTicket();
+                    baseConocimientoListNewBaseConocimiento.setFkTicket(tickets);
+                    baseConocimientoListNewBaseConocimiento = em.merge(baseConocimientoListNewBaseConocimiento);
+                    if (oldFkTicketOfBaseConocimientoListNewBaseConocimiento != null && !oldFkTicketOfBaseConocimientoListNewBaseConocimiento.equals(tickets)) {
+                        oldFkTicketOfBaseConocimientoListNewBaseConocimiento.getBaseConocimientoList().remove(baseConocimientoListNewBaseConocimiento);
+                        oldFkTicketOfBaseConocimientoListNewBaseConocimiento = em.merge(oldFkTicketOfBaseConocimientoListNewBaseConocimiento);
+                    }
+                }
+            }
+            for (HistorialTickets historialTicketsListNewHistorialTickets : historialTicketsListNew) {
+                if (!historialTicketsListOld.contains(historialTicketsListNewHistorialTickets)) {
+                    Tickets oldFkTicketOfHistorialTicketsListNewHistorialTickets = historialTicketsListNewHistorialTickets.getFkTicket();
+                    historialTicketsListNewHistorialTickets.setFkTicket(tickets);
+                    historialTicketsListNewHistorialTickets = em.merge(historialTicketsListNewHistorialTickets);
+                    if (oldFkTicketOfHistorialTicketsListNewHistorialTickets != null && !oldFkTicketOfHistorialTicketsListNewHistorialTickets.equals(tickets)) {
+                        oldFkTicketOfHistorialTicketsListNewHistorialTickets.getHistorialTicketsList().remove(historialTicketsListNewHistorialTickets);
+                        oldFkTicketOfHistorialTicketsListNewHistorialTickets = em.merge(oldFkTicketOfHistorialTicketsListNewHistorialTickets);
+                    }
+                }
+            }
             em.getTransaction().commit();
         } catch (Exception ex) {
             String msg = ex.getLocalizedMessage();
@@ -226,6 +392,20 @@ public class TicketsJpaController implements Serializable {
                 }
                 illegalOrphanMessages.add("This Tickets (" + tickets + ") cannot be destroyed since the Respuestas " + respuestasOrphanCheck + " in its respuestas field has a non-nullable tickets field.");
             }
+            List<BaseConocimiento> baseConocimientoListOrphanCheck = tickets.getBaseConocimientoList();
+            for (BaseConocimiento baseConocimientoListOrphanCheckBaseConocimiento : baseConocimientoListOrphanCheck) {
+                if (illegalOrphanMessages == null) {
+                    illegalOrphanMessages = new ArrayList<String>();
+                }
+                illegalOrphanMessages.add("This Tickets (" + tickets + ") cannot be destroyed since the BaseConocimiento " + baseConocimientoListOrphanCheckBaseConocimiento + " in its baseConocimientoList field has a non-nullable fkTicket field.");
+            }
+            List<HistorialTickets> historialTicketsListOrphanCheck = tickets.getHistorialTicketsList();
+            for (HistorialTickets historialTicketsListOrphanCheckHistorialTickets : historialTicketsListOrphanCheck) {
+                if (illegalOrphanMessages == null) {
+                    illegalOrphanMessages = new ArrayList<String>();
+                }
+                illegalOrphanMessages.add("This Tickets (" + tickets + ") cannot be destroyed since the HistorialTickets " + historialTicketsListOrphanCheckHistorialTickets + " in its historialTicketsList field has a non-nullable fkTicket field.");
+            }
             if (illegalOrphanMessages != null) {
                 throw new IllegalOrphanException(illegalOrphanMessages);
             }
@@ -248,6 +428,21 @@ public class TicketsJpaController implements Serializable {
             if (asunto != null) {
                 asunto.getTicketsList().remove(tickets);
                 asunto = em.merge(asunto);
+            }
+            Estados fkEstado = tickets.getFkEstado();
+            if (fkEstado != null) {
+                fkEstado.getTicketsList().remove(tickets);
+                fkEstado = em.merge(fkEstado);
+            }
+            AreaSistemas fkAreaSistemas = tickets.getFkAreaSistemas();
+            if (fkAreaSistemas != null) {
+                fkAreaSistemas.getTicketsList().remove(tickets);
+                fkAreaSistemas = em.merge(fkAreaSistemas);
+            }
+            RazonesTransferencias fkRazon = tickets.getFkRazon();
+            if (fkRazon != null) {
+                fkRazon.getTicketsList().remove(tickets);
+                fkRazon = em.merge(fkRazon);
             }
             em.remove(tickets);
             em.getTransaction().commit();

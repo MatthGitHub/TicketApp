@@ -33,9 +33,6 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Estados.findByNombre", query = "SELECT e FROM Estados e WHERE e.nombre = :nombre")})
 public class Estados implements Serializable {
 
-    @OneToMany(mappedBy = "fkEstado")
-    private List<Tickets> ticketsList;
-
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -45,6 +42,8 @@ public class Estados implements Serializable {
     @Basic(optional = false)
     @Column(name = "nombre")
     private String nombre;
+    @OneToMany(mappedBy = "fkEstado")
+    private List<Tickets> ticketsList;
 
     public Estados() {
     }
@@ -74,6 +73,15 @@ public class Estados implements Serializable {
         this.nombre = nombre;
     }
 
+    @XmlTransient
+    public List<Tickets> getTicketsList() {
+        return ticketsList;
+    }
+
+    public void setTicketsList(List<Tickets> ticketsList) {
+        this.ticketsList = ticketsList;
+    }
+
     @Override
     public int hashCode() {
         int hash = 0;
@@ -96,16 +104,7 @@ public class Estados implements Serializable {
 
     @Override
     public String toString() {
-        return this.nombre;
-    }
-
-    @XmlTransient
-    public List<Tickets> getTicketsList() {
-        return ticketsList;
-    }
-
-    public void setTicketsList(List<Tickets> ticketsList) {
-        this.ticketsList = ticketsList;
+        return this.getNombre();
     }
     
 }

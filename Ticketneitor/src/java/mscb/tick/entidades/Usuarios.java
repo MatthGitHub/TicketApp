@@ -22,8 +22,6 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
@@ -50,20 +48,14 @@ public class Usuarios implements Serializable {
     @Column(name = "id_usuario")
     private Integer idUsuario;
     @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 10)
     @Column(name = "nombre_usuario")
     private String nombreUsuario;
     @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 36)
     @Column(name = "contrasenia")
     private String contrasenia;
     @Basic(optional = false)
-    @NotNull
     @Column(name = "activo")
     private boolean activo;
-    @Size(max = 180)
     @Column(name = "id_extreme")
     private String idExtreme;
     @JoinTable(name = "encargado_servicios", joinColumns = {
@@ -71,8 +63,6 @@ public class Usuarios implements Serializable {
         @JoinColumn(name = "asunto", referencedColumnName = "id_asuntoS")})
     @ManyToMany
     private List<Servicios> serviciosList;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idUsuario")
-    private List<Respuestas> respuestasList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "fkUsuarioEmisor")
     private List<Tickets> ticketsList;
     @OneToMany(mappedBy = "usuarioReceptor")
@@ -83,6 +73,12 @@ public class Usuarios implements Serializable {
     @JoinColumn(name = "fk_permiso", referencedColumnName = "id_permiso")
     @ManyToOne(optional = false)
     private Permisos fkPermiso;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "fkUsuarioReceptor")
+    private List<HistorialTickets> historialTicketsList;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "fkUsuarioEmisor")
+    private List<HistorialTickets> historialTicketsList1;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idUsuario")
+    private List<Respuestas> respuestasList;
 
     public Usuarios() {
     }
@@ -148,15 +144,6 @@ public class Usuarios implements Serializable {
     }
 
     @XmlTransient
-    public List<Respuestas> getRespuestasList() {
-        return respuestasList;
-    }
-
-    public void setRespuestasList(List<Respuestas> respuestasList) {
-        this.respuestasList = respuestasList;
-    }
-
-    @XmlTransient
     public List<Tickets> getTicketsList() {
         return ticketsList;
     }
@@ -188,6 +175,33 @@ public class Usuarios implements Serializable {
 
     public void setFkPermiso(Permisos fkPermiso) {
         this.fkPermiso = fkPermiso;
+    }
+
+    @XmlTransient
+    public List<HistorialTickets> getHistorialTicketsList() {
+        return historialTicketsList;
+    }
+
+    public void setHistorialTicketsList(List<HistorialTickets> historialTicketsList) {
+        this.historialTicketsList = historialTicketsList;
+    }
+
+    @XmlTransient
+    public List<HistorialTickets> getHistorialTicketsList1() {
+        return historialTicketsList1;
+    }
+
+    public void setHistorialTicketsList1(List<HistorialTickets> historialTicketsList1) {
+        this.historialTicketsList1 = historialTicketsList1;
+    }
+
+    @XmlTransient
+    public List<Respuestas> getRespuestasList() {
+        return respuestasList;
+    }
+
+    public void setRespuestasList(List<Respuestas> respuestasList) {
+        this.respuestasList = respuestasList;
     }
 
     @Override

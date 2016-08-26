@@ -2,23 +2,20 @@
 <persistence version="2.1" xmlns="http://xmlns.jcp.org/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd">
   <persistence-unit name="TicketneitorPU" transaction-type="RESOURCE_LOCAL">
     <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
-    <class>mscb.tick.entidades.Area</class>
     <class>mscb.tick.entidades.AreaSistemas</class>
-    <class>mscb.tick.entidades.AsuntoPrincipal</class>
-    <class>mscb.tick.entidades.AsuntoSecundario</class>
-    <class>mscb.tick.entidades.Empleado</class>
-    <class>mscb.tick.entidades.Estados</class>
-    <class>mscb.tick.entidades.Permisos</class>
-    <class>mscb.tick.entidades.Ticket</class>
-    <class>mscb.tick.entidades.TipoUsuario</class>
-    <class>mscb.tick.entidades.Usuario</class>
-    <class>mscb.tick.entidades.Servicios</class>
     <class>mscb.tick.entidades.Areas</class>
-    <class>mscb.tick.entidades.Empleados</class>
-    <class>mscb.tick.entidades.Usuarios</class>
     <class>mscb.tick.entidades.Asuntos</class>
+    <class>mscb.tick.entidades.BaseConocimiento</class>
+    <class>mscb.tick.entidades.Empleados</class>
+    <class>mscb.tick.entidades.Estados</class>
+    <class>mscb.tick.entidades.HistorialTickets</class>
+    <class>mscb.tick.entidades.Permisos</class>
+    <class>mscb.tick.entidades.RazonesTransferencias</class>
     <class>mscb.tick.entidades.Respuestas</class>
+    <class>mscb.tick.entidades.Servicios</class>
     <class>mscb.tick.entidades.Tickets</class>
+    <class>mscb.tick.entidades.TipoUsuario</class>
+    <class>mscb.tick.entidades.Usuarios</class>
     <properties>
       <property name="javax.persistence.jdbc.url" value="jdbc:mysql://10.20.130.50:3306/ticket?zeroDateTimeBehavior=convertToNull"/>
       <property name="javax.persistence.jdbc.user" value="administrador"/>

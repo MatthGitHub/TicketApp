@@ -15,6 +15,7 @@ import javax.persistence.Persistence;
 import javax.persistence.Query;
 import mscb.tick.controladores.TicketsJpaController;
 import mscb.tick.entidades.Tickets;
+import mscb.tick.estados.servicios.EstadoServ;
 import mscb.tick.login.servicios.LoginEJB;
 
 //import mscb.tick.login.Login;
@@ -27,6 +28,7 @@ public class TicketServ {
     private static Query q;
     EntityManagerFactory emf = Persistence.createEntityManagerFactory("TicketneitorPU");
     TicketsJpaController jpa = new TicketsJpaController(emf);
+    private EstadoServ estad;
     
     public int nuevoTicket(Tickets nuevo){
         try{
@@ -69,6 +71,14 @@ public class TicketServ {
         q.setParameter("patron",id);
         return q.getResultList();
     }
+    
+    public List <Tickets> buscarNoResueltos(int id){
+        EntityManager em = emf.createEntityManager();
+        
+        q = em.createQuery("SELECT t FROM Ticket t WHERE t.idTicket LIKE :patron AND t.fkEstado != 5");
+        q.setParameter("patron",id);
+        return q.getResultList();
+    }
     /**
      * 
      * @return 
@@ -76,6 +86,20 @@ public class TicketServ {
     public List <Tickets> buscarPorUsuarioAsunto(){
         List<Tickets> miLista = jpa.findTicketsEntities();
         List<Tickets> aux = new ArrayList<>();
+        estad = new EstadoServ();
+        
+        for(int i = 0; i < miLista.size(); i ++){
+            if((LoginEJB.usuario.getServiciosList().contains(miLista.get(i).getAsunto()))&&(!miLista.get(i).getFkEstado().equals(estad.traerEstado(5)))){
+                aux.add(miLista.get(i));
+            }
+        }
+        return aux;
+    }
+    
+    public List <Tickets> buscarPorUsuarioAsuntoNoResueltos(){
+        List<Tickets> miLista = jpa.findTicketsEntities();
+        List<Tickets> aux = new ArrayList<>();
+        estad = new EstadoServ();
         
         for(int i = 0; i < miLista.size(); i ++){
             if(LoginEJB.usuario.getServiciosList().contains(miLista.get(i).getAsunto())){

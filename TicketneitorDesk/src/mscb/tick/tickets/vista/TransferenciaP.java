@@ -10,9 +10,13 @@ import javax.swing.JOptionPane;
 import mscb.tick.asuntoPrincipal.servicios.AsuntoPrincipalServ;
 import mscb.tick.asuntoSecundario.servicios.AsuntoSecundarioServ;
 import mscb.tick.entidades.Asuntos;
+import mscb.tick.entidades.RazonesTransferencias;
 import mscb.tick.entidades.Servicios;
 import mscb.tick.entidades.Tickets;
+import mscb.tick.estados.servicios.EstadoServ;
+import mscb.tick.login.servicios.LoginEJB;
 import mscb.tick.main.Main;
+import mscb.tick.razones.servicios.RazoneServ;
 import mscb.tick.tickets.servicios.TicketServ;
 import mscb.tick.util.MenuP;
 
@@ -32,6 +36,8 @@ public class TransferenciaP extends MenuP {
     private List <Asuntos> miListaAP;
     private AsuntoSecundarioServ serviciosSecundario;
     private List <Servicios> miListaAS;
+    private RazoneServ serviciosR;
+    private EstadoServ estad;
     /**
      * Creates new form TransferenciaP
      */
@@ -39,6 +45,9 @@ public class TransferenciaP extends MenuP {
         initComponents();
         panelMisti = MisTickets.getMisTickets(mainFrameO);
         this.mainFrame = mainFrame;
+        serviciosR = new RazoneServ();
+        serviciosT = new TicketServ();
+        estad = new EstadoServ();
         //B es una bandera para que el combobox de asuntos no se cargue cuando entre, sino que cuando selecciones
         b = 0;
         this.miTick = miTick;
@@ -69,7 +78,10 @@ public class TransferenciaP extends MenuP {
     }
     
     private void llenarRazones(){
-        
+        List<RazonesTransferencias> misRazones = serviciosR.traerTodos();
+        for(int i = 0; i < misRazones.size();i++){
+            cmbx_razones.addItem(misRazones.get(i));
+        }
     }
     /**
      * This method is called from within the constructor to initialize the form.
@@ -271,6 +283,7 @@ public class TransferenciaP extends MenuP {
     private void cmbx_asuntoSecundarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbx_asuntoSecundarioActionPerformed
         // TODO add your handling code here:
         cmbx_razones.setVisible(true);
+        cmbx_razones.removeAllItems();
         llenarRazones();
         b++;
     }//GEN-LAST:event_cmbx_asuntoSecundarioActionPerformed
@@ -282,7 +295,14 @@ public class TransferenciaP extends MenuP {
     private void btn_guardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_guardarActionPerformed
         // TODO add your handling code here:
         if(JOptionPane.showConfirmDialog(mainFrame, "Seguro desea transferir?","Confirmar",JOptionPane.YES_NO_OPTION) == 0){
-            
+            miTick.setAsunto((Servicios) cmbx_asuntoSecundario.getSelectedItem());
+            miTick.setFkRazon((RazonesTransferencias) cmbx_razones.getSelectedItem());
+            miTick.setFkUsuarioEmisor(LoginEJB.usuario);
+            miTick.setFkEstado(estad.traerEstado(1));
+            if(serviciosT.modificarTicket(miTick) == 0){
+                JOptionPane.showMessageDialog(this, "Ticket transferido");
+                MisTickets.getMisTickets(mainFrameO).llenarTabla();
+            }
         }
     }//GEN-LAST:event_btn_guardarActionPerformed
 

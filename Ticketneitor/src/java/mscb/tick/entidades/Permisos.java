@@ -34,9 +34,6 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Permisos.findByNombrePermiso", query = "SELECT p FROM Permisos p WHERE p.nombrePermiso = :nombrePermiso")})
 public class Permisos implements Serializable {
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "fkPermiso")
-    private List<Usuarios> usuariosList;
-
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -46,6 +43,8 @@ public class Permisos implements Serializable {
     @Basic(optional = false)
     @Column(name = "nombre_permiso")
     private String nombrePermiso;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "fkPermiso")
+    private List<Usuarios> usuariosList;
 
     public Permisos() {
     }
@@ -75,6 +74,15 @@ public class Permisos implements Serializable {
         this.nombrePermiso = nombrePermiso;
     }
 
+    @XmlTransient
+    public List<Usuarios> getUsuariosList() {
+        return usuariosList;
+    }
+
+    public void setUsuariosList(List<Usuarios> usuariosList) {
+        this.usuariosList = usuariosList;
+    }
+
     @Override
     public int hashCode() {
         int hash = 0;
@@ -98,15 +106,6 @@ public class Permisos implements Serializable {
     @Override
     public String toString() {
         return this.nombrePermiso;
-    }
-
-    @XmlTransient
-    public List<Usuarios> getUsuariosList() {
-        return usuariosList;
-    }
-
-    public void setUsuariosList(List<Usuarios> usuariosList) {
-        this.usuariosList = usuariosList;
     }
     
 }

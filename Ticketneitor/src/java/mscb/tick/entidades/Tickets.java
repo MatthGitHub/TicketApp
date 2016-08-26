@@ -7,6 +7,7 @@ package mscb.tick.entidades;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -18,11 +19,13 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
@@ -39,13 +42,6 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Tickets.findByObservacion", query = "SELECT t FROM Tickets t WHERE t.observacion = :observacion"),
     @NamedQuery(name = "Tickets.findByRespuesta", query = "SELECT t FROM Tickets t WHERE t.respuesta = :respuesta")})
 public class Tickets implements Serializable {
-
-    @JoinColumn(name = "fk_estado", referencedColumnName = "id_estado")
-    @ManyToOne
-    private Estados fkEstado;
-    @JoinColumn(name = "fk_area_sistemas", referencedColumnName = "id_area_sistemas")
-    @ManyToOne(optional = false)
-    private AreaSistemas fkAreaSistemas;
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -65,20 +61,33 @@ public class Tickets implements Serializable {
     private String observacion;
     @Column(name = "respuesta")
     private String respuesta;
-    @OneToOne(cascade = CascadeType.ALL, mappedBy = "tickets")
-    private Respuestas respuestas;
+    @JoinColumn(name = "fk_razon", referencedColumnName = "id_razon")
+    @ManyToOne
+    private RazonesTransferencias fkRazon;
     @JoinColumn(name = "fk_area_emisor", referencedColumnName = "id_area")
     @ManyToOne(optional = false)
     private Areas fkAreaEmisor;
+    @JoinColumn(name = "fk_estado", referencedColumnName = "id_estado")
+    @ManyToOne
+    private Estados fkEstado;
     @JoinColumn(name = "fk_usuario_emisor", referencedColumnName = "id_usuario")
     @ManyToOne(optional = false)
     private Usuarios fkUsuarioEmisor;
     @JoinColumn(name = "usuario_receptor", referencedColumnName = "id_usuario")
     @ManyToOne
     private Usuarios usuarioReceptor;
+    @JoinColumn(name = "fk_area_sistemas", referencedColumnName = "id_area_sistemas")
+    @ManyToOne
+    private AreaSistemas fkAreaSistemas;
     @JoinColumn(name = "asunto", referencedColumnName = "id_asuntoS")
     @ManyToOne(optional = false)
     private Servicios asunto;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "fkTicket")
+    private List<BaseConocimiento> baseConocimientoList;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "fkTicket")
+    private List<HistorialTickets> historialTicketsList;
+    @OneToOne(cascade = CascadeType.ALL, mappedBy = "tickets")
+    private Respuestas respuestas;
 
     public Tickets() {
     }
@@ -133,12 +142,12 @@ public class Tickets implements Serializable {
         this.respuesta = respuesta;
     }
 
-    public Respuestas getRespuestas() {
-        return respuestas;
+    public RazonesTransferencias getFkRazon() {
+        return fkRazon;
     }
 
-    public void setRespuestas(Respuestas respuestas) {
-        this.respuestas = respuestas;
+    public void setFkRazon(RazonesTransferencias fkRazon) {
+        this.fkRazon = fkRazon;
     }
 
     public Areas getFkAreaEmisor() {
@@ -147,6 +156,14 @@ public class Tickets implements Serializable {
 
     public void setFkAreaEmisor(Areas fkAreaEmisor) {
         this.fkAreaEmisor = fkAreaEmisor;
+    }
+
+    public Estados getFkEstado() {
+        return fkEstado;
+    }
+
+    public void setFkEstado(Estados fkEstado) {
+        this.fkEstado = fkEstado;
     }
 
     public Usuarios getFkUsuarioEmisor() {
@@ -165,12 +182,46 @@ public class Tickets implements Serializable {
         this.usuarioReceptor = usuarioReceptor;
     }
 
+    public AreaSistemas getFkAreaSistemas() {
+        return fkAreaSistemas;
+    }
+
+    public void setFkAreaSistemas(AreaSistemas fkAreaSistemas) {
+        this.fkAreaSistemas = fkAreaSistemas;
+    }
+
     public Servicios getAsunto() {
         return asunto;
     }
 
     public void setAsunto(Servicios asunto) {
         this.asunto = asunto;
+    }
+
+    @XmlTransient
+    public List<BaseConocimiento> getBaseConocimientoList() {
+        return baseConocimientoList;
+    }
+
+    public void setBaseConocimientoList(List<BaseConocimiento> baseConocimientoList) {
+        this.baseConocimientoList = baseConocimientoList;
+    }
+
+    @XmlTransient
+    public List<HistorialTickets> getHistorialTicketsList() {
+        return historialTicketsList;
+    }
+
+    public void setHistorialTicketsList(List<HistorialTickets> historialTicketsList) {
+        this.historialTicketsList = historialTicketsList;
+    }
+
+    public Respuestas getRespuestas() {
+        return respuestas;
+    }
+
+    public void setRespuestas(Respuestas respuestas) {
+        this.respuestas = respuestas;
     }
 
     @Override
@@ -196,22 +247,6 @@ public class Tickets implements Serializable {
     @Override
     public String toString() {
         return this.idTicket.toString();
-    }
-
-    public Estados getFkEstado() {
-        return fkEstado;
-    }
-
-    public void setFkEstado(Estados fkEstado) {
-        this.fkEstado = fkEstado;
-    }
-
-    public AreaSistemas getFkAreaSistemas() {
-        return fkAreaSistemas;
-    }
-
-    public void setFkAreaSistemas(AreaSistemas fkAreaSistemas) {
-        this.fkAreaSistemas = fkAreaSistemas;
     }
     
 }

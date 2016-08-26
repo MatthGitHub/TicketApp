@@ -71,6 +71,8 @@ public class MenuPrincipal extends MenuP {
         jLabel3 = new javax.swing.JLabel();
         lblNombreUsuario = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
+        btn_admRazones = new javax.swing.JToggleButton();
+        btn_conocimiento = new javax.swing.JToggleButton();
 
         setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Ticketneitar", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Bradley Hand ITC", 0, 24), java.awt.Color.white)); // NOI18N
 
@@ -140,7 +142,7 @@ public class MenuPrincipal extends MenuP {
 
         btn_asignar.setBackground(new java.awt.Color(0, 102, 204));
         btn_asignar.setForeground(new java.awt.Color(255, 255, 255));
-        btn_asignar.setText("asignar asuntos");
+        btn_asignar.setText("asignar servicios a usuario");
         btn_asignar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btn_asignarActionPerformed(evt);
@@ -167,7 +169,7 @@ public class MenuPrincipal extends MenuP {
 
         btn_admAsunSec.setBackground(new java.awt.Color(0, 102, 204));
         btn_admAsunSec.setForeground(new java.awt.Color(255, 255, 255));
-        btn_admAsunSec.setText("administrar asuntos secundarios");
+        btn_admAsunSec.setText("administrar servicios");
         btn_admAsunSec.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btn_admAsunSecActionPerformed(evt);
@@ -193,6 +195,24 @@ public class MenuPrincipal extends MenuP {
         jLabel5.setForeground(new java.awt.Color(255, 255, 255));
         jLabel5.setText("Administracion");
 
+        btn_admRazones.setBackground(new java.awt.Color(0, 102, 204));
+        btn_admRazones.setForeground(new java.awt.Color(255, 255, 255));
+        btn_admRazones.setText("administrar razones de transf");
+        btn_admRazones.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_admRazonesActionPerformed(evt);
+            }
+        });
+
+        btn_conocimiento.setBackground(new java.awt.Color(0, 102, 204));
+        btn_conocimiento.setForeground(new java.awt.Color(255, 255, 255));
+        btn_conocimiento.setText("base de conocimiento");
+        btn_conocimiento.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_conocimientoActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -204,7 +224,7 @@ public class MenuPrincipal extends MenuP {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(btn_salir, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 149, Short.MAX_VALUE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 239, Short.MAX_VALUE)
                                 .addComponent(btn_logout, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(146, 146, 146)
                                 .addComponent(btn_cambiarClave, javax.swing.GroupLayout.PREFERRED_SIZE, 137, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -213,7 +233,8 @@ public class MenuPrincipal extends MenuP {
                                 .addGap(65, 65, 65)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(btn_admTick, javax.swing.GroupLayout.PREFERRED_SIZE, 205, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(btn_asignar, javax.swing.GroupLayout.PREFERRED_SIZE, 205, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addComponent(btn_asignar, javax.swing.GroupLayout.PREFERRED_SIZE, 205, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(btn_conocimiento, javax.swing.GroupLayout.PREFERRED_SIZE, 205, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addGap(0, 0, Short.MAX_VALUE)))
                         .addContainerGap())
                     .addGroup(layout.createSequentialGroup()
@@ -222,9 +243,9 @@ public class MenuPrincipal extends MenuP {
                             .addGroup(layout.createSequentialGroup()
                                 .addGap(8, 8, 8)
                                 .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 185, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(65, 65, 65)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
-                                .addGap(65, 65, 65)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                                     .addComponent(btn_admusu, javax.swing.GroupLayout.PREFERRED_SIZE, 205, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 185, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -234,11 +255,11 @@ public class MenuPrincipal extends MenuP {
                                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                                         .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 185, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addGap(12, 12, 12))
-                                    .addComponent(btn_admAsunSec, javax.swing.GroupLayout.PREFERRED_SIZE, 205, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(btn_admAsunSec, javax.swing.GroupLayout.PREFERRED_SIZE, 205, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(btn_admRazones, javax.swing.GroupLayout.PREFERRED_SIZE, 205, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addGroup(layout.createSequentialGroup()
                                 .addComponent(lblNombreUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 185, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(220, 220, 220)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addComponent(btn_info))))))
         );
         layout.setVerticalGroup(
@@ -246,10 +267,8 @@ public class MenuPrincipal extends MenuP {
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(btn_info, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(lblNombreUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(28, 28, 28)
+                    .addComponent(lblNombreUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
                     .addComponent(jLabel2)
@@ -266,8 +285,12 @@ public class MenuPrincipal extends MenuP {
                     .addComponent(btn_asignar, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btn_admAsunSec, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
-                .addComponent(btn_admTick, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 64, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btn_admTick, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btn_admRazones, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addComponent(btn_conocimiento, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 135, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btn_salir, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btn_logout, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -346,14 +369,24 @@ public class MenuPrincipal extends MenuP {
         mainFrame.asuntoSecundarios();
     }//GEN-LAST:event_btn_admAsunSecActionPerformed
 
+    private void btn_admRazonesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_admRazonesActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btn_admRazonesActionPerformed
+
+    private void btn_conocimientoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_conocimientoActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btn_conocimientoActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JToggleButton btn_admAsun;
     private javax.swing.JToggleButton btn_admAsunSec;
+    private javax.swing.JToggleButton btn_admRazones;
     private javax.swing.JToggleButton btn_admTick;
     private javax.swing.JToggleButton btn_admusu;
     private javax.swing.JToggleButton btn_asignar;
     private javax.swing.JToggleButton btn_cambiarClave;
+    private javax.swing.JToggleButton btn_conocimiento;
     private javax.swing.JToggleButton btn_info;
     private javax.swing.JToggleButton btn_logout;
     private javax.swing.JToggleButton btn_misTickets;

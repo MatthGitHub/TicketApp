@@ -11,9 +11,6 @@ import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import mscb.tick.entidades.Tickets;
 import mscb.tick.login.servicios.LoginEJB;
-import mscb.tick.main.Main;
-import mscb.tick.tickets.vista.MisTickets;
-import mscb.tick.tickets.vista.TicketsV;
 
 /**
  *

@@ -158,6 +158,10 @@ public class TicketsV extends MenuP {
         txt_id = new javax.swing.JTextField();
         btn_eliminar = new javax.swing.JToggleButton();
         btn_respuesta = new javax.swing.JToggleButton();
+        btn_eliminar1 = new javax.swing.JToggleButton();
+        btn_eliminar2 = new javax.swing.JToggleButton();
+        btn_eliminar3 = new javax.swing.JToggleButton();
+        btn_observacion1 = new javax.swing.JToggleButton();
 
         btn_obs.setText("jButton1");
         btn_obs.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -173,7 +177,7 @@ public class TicketsV extends MenuP {
 
             },
             new String [] {
-                "Nº Ticket", "Fecha", "Area Emisor", "Usuario Emisor", "Area Receptora", "Asunto", "Usuario receptor"
+                "Nº Ticket", "Fecha", "Area Emisor", "Usuario Emisor", "Estado", "Asunto", "Usuario receptor"
             }
         ) {
             Class[] types = new Class [] {
@@ -193,7 +197,8 @@ public class TicketsV extends MenuP {
         });
         jScrollPane1.setViewportView(jt_tickets);
         if (jt_tickets.getColumnModel().getColumnCount() > 0) {
-            jt_tickets.getColumnModel().getColumn(0).setPreferredWidth(20);
+            jt_tickets.getColumnModel().getColumn(0).setMinWidth(15);
+            jt_tickets.getColumnModel().getColumn(0).setPreferredWidth(15);
             jt_tickets.getColumnModel().getColumn(1).setPreferredWidth(25);
             jt_tickets.getColumnModel().getColumn(3).setPreferredWidth(40);
             jt_tickets.getColumnModel().getColumn(5).setPreferredWidth(150);
@@ -273,6 +278,42 @@ public class TicketsV extends MenuP {
             }
         });
 
+        btn_eliminar1.setBackground(new java.awt.Color(0, 102, 204));
+        btn_eliminar1.setForeground(new java.awt.Color(255, 255, 255));
+        btn_eliminar1.setText("tranferir");
+        btn_eliminar1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_eliminar1ActionPerformed(evt);
+            }
+        });
+
+        btn_eliminar2.setBackground(new java.awt.Color(0, 102, 204));
+        btn_eliminar2.setForeground(new java.awt.Color(255, 255, 255));
+        btn_eliminar2.setText("cambiar estado");
+        btn_eliminar2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_eliminar2ActionPerformed(evt);
+            }
+        });
+
+        btn_eliminar3.setBackground(new java.awt.Color(0, 102, 204));
+        btn_eliminar3.setForeground(new java.awt.Color(255, 255, 255));
+        btn_eliminar3.setText("responder");
+        btn_eliminar3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_eliminar3ActionPerformed(evt);
+            }
+        });
+
+        btn_observacion1.setBackground(new java.awt.Color(0, 102, 204));
+        btn_observacion1.setForeground(new java.awt.Color(255, 255, 255));
+        btn_observacion1.setText("ver historial");
+        btn_observacion1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_observacion1ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -280,19 +321,26 @@ public class TicketsV extends MenuP {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane1)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 852, Short.MAX_VALUE)
-                        .addContainerGap())
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(10, 10, 10)
-                        .addComponent(btn_salir, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(110, 110, 110)
-                        .addComponent(btn_observacion, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(40, 40, 40)
-                        .addComponent(btn_respuesta, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(btn_eliminar, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(75, 75, 75))))
+                        .addComponent(btn_salir)
+                        .addGap(60, 60, 60)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(btn_observacion)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(btn_respuesta, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(btn_observacion1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(btn_eliminar)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btn_eliminar1)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btn_eliminar2)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btn_eliminar3)
+                        .addGap(0, 20, Short.MAX_VALUE)))
+                .addContainerGap())
             .addGroup(layout.createSequentialGroup()
                 .addGap(21, 21, 21)
                 .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 66, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -316,12 +364,17 @@ public class TicketsV extends MenuP {
                         .addComponent(txt_buscar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 337, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 93, Short.MAX_VALUE)
+                .addComponent(btn_observacion1, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btn_salir, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btn_observacion, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btn_eliminar, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btn_respuesta, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(btn_respuesta, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btn_eliminar1, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btn_eliminar2, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btn_eliminar3, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap())
         );
     }// </editor-fold>//GEN-END:initComponents
@@ -387,10 +440,30 @@ public class TicketsV extends MenuP {
         }
     }//GEN-LAST:event_btn_respuestaActionPerformed
 
+    private void btn_eliminar1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_eliminar1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btn_eliminar1ActionPerformed
+
+    private void btn_eliminar2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_eliminar2ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btn_eliminar2ActionPerformed
+
+    private void btn_eliminar3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_eliminar3ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btn_eliminar3ActionPerformed
+
+    private void btn_observacion1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_observacion1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btn_observacion1ActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JToggleButton btn_eliminar;
+    private javax.swing.JToggleButton btn_eliminar1;
+    private javax.swing.JToggleButton btn_eliminar2;
+    private javax.swing.JToggleButton btn_eliminar3;
     private javax.swing.JButton btn_obs;
     private javax.swing.JToggleButton btn_observacion;
+    private javax.swing.JToggleButton btn_observacion1;
     private javax.swing.JToggleButton btn_respuesta;
     private javax.swing.JToggleButton btn_salir;
     private javax.swing.JLabel jLabel1;
