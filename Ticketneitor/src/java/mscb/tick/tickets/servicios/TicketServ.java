@@ -49,7 +49,7 @@ public class TicketServ {
         EntityManager em = emf.createEntityManager();
         
         q = em.createQuery("SELECT DISTINCT t "
-                + "FROM Ticket t "
+                + "FROM Tickets t "
                 + "JOIN t.asunto a "
                 + "JOIN a.pertenece a2 "
                 + "JOIN t.fkAreaEmisor ae "
@@ -67,7 +67,7 @@ public class TicketServ {
     public List <Tickets> buscar(int id){
         EntityManager em = emf.createEntityManager();
         
-        q = em.createQuery("SELECT t FROM Ticket t WHERE t.idTicket LIKE :patron");
+        q = em.createQuery("SELECT t FROM Tickets t WHERE t.idTicket LIKE :patron");
         q.setParameter("patron",id);
         return q.getResultList();
     }
@@ -75,7 +75,7 @@ public class TicketServ {
     public List <Tickets> buscarNoResueltos(int id){
         EntityManager em = emf.createEntityManager();
         
-        q = em.createQuery("SELECT t FROM Ticket t WHERE t.idTicket LIKE :patron AND t.fkEstado != 5");
+        q = em.createQuery("SELECT t FROM Tickets t WHERE t.idTicket LIKE :patron AND t.fkEstado != 5");
         q.setParameter("patron",id);
         return q.getResultList();
     }

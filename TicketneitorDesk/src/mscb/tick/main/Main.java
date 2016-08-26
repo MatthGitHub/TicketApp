@@ -332,7 +332,7 @@ public class Main extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setUndecorated(true);
 
-        btn_mini.setBackground(new java.awt.Color(0, 102, 204));
+        btn_mini.setBackground(new java.awt.Color(153, 153, 0));
         btn_mini.setText("-");
         btn_mini.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -340,19 +340,19 @@ public class Main extends javax.swing.JFrame {
             }
         });
 
-        btn_mover.setBackground(new java.awt.Color(0, 102, 204));
+        btn_mover.setBackground(new java.awt.Color(0, 153, 153));
         btn_mover.setText("+");
-        btn_mover.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mousePressed(java.awt.event.MouseEvent evt) {
-                btn_moverMousePressed(evt);
-            }
-        });
         btn_mover.addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
             public void mouseDragged(java.awt.event.MouseEvent evt) {
                 btn_moverMouseDragged(evt);
             }
             public void mouseMoved(java.awt.event.MouseEvent evt) {
                 btn_moverMouseMoved(evt);
+            }
+        });
+        btn_mover.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                btn_moverMousePressed(evt);
             }
         });
         btn_mover.addActionListener(new java.awt.event.ActionListener() {

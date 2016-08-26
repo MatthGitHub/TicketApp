@@ -105,9 +105,8 @@ public class Login extends JPanel {
             }
         });
 
-        btn_salir.setBackground(new java.awt.Color(0, 102, 204));
+        btn_salir.setBackground(new java.awt.Color(153, 153, 153));
         btn_salir.setFont(new java.awt.Font("Comic Sans MS", 1, 14)); // NOI18N
-        btn_salir.setForeground(new java.awt.Color(255, 255, 255));
         btn_salir.setText("salir");
         btn_salir.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -118,16 +117,14 @@ public class Login extends JPanel {
         pswr_clave.setBackground(new java.awt.Color(0, 102, 204));
         pswr_clave.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         pswr_clave.setForeground(new java.awt.Color(255, 255, 255));
-        pswr_clave.setText("jPasswordField1");
         pswr_clave.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 pswr_claveActionPerformed(evt);
             }
         });
 
-        btn_entrar.setBackground(new java.awt.Color(0, 102, 204));
+        btn_entrar.setBackground(new java.awt.Color(153, 153, 153));
         btn_entrar.setFont(new java.awt.Font("Comic Sans MS", 1, 14)); // NOI18N
-        btn_entrar.setForeground(new java.awt.Color(255, 255, 255));
         btn_entrar.setText("entrar");
         btn_entrar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {

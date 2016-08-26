@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 25-08-2016 a las 15:28:42
+-- Tiempo de generación: 26-08-2016 a las 14:54:43
 -- Versión del servidor: 5.7.11
 -- Versión de PHP: 5.6.19
 
@@ -2641,7 +2641,8 @@ INSERT INTO `empleados` (`id_empleado`, `nombre`, `apellido`, `documento`, `fk_a
 (2847, ' daniela', 'hefner', '37347228', 110, 90106),
 (2848, 'marcela vanina', 'maldonado', '31662910', 11, 14329),
 (2849, 'elsa dominga', 'rosales', '16162937', 9160, 13578),
-(2850, 'lorena beatriz', 'prado', '30391867', 9160, 14237);
+(2850, 'lorena beatriz', 'prado', '30391867', 9160, 14237),
+(2851, 'estefania', 'klein', '32768591', 38, 4);
 
 -- --------------------------------------------------------
 
@@ -2682,7 +2683,13 @@ INSERT INTO `encargado_servicios` (`usuario`, `asunto`) VALUES
 (6, 11),
 (6, 12),
 (4, 7),
-(4, 8);
+(4, 8),
+(11, 25),
+(11, 2),
+(11, 1),
+(12, 11),
+(12, 12),
+(10, 22);
 
 -- --------------------------------------------------------
 
@@ -2718,6 +2725,20 @@ CREATE TABLE `historial_tickets` (
   `fk_usuario_receptor` int(11) DEFAULT NULL,
   `fecha` date NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Volcado de datos para la tabla `historial_tickets`
+--
+
+INSERT INTO `historial_tickets` (`id_historial`, `fk_ticket`, `fk_usuario_emisor`, `fk_usuario_receptor`, `fecha`) VALUES
+(1, 1, 3, NULL, '2016-08-26'),
+(2, 2, 3, NULL, '2016-08-26'),
+(3, 3, 3, 4, '2016-08-26'),
+(4, 4, 3, NULL, '2016-08-26'),
+(5, 5, 3, NULL, '2016-08-26'),
+(7, 7, 3, NULL, '2016-08-26'),
+(8, 8, 3, NULL, '2016-08-26'),
+(9, 10, 8, NULL, '2016-08-26');
 
 -- --------------------------------------------------------
 
@@ -2826,6 +2847,21 @@ CREATE TABLE `tickets` (
   `fk_razon` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish2_ci;
 
+--
+-- Volcado de datos para la tabla `tickets`
+--
+
+INSERT INTO `tickets` (`id_ticket`, `fecha`, `hora`, `fk_area_emisor`, `fk_usuario_emisor`, `fk_area_sistemas`, `asunto`, `observacion`, `usuario_receptor`, `respuesta`, `fk_estado`, `fk_razon`) VALUES
+(1, '2016-08-26', '2016-08-26 15:34:11', 38, 3, NULL, 4, '', NULL, NULL, 2, NULL),
+(2, '2016-08-26', '2016-08-26 15:46:58', 38, 4, NULL, 23, 'asdasdasd', 4, 'no rompas\n', 2, NULL),
+(3, '2016-08-26', '2016-08-26 15:50:58', 38, 4, NULL, 13, 'asdasdasd', 4, NULL, 2, NULL),
+(4, '2016-08-26', '2016-08-26 15:50:59', 38, 3, NULL, 6, 'asdasfasgas', NULL, NULL, 2, NULL),
+(5, '2016-08-26', '2016-08-26 16:24:32', 38, 3, NULL, 2, 'mati se la c....', NULL, NULL, 2, NULL),
+(7, '2016-08-26', '2016-08-26 16:43:14', 38, 3, NULL, 1, 'no  leegaaa - Numero de interno: 145', NULL, NULL, 2, NULL),
+(8, '2016-08-26', '2016-08-26 16:43:14', 38, 3, NULL, 1, 'Dale mostri - Numero de interno: 145', NULL, NULL, 2, NULL),
+(9, '2016-08-26', '2016-08-26 16:55:13', 38, 10, 1, 10, 'El numero de cedulon es 12313213213213', 10, NULL, 2, NULL),
+(10, '2016-08-26', '2016-08-26 17:40:38', 38, 8, NULL, 10, 'aaaaaaaaaaaaaah! - Numero de interno: 111', NULL, NULL, 2, NULL);
+
 -- --------------------------------------------------------
 
 --
@@ -2868,7 +2904,13 @@ CREATE TABLE `usuarios` (
 INSERT INTO `usuarios` (`id_usuario`, `nombre_usuario`, `contrasenia`, `fk_empleado`, `activo`, `fk_permiso`, `id_extreme`) VALUES
 (3, 'mbenditti', '090c36e3bb39377468363197afb3e91b', 1, 1, 1, NULL),
 (4, 'gdinardo', '4c96f8324e3ba54a99e78249b95daa30', 146, 1, 1, NULL),
-(6, 'dalvarez', 'aa47f8215c6f30a0dcdb2a36a9f4168e', 2555, 1, 2, NULL);
+(6, 'dalvarez', 'aa47f8215c6f30a0dcdb2a36a9f4168e', 2555, 1, 2, NULL),
+(7, 'ekayser', '6b5b0dd03c9c85725032ce5f3a0918ae', 1637, 1, 2, NULL),
+(8, 'avarano', 'e94ef563867e9c9df3fcc999bdb045f5', 113, 1, 1, NULL),
+(9, 'hectorac', '3ab9071536d62f29aa8b3fd39141f6ad', 199, 1, 1, NULL),
+(10, 'eklein', '05d4be078abfb95ae07395971051c2f1', 2851, 1, 1, NULL),
+(11, 'gcastro', '4c96f8324e3ba54a99e78249b95daa30', 2023, 1, 1, NULL),
+(12, 'etomatis', '6d6354ece40846bf7fca65dfabd5d9d4', 1177, 1, 1, NULL);
 
 --
 -- Índices para tablas volcadas
@@ -3010,7 +3052,7 @@ ALTER TABLE `base_conocimiento`
 -- AUTO_INCREMENT de la tabla `empleados`
 --
 ALTER TABLE `empleados`
-  MODIFY `id_empleado` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2851;
+  MODIFY `id_empleado` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2852;
 --
 -- AUTO_INCREMENT de la tabla `estados`
 --
@@ -3020,7 +3062,7 @@ ALTER TABLE `estados`
 -- AUTO_INCREMENT de la tabla `historial_tickets`
 --
 ALTER TABLE `historial_tickets`
-  MODIFY `id_historial` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_historial` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 --
 -- AUTO_INCREMENT de la tabla `permisos`
 --
@@ -3040,7 +3082,7 @@ ALTER TABLE `servicios`
 -- AUTO_INCREMENT de la tabla `tickets`
 --
 ALTER TABLE `tickets`
-  MODIFY `id_ticket` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=74;
+  MODIFY `id_ticket` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 --
 -- AUTO_INCREMENT de la tabla `tipo_usuario`
 --
@@ -3050,7 +3092,7 @@ ALTER TABLE `tipo_usuario`
 -- AUTO_INCREMENT de la tabla `usuarios`
 --
 ALTER TABLE `usuarios`
-  MODIFY `id_usuario` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id_usuario` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 --
 -- Restricciones para tablas volcadas
 --
