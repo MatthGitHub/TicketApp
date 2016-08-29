@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 26-08-2016 a las 14:54:43
+-- Tiempo de generación: 29-08-2016 a las 15:27:16
 -- Versión del servidor: 5.7.11
 -- Versión de PHP: 5.6.19
 
@@ -2689,7 +2689,8 @@ INSERT INTO `encargado_servicios` (`usuario`, `asunto`) VALUES
 (11, 1),
 (12, 11),
 (12, 12),
-(10, 22);
+(10, 22),
+(8, 10);
 
 -- --------------------------------------------------------
 
@@ -2710,7 +2711,51 @@ INSERT INTO `estados` (`id_estado`, `nombre`) VALUES
 (1, 'Enviado'),
 (2, 'Recibido'),
 (3, 'En espera'),
-(4, 'Respondido');
+(4, 'Respondido'),
+(5, 'Resuelto'),
+(6, 'En trabajo'),
+(7, 'Eliminado');
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `estados_pgm`
+--
+
+CREATE TABLE `estados_pgm` (
+  `id_estado` int(11) NOT NULL,
+  `estado` varchar(15) COLLATE utf8_spanish2_ci NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish2_ci;
+
+--
+-- Volcado de datos para la tabla `estados_pgm`
+--
+
+INSERT INTO `estados_pgm` (`id_estado`, `estado`) VALUES
+(1, 'Excelente'),
+(2, 'Bien'),
+(3, 'Lento'),
+(4, 'Bloqueado'),
+(5, 'Reiniciando');
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `estado_actual_pgm`
+--
+
+CREATE TABLE `estado_actual_pgm` (
+  `id` int(11) NOT NULL,
+  `fk_estado_pgm` int(11) NOT NULL,
+  `fecha` timestamp NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish2_ci;
+
+--
+-- Volcado de datos para la tabla `estado_actual_pgm`
+--
+
+INSERT INTO `estado_actual_pgm` (`id`, `fk_estado_pgm`, `fecha`) VALUES
+(1, 1, '2016-08-29 18:26:12');
 
 -- --------------------------------------------------------
 
@@ -2725,20 +2770,6 @@ CREATE TABLE `historial_tickets` (
   `fk_usuario_receptor` int(11) DEFAULT NULL,
   `fecha` date NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
---
--- Volcado de datos para la tabla `historial_tickets`
---
-
-INSERT INTO `historial_tickets` (`id_historial`, `fk_ticket`, `fk_usuario_emisor`, `fk_usuario_receptor`, `fecha`) VALUES
-(1, 1, 3, NULL, '2016-08-26'),
-(2, 2, 3, NULL, '2016-08-26'),
-(3, 3, 3, 4, '2016-08-26'),
-(4, 4, 3, NULL, '2016-08-26'),
-(5, 5, 3, NULL, '2016-08-26'),
-(7, 7, 3, NULL, '2016-08-26'),
-(8, 8, 3, NULL, '2016-08-26'),
-(9, 10, 8, NULL, '2016-08-26');
 
 -- --------------------------------------------------------
 
@@ -2847,21 +2878,6 @@ CREATE TABLE `tickets` (
   `fk_razon` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish2_ci;
 
---
--- Volcado de datos para la tabla `tickets`
---
-
-INSERT INTO `tickets` (`id_ticket`, `fecha`, `hora`, `fk_area_emisor`, `fk_usuario_emisor`, `fk_area_sistemas`, `asunto`, `observacion`, `usuario_receptor`, `respuesta`, `fk_estado`, `fk_razon`) VALUES
-(1, '2016-08-26', '2016-08-26 15:34:11', 38, 3, NULL, 4, '', NULL, NULL, 2, NULL),
-(2, '2016-08-26', '2016-08-26 15:46:58', 38, 4, NULL, 23, 'asdasdasd', 4, 'no rompas\n', 2, NULL),
-(3, '2016-08-26', '2016-08-26 15:50:58', 38, 4, NULL, 13, 'asdasdasd', 4, NULL, 2, NULL),
-(4, '2016-08-26', '2016-08-26 15:50:59', 38, 3, NULL, 6, 'asdasfasgas', NULL, NULL, 2, NULL),
-(5, '2016-08-26', '2016-08-26 16:24:32', 38, 3, NULL, 2, 'mati se la c....', NULL, NULL, 2, NULL),
-(7, '2016-08-26', '2016-08-26 16:43:14', 38, 3, NULL, 1, 'no  leegaaa - Numero de interno: 145', NULL, NULL, 2, NULL),
-(8, '2016-08-26', '2016-08-26 16:43:14', 38, 3, NULL, 1, 'Dale mostri - Numero de interno: 145', NULL, NULL, 2, NULL),
-(9, '2016-08-26', '2016-08-26 16:55:13', 38, 10, 1, 10, 'El numero de cedulon es 12313213213213', 10, NULL, 2, NULL),
-(10, '2016-08-26', '2016-08-26 17:40:38', 38, 8, NULL, 10, 'aaaaaaaaaaaaaah! - Numero de interno: 111', NULL, NULL, 2, NULL);
-
 -- --------------------------------------------------------
 
 --
@@ -2962,6 +2978,19 @@ ALTER TABLE `estados`
   ADD PRIMARY KEY (`id_estado`);
 
 --
+-- Indices de la tabla `estados_pgm`
+--
+ALTER TABLE `estados_pgm`
+  ADD PRIMARY KEY (`id_estado`);
+
+--
+-- Indices de la tabla `estado_actual_pgm`
+--
+ALTER TABLE `estado_actual_pgm`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `fk_estado_pgm` (`fk_estado_pgm`);
+
+--
 -- Indices de la tabla `historial_tickets`
 --
 ALTER TABLE `historial_tickets`
@@ -3057,7 +3086,12 @@ ALTER TABLE `empleados`
 -- AUTO_INCREMENT de la tabla `estados`
 --
 ALTER TABLE `estados`
-  MODIFY `id_estado` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id_estado` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+--
+-- AUTO_INCREMENT de la tabla `estados_pgm`
+--
+ALTER TABLE `estados_pgm`
+  MODIFY `id_estado` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 --
 -- AUTO_INCREMENT de la tabla `historial_tickets`
 --
@@ -3115,6 +3149,12 @@ ALTER TABLE `empleados`
 ALTER TABLE `encargado_servicios`
   ADD CONSTRAINT `encargado_servicios_ibfk_1` FOREIGN KEY (`usuario`) REFERENCES `usuarios` (`id_usuario`),
   ADD CONSTRAINT `encargado_servicios_ibfk_2` FOREIGN KEY (`asunto`) REFERENCES `servicios` (`id_asuntoS`);
+
+--
+-- Filtros para la tabla `estado_actual_pgm`
+--
+ALTER TABLE `estado_actual_pgm`
+  ADD CONSTRAINT `estado_actual_pgm_ibfk_1` FOREIGN KEY (`fk_estado_pgm`) REFERENCES `estados_pgm` (`id_estado`);
 
 --
 -- Filtros para la tabla `historial_tickets`

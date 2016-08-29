@@ -65,6 +65,7 @@ public class Main extends javax.swing.JFrame {
     private ResponderF responder;
     private RespuestaF respuesta;
     private TransferenciaF transferir;
+    private EstadoPGMF cambiarPgm;
     
     private AsuntosPrin asuntos;
     private NuevoAsuntoFrame nuevoAsunto;
@@ -310,6 +311,16 @@ public class Main extends javax.swing.JFrame {
         }else{
             nuevoAsuntoSec.setVisible(true);
             nuevoAsuntoSec.nuevoAsunto(miAsuntoPP);
+        }
+        revalidate();
+    }
+    
+    public void cambiarEstadoPGM(){
+        if(cambiarPgm == null){
+            cambiarPgm = new EstadoPGMF(this);
+        }else{
+            cambiarPgm.setVisible(true);
+            cambiarPgm.PgmPanel();
         }
         revalidate();
     }

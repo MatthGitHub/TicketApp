@@ -181,6 +181,7 @@ public class MisTickets extends MenuP {
         btn_resuelto = new javax.swing.JToggleButton();
         btn_tomar = new javax.swing.JToggleButton();
         btn_tomar1 = new javax.swing.JToggleButton();
+        btn_volver1 = new javax.swing.JToggleButton();
 
         setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Mis Tickets", javax.swing.border.TitledBorder.RIGHT, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Bradley Hand ITC", 0, 24), java.awt.Color.white)); // NOI18N
 
@@ -243,7 +244,8 @@ public class MisTickets extends MenuP {
             jt_tickets.getColumnModel().getColumn(0).setPreferredWidth(15);
         }
 
-        btn_volver.setBackground(new java.awt.Color(0, 102, 204));
+        btn_volver.setBackground(new java.awt.Color(153, 153, 153));
+        btn_volver.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         btn_volver.setForeground(new java.awt.Color(255, 255, 255));
         btn_volver.setText("volver");
         btn_volver.addActionListener(new java.awt.event.ActionListener() {
@@ -252,7 +254,8 @@ public class MisTickets extends MenuP {
             }
         });
 
-        btn_observacion.setBackground(new java.awt.Color(0, 102, 204));
+        btn_observacion.setBackground(new java.awt.Color(153, 153, 153));
+        btn_observacion.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         btn_observacion.setForeground(new java.awt.Color(255, 255, 255));
         btn_observacion.setText("ver observacion");
         btn_observacion.addActionListener(new java.awt.event.ActionListener() {
@@ -261,7 +264,8 @@ public class MisTickets extends MenuP {
             }
         });
 
-        btn_responder.setBackground(new java.awt.Color(0, 102, 204));
+        btn_responder.setBackground(new java.awt.Color(153, 153, 153));
+        btn_responder.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         btn_responder.setForeground(new java.awt.Color(255, 255, 255));
         btn_responder.setText("responder");
         btn_responder.addActionListener(new java.awt.event.ActionListener() {
@@ -270,7 +274,8 @@ public class MisTickets extends MenuP {
             }
         });
 
-        btn_verResp.setBackground(new java.awt.Color(0, 102, 204));
+        btn_verResp.setBackground(new java.awt.Color(153, 153, 153));
+        btn_verResp.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         btn_verResp.setForeground(new java.awt.Color(255, 255, 255));
         btn_verResp.setText("ver respuestas");
         btn_verResp.addActionListener(new java.awt.event.ActionListener() {
@@ -279,7 +284,8 @@ public class MisTickets extends MenuP {
             }
         });
 
-        btn_transferir.setBackground(new java.awt.Color(0, 102, 204));
+        btn_transferir.setBackground(new java.awt.Color(153, 153, 153));
+        btn_transferir.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         btn_transferir.setForeground(new java.awt.Color(255, 255, 255));
         btn_transferir.setText("transferir");
         btn_transferir.addActionListener(new java.awt.event.ActionListener() {
@@ -293,7 +299,8 @@ public class MisTickets extends MenuP {
         lblNombreUsuario.setForeground(new java.awt.Color(255, 255, 255));
         lblNombreUsuario.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
 
-        btn_enEspera.setBackground(new java.awt.Color(0, 102, 204));
+        btn_enEspera.setBackground(new java.awt.Color(153, 153, 153));
+        btn_enEspera.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         btn_enEspera.setForeground(new java.awt.Color(255, 255, 255));
         btn_enEspera.setText("Poner en espera");
         btn_enEspera.addActionListener(new java.awt.event.ActionListener() {
@@ -302,7 +309,8 @@ public class MisTickets extends MenuP {
             }
         });
 
-        btn_resuelto.setBackground(new java.awt.Color(0, 102, 204));
+        btn_resuelto.setBackground(new java.awt.Color(153, 153, 153));
+        btn_resuelto.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         btn_resuelto.setForeground(new java.awt.Color(255, 255, 255));
         btn_resuelto.setText("marcar resuelto");
         btn_resuelto.addActionListener(new java.awt.event.ActionListener() {
@@ -311,7 +319,8 @@ public class MisTickets extends MenuP {
             }
         });
 
-        btn_tomar.setBackground(new java.awt.Color(0, 102, 204));
+        btn_tomar.setBackground(new java.awt.Color(153, 153, 153));
+        btn_tomar.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         btn_tomar.setForeground(new java.awt.Color(255, 255, 255));
         btn_tomar.setText("tomar ticket");
         btn_tomar.addActionListener(new java.awt.event.ActionListener() {
@@ -320,12 +329,23 @@ public class MisTickets extends MenuP {
             }
         });
 
-        btn_tomar1.setBackground(new java.awt.Color(0, 102, 204));
+        btn_tomar1.setBackground(new java.awt.Color(153, 153, 153));
+        btn_tomar1.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         btn_tomar1.setForeground(new java.awt.Color(255, 255, 255));
         btn_tomar1.setText("refrescar tabla");
         btn_tomar1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btn_tomar1ActionPerformed(evt);
+            }
+        });
+
+        btn_volver1.setBackground(new java.awt.Color(153, 153, 153));
+        btn_volver1.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        btn_volver1.setForeground(new java.awt.Color(255, 255, 255));
+        btn_volver1.setText("cambiar mi clave");
+        btn_volver1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_volver1ActionPerformed(evt);
             }
         });
 
@@ -347,34 +367,37 @@ public class MisTickets extends MenuP {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                         .addComponent(txt_id, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(btn_observacion, javax.swing.GroupLayout.DEFAULT_SIZE, 109, Short.MAX_VALUE)
-                            .addComponent(btn_volver, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btn_verResp, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btn_responder, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(btn_volver, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(btn_volver1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addGap(216, 216, 216))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(btn_observacion, javax.swing.GroupLayout.PREFERRED_SIZE, 153, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(btn_verResp, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(btn_responder, javax.swing.GroupLayout.PREFERRED_SIZE, 126, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(8, 8, 8)))
                         .addComponent(btn_enEspera)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btn_transferir, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(btn_tomar1, javax.swing.GroupLayout.DEFAULT_SIZE, 253, Short.MAX_VALUE)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(btn_resuelto, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(btn_tomar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))))
+                        .addComponent(btn_tomar, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap())))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(btn_transferir, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(btn_resuelto, javax.swing.GroupLayout.PREFERRED_SIZE, 155, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(btn_tomar1, javax.swing.GroupLayout.PREFERRED_SIZE, 221, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(layout.createSequentialGroup()
                     .addContainerGap()
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 768, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addContainerGap(12, Short.MAX_VALUE)))
+                    .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
         );
-
-        layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {btn_observacion, btn_verResp});
-
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
@@ -385,28 +408,28 @@ public class MisTickets extends MenuP {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(txt_buscar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(txt_id, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 376, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 327, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btn_observacion, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btn_responder, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btn_verResp, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btn_transferir, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btn_enEspera, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btn_resuelto, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btn_tomar, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(btn_tomar1, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(26, 26, 26))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(btn_volver, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap())))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btn_tomar1, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btn_resuelto, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btn_transferir, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(33, 33, 33)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btn_volver, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btn_volver1, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap())
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(layout.createSequentialGroup()
                     .addGap(60, 60, 60)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 358, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addContainerGap(132, Short.MAX_VALUE)))
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 307, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addContainerGap(194, Short.MAX_VALUE)))
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -510,7 +533,7 @@ public class MisTickets extends MenuP {
     private void btn_resueltoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_resueltoActionPerformed
         // TODO add your handling code here:
         if((jt_tickets.getSelectedRow() != -1)&&(jt_tickets.getSelectedRowCount() == 1)){
-            if(!modelo.getValueAt(jt_tickets.getSelectedRow(), 4).equals("Resuleto")){
+            if(!modelo.getValueAt(jt_tickets.getSelectedRow(), 4).equals("Resuelto")){
                 Tickets miTicket = serviciosT.buscarUno(Integer.parseInt(modelo.getValueAt(jt_tickets.getSelectedRow(),0).toString()));
                 EstadoServ esta = new EstadoServ();
                 Estados estad = esta.traerEstado(5);
@@ -561,6 +584,8 @@ public class MisTickets extends MenuP {
                 }
                 
             }
+        }else{
+            JOptionPane.showMessageDialog(this, "Debe seleccionar una y solo una fila!");
         }
             
     }//GEN-LAST:event_btn_tomarActionPerformed
@@ -569,6 +594,11 @@ public class MisTickets extends MenuP {
         // TODO add your handling code here:
         llenarTabla();
     }//GEN-LAST:event_btn_tomar1ActionPerformed
+
+    private void btn_volver1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_volver1ActionPerformed
+        // TODO add your handling code here:
+        mainFrame.cambiarClave();
+    }//GEN-LAST:event_btn_volver1ActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -581,6 +611,7 @@ public class MisTickets extends MenuP {
     private javax.swing.JToggleButton btn_transferir;
     private javax.swing.JToggleButton btn_verResp;
     private javax.swing.JToggleButton btn_volver;
+    private javax.swing.JToggleButton btn_volver1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jt_tickets;
     private javax.swing.JLabel lblNombreUsuario;

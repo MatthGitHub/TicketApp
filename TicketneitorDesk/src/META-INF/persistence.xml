@@ -16,6 +16,9 @@
     <class>mscb.tick.entidades.Tickets</class>
     <class>mscb.tick.entidades.TipoUsuario</class>
     <class>mscb.tick.entidades.Usuarios</class>
+    <class>mscb.tick.entidades.EstadoPgm</class>
+    <class>mscb.tick.entidades.EstadoActualPgm</class>
+    <class>mscb.tick.entidades.EstadosPgm</class>
     <properties>
       <property name="javax.persistence.jdbc.url" value="jdbc:mysql://10.20.130.50:3306/ticket?zeroDateTimeBehavior=convertToNull"/>
       <property name="javax.persistence.jdbc.user" value="administrador"/>
