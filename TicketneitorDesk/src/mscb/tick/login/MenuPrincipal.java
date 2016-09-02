@@ -5,9 +5,7 @@
  */
 package mscb.tick.login;
 
-import java.awt.Graphics;
 import java.awt.Image;
-import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import mscb.tick.login.servicios.LoginEJB;
 import mscb.tick.main.Main;

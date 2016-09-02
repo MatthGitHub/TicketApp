@@ -14,6 +14,8 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import javax.persistence.Query;
 import mscb.tick.controladores.TicketsJpaController;
+import mscb.tick.controladores.exceptions.IllegalOrphanException;
+import mscb.tick.controladores.exceptions.NonexistentEntityException;
 import mscb.tick.entidades.Tickets;
 import mscb.tick.estados.servicios.EstadoServ;
 import mscb.tick.login.servicios.LoginEJB;
@@ -59,7 +61,8 @@ public class TicketServ {
                 + "OR a2.nombre LIKE :patron "
                 + "OR ae.nombreArea LIKE :patron "
                 + "OR ue.nombreUsuario LIKE :patron "
-                + "OR asi.nombreArea LIKE :patron");
+                + "OR asi.nombreArea LIKE :patron"
+                + "AND t.fkestado != 7");
         q.setParameter("patron", "%"+ busca+"%");
         return q.getResultList();
     }
@@ -67,7 +70,7 @@ public class TicketServ {
     public List <Tickets> buscar(int id){
         EntityManager em = emf.createEntityManager();
         
-        q = em.createQuery("SELECT t FROM Tickets t WHERE t.idTicket LIKE :patron");
+        q = em.createQuery("SELECT t FROM Tickets t WHERE t.idTicket LIKE :patron AND t.fkEstado != 7");
         q.setParameter("patron",id);
         return q.getResultList();
     }
@@ -75,7 +78,7 @@ public class TicketServ {
     public List <Tickets> buscarNoResueltos(int id){
         EntityManager em = emf.createEntityManager();
         
-        q = em.createQuery("SELECT t FROM Tickets t WHERE t.idTicket LIKE :patron AND t.fkEstado != 5");
+        q = em.createQuery("SELECT t FROM Tickets t WHERE t.idTicket LIKE :patron AND t.fkEstado != 5 AND t.fkEstado != 7");
         q.setParameter("patron",id);
         return q.getResultList();
     }
@@ -89,7 +92,7 @@ public class TicketServ {
         estad = new EstadoServ();
         
         for(int i = 0; i < miLista.size(); i ++){
-            if((LoginEJB.usuario.getServiciosList().contains(miLista.get(i).getAsunto()))&&(!miLista.get(i).getFkEstado().equals(estad.traerEstado(5)))){
+            if((LoginEJB.usuario.getServiciosList().contains(miLista.get(i).getAsunto()))&&(!miLista.get(i).getFkEstado().equals(estad.traerEstado(5)))&&(!miLista.get(i).getFkEstado().equals(estad.traerEstado(7)))){
                 aux.add(miLista.get(i));
             }
         }
@@ -122,5 +125,18 @@ public class TicketServ {
             return 1;
         }
     }
-    
+    public boolean eliminarTicket(int id){
+        try {
+            jpa.destroy(id);
+            return true;
+        } catch (IllegalOrphanException ex) {
+            Logger.getLogger(TicketServ.class.getName()).log(Level.SEVERE, null, ex);
+            System.out.println(ex+" - Error al eliminar ticket");
+            return false;
+        } catch (NonexistentEntityException ex) {
+            Logger.getLogger(TicketServ.class.getName()).log(Level.SEVERE, null, ex);
+            System.out.println(ex+" - Error al eliminar ticket (No existe el ID macho)");
+            return false;
+        }
+    }
 }

@@ -21,6 +21,8 @@ import mscb.tick.tickets.vista.Actualizador;
 import mscb.tick.tickets.vista.MisTickets;
 import mscb.tick.tickets.vista.NuevoTicket;
 import mscb.tick.tickets.vista.ObservacionF;
+import mscb.tick.tickets.vista.ResolucionF;
+import mscb.tick.tickets.vista.ResolucionP;
 import mscb.tick.tickets.vista.ResponderF;
 import mscb.tick.tickets.vista.RespuestaF;
 import mscb.tick.tickets.vista.TicketsV;
@@ -66,6 +68,8 @@ public class Main extends javax.swing.JFrame {
     private RespuestaF respuesta;
     private TransferenciaF transferir;
     private EstadoPGMF cambiarPgm;
+    private ResolucionF resoF;
+    private ResolucionP resoP;
     
     private AsuntosPrin asuntos;
     private NuevoAsuntoFrame nuevoAsunto;
@@ -250,13 +254,29 @@ public class Main extends javax.swing.JFrame {
         }
         revalidate();
     }
-    
+    /**
+     * Ventana para transferir ticket de asunto
+     * @param miTick 
+     */
     public void transferirTicket(Tickets miTick){
         if(transferir == null){
             transferir = new TransferenciaF(miTick, this);
         }else{
             transferir.setVisible(true);
             transferir.TransPanel(miTick);
+        }
+        revalidate();
+    }
+    /**
+     * Abre ventana para escribir la resolucion del ticket
+     * @param miTick 
+     */
+    public void resolucionTicket(Tickets miTick){
+        if(resoF == null){
+            resoF = new ResolucionF(miTick, this);
+        }else{
+            resoF.setVisible(true);
+            resoF.ResolucionM(miTick);
         }
         revalidate();
     }

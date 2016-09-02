@@ -7,14 +7,17 @@ package mscb.tick.tickets.vista;
 
 import java.text.DateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 import mscb.tick.entidades.Estados;
+import mscb.tick.entidades.HistorialTickets;
 import mscb.tick.entidades.Tickets;
 import mscb.tick.estados.servicios.EstadoServ;
+import mscb.tick.historial.servicios.HistorialServ;
 import mscb.tick.main.Main;
 import mscb.tick.tickets.servicios.TicketServ;
 import mscb.tick.util.MenuP;
@@ -28,8 +31,12 @@ public class TicketsV extends MenuP {
     Main mainFrame;
     private static TicketsV estePanel;
     private TicketServ serviciosT;
+    private EstadoServ serviciosE;
+    private HistorialServ serviciosH;
     private List<Tickets> miLista;
     private DefaultTableModel modelo;
+    private HistorialTickets hst;
+    private Date fecha;
     /**
      * Creates new form Tickets
      */
@@ -38,6 +45,8 @@ public class TicketsV extends MenuP {
         modelo = (DefaultTableModel) jt_tickets.getModel();
         miLista = new ArrayList<>();
         serviciosT = new TicketServ();
+        serviciosE = new EstadoServ();
+        serviciosH = new HistorialServ();
         this.mainFrame = mainFrame;
         setSize(800, 600);
         setVisible(true);
@@ -150,18 +159,14 @@ public class TicketsV extends MenuP {
         btn_obs = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         jt_tickets = new javax.swing.JTable();
-        btn_salir = new javax.swing.JToggleButton();
-        btn_observacion = new javax.swing.JToggleButton();
         jLabel1 = new javax.swing.JLabel();
         txt_buscar = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
         txt_id = new javax.swing.JTextField();
-        btn_eliminar = new javax.swing.JToggleButton();
-        btn_respuesta = new javax.swing.JToggleButton();
-        btn_eliminar1 = new javax.swing.JToggleButton();
-        btn_eliminar2 = new javax.swing.JToggleButton();
-        btn_eliminar3 = new javax.swing.JToggleButton();
-        btn_observacion1 = new javax.swing.JToggleButton();
+        btn_volver = new javax.swing.JButton();
+        ver_historial = new javax.swing.JButton();
+        btn_eliminar = new javax.swing.JButton();
+        btn_cambiarEstado = new javax.swing.JButton();
 
         btn_obs.setText("jButton1");
         btn_obs.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -204,24 +209,6 @@ public class TicketsV extends MenuP {
             jt_tickets.getColumnModel().getColumn(5).setPreferredWidth(150);
         }
 
-        btn_salir.setBackground(new java.awt.Color(0, 102, 204));
-        btn_salir.setForeground(new java.awt.Color(255, 255, 255));
-        btn_salir.setText("volver");
-        btn_salir.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btn_salirActionPerformed(evt);
-            }
-        });
-
-        btn_observacion.setBackground(new java.awt.Color(0, 102, 204));
-        btn_observacion.setForeground(new java.awt.Color(255, 255, 255));
-        btn_observacion.setText("ver observacion");
-        btn_observacion.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btn_observacionActionPerformed(evt);
-            }
-        });
-
         jLabel1.setFont(new java.awt.Font("Bradley Hand ITC", 0, 18)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(255, 255, 255));
         jLabel1.setText("Buscar:");
@@ -260,8 +247,26 @@ public class TicketsV extends MenuP {
             }
         });
 
-        btn_eliminar.setBackground(new java.awt.Color(0, 102, 204));
-        btn_eliminar.setForeground(new java.awt.Color(255, 255, 255));
+        btn_volver.setBackground(new java.awt.Color(153, 153, 153));
+        btn_volver.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        btn_volver.setText("volver");
+        btn_volver.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_volverActionPerformed(evt);
+            }
+        });
+
+        ver_historial.setBackground(new java.awt.Color(153, 153, 153));
+        ver_historial.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        ver_historial.setText("ver historial");
+        ver_historial.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ver_historialActionPerformed(evt);
+            }
+        });
+
+        btn_eliminar.setBackground(new java.awt.Color(153, 153, 153));
+        btn_eliminar.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         btn_eliminar.setText("eliminar registro");
         btn_eliminar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -269,48 +274,12 @@ public class TicketsV extends MenuP {
             }
         });
 
-        btn_respuesta.setBackground(new java.awt.Color(0, 102, 204));
-        btn_respuesta.setForeground(new java.awt.Color(255, 255, 255));
-        btn_respuesta.setText("ver respuesta");
-        btn_respuesta.addActionListener(new java.awt.event.ActionListener() {
+        btn_cambiarEstado.setBackground(new java.awt.Color(153, 153, 153));
+        btn_cambiarEstado.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        btn_cambiarEstado.setText("cambiar estado");
+        btn_cambiarEstado.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btn_respuestaActionPerformed(evt);
-            }
-        });
-
-        btn_eliminar1.setBackground(new java.awt.Color(0, 102, 204));
-        btn_eliminar1.setForeground(new java.awt.Color(255, 255, 255));
-        btn_eliminar1.setText("tranferir");
-        btn_eliminar1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btn_eliminar1ActionPerformed(evt);
-            }
-        });
-
-        btn_eliminar2.setBackground(new java.awt.Color(0, 102, 204));
-        btn_eliminar2.setForeground(new java.awt.Color(255, 255, 255));
-        btn_eliminar2.setText("cambiar estado");
-        btn_eliminar2.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btn_eliminar2ActionPerformed(evt);
-            }
-        });
-
-        btn_eliminar3.setBackground(new java.awt.Color(0, 102, 204));
-        btn_eliminar3.setForeground(new java.awt.Color(255, 255, 255));
-        btn_eliminar3.setText("responder");
-        btn_eliminar3.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btn_eliminar3ActionPerformed(evt);
-            }
-        });
-
-        btn_observacion1.setBackground(new java.awt.Color(0, 102, 204));
-        btn_observacion1.setForeground(new java.awt.Color(255, 255, 255));
-        btn_observacion1.setText("ver historial");
-        btn_observacion1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btn_observacion1ActionPerformed(evt);
+                btn_cambiarEstadoActionPerformed(evt);
             }
         });
 
@@ -323,23 +292,13 @@ public class TicketsV extends MenuP {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jScrollPane1)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(btn_salir)
-                        .addGap(60, 60, 60)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(btn_observacion)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(btn_respuesta, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(btn_observacion1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addComponent(btn_volver, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(ver_historial, javax.swing.GroupLayout.PREFERRED_SIZE, 201, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btn_eliminar, javax.swing.GroupLayout.PREFERRED_SIZE, 167, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(btn_eliminar)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btn_eliminar1)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btn_eliminar2)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btn_eliminar3)
-                        .addGap(0, 20, Short.MAX_VALUE)))
+                        .addComponent(btn_cambiarEstado, javax.swing.GroupLayout.PREFERRED_SIZE, 173, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
             .addGroup(layout.createSequentialGroup()
                 .addGap(21, 21, 21)
@@ -350,7 +309,7 @@ public class TicketsV extends MenuP {
                 .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 66, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(txt_id, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
+                .addGap(0, 110, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -363,43 +322,21 @@ public class TicketsV extends MenuP {
                         .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(txt_buscar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 337, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 93, Short.MAX_VALUE)
-                .addComponent(btn_observacion1, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 467, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btn_salir, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btn_observacion, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btn_volver, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(ver_historial, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btn_eliminar, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btn_respuesta, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btn_eliminar1, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btn_eliminar2, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btn_eliminar3, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(btn_cambiarEstado, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap())
         );
     }// </editor-fold>//GEN-END:initComponents
-
-    private void btn_salirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_salirActionPerformed
-        // TODO add your handling code here:
-        this.setVisible(false);
-        mainFrame.menuPrincipal();
-        estePanel = null;
-        System.gc();
-    }//GEN-LAST:event_btn_salirActionPerformed
 
     private void btn_obsMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_obsMouseClicked
         // TODO add your handling code here:
         JOptionPane.showMessageDialog(mainFrame, "funciona");
     }//GEN-LAST:event_btn_obsMouseClicked
-
-    private void btn_observacionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_observacionActionPerformed
-        // TODO add your handling code here:
-        if((jt_tickets.getSelectedRow() != -1)&&(jt_tickets.getSelectedRowCount() == 1)){
-            mainFrame.Observaciones(serviciosT.buscarUno(Integer.parseInt(modelo.getValueAt(jt_tickets.getSelectedRow(), 0).toString())));
-        }else{
-            JOptionPane.showMessageDialog(mainFrame, "Debe seleccionar una y solo una fila!");
-        }
-    }//GEN-LAST:event_btn_observacionActionPerformed
 
     private void txt_buscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txt_buscarActionPerformed
         // TODO add your handling code here:
@@ -426,51 +363,56 @@ public class TicketsV extends MenuP {
         txt_id.setText("");
     }//GEN-LAST:event_txt_idMouseClicked
 
+    private void btn_volverActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_volverActionPerformed
+        // TODO add your handling code here:
+        this.setVisible(false);
+        mainFrame.menuPrincipal();
+        estePanel = null;
+        System.gc();
+    }//GEN-LAST:event_btn_volverActionPerformed
+
+    private void ver_historialActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ver_historialActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_ver_historialActionPerformed
+
     private void btn_eliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_eliminarActionPerformed
         // TODO add your handling code here:
-        JOptionPane.showConfirmDialog(mainFrame, "Opcion no permitida aun", "Error",JOptionPane.CANCEL_OPTION );
+        if((jt_tickets.getSelectedRowCount() != -1)&&(jt_tickets.getSelectedRowCount() < 2)){
+            Tickets miTick = serviciosT.buscarUno(Integer.parseInt(modelo.getValueAt(jt_tickets.getSelectedRow(), 0).toString()));
+            miTick.setFkEstado(serviciosE.traerEstado(7));
+             if(serviciosT.modificarTicket(miTick) == 0){
+                JOptionPane.showMessageDialog(this, "Ticket eliminado");
+                hst = new HistorialTickets();
+                fecha = new Date();
+                hst.setFecha(fecha);
+                hst.setFkTicket(miTick);
+                hst.setFkUsuarioEmisor(miTick.getFkUsuarioEmisor());
+                hst.setFkUsuarioReceptor(miTick.getUsuarioReceptor());
+                serviciosH.nuevo(hst);
+                llenarTabla();
+            }else{
+                JOptionPane.showMessageDialog(this, "Error al eliminar ticket");
+            }
+        }else{
+            JOptionPane.showMessageDialog(this, "Debe seleccionar una y solo una fla!", "Error!", JOptionPane.ERROR_MESSAGE);
+        }
     }//GEN-LAST:event_btn_eliminarActionPerformed
 
-    private void btn_respuestaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_respuestaActionPerformed
+    private void btn_cambiarEstadoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_cambiarEstadoActionPerformed
         // TODO add your handling code here:
-        if((jt_tickets.getSelectedRow() != -1)&&(jt_tickets.getSelectedRowCount() == 1)){
-            mainFrame.verRespuestas(serviciosT.buscarUno(Integer.parseInt(modelo.getValueAt(jt_tickets.getSelectedRow(), 0).toString())));
-        }else{
-            JOptionPane.showMessageDialog(mainFrame, "Debe seleccionar una y solo una fila!");
-        }
-    }//GEN-LAST:event_btn_respuestaActionPerformed
-
-    private void btn_eliminar1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_eliminar1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_btn_eliminar1ActionPerformed
-
-    private void btn_eliminar2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_eliminar2ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_btn_eliminar2ActionPerformed
-
-    private void btn_eliminar3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_eliminar3ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_btn_eliminar3ActionPerformed
-
-    private void btn_observacion1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_observacion1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_btn_observacion1ActionPerformed
+    }//GEN-LAST:event_btn_cambiarEstadoActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JToggleButton btn_eliminar;
-    private javax.swing.JToggleButton btn_eliminar1;
-    private javax.swing.JToggleButton btn_eliminar2;
-    private javax.swing.JToggleButton btn_eliminar3;
+    private javax.swing.JButton btn_cambiarEstado;
+    private javax.swing.JButton btn_eliminar;
     private javax.swing.JButton btn_obs;
-    private javax.swing.JToggleButton btn_observacion;
-    private javax.swing.JToggleButton btn_observacion1;
-    private javax.swing.JToggleButton btn_respuesta;
-    private javax.swing.JToggleButton btn_salir;
+    private javax.swing.JButton btn_volver;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jt_tickets;
     private javax.swing.JTextField txt_buscar;
     private javax.swing.JTextField txt_id;
+    private javax.swing.JButton ver_historial;
     // End of variables declaration//GEN-END:variables
 }

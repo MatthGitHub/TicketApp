@@ -5,6 +5,7 @@
  */
 package mscb.tick.main;
 
+import java.awt.Color;
 import java.util.Date;
 import java.util.List;
 import javax.swing.JOptionPane;
@@ -37,6 +38,7 @@ public class EstadoPGMP extends MenuP {
         serviciosPgm = new EstadosPgmServ();
         serviciosPgmA = new EstadoActualPgmServ();
         lbl_estado.setText(serviciosPgmA.traerEstadoActual(1).getFkEstadoPgm().getEstado());
+        setearColor();
         cargarComboBoxEstados();
     }
     
@@ -54,6 +56,27 @@ public class EstadoPGMP extends MenuP {
         }
     }
     
+    private void setearColor(){
+        int i = serviciosPgmA.traerEstadoActual(1).getFkEstadoPgm().getIdEstado();
+        switch (i) {
+ 
+        case 1:
+            jp_color.setBackground(Color.GREEN);
+            break;
+        case 2:
+            jp_color.setBackground(Color.BLUE);
+            break;
+        case 3:
+            jp_color.setBackground(Color.ORANGE);
+            break;
+        case 4:
+            jp_color.setBackground(Color.RED);
+            break;
+        case 5:
+            jp_color.setBackground(Color.GRAY);
+            break;
+     }
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -69,15 +92,20 @@ public class EstadoPGMP extends MenuP {
         btn_volver = new javax.swing.JButton();
         btn_guardar = new javax.swing.JButton();
         cmbx_estadosPgm = new javax.swing.JComboBox();
+        jp_color = new javax.swing.JPanel();
 
         setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Estado PGM", javax.swing.border.TitledBorder.RIGHT, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Bradley Hand ITC", 0, 24), new java.awt.Color(255, 255, 255))); // NOI18N
+        setForeground(new java.awt.Color(255, 255, 255));
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jLabel1.setForeground(new java.awt.Color(255, 255, 255));
         jLabel1.setText("Estado PGM actual:");
 
         lbl_estado.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        lbl_estado.setForeground(new java.awt.Color(255, 255, 255));
 
         jLabel2.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jLabel2.setForeground(new java.awt.Color(255, 255, 255));
         jLabel2.setText("Cambiar a:");
 
         btn_volver.setBackground(new java.awt.Color(153, 153, 153));
@@ -106,6 +134,17 @@ public class EstadoPGMP extends MenuP {
             }
         });
 
+        javax.swing.GroupLayout jp_colorLayout = new javax.swing.GroupLayout(jp_color);
+        jp_color.setLayout(jp_colorLayout);
+        jp_colorLayout.setHorizontalGroup(
+            jp_colorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 36, Short.MAX_VALUE)
+        );
+        jp_colorLayout.setVerticalGroup(
+            jp_colorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 33, Short.MAX_VALUE)
+        );
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -114,27 +153,32 @@ public class EstadoPGMP extends MenuP {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(btn_volver)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 67, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(btn_guardar))
                     .addGroup(layout.createSequentialGroup()
                         .addContainerGap()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(lbl_estado, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                                .addGap(0, 0, Short.MAX_VALUE))
                             .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(cmbx_estadosPgm, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                            .addComponent(cmbx_estadosPgm, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel1)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(jp_color, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                        .addComponent(lbl_estado, javax.swing.GroupLayout.PREFERRED_SIZE, 133, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addGap(0, 48, Short.MAX_VALUE)))))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addComponent(jLabel1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(lbl_estado, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(78, 78, 78)
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jp_color, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lbl_estado, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(55, 55, 55)
                 .addComponent(jLabel2)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(cmbx_estadosPgm, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -166,6 +210,7 @@ public class EstadoPGMP extends MenuP {
         if(serviciosPgmA.modificarEstadoActual(eap)){
             JOptionPane.showMessageDialog(null, "Estado actualizado");
             lbl_estado.setText(eap.getFkEstadoPgm().getEstado());
+            setearColor();
         }else{
             JOptionPane.showMessageDialog(null, "Error al actualizar estado del PGM","Error",JOptionPane.ERROR_MESSAGE);
         }
@@ -182,6 +227,7 @@ public class EstadoPGMP extends MenuP {
     private javax.swing.JComboBox cmbx_estadosPgm;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JPanel jp_color;
     private javax.swing.JLabel lbl_estado;
     // End of variables declaration//GEN-END:variables
 }
