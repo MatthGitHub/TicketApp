@@ -5,19 +5,23 @@
  */
 package mscb.tick.tickets.vista;
 
+import java.util.Date;
 import java.util.List;
 import javax.swing.JOptionPane;
 import mscb.tick.asuntoPrincipal.servicios.AsuntoPrincipalServ;
 import mscb.tick.asuntoSecundario.servicios.AsuntoSecundarioServ;
 import mscb.tick.entidades.Asuntos;
+import mscb.tick.entidades.HistorialTickets;
 import mscb.tick.entidades.RazonesTransferencias;
 import mscb.tick.entidades.Servicios;
 import mscb.tick.entidades.Tickets;
 import mscb.tick.estados.servicios.EstadoServ;
+import mscb.tick.historial.servicios.HistorialServ;
 import mscb.tick.login.servicios.LoginEJB;
 import mscb.tick.main.Main;
 import mscb.tick.razones.servicios.RazoneServ;
 import mscb.tick.tickets.servicios.TicketServ;
+import mscb.tick.usuarios.servicios.UsuarioServ;
 import mscb.tick.util.MenuP;
 
 /**
@@ -119,7 +123,7 @@ public class TransferenciaP extends MenuP {
         lbl_usuarioE.setForeground(new java.awt.Color(255, 255, 255));
         lbl_usuarioE.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
 
-        cmbx_asuntoPrincipal.setBackground(new java.awt.Color(0, 102, 204));
+        cmbx_asuntoPrincipal.setBackground(new java.awt.Color(153, 153, 153));
         cmbx_asuntoPrincipal.setForeground(new java.awt.Color(255, 255, 255));
         cmbx_asuntoPrincipal.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -127,7 +131,7 @@ public class TransferenciaP extends MenuP {
             }
         });
 
-        cmbx_asuntoSecundario.setBackground(new java.awt.Color(0, 102, 204));
+        cmbx_asuntoSecundario.setBackground(new java.awt.Color(153, 153, 153));
         cmbx_asuntoSecundario.setForeground(new java.awt.Color(255, 255, 255));
         cmbx_asuntoSecundario.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -135,7 +139,7 @@ public class TransferenciaP extends MenuP {
             }
         });
 
-        cmbx_razones.setBackground(new java.awt.Color(0, 102, 204));
+        cmbx_razones.setBackground(new java.awt.Color(153, 153, 153));
         cmbx_razones.setForeground(new java.awt.Color(255, 255, 255));
         cmbx_razones.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -143,8 +147,8 @@ public class TransferenciaP extends MenuP {
             }
         });
 
-        btn_guardar.setBackground(new java.awt.Color(0, 102, 204));
-        btn_guardar.setForeground(new java.awt.Color(255, 255, 255));
+        btn_guardar.setBackground(new java.awt.Color(153, 153, 153));
+        btn_guardar.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         btn_guardar.setText("Transferir");
         btn_guardar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -152,8 +156,8 @@ public class TransferenciaP extends MenuP {
             }
         });
 
-        btn_volver1.setBackground(new java.awt.Color(0, 102, 204));
-        btn_volver1.setForeground(new java.awt.Color(255, 255, 255));
+        btn_volver1.setBackground(new java.awt.Color(153, 153, 153));
+        btn_volver1.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         btn_volver1.setText("Volver");
         btn_volver1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -301,6 +305,14 @@ public class TransferenciaP extends MenuP {
             miTick.setFkEstado(estad.traerEstado(1));
             if(serviciosT.modificarTicket(miTick) == 0){
                 JOptionPane.showMessageDialog(this, "Ticket transferido");
+                HistorialServ serviciosH = new HistorialServ();
+                HistorialTickets miHis = new HistorialTickets();
+                Date fecha = new Date();
+                miHis.setFecha(fecha);
+                miHis.setFkTicket(miTick);
+                miHis.setFkUsuarioEmisor(LoginEJB.usuario);
+                miTick.setUsuarioReceptor(null);
+                serviciosH.nuevo(miHis);
                 MisTickets.getMisTickets(mainFrameO).llenarTabla();
             }
         }

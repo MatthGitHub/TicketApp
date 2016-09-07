@@ -106,8 +106,6 @@ public class NuevoUsuario extends MenuP {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        btn_volver = new javax.swing.JToggleButton();
-        btn_guardar = new javax.swing.JToggleButton();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
@@ -118,27 +116,11 @@ public class NuevoUsuario extends MenuP {
         jScrollPane1 = new javax.swing.JScrollPane();
         jt_empleados = new javax.swing.JTable();
         txt_buscar = new javax.swing.JTextField();
+        btn_volver = new javax.swing.JButton();
+        btn_guardar = new javax.swing.JButton();
 
         setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Nuevo usuario", javax.swing.border.TitledBorder.RIGHT, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Bradley Hand ITC", 0, 24), java.awt.Color.white)); // NOI18N
         setForeground(new java.awt.Color(255, 255, 255));
-
-        btn_volver.setBackground(new java.awt.Color(0, 102, 204));
-        btn_volver.setForeground(new java.awt.Color(255, 255, 255));
-        btn_volver.setText("Volver");
-        btn_volver.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btn_volverActionPerformed(evt);
-            }
-        });
-
-        btn_guardar.setBackground(new java.awt.Color(0, 102, 204));
-        btn_guardar.setForeground(new java.awt.Color(255, 255, 255));
-        btn_guardar.setText("Guardar");
-        btn_guardar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btn_guardarActionPerformed(evt);
-            }
-        });
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(255, 255, 255));
@@ -156,18 +138,17 @@ public class NuevoUsuario extends MenuP {
         jLabel4.setForeground(new java.awt.Color(255, 255, 255));
         jLabel4.setText("Tipo de Usuario:");
 
-        txt_nombre.setBackground(new java.awt.Color(0, 102, 204));
-        txt_nombre.setForeground(new java.awt.Color(255, 255, 255));
+        txt_nombre.setBackground(new java.awt.Color(204, 204, 204));
         txt_nombre.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txt_nombreActionPerformed(evt);
             }
         });
 
-        txt_clave.setBackground(new java.awt.Color(0, 102, 204));
-        txt_clave.setForeground(new java.awt.Color(255, 255, 255));
+        txt_clave.setBackground(new java.awt.Color(204, 204, 204));
 
-        cmbx_permisos.setBackground(new java.awt.Color(0, 102, 204));
+        cmbx_permisos.setBackground(new java.awt.Color(153, 153, 153));
+        cmbx_permisos.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         cmbx_permisos.setForeground(new java.awt.Color(255, 255, 255));
 
         jt_empleados.setModel(new javax.swing.table.DefaultTableModel(
@@ -198,12 +179,29 @@ public class NuevoUsuario extends MenuP {
             jt_empleados.getColumnModel().getColumn(2).setPreferredWidth(25);
         }
 
-        txt_buscar.setBackground(new java.awt.Color(0, 102, 204));
+        txt_buscar.setBackground(new java.awt.Color(204, 204, 204));
         txt_buscar.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
-        txt_buscar.setForeground(new java.awt.Color(255, 255, 255));
         txt_buscar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txt_buscarActionPerformed(evt);
+            }
+        });
+
+        btn_volver.setBackground(new java.awt.Color(153, 153, 153));
+        btn_volver.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        btn_volver.setText("volver");
+        btn_volver.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_volverActionPerformed(evt);
+            }
+        });
+
+        btn_guardar.setBackground(new java.awt.Color(153, 153, 153));
+        btn_guardar.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        btn_guardar.setText("guardar");
+        btn_guardar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_guardarActionPerformed(evt);
             }
         });
 
@@ -227,10 +225,6 @@ public class NuevoUsuario extends MenuP {
                         .addGap(262, 262, 262))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(btn_volver, javax.swing.GroupLayout.PREFERRED_SIZE, 123, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(btn_guardar, javax.swing.GroupLayout.PREFERRED_SIZE, 123, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
                                 .addComponent(jLabel2)
@@ -240,7 +234,12 @@ public class NuevoUsuario extends MenuP {
                                 .addComponent(jLabel1)
                                 .addGap(18, 18, 18)
                                 .addComponent(txt_clave, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(0, 190, Short.MAX_VALUE)))
+                                .addGap(0, 0, Short.MAX_VALUE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(btn_volver, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(451, 451, 451)
+                                .addComponent(btn_guardar, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(8, 8, 8)))
                         .addGap(25, 25, 25))))
         );
         layout.setVerticalGroup(
@@ -260,14 +259,25 @@ public class NuevoUsuario extends MenuP {
                     .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(txt_buscar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 262, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 16, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 252, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btn_volver, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btn_guardar, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap())
+                    .addComponent(btn_guardar, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btn_volver, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)))
         );
     }// </editor-fold>//GEN-END:initComponents
+
+    private void txt_nombreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txt_nombreActionPerformed
+        // TODO add your handling code here:
+        txt_clave.requestFocus();
+    }//GEN-LAST:event_txt_nombreActionPerformed
+
+    private void txt_buscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txt_buscarActionPerformed
+        // TODO add your handling code here:
+        if(txt_buscar.getText().trim().length() > 0){
+            llenarTabla(buscaE.traerEmpleados(txt_buscar.getText()));
+        }
+    }//GEN-LAST:event_txt_buscarActionPerformed
 
     private void btn_volverActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_volverActionPerformed
         // TODO add your handling code here:
@@ -279,6 +289,7 @@ public class NuevoUsuario extends MenuP {
     }//GEN-LAST:event_btn_volverActionPerformed
 
     private void btn_guardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_guardarActionPerformed
+        // TODO add your handling code here:
         // TODO add your handling code here:
         if((txt_nombre.getText().trim().length() > 0)&&(!txt_nombre.getText().trim().contains("0 1 2 3 4 5 6 7 8 9"))){
             if(txt_clave.getText().trim().length() > 0){
@@ -311,22 +322,10 @@ public class NuevoUsuario extends MenuP {
         }
     }//GEN-LAST:event_btn_guardarActionPerformed
 
-    private void txt_nombreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txt_nombreActionPerformed
-        // TODO add your handling code here:
-        txt_clave.requestFocus();
-    }//GEN-LAST:event_txt_nombreActionPerformed
-
-    private void txt_buscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txt_buscarActionPerformed
-        // TODO add your handling code here:
-        if(txt_buscar.getText().trim().length() > 0){
-            llenarTabla(buscaE.traerEmpleados(txt_buscar.getText()));
-        }
-    }//GEN-LAST:event_txt_buscarActionPerformed
-
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JToggleButton btn_guardar;
-    private javax.swing.JToggleButton btn_volver;
+    private javax.swing.JButton btn_guardar;
+    private javax.swing.JButton btn_volver;
     private javax.swing.JComboBox cmbx_permisos;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;

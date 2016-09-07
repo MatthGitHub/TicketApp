@@ -117,45 +117,18 @@ public class UsuariosV extends MenuP {
     private void initComponents() {
 
         chkbx_activo = new javax.swing.JCheckBox();
-        btn_volver = new javax.swing.JToggleButton();
-        btn_nuevo = new javax.swing.JToggleButton();
-        btn_eliminar = new javax.swing.JToggleButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         jt_usuarios = new javax.swing.JTable();
-        btn_desactivar = new javax.swing.JToggleButton();
-        btn_resetClave = new javax.swing.JToggleButton();
-        btn_activar = new javax.swing.JToggleButton();
+        btn_volver = new javax.swing.JButton();
+        btn_eliminar = new javax.swing.JButton();
+        btn_desactivar = new javax.swing.JButton();
+        btn_activar = new javax.swing.JButton();
+        btn_resetClave = new javax.swing.JButton();
+        btn_nuevo = new javax.swing.JButton();
 
         chkbx_activo.setText("jCheckBox1");
 
         setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Usuarios", javax.swing.border.TitledBorder.RIGHT, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Bradley Hand ITC", 0, 24), java.awt.Color.white)); // NOI18N
-
-        btn_volver.setBackground(new java.awt.Color(0, 102, 204));
-        btn_volver.setForeground(new java.awt.Color(255, 255, 255));
-        btn_volver.setText("volver");
-        btn_volver.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btn_volverActionPerformed(evt);
-            }
-        });
-
-        btn_nuevo.setBackground(new java.awt.Color(0, 102, 204));
-        btn_nuevo.setForeground(new java.awt.Color(255, 255, 255));
-        btn_nuevo.setText("nuevo");
-        btn_nuevo.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btn_nuevoActionPerformed(evt);
-            }
-        });
-
-        btn_eliminar.setBackground(new java.awt.Color(0, 102, 204));
-        btn_eliminar.setForeground(new java.awt.Color(255, 255, 255));
-        btn_eliminar.setText("eliminar");
-        btn_eliminar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btn_eliminarActionPerformed(evt);
-            }
-        });
 
         jt_usuarios.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -192,26 +165,25 @@ public class UsuariosV extends MenuP {
             jt_usuarios.getColumnModel().getColumn(6).setPreferredWidth(15);
         }
 
-        btn_desactivar.setBackground(new java.awt.Color(0, 102, 204));
-        btn_desactivar.setForeground(new java.awt.Color(255, 255, 255));
+        btn_volver.setBackground(new java.awt.Color(153, 153, 153));
+        btn_volver.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        btn_volver.setText("volver");
+        btn_volver.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_volverActionPerformed(evt);
+            }
+        });
+
+        btn_eliminar.setBackground(new java.awt.Color(153, 153, 153));
+        btn_eliminar.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        btn_eliminar.setText("eliminar");
+
+        btn_desactivar.setBackground(new java.awt.Color(153, 153, 153));
+        btn_desactivar.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         btn_desactivar.setText("deshabilitar");
-        btn_desactivar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btn_desactivarActionPerformed(evt);
-            }
-        });
 
-        btn_resetClave.setBackground(new java.awt.Color(0, 102, 204));
-        btn_resetClave.setForeground(new java.awt.Color(255, 255, 255));
-        btn_resetClave.setText("resetear clave");
-        btn_resetClave.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btn_resetClaveActionPerformed(evt);
-            }
-        });
-
-        btn_activar.setBackground(new java.awt.Color(0, 102, 204));
-        btn_activar.setForeground(new java.awt.Color(255, 255, 255));
+        btn_activar.setBackground(new java.awt.Color(153, 153, 153));
+        btn_activar.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         btn_activar.setText("habilitar");
         btn_activar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -219,40 +191,60 @@ public class UsuariosV extends MenuP {
             }
         });
 
+        btn_resetClave.setBackground(new java.awt.Color(153, 153, 153));
+        btn_resetClave.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        btn_resetClave.setText("resetear clave");
+        btn_resetClave.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_resetClaveActionPerformed(evt);
+            }
+        });
+
+        btn_nuevo.setBackground(new java.awt.Color(153, 153, 153));
+        btn_nuevo.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        btn_nuevo.setText("nuevo");
+        btn_nuevo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_nuevoActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addComponent(btn_volver, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(btn_eliminar, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(btn_desactivar, javax.swing.GroupLayout.PREFERRED_SIZE, 123, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(btn_activar, javax.swing.GroupLayout.PREFERRED_SIZE, 122, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(27, 27, 27)
-                .addComponent(btn_resetClave, javax.swing.GroupLayout.PREFERRED_SIZE, 112, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(btn_nuevo, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(126, Short.MAX_VALUE))
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 732, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jScrollPane1)
+                        .addContainerGap())
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(btn_volver, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btn_eliminar, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(btn_desactivar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btn_activar, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btn_resetClave, javax.swing.GroupLayout.PREFERRED_SIZE, 136, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btn_nuevo, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(21, 21, 21))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 393, Short.MAX_VALUE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 509, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btn_volver, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btn_nuevo, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btn_eliminar, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btn_volver, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(btn_eliminar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(btn_desactivar, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btn_activar, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btn_resetClave, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btn_activar, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(btn_nuevo, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap())
         );
     }// </editor-fold>//GEN-END:initComponents
@@ -263,51 +255,9 @@ public class UsuariosV extends MenuP {
         this.setVisible(false);
     }//GEN-LAST:event_btn_volverActionPerformed
 
-    private void btn_eliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_eliminarActionPerformed
-        // TODO add your handling code here:
-        if((jt_usuarios.getSelectedRow() != -1)&&(jt_usuarios.getSelectedRowCount()== 1)){
-            if(JOptionPane.showConfirmDialog(mainFrame, "Seguro desea eliminar?") == 0){
-                if(servicios.eliminarUsuario(Integer.parseInt(modelo.getValueAt(jt_usuarios.getSelectedRow(), 0).toString()))== 0){
-                    JOptionPane.showMessageDialog(mainFrame, "Usuario eliminado!");
-                        cargarTablaUsuarios();
-                }else{
-                    JOptionPane.showMessageDialog(mainFrame, "Error al eliminar usuario", "Error", JOptionPane.ERROR_MESSAGE);
-                }
-            }
-        }else{
-            JOptionPane.showMessageDialog(mainFrame,"Seleccionar una y solo una fila!", "Error", JOptionPane.ERROR_MESSAGE);
-        }
-        
-    }//GEN-LAST:event_btn_eliminarActionPerformed
-
-    private void btn_nuevoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_nuevoActionPerformed
-        // TODO add your handling code here:
-        mainFrame.nuevoUsuario(mainFrame);
-    }//GEN-LAST:event_btn_nuevoActionPerformed
-
-    private void btn_desactivarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_desactivarActionPerformed
-        // TODO add your handling code here:
-        if((jt_usuarios.getSelectedRow() != -1)&&(jt_usuarios.getSelectedRowCount()== 1)){
-            if(JOptionPane.showConfirmDialog(mainFrame, "Seguro desea deshabilitar?") == 0){
-                if(Boolean.valueOf(modelo.getValueAt(jt_usuarios.getSelectedRow(), 6).toString())== true){
-                    if(servicios.deshabilitarUsuario(Integer.parseInt(modelo.getValueAt(jt_usuarios.getSelectedRow(), 0).toString()))== 0){
-                    JOptionPane.showMessageDialog(mainFrame, "Usuario deshabilitado!");
-                        cargarTablaUsuarios();
-                    }else{
-                        JOptionPane.showMessageDialog(mainFrame, "Error al deshabilitar usuario", "Error", JOptionPane.ERROR_MESSAGE);
-                    }
-                }else{
-                    JOptionPane.showMessageDialog(mainFrame,"Este usuario ya se encuentra deshabilitado!", "Error", JOptionPane.ERROR_MESSAGE);
-                }
-            }
-        }else{
-           JOptionPane.showMessageDialog(mainFrame,"Seleccionar una y solo una fila!", "Error", JOptionPane.ERROR_MESSAGE);
-        }
-    }//GEN-LAST:event_btn_desactivarActionPerformed
-
     private void btn_activarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_activarActionPerformed
         // TODO add your handling code here:
-        if((jt_usuarios.getSelectedRow() != -1)&&(jt_usuarios.getSelectedRowCount()== 1)){
+         if((jt_usuarios.getSelectedRow() != -1)&&(jt_usuarios.getSelectedRowCount()== 1)){
             if(JOptionPane.showConfirmDialog(mainFrame, "Seguro desea habilitar?") == 0){
                 if(Boolean.valueOf(modelo.getValueAt(jt_usuarios.getSelectedRow(), 6).toString())== false){
                     if(servicios.habilitarUsuario(Integer.parseInt(modelo.getValueAt(jt_usuarios.getSelectedRow(), 0).toString()))== 0){
@@ -341,14 +291,19 @@ public class UsuariosV extends MenuP {
         }
     }//GEN-LAST:event_btn_resetClaveActionPerformed
 
+    private void btn_nuevoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_nuevoActionPerformed
+        // TODO add your handling code here:
+        mainFrame.nuevoUsuario(mainFrame);
+    }//GEN-LAST:event_btn_nuevoActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JToggleButton btn_activar;
-    private javax.swing.JToggleButton btn_desactivar;
-    private javax.swing.JToggleButton btn_eliminar;
-    private javax.swing.JToggleButton btn_nuevo;
-    private javax.swing.JToggleButton btn_resetClave;
-    private javax.swing.JToggleButton btn_volver;
+    private javax.swing.JButton btn_activar;
+    private javax.swing.JButton btn_desactivar;
+    private javax.swing.JButton btn_eliminar;
+    private javax.swing.JButton btn_nuevo;
+    private javax.swing.JButton btn_resetClave;
+    private javax.swing.JButton btn_volver;
     private javax.swing.JCheckBox chkbx_activo;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jt_usuarios;

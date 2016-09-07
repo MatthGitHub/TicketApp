@@ -11,6 +11,7 @@ import mscb.tick.asuntoSecundarios.vista.AsuntoSec;
 import mscb.tick.asuntoSecundarios.vista.NuevoAsuntoSecFrame;
 import mscb.tick.asuntos.vista.AsuntosPrin;
 import mscb.tick.asuntos.vista.NuevoAsuntoFrame;
+import mscb.tick.conocimiento.vista.BaseConocimientoV;
 import mscb.tick.encargadoAsuntos.vista.EncargadoAsuntos;
 import mscb.tick.entidades.Asuntos;
 import mscb.tick.entidades.Tickets;
@@ -21,6 +22,10 @@ import mscb.tick.tickets.vista.Actualizador;
 import mscb.tick.tickets.vista.MisTickets;
 import mscb.tick.tickets.vista.NuevoTicket;
 import mscb.tick.tickets.vista.ObservacionF;
+import mscb.tick.conocimiento.vista.ResolucionVerF;
+import mscb.tick.conocimiento.vista.ResolucionVerP;
+import mscb.tick.historial.servicios.HistorialServ;
+import mscb.tick.hitorialTicket.vista.HistorialTicketV;
 import mscb.tick.tickets.vista.ResolucionF;
 import mscb.tick.tickets.vista.ResolucionP;
 import mscb.tick.tickets.vista.ResponderF;
@@ -70,13 +75,16 @@ public class Main extends javax.swing.JFrame {
     private EstadoPGMF cambiarPgm;
     private ResolucionF resoF;
     private ResolucionP resoP;
+    private ResolucionVerF resoVerF;
+    private ResolucionVerP resoVerP;
     
     private AsuntosPrin asuntos;
     private NuevoAsuntoFrame nuevoAsunto;
     
     private AsuntoSec asuntoSec;
     private NuevoAsuntoSecFrame nuevoAsuntoSec;
-    
+    private BaseConocimientoV baseCono;
+    private HistorialTicketV hisTick;
     
             
     /**
@@ -280,6 +288,19 @@ public class Main extends javax.swing.JFrame {
         }
         revalidate();
     }
+    /**
+     * Abre ventana para ver la resolucion del ticket
+     * @param miTick 
+     */
+    public void verResolucionTicket(Tickets miTick){
+        if(resoVerF == null){
+            resoVerF = new ResolucionVerF(miTick, this);
+        }else{
+            resoVerF.setVisible(true);
+            resoVerF.ResolucionVerM(miTick);
+        }
+        revalidate();
+    }
     
     /**
      * Muestra ventana con asuntos
@@ -334,13 +355,43 @@ public class Main extends javax.swing.JFrame {
         }
         revalidate();
     }
-    
+    /**
+     * Ventana para modificar el estado del pgm para reflejarlo en la web
+     */
     public void cambiarEstadoPGM(){
         if(cambiarPgm == null){
             cambiarPgm = new EstadoPGMF(this);
         }else{
             cambiarPgm.setVisible(true);
             cambiarPgm.PgmPanel();
+        }
+        revalidate();
+    }
+    
+    /**
+     * Ventana de base de conocimiento
+     */
+    public void baseDeConocimiento(){
+        baseCono = BaseConocimientoV.getBaseConocimiento(this);
+        
+        if(!baseCono.isVisible()==false){
+            getContentPane().add(baseCono);
+        }else{
+            baseCono.setVisible(true);
+        }
+        revalidate();
+    }
+    
+    /**
+     *Ventana con el historial de ticket seleccionado 
+     */
+    public void historialDeTickets(Tickets miTick){
+        hisTick = HistorialTicketV.getHistorialTicketV(this,miTick);
+        
+        if(!hisTick.isVisible()==false){
+            getContentPane().add(hisTick);
+        }else{
+            hisTick.setVisible(true);
         }
         revalidate();
     }

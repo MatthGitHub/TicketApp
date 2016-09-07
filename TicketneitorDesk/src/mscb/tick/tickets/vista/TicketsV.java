@@ -65,7 +65,6 @@ public class TicketsV extends MenuP {
     public void llenarTabla() {
         vaciarTabla(jt_tickets);
         miLista = serviciosT.traerTodos();
-        cambiarEstadoDeTickets();
         String v[] = new String[7];
         DateFormat dateFormatter;
         dateFormatter = DateFormat.getDateInstance(DateFormat.SHORT, Locale.US);
@@ -213,9 +212,8 @@ public class TicketsV extends MenuP {
         jLabel1.setForeground(new java.awt.Color(255, 255, 255));
         jLabel1.setText("Buscar:");
 
-        txt_buscar.setBackground(new java.awt.Color(0, 102, 204));
+        txt_buscar.setBackground(new java.awt.Color(204, 204, 204));
         txt_buscar.setFont(new java.awt.Font("Candara", 0, 14)); // NOI18N
-        txt_buscar.setForeground(new java.awt.Color(255, 255, 255));
         txt_buscar.setText("Usuario, asunto, area...");
         txt_buscar.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -232,9 +230,8 @@ public class TicketsV extends MenuP {
         jLabel2.setForeground(new java.awt.Color(255, 255, 255));
         jLabel2.setText("Buscar:");
 
-        txt_id.setBackground(new java.awt.Color(0, 102, 204));
+        txt_id.setBackground(new java.awt.Color(204, 204, 204));
         txt_id.setFont(new java.awt.Font("Candara", 0, 14)); // NOI18N
-        txt_id.setForeground(new java.awt.Color(255, 255, 255));
         txt_id.setText("Nº de ticket....");
         txt_id.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -373,6 +370,10 @@ public class TicketsV extends MenuP {
 
     private void ver_historialActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ver_historialActionPerformed
         // TODO add your handling code here:
+        mainFrame.historialDeTickets(serviciosT.buscarUno(Integer.parseInt(modelo.getValueAt(jt_tickets.getSelectedRow(), 0).toString())));
+        this.setVisible(false);
+        estePanel = null;
+        System.gc();
     }//GEN-LAST:event_ver_historialActionPerformed
 
     private void btn_eliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_eliminarActionPerformed

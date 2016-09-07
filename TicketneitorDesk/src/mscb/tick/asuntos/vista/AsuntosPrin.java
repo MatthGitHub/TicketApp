@@ -94,9 +94,9 @@ public class AsuntosPrin extends MenuP {
 
         jScrollPane1 = new javax.swing.JScrollPane();
         jt_asuntos = new javax.swing.JTable();
-        btn_voler = new javax.swing.JToggleButton();
-        btn_eliminar = new javax.swing.JToggleButton();
-        btn_nuevo = new javax.swing.JToggleButton();
+        btn_volver = new javax.swing.JButton();
+        btn_eliminar = new javax.swing.JButton();
+        btn_nuevo = new javax.swing.JButton();
 
         setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Asuntos", javax.swing.border.TitledBorder.RIGHT, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Bradley Hand ITC", 0, 36), java.awt.Color.white)); // NOI18N
 
@@ -110,17 +110,17 @@ public class AsuntosPrin extends MenuP {
         ));
         jScrollPane1.setViewportView(jt_asuntos);
 
-        btn_voler.setBackground(new java.awt.Color(0, 102, 204));
-        btn_voler.setForeground(new java.awt.Color(255, 255, 255));
-        btn_voler.setText("volver");
-        btn_voler.addActionListener(new java.awt.event.ActionListener() {
+        btn_volver.setBackground(new java.awt.Color(153, 153, 153));
+        btn_volver.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        btn_volver.setText("volver");
+        btn_volver.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btn_volerActionPerformed(evt);
+                btn_volverActionPerformed(evt);
             }
         });
 
-        btn_eliminar.setBackground(new java.awt.Color(0, 102, 204));
-        btn_eliminar.setForeground(new java.awt.Color(255, 255, 255));
+        btn_eliminar.setBackground(new java.awt.Color(153, 153, 153));
+        btn_eliminar.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         btn_eliminar.setText("eliminar");
         btn_eliminar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -128,8 +128,8 @@ public class AsuntosPrin extends MenuP {
             }
         });
 
-        btn_nuevo.setBackground(new java.awt.Color(0, 102, 204));
-        btn_nuevo.setForeground(new java.awt.Color(255, 255, 255));
+        btn_nuevo.setBackground(new java.awt.Color(153, 153, 153));
+        btn_nuevo.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         btn_nuevo.setText("nuevo");
         btn_nuevo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -144,18 +144,15 @@ public class AsuntosPrin extends MenuP {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 764, Short.MAX_VALUE)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(btn_voler, javax.swing.GroupLayout.PREFERRED_SIZE, 138, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(46, 46, 46)
-                        .addComponent(btn_eliminar, javax.swing.GroupLayout.PREFERRED_SIZE, 138, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 304, Short.MAX_VALUE)
-                        .addComponent(btn_nuevo, javax.swing.GroupLayout.PREFERRED_SIZE, 138, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(btn_volver, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(36, 36, 36)
+                        .addComponent(btn_eliminar, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btn_nuevo, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
-
-        layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {btn_eliminar, btn_voler});
-
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
@@ -163,21 +160,18 @@ public class AsuntosPrin extends MenuP {
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 447, Short.MAX_VALUE)
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btn_nuevo, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btn_volver, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btn_eliminar, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btn_voler))
+                    .addComponent(btn_nuevo, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap())
         );
-
-        layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {btn_eliminar, btn_voler});
-
     }// </editor-fold>//GEN-END:initComponents
 
-    private void btn_volerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_volerActionPerformed
+    private void btn_volverActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_volverActionPerformed
         // TODO add your handling code here:
         this.setVisible(false);
         mainFrame.menuPrincipal();
-    }//GEN-LAST:event_btn_volerActionPerformed
+    }//GEN-LAST:event_btn_volverActionPerformed
 
     private void btn_eliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_eliminarActionPerformed
         // TODO add your handling code here:
@@ -199,9 +193,9 @@ public class AsuntosPrin extends MenuP {
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JToggleButton btn_eliminar;
-    private javax.swing.JToggleButton btn_nuevo;
-    private javax.swing.JToggleButton btn_voler;
+    private javax.swing.JButton btn_eliminar;
+    private javax.swing.JButton btn_nuevo;
+    private javax.swing.JButton btn_volver;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jt_asuntos;
     // End of variables declaration//GEN-END:variables

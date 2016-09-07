@@ -48,6 +48,7 @@ public class EncargadoAsuntos extends MenuP {
         cmbx_asuntosP.setVisible(false);
         cmbx_asuntosS.setVisible(false);
         lbl_asuntos.setVisible(false);
+        lbl_servicios.setVisible(false);
         btn_agregar.setVisible(false);
         miListaA = new ArrayList<>();
         this.mainFrame = mainFrame;
@@ -138,18 +139,17 @@ public class EncargadoAsuntos extends MenuP {
         jt_asuntos = new javax.swing.JTable();
         btn_volver = new javax.swing.JButton();
         btn_quitar = new javax.swing.JButton();
-        btn_guardar = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
         lbl_asuntos = new javax.swing.JLabel();
         cmbx_asuntosS = new javax.swing.JComboBox();
         btn_agregar = new javax.swing.JButton();
         lbl_asuntos1 = new javax.swing.JLabel();
+        lbl_servicios = new javax.swing.JLabel();
 
         setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Asignar asuntos", javax.swing.border.TitledBorder.RIGHT, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Bradley Hand ITC", 0, 24), java.awt.Color.white)); // NOI18N
 
-        cmbx_usuarios.setBackground(new java.awt.Color(0, 102, 204));
-        cmbx_usuarios.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
-        cmbx_usuarios.setForeground(new java.awt.Color(255, 255, 255));
+        cmbx_usuarios.setBackground(new java.awt.Color(153, 153, 153));
+        cmbx_usuarios.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         cmbx_usuarios.setModel(new javax.swing.DefaultComboBoxModel(new String[] { " " }));
         cmbx_usuarios.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -157,9 +157,8 @@ public class EncargadoAsuntos extends MenuP {
             }
         });
 
-        cmbx_asuntosP.setBackground(new java.awt.Color(0, 102, 204));
-        cmbx_asuntosP.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
-        cmbx_asuntosP.setForeground(new java.awt.Color(255, 255, 255));
+        cmbx_asuntosP.setBackground(new java.awt.Color(153, 153, 153));
+        cmbx_asuntosP.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         cmbx_asuntosP.setModel(new javax.swing.DefaultComboBoxModel(new String[] { " " }));
         cmbx_asuntosP.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -185,9 +184,8 @@ public class EncargadoAsuntos extends MenuP {
         });
         jScrollPane1.setViewportView(jt_asuntos);
 
-        btn_volver.setBackground(new java.awt.Color(0, 102, 204));
-        btn_volver.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
-        btn_volver.setForeground(new java.awt.Color(255, 255, 255));
+        btn_volver.setBackground(new java.awt.Color(153, 153, 153));
+        btn_volver.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         btn_volver.setText("volver");
         btn_volver.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -195,23 +193,12 @@ public class EncargadoAsuntos extends MenuP {
             }
         });
 
-        btn_quitar.setBackground(new java.awt.Color(0, 102, 204));
-        btn_quitar.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
-        btn_quitar.setForeground(new java.awt.Color(255, 255, 255));
+        btn_quitar.setBackground(new java.awt.Color(153, 153, 153));
+        btn_quitar.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         btn_quitar.setText("quitar");
         btn_quitar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btn_quitarActionPerformed(evt);
-            }
-        });
-
-        btn_guardar.setBackground(new java.awt.Color(0, 102, 204));
-        btn_guardar.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
-        btn_guardar.setForeground(new java.awt.Color(255, 255, 255));
-        btn_guardar.setText("guardar");
-        btn_guardar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btn_guardarActionPerformed(evt);
             }
         });
 
@@ -223,9 +210,8 @@ public class EncargadoAsuntos extends MenuP {
         lbl_asuntos.setForeground(new java.awt.Color(255, 255, 255));
         lbl_asuntos.setText("Asuntos:");
 
-        cmbx_asuntosS.setBackground(new java.awt.Color(0, 102, 204));
-        cmbx_asuntosS.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
-        cmbx_asuntosS.setForeground(new java.awt.Color(255, 255, 255));
+        cmbx_asuntosS.setBackground(new java.awt.Color(153, 153, 153));
+        cmbx_asuntosS.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         cmbx_asuntosS.setModel(new javax.swing.DefaultComboBoxModel(new String[] { " " }));
         cmbx_asuntosS.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -233,9 +219,8 @@ public class EncargadoAsuntos extends MenuP {
             }
         });
 
-        btn_agregar.setBackground(new java.awt.Color(0, 102, 204));
-        btn_agregar.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
-        btn_agregar.setForeground(new java.awt.Color(255, 255, 255));
+        btn_agregar.setBackground(new java.awt.Color(153, 153, 153));
+        btn_agregar.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         btn_agregar.setText("+");
         btn_agregar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -247,6 +232,10 @@ public class EncargadoAsuntos extends MenuP {
         lbl_asuntos1.setForeground(new java.awt.Color(255, 255, 255));
         lbl_asuntos1.setText("Agregar");
 
+        lbl_servicios.setFont(new java.awt.Font("Bradley Hand ITC", 0, 18)); // NOI18N
+        lbl_servicios.setForeground(new java.awt.Color(255, 255, 255));
+        lbl_servicios.setText("Servicios:");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -256,12 +245,6 @@ public class EncargadoAsuntos extends MenuP {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jScrollPane1)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(btn_volver, javax.swing.GroupLayout.PREFERRED_SIZE, 149, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(157, 157, 157)
-                        .addComponent(btn_quitar, javax.swing.GroupLayout.PREFERRED_SIZE, 151, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(btn_guardar, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(cmbx_usuarios, javax.swing.GroupLayout.PREFERRED_SIZE, 174, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 226, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -269,22 +252,28 @@ public class EncargadoAsuntos extends MenuP {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(lbl_asuntos, javax.swing.GroupLayout.PREFERRED_SIZE, 121, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(105, 105, 105))
-                            .addComponent(cmbx_asuntosP, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 226, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(18, 18, 18)
-                        .addComponent(cmbx_asuntosS, javax.swing.GroupLayout.PREFERRED_SIZE, 226, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 18, Short.MAX_VALUE)
+                                .addGap(119, 119, 119)
+                                .addComponent(lbl_servicios, javax.swing.GroupLayout.PREFERRED_SIZE, 121, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(0, 145, Short.MAX_VALUE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(cmbx_asuntosP, javax.swing.GroupLayout.PREFERRED_SIZE, 226, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(cmbx_asuntosS, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                        .addGap(8, 8, 8)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(lbl_asuntos1, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(layout.createSequentialGroup()
                                 .addGap(10, 10, 10)
-                                .addComponent(btn_agregar)))))
+                                .addComponent(btn_agregar))))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(btn_volver, javax.swing.GroupLayout.PREFERRED_SIZE, 149, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(157, 157, 157)
+                        .addComponent(btn_quitar, javax.swing.GroupLayout.PREFERRED_SIZE, 151, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
 
-        layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {btn_guardar, btn_quitar, btn_volver});
-
-        layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {cmbx_asuntosP, cmbx_asuntosS});
+        layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {btn_quitar, btn_volver});
 
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -292,23 +281,22 @@ public class EncargadoAsuntos extends MenuP {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
                     .addComponent(lbl_asuntos)
-                    .addComponent(lbl_asuntos1))
+                    .addComponent(lbl_asuntos1)
+                    .addComponent(lbl_servicios))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(cmbx_usuarios, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(cmbx_asuntosP, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(cmbx_asuntosS, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btn_agregar, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(25, 25, 25)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 309, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 13, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btn_volver, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btn_quitar, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btn_guardar, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(34, 34, 34)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 412, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(btn_volver, javax.swing.GroupLayout.DEFAULT_SIZE, 34, Short.MAX_VALUE)
+                    .addComponent(btn_quitar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
         );
-
-        layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {btn_guardar, btn_quitar, btn_volver});
 
         layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {cmbx_asuntosP, cmbx_asuntosS, cmbx_usuarios});
 
@@ -325,6 +313,7 @@ public class EncargadoAsuntos extends MenuP {
     private void cmbx_asuntosPActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbx_asuntosPActionPerformed
         // TODO add your handling code here:
         cmbx_asuntosS.setVisible(true);
+        lbl_servicios.setVisible(true);
         cargarComboBoxAsuntoS();
     }//GEN-LAST:event_cmbx_asuntosPActionPerformed
 
@@ -399,14 +388,9 @@ public class EncargadoAsuntos extends MenuP {
         }
     }//GEN-LAST:event_btn_quitarActionPerformed
 
-    private void btn_guardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_guardarActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_btn_guardarActionPerformed
-
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btn_agregar;
-    private javax.swing.JButton btn_guardar;
     private javax.swing.JButton btn_quitar;
     private javax.swing.JButton btn_volver;
     private javax.swing.JComboBox cmbx_asuntosP;
@@ -417,5 +401,6 @@ public class EncargadoAsuntos extends MenuP {
     private javax.swing.JTable jt_asuntos;
     private javax.swing.JLabel lbl_asuntos;
     private javax.swing.JLabel lbl_asuntos1;
+    private javax.swing.JLabel lbl_servicios;
     // End of variables declaration//GEN-END:variables
 }

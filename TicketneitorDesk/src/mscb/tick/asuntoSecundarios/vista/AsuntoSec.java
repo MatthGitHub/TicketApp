@@ -102,42 +102,15 @@ public class AsuntoSec extends MenuP {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        btn_volver = new javax.swing.JToggleButton();
-        btn_eliminar = new javax.swing.JToggleButton();
-        btn_nuevo = new javax.swing.JToggleButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         jt_asuntoSec = new javax.swing.JTable();
         cmbx_asuntos = new javax.swing.JComboBox();
         jLabel1 = new javax.swing.JLabel();
+        btn_volver = new javax.swing.JButton();
+        btn_eliminar = new javax.swing.JButton();
+        btn_nuevo = new javax.swing.JButton();
 
-        setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Asuntos secundarios", javax.swing.border.TitledBorder.RIGHT, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Bradley Hand ITC", 0, 24), java.awt.Color.white)); // NOI18N
-
-        btn_volver.setBackground(new java.awt.Color(0, 102, 204));
-        btn_volver.setForeground(new java.awt.Color(255, 255, 255));
-        btn_volver.setText("volver");
-        btn_volver.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btn_volverActionPerformed(evt);
-            }
-        });
-
-        btn_eliminar.setBackground(new java.awt.Color(0, 102, 204));
-        btn_eliminar.setForeground(new java.awt.Color(255, 255, 255));
-        btn_eliminar.setText("eliminar");
-        btn_eliminar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btn_eliminarActionPerformed(evt);
-            }
-        });
-
-        btn_nuevo.setBackground(new java.awt.Color(0, 102, 204));
-        btn_nuevo.setForeground(new java.awt.Color(255, 255, 255));
-        btn_nuevo.setText("nuevo");
-        btn_nuevo.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btn_nuevoActionPerformed(evt);
-            }
-        });
+        setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Servicios", javax.swing.border.TitledBorder.RIGHT, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Bradley Hand ITC", 0, 24), java.awt.Color.white)); // NOI18N
 
         jt_asuntoSec.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -154,8 +127,8 @@ public class AsuntoSec extends MenuP {
             jt_asuntoSec.getColumnModel().getColumn(0).setMaxWidth(50);
         }
 
-        cmbx_asuntos.setBackground(new java.awt.Color(0, 102, 204));
-        cmbx_asuntos.setForeground(new java.awt.Color(255, 255, 255));
+        cmbx_asuntos.setBackground(new java.awt.Color(153, 153, 153));
+        cmbx_asuntos.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         cmbx_asuntos.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "-", "Todos" }));
         cmbx_asuntos.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -168,6 +141,33 @@ public class AsuntoSec extends MenuP {
         jLabel1.setForeground(new java.awt.Color(255, 255, 255));
         jLabel1.setText("Eliga un asunto principal:");
 
+        btn_volver.setBackground(new java.awt.Color(153, 153, 153));
+        btn_volver.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        btn_volver.setText("volver");
+        btn_volver.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_volverActionPerformed(evt);
+            }
+        });
+
+        btn_eliminar.setBackground(new java.awt.Color(153, 153, 153));
+        btn_eliminar.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        btn_eliminar.setText("eliminar");
+        btn_eliminar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_eliminarActionPerformed(evt);
+            }
+        });
+
+        btn_nuevo.setBackground(new java.awt.Color(153, 153, 153));
+        btn_nuevo.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        btn_nuevo.setText("nuevo");
+        btn_nuevo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_nuevoActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -177,73 +177,35 @@ public class AsuntoSec extends MenuP {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jScrollPane1)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 210, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(btn_volver, javax.swing.GroupLayout.PREFERRED_SIZE, 113, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 210, Short.MAX_VALUE)
+                        .addComponent(btn_eliminar, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(165, 165, 165)
+                        .addComponent(btn_nuevo, javax.swing.GroupLayout.PREFERRED_SIZE, 149, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap())
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 276, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(cmbx_asuntos, javax.swing.GroupLayout.PREFERRED_SIZE, 336, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 230, Short.MAX_VALUE)))
-                .addContainerGap())
-            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(layout.createSequentialGroup()
-                    .addContainerGap(18, Short.MAX_VALUE)
-                    .addComponent(btn_volver, javax.swing.GroupLayout.PREFERRED_SIZE, 138, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGap(46, 46, 46)
-                    .addComponent(btn_eliminar, javax.swing.GroupLayout.PREFERRED_SIZE, 138, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGap(304, 304, 304)
-                    .addComponent(btn_nuevo, javax.swing.GroupLayout.PREFERRED_SIZE, 138, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGap(18, 18, 18)))
+                        .addGap(0, 0, Short.MAX_VALUE))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(cmbx_asuntos, javax.swing.GroupLayout.DEFAULT_SIZE, 33, Short.MAX_VALUE)
-                        .addGap(1, 1, 1))
-                    .addComponent(jLabel1))
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 437, Short.MAX_VALUE)
-                .addGap(118, 118, 118))
-            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(layout.createSequentialGroup()
-                    .addContainerGap(513, Short.MAX_VALUE)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(btn_nuevo, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(btn_eliminar, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(btn_volver, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGap(48, 48, 48)))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel1)
+                    .addComponent(cmbx_asuntos))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 469, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btn_nuevo, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btn_eliminar, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btn_volver, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap())
         );
     }// </editor-fold>//GEN-END:initComponents
-
-    private void btn_volverActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_volverActionPerformed
-        // TODO add your handling code here:
-        this.setVisible(false);
-        mainFrame.menuPrincipal();
-        asuntoSec = null;
-        System.gc();
-    }//GEN-LAST:event_btn_volverActionPerformed
-
-    private void btn_eliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_eliminarActionPerformed
-        // TODO add your handling code here:
-        if((jt_asuntoSec.getSelectedRow() != -1)&&(jt_asuntoSec.getSelectedRowCount() == 1)){
-            if(JOptionPane.showConfirmDialog(this, "Seguro desea eliminar?", "Confirmar", JOptionPane.YES_NO_OPTION) == 0){
-                eliminarAsunto(Integer.parseInt(jt_asuntoSec.getValueAt(jt_asuntoSec.getSelectedRow(), 0).toString()));
-                llenarTabla(misAsuntoSS);
-            }
-        }else{
-            JOptionPane.showMessageDialog(this, "Debe seleccionar una y solo una fila!");
-        }
-        
-    }//GEN-LAST:event_btn_eliminarActionPerformed
-
-    private void btn_nuevoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_nuevoActionPerformed
-        // TODO add your handling code here:
-        if(obj != null){
-            mainFrame.nuevoAsuntoSecundario(obj);
-        }else{
-            JOptionPane.showMessageDialog(this, "Debe seleccionar un asunto principal!");
-        }
-        
-    }//GEN-LAST:event_btn_nuevoActionPerformed
 
     private void cmbx_asuntosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbx_asuntosActionPerformed
         // TODO add your handling code here:
@@ -273,11 +235,40 @@ public class AsuntoSec extends MenuP {
         llenarTabla(misAsuntoSS);
     }//GEN-LAST:event_cmbx_asuntosActionPerformed
 
+    private void btn_volverActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_volverActionPerformed
+        // TODO add your handling code here:
+        this.setVisible(false);
+        mainFrame.menuPrincipal();
+        asuntoSec = null;
+        System.gc();
+    }//GEN-LAST:event_btn_volverActionPerformed
+
+    private void btn_eliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_eliminarActionPerformed
+        // TODO add your handling code here:
+        if((jt_asuntoSec.getSelectedRow() != -1)&&(jt_asuntoSec.getSelectedRowCount() == 1)){
+            if(JOptionPane.showConfirmDialog(this, "Seguro desea eliminar?", "Confirmar", JOptionPane.YES_NO_OPTION) == 0){
+                eliminarAsunto(Integer.parseInt(jt_asuntoSec.getValueAt(jt_asuntoSec.getSelectedRow(), 0).toString()));
+                llenarTabla(misAsuntoSS);
+            }
+        }else{
+            JOptionPane.showMessageDialog(this, "Debe seleccionar una y solo una fila!");
+        }
+    }//GEN-LAST:event_btn_eliminarActionPerformed
+
+    private void btn_nuevoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_nuevoActionPerformed
+        // TODO add your handling code here:
+        if(obj != null){
+            mainFrame.nuevoAsuntoSecundario(obj);
+        }else{
+            JOptionPane.showMessageDialog(this, "Debe seleccionar un asunto principal!");
+        }
+    }//GEN-LAST:event_btn_nuevoActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JToggleButton btn_eliminar;
-    private javax.swing.JToggleButton btn_nuevo;
-    private javax.swing.JToggleButton btn_volver;
+    private javax.swing.JButton btn_eliminar;
+    private javax.swing.JButton btn_nuevo;
+    private javax.swing.JButton btn_volver;
     private javax.swing.JComboBox cmbx_asuntos;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JScrollPane jScrollPane1;

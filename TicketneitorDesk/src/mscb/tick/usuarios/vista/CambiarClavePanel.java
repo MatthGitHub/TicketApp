@@ -59,8 +59,8 @@ public class CambiarClavePanel extends MenuP {
 
         setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Nueva clave", javax.swing.border.TitledBorder.RIGHT, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Vivaldi", 0, 18), java.awt.Color.white)); // NOI18N
 
-        pswr_actual.setBackground(new java.awt.Color(0, 102, 204));
-        pswr_actual.setForeground(new java.awt.Color(255, 255, 255));
+        pswr_actual.setBackground(new java.awt.Color(204, 204, 204));
+        pswr_actual.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         pswr_actual.setText("jPasswordField1");
         pswr_actual.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -68,8 +68,8 @@ public class CambiarClavePanel extends MenuP {
             }
         });
 
-        pswr_nueva.setBackground(new java.awt.Color(0, 102, 204));
-        pswr_nueva.setForeground(new java.awt.Color(255, 255, 255));
+        pswr_nueva.setBackground(new java.awt.Color(204, 204, 204));
+        pswr_nueva.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         pswr_nueva.setText("jPasswordField2");
         pswr_nueva.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -77,8 +77,8 @@ public class CambiarClavePanel extends MenuP {
             }
         });
 
-        pswr_nueva2.setBackground(new java.awt.Color(0, 102, 204));
-        pswr_nueva2.setForeground(new java.awt.Color(255, 255, 255));
+        pswr_nueva2.setBackground(new java.awt.Color(204, 204, 204));
+        pswr_nueva2.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         pswr_nueva2.setText("jPasswordField3");
         pswr_nueva2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -86,8 +86,8 @@ public class CambiarClavePanel extends MenuP {
             }
         });
 
-        btn_guardar.setBackground(new java.awt.Color(0, 102, 204));
-        btn_guardar.setForeground(new java.awt.Color(255, 255, 255));
+        btn_guardar.setBackground(new java.awt.Color(153, 153, 153));
+        btn_guardar.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         btn_guardar.setText("guardar");
         btn_guardar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -95,8 +95,8 @@ public class CambiarClavePanel extends MenuP {
             }
         });
 
-        btn_volver.setBackground(new java.awt.Color(0, 102, 204));
-        btn_volver.setForeground(new java.awt.Color(255, 255, 255));
+        btn_volver.setBackground(new java.awt.Color(153, 153, 153));
+        btn_volver.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         btn_volver.setText("volver");
         btn_volver.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -118,22 +118,22 @@ public class CambiarClavePanel extends MenuP {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap(29, Short.MAX_VALUE)
+                .addContainerGap(14, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addComponent(btn_volver)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 31, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 34, Short.MAX_VALUE)
                         .addComponent(btn_guardar))
                     .addGroup(layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 27, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 37, Short.MAX_VALUE)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(pswr_nueva2)
                             .addComponent(pswr_nueva)
                             .addComponent(pswr_actual)
                             .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 27, Short.MAX_VALUE)))
-                .addContainerGap(37, Short.MAX_VALUE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 37, Short.MAX_VALUE)))
+                .addContainerGap(21, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -154,11 +154,11 @@ public class CambiarClavePanel extends MenuP {
                 .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(2, 2, 2)
                 .addComponent(pswr_nueva2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 25, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 22, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btn_guardar)
                     .addComponent(btn_volver))
-                .addContainerGap(35, Short.MAX_VALUE))
+                .addContainerGap(31, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 

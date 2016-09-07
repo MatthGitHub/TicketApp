@@ -5,6 +5,7 @@
  */
 package mscb.tick.tickets.vista;
 
+import mscb.tick.conocimiento.vista.*;
 import javax.swing.JOptionPane;
 import mscb.tick.conocimiento.servicios.ConocimientoServ;
 import mscb.tick.entidades.BaseConocimiento;
@@ -15,6 +16,7 @@ import mscb.tick.login.Login;
 import mscb.tick.login.servicios.LoginEJB;
 import mscb.tick.main.Main;
 import mscb.tick.tickets.servicios.TicketServ;
+import mscb.tick.tickets.vista.MisTickets;
 import mscb.tick.util.MenuP;
 
 /**
@@ -44,7 +46,7 @@ public class ResolucionP extends MenuP {
         setVisible(true);
     }
     
-    public static ResolucionP getResponder(Tickets miTick, ResolucionF mainFrame){
+    public static ResolucionP getResolucion(Tickets miTick, ResolucionF mainFrame){
         if(estePanel == null ){
             estePanel = new ResolucionP(miTick, mainFrame);
         }
@@ -74,8 +76,8 @@ public class ResolucionP extends MenuP {
 
         setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Resolucion", javax.swing.border.TitledBorder.RIGHT, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Bradley Hand ITC", 0, 36), java.awt.Color.white)); // NOI18N
 
-        btn_cerrar.setBackground(new java.awt.Color(0, 102, 204));
-        btn_cerrar.setForeground(new java.awt.Color(255, 255, 255));
+        btn_cerrar.setBackground(new java.awt.Color(153, 153, 153));
+        btn_cerrar.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         btn_cerrar.setText("cerrar");
         btn_cerrar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -83,8 +85,8 @@ public class ResolucionP extends MenuP {
             }
         });
 
-        btn_enviar.setBackground(new java.awt.Color(0, 102, 204));
-        btn_enviar.setForeground(new java.awt.Color(255, 255, 255));
+        btn_enviar.setBackground(new java.awt.Color(153, 153, 153));
+        btn_enviar.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         btn_enviar.setText("guardar");
         btn_enviar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -113,10 +115,9 @@ public class ResolucionP extends MenuP {
         lbl_areaE.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         lbl_areaE.setForeground(new java.awt.Color(255, 255, 255));
 
-        txtA_respuesta.setBackground(new java.awt.Color(0, 102, 204));
+        txtA_respuesta.setBackground(new java.awt.Color(204, 204, 204));
         txtA_respuesta.setColumns(20);
         txtA_respuesta.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        txtA_respuesta.setForeground(new java.awt.Color(255, 255, 255));
         txtA_respuesta.setRows(5);
         jScrollPane1.setViewportView(txtA_respuesta);
 

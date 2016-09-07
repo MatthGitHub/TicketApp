@@ -52,15 +52,31 @@ public class NuevoAsunto extends MenuP {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        btn_nuevo = new javax.swing.JToggleButton();
-        btn_nuevo1 = new javax.swing.JToggleButton();
         jLabel1 = new javax.swing.JLabel();
         txt_nombreAsunto = new javax.swing.JTextField();
+        btn_salir = new javax.swing.JButton();
+        btn_nuevo = new javax.swing.JButton();
 
         setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Nuevo Asunto", javax.swing.border.TitledBorder.RIGHT, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Bradley Hand ITC", 0, 24), java.awt.Color.white)); // NOI18N
 
-        btn_nuevo.setBackground(new java.awt.Color(0, 102, 204));
-        btn_nuevo.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel1.setFont(new java.awt.Font("Bradley Hand ITC", 1, 18)); // NOI18N
+        jLabel1.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel1.setText("Nombre del asunto:");
+
+        txt_nombreAsunto.setBackground(new java.awt.Color(204, 204, 204));
+        txt_nombreAsunto.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+
+        btn_salir.setBackground(new java.awt.Color(153, 153, 153));
+        btn_salir.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        btn_salir.setText("salir");
+        btn_salir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_salirActionPerformed(evt);
+            }
+        });
+
+        btn_nuevo.setBackground(new java.awt.Color(153, 153, 153));
+        btn_nuevo.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         btn_nuevo.setText("guardar");
         btn_nuevo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -68,37 +84,20 @@ public class NuevoAsunto extends MenuP {
             }
         });
 
-        btn_nuevo1.setBackground(new java.awt.Color(0, 102, 204));
-        btn_nuevo1.setForeground(new java.awt.Color(255, 255, 255));
-        btn_nuevo1.setText("salir");
-        btn_nuevo1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btn_nuevo1ActionPerformed(evt);
-            }
-        });
-
-        jLabel1.setFont(new java.awt.Font("Bradley Hand ITC", 0, 18)); // NOI18N
-        jLabel1.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel1.setText("Nombre del asunto:");
-
-        txt_nombreAsunto.setBackground(new java.awt.Color(0, 102, 204));
-        txt_nombreAsunto.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        txt_nombreAsunto.setForeground(new java.awt.Color(255, 255, 255));
-
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addComponent(btn_nuevo1, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 54, Short.MAX_VALUE)
-                .addComponent(btn_nuevo, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE))
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(txt_nombreAsunto))
                 .addContainerGap())
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(btn_salir, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 54, Short.MAX_VALUE)
+                .addComponent(btn_nuevo, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -106,12 +105,21 @@ public class NuevoAsunto extends MenuP {
                 .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(txt_nombreAsunto, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 140, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 139, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btn_nuevo1, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btn_nuevo, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addComponent(btn_salir, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btn_nuevo, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)))
         );
     }// </editor-fold>//GEN-END:initComponents
+
+    private void btn_salirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_salirActionPerformed
+        // TODO add your handling code here:
+        this.setVisible(false);
+        mainFrame.setVisible(false);
+        nuevoAsunto = null;
+        mainFrame = null;
+        System.gc();
+    }//GEN-LAST:event_btn_salirActionPerformed
 
     private void btn_nuevoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_nuevoActionPerformed
         // TODO add your handling code here:
@@ -136,19 +144,10 @@ public class NuevoAsunto extends MenuP {
         }
     }//GEN-LAST:event_btn_nuevoActionPerformed
 
-    private void btn_nuevo1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_nuevo1ActionPerformed
-        // TODO add your handling code here:
-        this.setVisible(false);
-        mainFrame.setVisible(false);
-        nuevoAsunto = null;
-        mainFrame = null;
-        System.gc();
-    }//GEN-LAST:event_btn_nuevo1ActionPerformed
-
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JToggleButton btn_nuevo;
-    private javax.swing.JToggleButton btn_nuevo1;
+    private javax.swing.JButton btn_nuevo;
+    private javax.swing.JButton btn_salir;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JTextField txt_nombreAsunto;
     // End of variables declaration//GEN-END:variables
