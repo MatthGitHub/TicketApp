@@ -370,7 +370,7 @@ public class MenuPrincipal extends MenuP {
 
     private void btn_admRazonesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_admRazonesActionPerformed
         // TODO add your handling code here:
-        mainFrame.miTickets();
+        mainFrame.razonesDeTransferencias();
         this.setVisible(false);
     }//GEN-LAST:event_btn_admRazonesActionPerformed
 

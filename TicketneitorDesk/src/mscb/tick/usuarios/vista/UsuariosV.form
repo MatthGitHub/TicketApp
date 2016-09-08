@@ -87,7 +87,7 @@
         <Component class="javax.swing.JTable" name="jt_usuarios">
           <Properties>
             <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
-              <Table columnCount="7" rowCount="0">
+              <Table columnCount="8" rowCount="0">
                 <Column editable="false" title="ID" type="java.lang.Integer"/>
                 <Column editable="false" title="Usuario" type="java.lang.String"/>
                 <Column editable="false" title="Clave" type="java.lang.String"/>
@@ -95,6 +95,7 @@
                 <Column editable="false" title="Apellido" type="java.lang.String"/>
                 <Column editable="false" title="Area" type="java.lang.String"/>
                 <Column editable="false" title="Activo" type="java.lang.Boolean"/>
+                <Column editable="false" title="Rol" type="java.lang.String"/>
               </Table>
             </Property>
             <Property name="columnModel" type="javax.swing.table.TableColumnModel" editor="org.netbeans.modules.form.editors2.TableColumnModelEditor">
@@ -134,6 +135,11 @@
                   <Editor/>
                   <Renderer/>
                 </Column>
+                <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
+                  <Title/>
+                  <Editor/>
+                  <Renderer/>
+                </Column>
               </TableColumnModel>
             </Property>
             <Property name="tableHeader" type="javax.swing.table.JTableHeader" editor="org.netbeans.modules.form.editors2.JTableHeaderEditor">
@@ -167,6 +173,9 @@
         </Property>
         <Property name="text" type="java.lang.String" value="eliminar"/>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btn_eliminarActionPerformed"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JButton" name="btn_desactivar">
       <Properties>

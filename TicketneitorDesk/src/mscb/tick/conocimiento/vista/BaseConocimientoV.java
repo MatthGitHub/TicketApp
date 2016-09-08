@@ -51,7 +51,7 @@ public class BaseConocimientoV extends MenuP {
     
     private void llenarTabla(){
         miLista = serviciosC.traerTodos();
-        String v[] = new String[7];
+        String v[] = new String[4];
         DateFormat dateFormatter;
         dateFormatter = DateFormat.getDateInstance(DateFormat.SHORT, Locale.US);
         
@@ -59,6 +59,7 @@ public class BaseConocimientoV extends MenuP {
             v[0] = miLista.get(i).getFkTicket().toString();
             v[1] = miLista.get(i).getIdResolucion().toString();
             v[2] = dateFormatter.format(miLista.get(i).getFkTicket().getFecha()).toString();
+            v[3] = dateFormatter.format(miLista.get(i).getFecha()).toString();
             modelo.addRow(v);
         }
         revalidate();

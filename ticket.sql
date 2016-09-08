@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 29-08-2016 a las 15:27:16
+-- Tiempo de generación: 08-09-2016 a las 11:14:37
 -- Versión del servidor: 5.7.11
 -- Versión de PHP: 5.6.19
 
@@ -196,16 +196,15 @@ CREATE TABLE `asuntos` (
 --
 
 INSERT INTO `asuntos` (`id_asuntoP`, `nombre`) VALUES
-(1, 'PGM'),
-(2, 'WebDoc'),
-(3, 'Bariloche.gov'),
-(4, 'Comunicar'),
-(5, 'Correo'),
-(6, 'Cajero'),
-(7, 'Tecnico'),
-(8, 'Problemas de comunicacion'),
-(9, 'Sueldos'),
-(10, 'Pagina Medicina');
+(11, 'PGM'),
+(12, 'Sueldos'),
+(13, 'WebDoc'),
+(14, 'Terminal'),
+(15, 'Cajero'),
+(16, 'Correo'),
+(17, 'Servicio tecnico'),
+(18, 'Personal'),
+(19, 'Tickets');
 
 -- --------------------------------------------------------
 
@@ -215,8 +214,9 @@ INSERT INTO `asuntos` (`id_asuntoP`, `nombre`) VALUES
 
 CREATE TABLE `base_conocimiento` (
   `id_resolucion` int(11) NOT NULL,
-  `resolucion` varchar(500) NOT NULL,
-  `fk_ticket` int(11) NOT NULL
+  `resolucion` varchar(3500) NOT NULL,
+  `fk_ticket` int(11) NOT NULL,
+  `fecha` date NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -2660,37 +2660,37 @@ CREATE TABLE `encargado_servicios` (
 --
 
 INSERT INTO `encargado_servicios` (`usuario`, `asunto`) VALUES
-(3, 1),
-(3, 23),
-(3, 24),
-(3, 2),
-(3, 25),
-(3, 26),
-(3, 4),
-(3, 5),
-(3, 6),
-(3, 7),
-(3, 8),
-(3, 9),
-(3, 10),
-(3, 11),
-(3, 12),
-(3, 13),
-(3, 14),
-(3, 15),
-(4, 4),
-(4, 5),
-(6, 11),
-(6, 12),
-(4, 7),
-(4, 8),
-(11, 25),
-(11, 2),
-(11, 1),
-(12, 11),
-(12, 12),
-(10, 22),
-(8, 10);
+(3, 27),
+(3, 28),
+(3, 29),
+(3, 30),
+(3, 31),
+(3, 32),
+(3, 37),
+(3, 48),
+(3, 51),
+(3, 52),
+(3, 53),
+(3, 54),
+(3, 55),
+(3, 56),
+(3, 57),
+(3, 58),
+(14, 49),
+(14, 50),
+(16, 59),
+(16, 60),
+(17, 32),
+(18, 33),
+(18, 34),
+(18, 35),
+(18, 36),
+(18, 41),
+(18, 42),
+(18, 43),
+(18, 44),
+(18, 45),
+(18, 47);
 
 -- --------------------------------------------------------
 
@@ -2755,7 +2755,7 @@ CREATE TABLE `estado_actual_pgm` (
 --
 
 INSERT INTO `estado_actual_pgm` (`id`, `fk_estado_pgm`, `fecha`) VALUES
-(1, 1, '2016-08-29 18:26:12');
+(1, 2, '2016-09-02 18:13:59');
 
 -- --------------------------------------------------------
 
@@ -2768,7 +2768,8 @@ CREATE TABLE `historial_tickets` (
   `fk_ticket` int(11) NOT NULL,
   `fk_usuario_emisor` int(11) NOT NULL,
   `fk_usuario_receptor` int(11) DEFAULT NULL,
-  `fecha` date NOT NULL
+  `fecha` date NOT NULL,
+  `fk_estado` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -2801,6 +2802,14 @@ CREATE TABLE `razones_transferencias` (
   `nombre_razon` varchar(50) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+--
+-- Volcado de datos para la tabla `razones_transferencias`
+--
+
+INSERT INTO `razones_transferencias` (`id_razon`, `nombre_razon`) VALUES
+(1, 'Asunto erroneo'),
+(2, 'Ya realice mi parte');
+
 -- --------------------------------------------------------
 
 --
@@ -2821,7 +2830,7 @@ CREATE TABLE `respuestas` (
 
 CREATE TABLE `servicios` (
   `id_asuntoS` int(11) NOT NULL,
-  `nombre_asuntoS` varchar(50) COLLATE utf8_spanish2_ci NOT NULL,
+  `nombre_asuntoS` varchar(70) COLLATE utf8_spanish2_ci NOT NULL,
   `pertenece` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish2_ci;
 
@@ -2830,32 +2839,67 @@ CREATE TABLE `servicios` (
 --
 
 INSERT INTO `servicios` (`id_asuntoS`, `nombre_asuntoS`, `pertenece`) VALUES
-(1, 'Usuarios (Alta - Baja - Permisos)', 1),
-(2, 'Usuarios (Alta - Baja - Permisos)', 2),
-(3, 'Usuarios (Alta - Baja - Permisos)', 10),
-(4, 'No puedo abrir', 5),
-(5, 'No envia los mails', 5),
-(6, 'No recibo mails', 5),
-(7, 'Alta de nueva casilla de correo', 5),
-(8, 'Baja de casilla de correo', 5),
-(9, 'Diferencia', 6),
-(10, 'Error de vinculacion', 6),
-(11, 'No prende la computadora', 7),
-(12, 'No anda el mouse/teclado/monitor', 7),
-(13, 'Pedido de nueva computadora', 7),
-(14, 'Pedido de mouse/teclado/monitor', 7),
-(15, 'Pedido de nueva conexion de red', 7),
-(16, 'No hay conexion a internet', 8),
-(17, 'No tengo tono en el telefono', 8),
-(18, 'No hay conexion a la red', 8),
-(19, 'Pedido de nueva conexion', 8),
-(20, 'Pedido de nuevo telefono/linea', 8),
-(21, 'Impresion de recibos', 9),
-(22, 'Modificacion de novedades', 9),
-(23, 'Quitar disposicion', 1),
-(24, 'Anular cedulon', 1),
-(25, 'Reclamo', 3),
-(26, 'Reclamo', 4);
+(27, 'Alta usuario (Legajo y Documento)', 11),
+(28, 'Baja usuario (Legajo y Documento)', 11),
+(29, 'Modificar permisos (Legajo y Documento)', 11),
+(30, 'Pedido auditoria', 11),
+(31, 'Anular habilitacion comercial', 11),
+(32, 'Anular declaracion jurada', 11),
+(33, 'Modificacion de vencimientos', 11),
+(34, 'Generacion de boletas de deuda', 11),
+(35, 'Modificaciones en las boletas', 11),
+(36, 'Bajas padrones', 11),
+(37, 'Anular cedulon', 11),
+(38, 'Modificar titular padron tribunal de faltas', 11),
+(39, 'Alta de calles', 11),
+(40, 'Alta de barrios', 11),
+(41, 'Alta de tipos de talonarios', 11),
+(42, 'Elaboracion de formularios (LD - Cert Legal - Cert esc.)', 11),
+(43, 'Modificacion de formularios  (LD - Cert Legal - Cert esc.)', 11),
+(44, 'Creacion de reportes', 11),
+(45, 'Estadisticas', 11),
+(46, 'Unificacion de personas', 11),
+(47, 'No funciona el crystal', 11),
+(48, 'Otros problemas', 11),
+(49, 'Diferencias en sueldos', 12),
+(50, 'Actualizaciones de sueldos', 12),
+(51, 'Alta usuario (Legajo y Documento)', 13),
+(52, 'Baja usuario (Legajo y Documento)', 13),
+(53, 'Configuracion de usuario (Permisos e instancias)', 13),
+(54, 'Pedido de estadisticas (Arribos y salidas)', 14),
+(55, 'Error de vinculacion (Aclarar cedulon/es)', 15),
+(56, 'No se puede cobrar cedulon (Error de vinculo)', 15),
+(57, 'Alta usuario cajero', 15),
+(58, 'Baja usuario cajero', 15),
+(59, 'Pedido de nuevo correo electronico', 16),
+(60, 'Baja de correo electronico', 16),
+(61, 'No funciona algun componente de la pc', 17),
+(62, 'Problemas con el turnero', 17),
+(63, 'Cambio de area', 18),
+(64, 'Otros problemas', 18),
+(65, 'Cambio de area del usuario', 11),
+(66, 'Generacion de informes de sueldos', 12),
+(67, 'Programacion de liquidacion', 12),
+(68, 'Alta novedades', 12),
+(69, 'Vinculacion de novedades', 12),
+(70, 'Modificacion de novedades', 12),
+(71, 'Baja novedades', 12),
+(74, 'Actualizacion acumuladores de ganancia', 12),
+(75, 'Borrado de recibos de horas extras en cero', 12),
+(76, 'Elaboracion de informes de ganancias', 12),
+(77, 'Generacion de recibos de manos a la obra', 12),
+(78, 'Alta y modificacion de un cargo', 12),
+(79, 'Alta y modificacion de funcion', 12),
+(80, 'Alta y modificacion de area administrativa', 12),
+(81, 'Alta y modificacion de organigrama', 12),
+(82, 'Alta y modificacion de categoria', 12),
+(83, 'Alta y modificacion de tipo de empleado', 12),
+(84, 'Alta y modificacion de ubicacion de empelado', 12),
+(85, 'Modificacion de sueldo basico en las categorias', 12),
+(86, 'Modificacion de sueldo basico en las subrrogancias', 12),
+(87, 'Actualizacion de salario minimo vital y movil', 12),
+(88, 'Actualizacion de limites para asignaciones familiares', 12),
+(89, 'Agregar nuevo servicio (Cual,por y para que)', 19);
 
 -- --------------------------------------------------------
 
@@ -2906,7 +2950,7 @@ INSERT INTO `tipo_usuario` (`id_tipo_usuario`, `nombre_tipo_usuario`) VALUES
 CREATE TABLE `usuarios` (
   `id_usuario` int(11) NOT NULL,
   `nombre_usuario` varchar(10) COLLATE utf8_spanish2_ci NOT NULL,
-  `contrasenia` varchar(36) COLLATE utf8_spanish2_ci NOT NULL,
+  `contrasenia` varchar(36) COLLATE utf8_spanish2_ci DEFAULT NULL,
   `fk_empleado` int(11) NOT NULL,
   `activo` tinyint(1) NOT NULL,
   `fk_permiso` int(11) NOT NULL,
@@ -2919,14 +2963,12 @@ CREATE TABLE `usuarios` (
 
 INSERT INTO `usuarios` (`id_usuario`, `nombre_usuario`, `contrasenia`, `fk_empleado`, `activo`, `fk_permiso`, `id_extreme`) VALUES
 (3, 'mbenditti', '090c36e3bb39377468363197afb3e91b', 1, 1, 1, NULL),
-(4, 'gdinardo', '4c96f8324e3ba54a99e78249b95daa30', 146, 1, 1, NULL),
-(6, 'dalvarez', 'aa47f8215c6f30a0dcdb2a36a9f4168e', 2555, 1, 2, NULL),
-(7, 'ekayser', '6b5b0dd03c9c85725032ce5f3a0918ae', 1637, 1, 2, NULL),
-(8, 'avarano', 'e94ef563867e9c9df3fcc999bdb045f5', 113, 1, 1, NULL),
-(9, 'hectorac', '3ab9071536d62f29aa8b3fd39141f6ad', 199, 1, 1, NULL),
-(10, 'eklein', '05d4be078abfb95ae07395971051c2f1', 2851, 1, 1, NULL),
-(11, 'gcastro', '4c96f8324e3ba54a99e78249b95daa30', 2023, 1, 1, NULL),
-(12, 'etomatis', '6d6354ece40846bf7fca65dfabd5d9d4', 1177, 1, 1, NULL);
+(14, 'eklein', '05d4be078abfb95ae07395971051c2f1', 2851, 1, 1, NULL),
+(15, 'ekayser', '6b5b0dd03c9c85725032ce5f3a0918ae', 1637, 1, 2, NULL),
+(16, 'gdinardo', '4c96f8324e3ba54a99e78249b95daa30', 146, 1, 1, NULL),
+(17, 'gcastro', '4c96f8324e3ba54a99e78249b95daa30', 2023, 1, 2, NULL),
+(18, 'avarano', 'e94ef563867e9c9df3fcc999bdb045f5', 113, 1, 2, NULL),
+(19, 'etomatis', '6d6354ece40846bf7fca65dfabd5d9d4', 1177, 1, 2, NULL);
 
 --
 -- Índices para tablas volcadas
@@ -2968,6 +3010,7 @@ ALTER TABLE `empleados`
 -- Indices de la tabla `encargado_servicios`
 --
 ALTER TABLE `encargado_servicios`
+  ADD PRIMARY KEY (`usuario`,`asunto`),
   ADD KEY `usuario` (`usuario`),
   ADD KEY `asunto` (`asunto`);
 
@@ -2998,7 +3041,8 @@ ALTER TABLE `historial_tickets`
   ADD KEY `fk_ticket` (`fk_ticket`,`fk_usuario_emisor`,`fk_usuario_receptor`),
   ADD KEY `fk_usuario_receptor` (`fk_usuario_receptor`),
   ADD KEY `fk_usuario_emisor` (`fk_usuario_emisor`),
-  ADD KEY `fecha` (`fecha`);
+  ADD KEY `fecha` (`fecha`),
+  ADD KEY `fk_estado` (`fk_estado`);
 
 --
 -- Indices de la tabla `permisos`
@@ -3071,7 +3115,7 @@ ALTER TABLE `area_sistemas`
 -- AUTO_INCREMENT de la tabla `asuntos`
 --
 ALTER TABLE `asuntos`
-  MODIFY `id_asuntoP` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `id_asuntoP` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
 --
 -- AUTO_INCREMENT de la tabla `base_conocimiento`
 --
@@ -3096,7 +3140,7 @@ ALTER TABLE `estados_pgm`
 -- AUTO_INCREMENT de la tabla `historial_tickets`
 --
 ALTER TABLE `historial_tickets`
-  MODIFY `id_historial` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `id_historial` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 --
 -- AUTO_INCREMENT de la tabla `permisos`
 --
@@ -3106,17 +3150,17 @@ ALTER TABLE `permisos`
 -- AUTO_INCREMENT de la tabla `razones_transferencias`
 --
 ALTER TABLE `razones_transferencias`
-  MODIFY `id_razon` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_razon` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 --
 -- AUTO_INCREMENT de la tabla `servicios`
 --
 ALTER TABLE `servicios`
-  MODIFY `id_asuntoS` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
+  MODIFY `id_asuntoS` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=90;
 --
 -- AUTO_INCREMENT de la tabla `tickets`
 --
 ALTER TABLE `tickets`
-  MODIFY `id_ticket` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `id_ticket` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 --
 -- AUTO_INCREMENT de la tabla `tipo_usuario`
 --
@@ -3126,7 +3170,7 @@ ALTER TABLE `tipo_usuario`
 -- AUTO_INCREMENT de la tabla `usuarios`
 --
 ALTER TABLE `usuarios`
-  MODIFY `id_usuario` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `id_usuario` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
 --
 -- Restricciones para tablas volcadas
 --
@@ -3162,7 +3206,8 @@ ALTER TABLE `estado_actual_pgm`
 ALTER TABLE `historial_tickets`
   ADD CONSTRAINT `historial_tickets_ibfk_1` FOREIGN KEY (`fk_ticket`) REFERENCES `tickets` (`id_ticket`),
   ADD CONSTRAINT `historial_tickets_ibfk_2` FOREIGN KEY (`fk_usuario_emisor`) REFERENCES `usuarios` (`id_usuario`),
-  ADD CONSTRAINT `historial_tickets_ibfk_3` FOREIGN KEY (`fk_usuario_receptor`) REFERENCES `usuarios` (`id_usuario`);
+  ADD CONSTRAINT `historial_tickets_ibfk_3` FOREIGN KEY (`fk_usuario_receptor`) REFERENCES `usuarios` (`id_usuario`),
+  ADD CONSTRAINT `historial_tickets_ibfk_4` FOREIGN KEY (`fk_estado`) REFERENCES `estados` (`id_estado`);
 
 --
 -- Filtros para la tabla `respuestas`

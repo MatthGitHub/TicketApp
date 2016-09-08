@@ -13,7 +13,6 @@ import javax.swing.table.DefaultTableModel;
 import mscb.tick.entidades.Usuarios;
 import mscb.tick.main.Main;
 import mscb.tick.usuarios.servicios.UsuarioServ;
-import mscb.tick.util.Menu;
 import mscb.tick.util.MenuP;
 
 /**
@@ -72,7 +71,7 @@ public class UsuariosV extends MenuP {
     
     public void cargarTablaUsuarios(){
         modelo = (DefaultTableModel) jt_usuarios.getModel();
-        String vector[] = new String[6];
+        String vector[] = new String[8];
         vaciarTabla(jt_usuarios);
         List<Usuarios> aCargar;
         aCargar = traerUsuarios();
@@ -84,6 +83,7 @@ public class UsuariosV extends MenuP {
             vector[3] = aCargar.get(i).getFkEmpleado().getNombre();
             vector[4] = aCargar.get(i).getFkEmpleado().getApellido();
             vector[5] = aCargar.get(i).getFkEmpleado().getFkArea().getNombreArea();
+            vector[7] = aCargar.get(i).getFkPermiso().getNombrePermiso();
             modelo.addRow(vector);
             
             if(aCargar.get(i).getActivo() == true ){
@@ -135,14 +135,14 @@ public class UsuariosV extends MenuP {
 
             },
             new String [] {
-                "ID", "Usuario", "Clave", "Nombre", "Apellido", "Area", "Activo"
+                "ID", "Usuario", "Clave", "Nombre", "Apellido", "Area", "Activo", "Rol"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.Boolean.class
+                java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.Boolean.class, java.lang.String.class
             };
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false, false
+                false, false, false, false, false, false, false, false
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -177,6 +177,11 @@ public class UsuariosV extends MenuP {
         btn_eliminar.setBackground(new java.awt.Color(153, 153, 153));
         btn_eliminar.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         btn_eliminar.setText("eliminar");
+        btn_eliminar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_eliminarActionPerformed(evt);
+            }
+        });
 
         btn_desactivar.setBackground(new java.awt.Color(153, 153, 153));
         btn_desactivar.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
@@ -295,6 +300,19 @@ public class UsuariosV extends MenuP {
         // TODO add your handling code here:
         mainFrame.nuevoUsuario(mainFrame);
     }//GEN-LAST:event_btn_nuevoActionPerformed
+
+    private void btn_eliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_eliminarActionPerformed
+        // TODO add your handling code here:
+        if(JOptionPane.showConfirmDialog(this, "Seguro desea eliminar?")==0){
+            if(servicios.eliminarUsuario(Integer.parseInt(modelo.getValueAt(jt_usuarios.getSelectedRow(), 0).toString()))){
+                JOptionPane.showMessageDialog(this, "Usuario eliminado");
+                cargarTablaUsuarios();
+            }else{
+                JOptionPane.showMessageDialog(this, "Error al eliminar usuario");
+            }
+        }
+        
+    }//GEN-LAST:event_btn_eliminarActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

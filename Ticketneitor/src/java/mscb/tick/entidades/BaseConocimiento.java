@@ -6,6 +6,7 @@
 package mscb.tick.entidades;
 
 import java.io.Serializable;
+import java.util.Date;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -17,6 +18,9 @@ import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
@@ -31,6 +35,12 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "BaseConocimiento.findByIdResolucion", query = "SELECT b FROM BaseConocimiento b WHERE b.idResolucion = :idResolucion"),
     @NamedQuery(name = "BaseConocimiento.findByResolucion", query = "SELECT b FROM BaseConocimiento b WHERE b.resolucion = :resolucion")})
 public class BaseConocimiento implements Serializable {
+
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = "fecha")
+    @Temporal(TemporalType.DATE)
+    private Date fecha;
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -104,6 +114,14 @@ public class BaseConocimiento implements Serializable {
     @Override
     public String toString() {
         return this.idResolucion+" - "+this.fkTicket;
+    }
+
+    public Date getFecha() {
+        return fecha;
+    }
+
+    public void setFecha(Date fecha) {
+        this.fecha = fecha;
     }
     
 }

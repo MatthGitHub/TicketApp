@@ -6,15 +6,17 @@
 package mscb.tick.controladores;
 
 import java.io.Serializable;
-import java.util.List;
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
 import javax.persistence.Query;
 import javax.persistence.EntityNotFoundException;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
-import mscb.tick.entidades.Estados;
+import mscb.tick.entidades.Tickets;
+import java.util.ArrayList;
+import java.util.List;
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
 import mscb.tick.controladores.exceptions.NonexistentEntityException;
+import mscb.tick.entidades.Estados;
 
 /**
  *
@@ -32,11 +34,29 @@ public class EstadosJpaController implements Serializable {
     }
 
     public void create(Estados estados) {
+        if (estados.getTicketsList() == null) {
+            estados.setTicketsList(new ArrayList<Tickets>());
+        }
         EntityManager em = null;
         try {
             em = getEntityManager();
             em.getTransaction().begin();
+            List<Tickets> attachedTicketsList = new ArrayList<Tickets>();
+            for (Tickets ticketsListTicketsToAttach : estados.getTicketsList()) {
+                ticketsListTicketsToAttach = em.getReference(ticketsListTicketsToAttach.getClass(), ticketsListTicketsToAttach.getIdTicket());
+                attachedTicketsList.add(ticketsListTicketsToAttach);
+            }
+            estados.setTicketsList(attachedTicketsList);
             em.persist(estados);
+            for (Tickets ticketsListTickets : estados.getTicketsList()) {
+                Estados oldFkEstadoOfTicketsListTickets = ticketsListTickets.getFkEstado();
+                ticketsListTickets.setFkEstado(estados);
+                ticketsListTickets = em.merge(ticketsListTickets);
+                if (oldFkEstadoOfTicketsListTickets != null) {
+                    oldFkEstadoOfTicketsListTickets.getTicketsList().remove(ticketsListTickets);
+                    oldFkEstadoOfTicketsListTickets = em.merge(oldFkEstadoOfTicketsListTickets);
+                }
+            }
             em.getTransaction().commit();
         } finally {
             if (em != null) {
@@ -50,7 +70,34 @@ public class EstadosJpaController implements Serializable {
         try {
             em = getEntityManager();
             em.getTransaction().begin();
+            Estados persistentEstados = em.find(Estados.class, estados.getIdEstado());
+            List<Tickets> ticketsListOld = persistentEstados.getTicketsList();
+            List<Tickets> ticketsListNew = estados.getTicketsList();
+            List<Tickets> attachedTicketsListNew = new ArrayList<Tickets>();
+            for (Tickets ticketsListNewTicketsToAttach : ticketsListNew) {
+                ticketsListNewTicketsToAttach = em.getReference(ticketsListNewTicketsToAttach.getClass(), ticketsListNewTicketsToAttach.getIdTicket());
+                attachedTicketsListNew.add(ticketsListNewTicketsToAttach);
+            }
+            ticketsListNew = attachedTicketsListNew;
+            estados.setTicketsList(ticketsListNew);
             estados = em.merge(estados);
+            for (Tickets ticketsListOldTickets : ticketsListOld) {
+                if (!ticketsListNew.contains(ticketsListOldTickets)) {
+                    ticketsListOldTickets.setFkEstado(null);
+                    ticketsListOldTickets = em.merge(ticketsListOldTickets);
+                }
+            }
+            for (Tickets ticketsListNewTickets : ticketsListNew) {
+                if (!ticketsListOld.contains(ticketsListNewTickets)) {
+                    Estados oldFkEstadoOfTicketsListNewTickets = ticketsListNewTickets.getFkEstado();
+                    ticketsListNewTickets.setFkEstado(estados);
+                    ticketsListNewTickets = em.merge(ticketsListNewTickets);
+                    if (oldFkEstadoOfTicketsListNewTickets != null && !oldFkEstadoOfTicketsListNewTickets.equals(estados)) {
+                        oldFkEstadoOfTicketsListNewTickets.getTicketsList().remove(ticketsListNewTickets);
+                        oldFkEstadoOfTicketsListNewTickets = em.merge(oldFkEstadoOfTicketsListNewTickets);
+                    }
+                }
+            }
             em.getTransaction().commit();
         } catch (Exception ex) {
             String msg = ex.getLocalizedMessage();
@@ -79,6 +126,11 @@ public class EstadosJpaController implements Serializable {
                 estados.getIdEstado();
             } catch (EntityNotFoundException enfe) {
                 throw new NonexistentEntityException("The estados with id " + id + " no longer exists.", enfe);
+            }
+            List<Tickets> ticketsList = estados.getTicketsList();
+            for (Tickets ticketsListTickets : ticketsList) {
+                ticketsListTickets.setFkEstado(null);
+                ticketsListTickets = em.merge(ticketsListTickets);
             }
             em.remove(estados);
             em.getTransaction().commit();

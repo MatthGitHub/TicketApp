@@ -22,4 +22,25 @@ public class RazoneServ {
     public List<RazonesTransferencias> traerTodos(){
         return jpa.findRazonesTransferenciasEntities();
     }
+    
+    public boolean eliminar(int id){
+        try {
+            jpa.destroy(id);
+            return true;
+        } catch (Exception e) {
+            System.out.println(e+" - Eliminar transferencia");
+            return false;
+        }
+    }
+    
+    public boolean nuevaRazon(RazonesTransferencias nuevo){
+        try {
+            jpa.create(nuevo);
+            return true;
+        } catch (Exception e) {
+            System.out.println(e+" - Error al guardar nueva razon");
+            return false;
+        }
+    }
+    
 }

@@ -248,7 +248,7 @@ public class AsuntoSec extends MenuP {
         if((jt_asuntoSec.getSelectedRow() != -1)&&(jt_asuntoSec.getSelectedRowCount() == 1)){
             if(JOptionPane.showConfirmDialog(this, "Seguro desea eliminar?", "Confirmar", JOptionPane.YES_NO_OPTION) == 0){
                 eliminarAsunto(Integer.parseInt(jt_asuntoSec.getValueAt(jt_asuntoSec.getSelectedRow(), 0).toString()));
-                llenarTabla(misAsuntoSS);
+                llenarTabla(serviciosASec.traerPorAreaPrincipal(obj));
             }
         }else{
             JOptionPane.showMessageDialog(this, "Debe seleccionar una y solo una fila!");

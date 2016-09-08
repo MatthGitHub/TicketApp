@@ -6,13 +6,15 @@
 package mscb.tick.controladores;
 
 import java.io.Serializable;
-import java.util.List;
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
 import javax.persistence.Query;
 import javax.persistence.EntityNotFoundException;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
+import mscb.tick.entidades.Tickets;
+import java.util.ArrayList;
+import java.util.List;
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
 import mscb.tick.controladores.exceptions.NonexistentEntityException;
 import mscb.tick.entidades.AreaSistemas;
 
@@ -32,11 +34,29 @@ public class AreaSistemasJpaController implements Serializable {
     }
 
     public void create(AreaSistemas areaSistemas) {
+        if (areaSistemas.getTicketsList() == null) {
+            areaSistemas.setTicketsList(new ArrayList<Tickets>());
+        }
         EntityManager em = null;
         try {
             em = getEntityManager();
             em.getTransaction().begin();
+            List<Tickets> attachedTicketsList = new ArrayList<Tickets>();
+            for (Tickets ticketsListTicketsToAttach : areaSistemas.getTicketsList()) {
+                ticketsListTicketsToAttach = em.getReference(ticketsListTicketsToAttach.getClass(), ticketsListTicketsToAttach.getIdTicket());
+                attachedTicketsList.add(ticketsListTicketsToAttach);
+            }
+            areaSistemas.setTicketsList(attachedTicketsList);
             em.persist(areaSistemas);
+            for (Tickets ticketsListTickets : areaSistemas.getTicketsList()) {
+                AreaSistemas oldFkAreaSistemasOfTicketsListTickets = ticketsListTickets.getFkAreaSistemas();
+                ticketsListTickets.setFkAreaSistemas(areaSistemas);
+                ticketsListTickets = em.merge(ticketsListTickets);
+                if (oldFkAreaSistemasOfTicketsListTickets != null) {
+                    oldFkAreaSistemasOfTicketsListTickets.getTicketsList().remove(ticketsListTickets);
+                    oldFkAreaSistemasOfTicketsListTickets = em.merge(oldFkAreaSistemasOfTicketsListTickets);
+                }
+            }
             em.getTransaction().commit();
         } finally {
             if (em != null) {
@@ -50,7 +70,34 @@ public class AreaSistemasJpaController implements Serializable {
         try {
             em = getEntityManager();
             em.getTransaction().begin();
+            AreaSistemas persistentAreaSistemas = em.find(AreaSistemas.class, areaSistemas.getIdAreaSistemas());
+            List<Tickets> ticketsListOld = persistentAreaSistemas.getTicketsList();
+            List<Tickets> ticketsListNew = areaSistemas.getTicketsList();
+            List<Tickets> attachedTicketsListNew = new ArrayList<Tickets>();
+            for (Tickets ticketsListNewTicketsToAttach : ticketsListNew) {
+                ticketsListNewTicketsToAttach = em.getReference(ticketsListNewTicketsToAttach.getClass(), ticketsListNewTicketsToAttach.getIdTicket());
+                attachedTicketsListNew.add(ticketsListNewTicketsToAttach);
+            }
+            ticketsListNew = attachedTicketsListNew;
+            areaSistemas.setTicketsList(ticketsListNew);
             areaSistemas = em.merge(areaSistemas);
+            for (Tickets ticketsListOldTickets : ticketsListOld) {
+                if (!ticketsListNew.contains(ticketsListOldTickets)) {
+                    ticketsListOldTickets.setFkAreaSistemas(null);
+                    ticketsListOldTickets = em.merge(ticketsListOldTickets);
+                }
+            }
+            for (Tickets ticketsListNewTickets : ticketsListNew) {
+                if (!ticketsListOld.contains(ticketsListNewTickets)) {
+                    AreaSistemas oldFkAreaSistemasOfTicketsListNewTickets = ticketsListNewTickets.getFkAreaSistemas();
+                    ticketsListNewTickets.setFkAreaSistemas(areaSistemas);
+                    ticketsListNewTickets = em.merge(ticketsListNewTickets);
+                    if (oldFkAreaSistemasOfTicketsListNewTickets != null && !oldFkAreaSistemasOfTicketsListNewTickets.equals(areaSistemas)) {
+                        oldFkAreaSistemasOfTicketsListNewTickets.getTicketsList().remove(ticketsListNewTickets);
+                        oldFkAreaSistemasOfTicketsListNewTickets = em.merge(oldFkAreaSistemasOfTicketsListNewTickets);
+                    }
+                }
+            }
             em.getTransaction().commit();
         } catch (Exception ex) {
             String msg = ex.getLocalizedMessage();
@@ -79,6 +126,11 @@ public class AreaSistemasJpaController implements Serializable {
                 areaSistemas.getIdAreaSistemas();
             } catch (EntityNotFoundException enfe) {
                 throw new NonexistentEntityException("The areaSistemas with id " + id + " no longer exists.", enfe);
+            }
+            List<Tickets> ticketsList = areaSistemas.getTicketsList();
+            for (Tickets ticketsListTickets : ticketsList) {
+                ticketsListTickets.setFkAreaSistemas(null);
+                ticketsListTickets = em.merge(ticketsListTickets);
             }
             em.remove(areaSistemas);
             em.getTransaction().commit();

@@ -26,6 +26,7 @@ import mscb.tick.conocimiento.vista.ResolucionVerF;
 import mscb.tick.conocimiento.vista.ResolucionVerP;
 import mscb.tick.historial.servicios.HistorialServ;
 import mscb.tick.hitorialTicket.vista.HistorialTicketV;
+import mscb.tick.razonesTransf.vista.Razones;
 import mscb.tick.tickets.vista.ResolucionF;
 import mscb.tick.tickets.vista.ResolucionP;
 import mscb.tick.tickets.vista.ResponderF;
@@ -85,6 +86,8 @@ public class Main extends javax.swing.JFrame {
     private NuevoAsuntoSecFrame nuevoAsuntoSec;
     private BaseConocimientoV baseCono;
     private HistorialTicketV hisTick;
+    
+    private Razones razones;
     
             
     /**
@@ -396,6 +399,19 @@ public class Main extends javax.swing.JFrame {
         revalidate();
     }
     
+    /**
+     *Ventana con el historial de ticket seleccionado 
+     */
+    public void razonesDeTransferencias(){
+        razones = Razones.getRazones(this);
+        
+        if(!razones.isVisible()==false){
+            getContentPane().add(razones);
+        }else{
+            razones.setVisible(true);
+        }
+        revalidate();
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always

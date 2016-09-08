@@ -5,8 +5,6 @@
  */
 package mscb.tick.controladores;
 
-import mscb.tick.entidades.EstadoActualPgm;
-import mscb.tick.entidades.EstadosPgm;
 import java.io.Serializable;
 import java.util.List;
 import javax.persistence.EntityManager;
@@ -17,6 +15,8 @@ import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 import mscb.tick.controladores.exceptions.NonexistentEntityException;
 import mscb.tick.controladores.exceptions.PreexistingEntityException;
+import mscb.tick.entidades.EstadoActualPgm;
+import mscb.tick.entidades.EstadosPgm;
 
 /**
  *

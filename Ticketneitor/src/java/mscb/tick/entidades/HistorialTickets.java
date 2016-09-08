@@ -20,6 +20,7 @@ import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
@@ -42,18 +43,22 @@ public class HistorialTickets implements Serializable {
     @Column(name = "id_historial")
     private Integer idHistorial;
     @Basic(optional = false)
+    @NotNull
     @Column(name = "fecha")
     @Temporal(TemporalType.DATE)
     private Date fecha;
-    @JoinColumn(name = "fk_usuario_receptor", referencedColumnName = "id_usuario")
-    @ManyToOne(optional = false)
-    private Usuarios fkUsuarioReceptor;
     @JoinColumn(name = "fk_ticket", referencedColumnName = "id_ticket")
     @ManyToOne(optional = false)
     private Tickets fkTicket;
     @JoinColumn(name = "fk_usuario_emisor", referencedColumnName = "id_usuario")
     @ManyToOne(optional = false)
     private Usuarios fkUsuarioEmisor;
+    @JoinColumn(name = "fk_usuario_receptor", referencedColumnName = "id_usuario")
+    @ManyToOne
+    private Usuarios fkUsuarioReceptor;
+    @JoinColumn(name = "fk_estado", referencedColumnName = "id_estado")
+    @ManyToOne
+    private Estados fkEstado;
 
     public HistorialTickets() {
     }
@@ -83,14 +88,6 @@ public class HistorialTickets implements Serializable {
         this.fecha = fecha;
     }
 
-    public Usuarios getFkUsuarioReceptor() {
-        return fkUsuarioReceptor;
-    }
-
-    public void setFkUsuarioReceptor(Usuarios fkUsuarioReceptor) {
-        this.fkUsuarioReceptor = fkUsuarioReceptor;
-    }
-
     public Tickets getFkTicket() {
         return fkTicket;
     }
@@ -105,6 +102,22 @@ public class HistorialTickets implements Serializable {
 
     public void setFkUsuarioEmisor(Usuarios fkUsuarioEmisor) {
         this.fkUsuarioEmisor = fkUsuarioEmisor;
+    }
+
+    public Usuarios getFkUsuarioReceptor() {
+        return fkUsuarioReceptor;
+    }
+
+    public void setFkUsuarioReceptor(Usuarios fkUsuarioReceptor) {
+        this.fkUsuarioReceptor = fkUsuarioReceptor;
+    }
+
+    public Estados getFkEstado() {
+        return fkEstado;
+    }
+
+    public void setFkEstado(Estados fkEstado) {
+        this.fkEstado = fkEstado;
     }
 
     @Override
@@ -129,7 +142,7 @@ public class HistorialTickets implements Serializable {
 
     @Override
     public String toString() {
-        return this.idHistorial.toString();
+        return "mscb.tick.entidades.HistorialTickets[ idHistorial=" + idHistorial + " ]";
     }
     
 }

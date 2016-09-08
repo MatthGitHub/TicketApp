@@ -78,17 +78,18 @@ public class UsuarioServ {
             
          }
     
-    public int eliminarUsuario(int id){
+    public boolean eliminarUsuario(int id){
         try {
             jpa.destroy(id);
+            return true;
         } catch (IllegalOrphanException ex) {
             Logger.getLogger(UsuarioServ.class.getName()).log(Level.SEVERE, null, ex);
-            return 1;
+            return false;
         } catch (NonexistentEntityException ex) {
             Logger.getLogger(UsuarioServ.class.getName()).log(Level.SEVERE, null, ex);
-            return 1;
+            return false;
         }
-        return 0;
+        
     }
     
     public int deshabilitarUsuario(int id){

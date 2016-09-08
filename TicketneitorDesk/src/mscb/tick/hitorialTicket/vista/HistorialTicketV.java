@@ -66,7 +66,7 @@ public class HistorialTicketV extends MenuP {
                 v[3] = miLista.get(i).getFkUsuarioReceptor().getNombreUsuario();
             }
             v[4] = dateFormatter.format(miLista.get(i).getFecha()).toString();
-            v[5] = miLista.get(i).getFkTicket().getFkEstado().getNombre();
+            v[5] = miLista.get(i).getFkEstado().getNombre();
             
             modelo.addRow(v);
         }

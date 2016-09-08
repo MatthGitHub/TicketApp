@@ -5,19 +5,19 @@
  */
 package mscb.tick.controladores;
 
-import mscb.tick.entidades.EstadoActualPgm;
-import mscb.tick.entidades.EstadosPgm;
 import java.io.Serializable;
 import javax.persistence.Query;
 import javax.persistence.EntityNotFoundException;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
+import mscb.tick.entidades.EstadoActualPgm;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import mscb.tick.controladores.exceptions.IllegalOrphanException;
 import mscb.tick.controladores.exceptions.NonexistentEntityException;
+import mscb.tick.entidades.EstadosPgm;
 
 /**
  *

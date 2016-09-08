@@ -13,9 +13,9 @@ import javax.persistence.Query;
 import javax.persistence.EntityNotFoundException;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
+import mscb.tick.controladores.exceptions.NonexistentEntityException;
 import mscb.tick.entidades.BaseConocimiento;
 import mscb.tick.entidades.Tickets;
-import mscb.tick.controladores.exceptions.NonexistentEntityException;
 
 /**
  *

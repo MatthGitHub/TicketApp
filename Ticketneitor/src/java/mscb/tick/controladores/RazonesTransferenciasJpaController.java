@@ -15,8 +15,8 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
-import mscb.tick.entidades.RazonesTransferencias;
 import mscb.tick.controladores.exceptions.NonexistentEntityException;
+import mscb.tick.entidades.RazonesTransferencias;
 
 /**
  *

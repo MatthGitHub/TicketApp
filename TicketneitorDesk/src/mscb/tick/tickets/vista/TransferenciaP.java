@@ -311,6 +311,7 @@ public class TransferenciaP extends MenuP {
                 miHis.setFecha(fecha);
                 miHis.setFkTicket(miTick);
                 miHis.setFkUsuarioEmisor(LoginEJB.usuario);
+                miHis.setFkEstado(miTick.getFkEstado());
                 miTick.setUsuarioReceptor(null);
                 serviciosH.nuevo(miHis);
                 MisTickets.getMisTickets(mainFrameO).llenarTabla();

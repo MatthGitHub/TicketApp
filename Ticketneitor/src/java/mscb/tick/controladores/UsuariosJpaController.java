@@ -11,6 +11,7 @@ import javax.persistence.EntityNotFoundException;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 import mscb.tick.entidades.Empleados;
+import mscb.tick.entidades.Permisos;
 import mscb.tick.entidades.Servicios;
 import java.util.ArrayList;
 import java.util.List;
@@ -18,8 +19,8 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import mscb.tick.controladores.exceptions.IllegalOrphanException;
 import mscb.tick.controladores.exceptions.NonexistentEntityException;
-import mscb.tick.entidades.Respuestas;
 import mscb.tick.entidades.Tickets;
+import mscb.tick.entidades.Respuestas;
 import mscb.tick.entidades.Usuarios;
 
 /**
@@ -41,14 +42,14 @@ public class UsuariosJpaController implements Serializable {
         if (usuarios.getServiciosList() == null) {
             usuarios.setServiciosList(new ArrayList<Servicios>());
         }
-        if (usuarios.getRespuestasList() == null) {
-            usuarios.setRespuestasList(new ArrayList<Respuestas>());
-        }
         if (usuarios.getTicketsList() == null) {
             usuarios.setTicketsList(new ArrayList<Tickets>());
         }
         if (usuarios.getTicketsList1() == null) {
             usuarios.setTicketsList1(new ArrayList<Tickets>());
+        }
+        if (usuarios.getRespuestasList() == null) {
+            usuarios.setRespuestasList(new ArrayList<Respuestas>());
         }
         EntityManager em = null;
         try {
@@ -59,18 +60,17 @@ public class UsuariosJpaController implements Serializable {
                 fkEmpleado = em.getReference(fkEmpleado.getClass(), fkEmpleado.getIdEmpleado());
                 usuarios.setFkEmpleado(fkEmpleado);
             }
+            Permisos fkPermiso = usuarios.getFkPermiso();
+            if (fkPermiso != null) {
+                fkPermiso = em.getReference(fkPermiso.getClass(), fkPermiso.getIdPermiso());
+                usuarios.setFkPermiso(fkPermiso);
+            }
             List<Servicios> attachedServiciosList = new ArrayList<Servicios>();
             for (Servicios serviciosListServiciosToAttach : usuarios.getServiciosList()) {
                 serviciosListServiciosToAttach = em.getReference(serviciosListServiciosToAttach.getClass(), serviciosListServiciosToAttach.getIdasuntoS());
                 attachedServiciosList.add(serviciosListServiciosToAttach);
             }
             usuarios.setServiciosList(attachedServiciosList);
-            List<Respuestas> attachedRespuestasList = new ArrayList<Respuestas>();
-            for (Respuestas respuestasListRespuestasToAttach : usuarios.getRespuestasList()) {
-                respuestasListRespuestasToAttach = em.getReference(respuestasListRespuestasToAttach.getClass(), respuestasListRespuestasToAttach.getIdTicket());
-                attachedRespuestasList.add(respuestasListRespuestasToAttach);
-            }
-            usuarios.setRespuestasList(attachedRespuestasList);
             List<Tickets> attachedTicketsList = new ArrayList<Tickets>();
             for (Tickets ticketsListTicketsToAttach : usuarios.getTicketsList()) {
                 ticketsListTicketsToAttach = em.getReference(ticketsListTicketsToAttach.getClass(), ticketsListTicketsToAttach.getIdTicket());
@@ -83,23 +83,24 @@ public class UsuariosJpaController implements Serializable {
                 attachedTicketsList1.add(ticketsList1TicketsToAttach);
             }
             usuarios.setTicketsList1(attachedTicketsList1);
+            List<Respuestas> attachedRespuestasList = new ArrayList<Respuestas>();
+            for (Respuestas respuestasListRespuestasToAttach : usuarios.getRespuestasList()) {
+                respuestasListRespuestasToAttach = em.getReference(respuestasListRespuestasToAttach.getClass(), respuestasListRespuestasToAttach.getIdTicket());
+                attachedRespuestasList.add(respuestasListRespuestasToAttach);
+            }
+            usuarios.setRespuestasList(attachedRespuestasList);
             em.persist(usuarios);
             if (fkEmpleado != null) {
                 fkEmpleado.getUsuariosList().add(usuarios);
                 fkEmpleado = em.merge(fkEmpleado);
             }
+            if (fkPermiso != null) {
+                fkPermiso.getUsuariosList().add(usuarios);
+                fkPermiso = em.merge(fkPermiso);
+            }
             for (Servicios serviciosListServicios : usuarios.getServiciosList()) {
                 serviciosListServicios.getUsuariosList().add(usuarios);
                 serviciosListServicios = em.merge(serviciosListServicios);
-            }
-            for (Respuestas respuestasListRespuestas : usuarios.getRespuestasList()) {
-                Usuarios oldIdUsuarioOfRespuestasListRespuestas = respuestasListRespuestas.getIdUsuario();
-                respuestasListRespuestas.setIdUsuario(usuarios);
-                respuestasListRespuestas = em.merge(respuestasListRespuestas);
-                if (oldIdUsuarioOfRespuestasListRespuestas != null) {
-                    oldIdUsuarioOfRespuestasListRespuestas.getRespuestasList().remove(respuestasListRespuestas);
-                    oldIdUsuarioOfRespuestasListRespuestas = em.merge(oldIdUsuarioOfRespuestasListRespuestas);
-                }
             }
             for (Tickets ticketsListTickets : usuarios.getTicketsList()) {
                 Usuarios oldFkUsuarioEmisorOfTicketsListTickets = ticketsListTickets.getFkUsuarioEmisor();
@@ -119,6 +120,15 @@ public class UsuariosJpaController implements Serializable {
                     oldUsuarioReceptorOfTicketsList1Tickets = em.merge(oldUsuarioReceptorOfTicketsList1Tickets);
                 }
             }
+            for (Respuestas respuestasListRespuestas : usuarios.getRespuestasList()) {
+                Usuarios oldIdUsuarioOfRespuestasListRespuestas = respuestasListRespuestas.getIdUsuario();
+                respuestasListRespuestas.setIdUsuario(usuarios);
+                respuestasListRespuestas = em.merge(respuestasListRespuestas);
+                if (oldIdUsuarioOfRespuestasListRespuestas != null) {
+                    oldIdUsuarioOfRespuestasListRespuestas.getRespuestasList().remove(respuestasListRespuestas);
+                    oldIdUsuarioOfRespuestasListRespuestas = em.merge(oldIdUsuarioOfRespuestasListRespuestas);
+                }
+            }
             em.getTransaction().commit();
         } finally {
             if (em != null) {
@@ -135,29 +145,31 @@ public class UsuariosJpaController implements Serializable {
             Usuarios persistentUsuarios = em.find(Usuarios.class, usuarios.getIdUsuario());
             Empleados fkEmpleadoOld = persistentUsuarios.getFkEmpleado();
             Empleados fkEmpleadoNew = usuarios.getFkEmpleado();
+            Permisos fkPermisoOld = persistentUsuarios.getFkPermiso();
+            Permisos fkPermisoNew = usuarios.getFkPermiso();
             List<Servicios> serviciosListOld = persistentUsuarios.getServiciosList();
             List<Servicios> serviciosListNew = usuarios.getServiciosList();
-            List<Respuestas> respuestasListOld = persistentUsuarios.getRespuestasList();
-            List<Respuestas> respuestasListNew = usuarios.getRespuestasList();
             List<Tickets> ticketsListOld = persistentUsuarios.getTicketsList();
             List<Tickets> ticketsListNew = usuarios.getTicketsList();
             List<Tickets> ticketsList1Old = persistentUsuarios.getTicketsList1();
             List<Tickets> ticketsList1New = usuarios.getTicketsList1();
+            List<Respuestas> respuestasListOld = persistentUsuarios.getRespuestasList();
+            List<Respuestas> respuestasListNew = usuarios.getRespuestasList();
             List<String> illegalOrphanMessages = null;
-            for (Respuestas respuestasListOldRespuestas : respuestasListOld) {
-                if (!respuestasListNew.contains(respuestasListOldRespuestas)) {
-                    if (illegalOrphanMessages == null) {
-                        illegalOrphanMessages = new ArrayList<String>();
-                    }
-                    illegalOrphanMessages.add("You must retain Respuestas " + respuestasListOldRespuestas + " since its idUsuario field is not nullable.");
-                }
-            }
             for (Tickets ticketsListOldTickets : ticketsListOld) {
                 if (!ticketsListNew.contains(ticketsListOldTickets)) {
                     if (illegalOrphanMessages == null) {
                         illegalOrphanMessages = new ArrayList<String>();
                     }
                     illegalOrphanMessages.add("You must retain Tickets " + ticketsListOldTickets + " since its fkUsuarioEmisor field is not nullable.");
+                }
+            }
+            for (Respuestas respuestasListOldRespuestas : respuestasListOld) {
+                if (!respuestasListNew.contains(respuestasListOldRespuestas)) {
+                    if (illegalOrphanMessages == null) {
+                        illegalOrphanMessages = new ArrayList<String>();
+                    }
+                    illegalOrphanMessages.add("You must retain Respuestas " + respuestasListOldRespuestas + " since its idUsuario field is not nullable.");
                 }
             }
             if (illegalOrphanMessages != null) {
@@ -167,6 +179,10 @@ public class UsuariosJpaController implements Serializable {
                 fkEmpleadoNew = em.getReference(fkEmpleadoNew.getClass(), fkEmpleadoNew.getIdEmpleado());
                 usuarios.setFkEmpleado(fkEmpleadoNew);
             }
+            if (fkPermisoNew != null) {
+                fkPermisoNew = em.getReference(fkPermisoNew.getClass(), fkPermisoNew.getIdPermiso());
+                usuarios.setFkPermiso(fkPermisoNew);
+            }
             List<Servicios> attachedServiciosListNew = new ArrayList<Servicios>();
             for (Servicios serviciosListNewServiciosToAttach : serviciosListNew) {
                 serviciosListNewServiciosToAttach = em.getReference(serviciosListNewServiciosToAttach.getClass(), serviciosListNewServiciosToAttach.getIdasuntoS());
@@ -174,13 +190,6 @@ public class UsuariosJpaController implements Serializable {
             }
             serviciosListNew = attachedServiciosListNew;
             usuarios.setServiciosList(serviciosListNew);
-            List<Respuestas> attachedRespuestasListNew = new ArrayList<Respuestas>();
-            for (Respuestas respuestasListNewRespuestasToAttach : respuestasListNew) {
-                respuestasListNewRespuestasToAttach = em.getReference(respuestasListNewRespuestasToAttach.getClass(), respuestasListNewRespuestasToAttach.getIdTicket());
-                attachedRespuestasListNew.add(respuestasListNewRespuestasToAttach);
-            }
-            respuestasListNew = attachedRespuestasListNew;
-            usuarios.setRespuestasList(respuestasListNew);
             List<Tickets> attachedTicketsListNew = new ArrayList<Tickets>();
             for (Tickets ticketsListNewTicketsToAttach : ticketsListNew) {
                 ticketsListNewTicketsToAttach = em.getReference(ticketsListNewTicketsToAttach.getClass(), ticketsListNewTicketsToAttach.getIdTicket());
@@ -195,6 +204,13 @@ public class UsuariosJpaController implements Serializable {
             }
             ticketsList1New = attachedTicketsList1New;
             usuarios.setTicketsList1(ticketsList1New);
+            List<Respuestas> attachedRespuestasListNew = new ArrayList<Respuestas>();
+            for (Respuestas respuestasListNewRespuestasToAttach : respuestasListNew) {
+                respuestasListNewRespuestasToAttach = em.getReference(respuestasListNewRespuestasToAttach.getClass(), respuestasListNewRespuestasToAttach.getIdTicket());
+                attachedRespuestasListNew.add(respuestasListNewRespuestasToAttach);
+            }
+            respuestasListNew = attachedRespuestasListNew;
+            usuarios.setRespuestasList(respuestasListNew);
             usuarios = em.merge(usuarios);
             if (fkEmpleadoOld != null && !fkEmpleadoOld.equals(fkEmpleadoNew)) {
                 fkEmpleadoOld.getUsuariosList().remove(usuarios);
@@ -203,6 +219,14 @@ public class UsuariosJpaController implements Serializable {
             if (fkEmpleadoNew != null && !fkEmpleadoNew.equals(fkEmpleadoOld)) {
                 fkEmpleadoNew.getUsuariosList().add(usuarios);
                 fkEmpleadoNew = em.merge(fkEmpleadoNew);
+            }
+            if (fkPermisoOld != null && !fkPermisoOld.equals(fkPermisoNew)) {
+                fkPermisoOld.getUsuariosList().remove(usuarios);
+                fkPermisoOld = em.merge(fkPermisoOld);
+            }
+            if (fkPermisoNew != null && !fkPermisoNew.equals(fkPermisoOld)) {
+                fkPermisoNew.getUsuariosList().add(usuarios);
+                fkPermisoNew = em.merge(fkPermisoNew);
             }
             for (Servicios serviciosListOldServicios : serviciosListOld) {
                 if (!serviciosListNew.contains(serviciosListOldServicios)) {
@@ -214,17 +238,6 @@ public class UsuariosJpaController implements Serializable {
                 if (!serviciosListOld.contains(serviciosListNewServicios)) {
                     serviciosListNewServicios.getUsuariosList().add(usuarios);
                     serviciosListNewServicios = em.merge(serviciosListNewServicios);
-                }
-            }
-            for (Respuestas respuestasListNewRespuestas : respuestasListNew) {
-                if (!respuestasListOld.contains(respuestasListNewRespuestas)) {
-                    Usuarios oldIdUsuarioOfRespuestasListNewRespuestas = respuestasListNewRespuestas.getIdUsuario();
-                    respuestasListNewRespuestas.setIdUsuario(usuarios);
-                    respuestasListNewRespuestas = em.merge(respuestasListNewRespuestas);
-                    if (oldIdUsuarioOfRespuestasListNewRespuestas != null && !oldIdUsuarioOfRespuestasListNewRespuestas.equals(usuarios)) {
-                        oldIdUsuarioOfRespuestasListNewRespuestas.getRespuestasList().remove(respuestasListNewRespuestas);
-                        oldIdUsuarioOfRespuestasListNewRespuestas = em.merge(oldIdUsuarioOfRespuestasListNewRespuestas);
-                    }
                 }
             }
             for (Tickets ticketsListNewTickets : ticketsListNew) {
@@ -252,6 +265,17 @@ public class UsuariosJpaController implements Serializable {
                     if (oldUsuarioReceptorOfTicketsList1NewTickets != null && !oldUsuarioReceptorOfTicketsList1NewTickets.equals(usuarios)) {
                         oldUsuarioReceptorOfTicketsList1NewTickets.getTicketsList1().remove(ticketsList1NewTickets);
                         oldUsuarioReceptorOfTicketsList1NewTickets = em.merge(oldUsuarioReceptorOfTicketsList1NewTickets);
+                    }
+                }
+            }
+            for (Respuestas respuestasListNewRespuestas : respuestasListNew) {
+                if (!respuestasListOld.contains(respuestasListNewRespuestas)) {
+                    Usuarios oldIdUsuarioOfRespuestasListNewRespuestas = respuestasListNewRespuestas.getIdUsuario();
+                    respuestasListNewRespuestas.setIdUsuario(usuarios);
+                    respuestasListNewRespuestas = em.merge(respuestasListNewRespuestas);
+                    if (oldIdUsuarioOfRespuestasListNewRespuestas != null && !oldIdUsuarioOfRespuestasListNewRespuestas.equals(usuarios)) {
+                        oldIdUsuarioOfRespuestasListNewRespuestas.getRespuestasList().remove(respuestasListNewRespuestas);
+                        oldIdUsuarioOfRespuestasListNewRespuestas = em.merge(oldIdUsuarioOfRespuestasListNewRespuestas);
                     }
                 }
             }
@@ -285,19 +309,19 @@ public class UsuariosJpaController implements Serializable {
                 throw new NonexistentEntityException("The usuarios with id " + id + " no longer exists.", enfe);
             }
             List<String> illegalOrphanMessages = null;
-            List<Respuestas> respuestasListOrphanCheck = usuarios.getRespuestasList();
-            for (Respuestas respuestasListOrphanCheckRespuestas : respuestasListOrphanCheck) {
-                if (illegalOrphanMessages == null) {
-                    illegalOrphanMessages = new ArrayList<String>();
-                }
-                illegalOrphanMessages.add("This Usuarios (" + usuarios + ") cannot be destroyed since the Respuestas " + respuestasListOrphanCheckRespuestas + " in its respuestasList field has a non-nullable idUsuario field.");
-            }
             List<Tickets> ticketsListOrphanCheck = usuarios.getTicketsList();
             for (Tickets ticketsListOrphanCheckTickets : ticketsListOrphanCheck) {
                 if (illegalOrphanMessages == null) {
                     illegalOrphanMessages = new ArrayList<String>();
                 }
                 illegalOrphanMessages.add("This Usuarios (" + usuarios + ") cannot be destroyed since the Tickets " + ticketsListOrphanCheckTickets + " in its ticketsList field has a non-nullable fkUsuarioEmisor field.");
+            }
+            List<Respuestas> respuestasListOrphanCheck = usuarios.getRespuestasList();
+            for (Respuestas respuestasListOrphanCheckRespuestas : respuestasListOrphanCheck) {
+                if (illegalOrphanMessages == null) {
+                    illegalOrphanMessages = new ArrayList<String>();
+                }
+                illegalOrphanMessages.add("This Usuarios (" + usuarios + ") cannot be destroyed since the Respuestas " + respuestasListOrphanCheckRespuestas + " in its respuestasList field has a non-nullable idUsuario field.");
             }
             if (illegalOrphanMessages != null) {
                 throw new IllegalOrphanException(illegalOrphanMessages);
@@ -306,6 +330,11 @@ public class UsuariosJpaController implements Serializable {
             if (fkEmpleado != null) {
                 fkEmpleado.getUsuariosList().remove(usuarios);
                 fkEmpleado = em.merge(fkEmpleado);
+            }
+            Permisos fkPermiso = usuarios.getFkPermiso();
+            if (fkPermiso != null) {
+                fkPermiso.getUsuariosList().remove(usuarios);
+                fkPermiso = em.merge(fkPermiso);
             }
             List<Servicios> serviciosList = usuarios.getServiciosList();
             for (Servicios serviciosListServicios : serviciosList) {

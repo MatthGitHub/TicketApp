@@ -510,6 +510,7 @@ public class MisTickets extends MenuP {
                     miHis.setFecha(fecha);
                     miHis.setFkTicket(miTicket);
                     miHis.setFkUsuarioEmisor(miTicket.getUsuarioReceptor());
+                    miHis.setFkEstado(miTicket.getFkEstado());
                     miTicket.setUsuarioReceptor(LoginEJB.usuario);
                     serviciosT.modificarTicket(miTicket);
                     serviciosH.nuevo(miHis);
