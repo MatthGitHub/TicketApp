@@ -28,7 +28,7 @@ public class ObservacionP extends MenuP {
         this.miTick = miTick;
         this.mainFrame = mainFrame;
         lbl_numero.setText(miTick.getIdTicket().toString());
-        lbl_usuarioE.setText(miTick.getFkUsuarioEmisor().getNombreUsuario());
+        lbl_usuarioE.setText(miTick.getFkUsuarioEmisor().getFkEmpleado().getNombre()+" "+miTick.getFkUsuarioEmisor().getFkEmpleado().getApellido());
         lbl_areaE.setText(miTick.getFkAreaEmisor().getNombreArea());
         txtA_obser.setText(miTick.getObservacion());
         txtA_obser.setEditable(false);
@@ -84,15 +84,14 @@ public class ObservacionP extends MenuP {
         lbl_areaE.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         lbl_areaE.setForeground(new java.awt.Color(255, 255, 255));
 
-        txtA_obser.setBackground(new java.awt.Color(0, 102, 204));
+        txtA_obser.setBackground(new java.awt.Color(204, 204, 204));
         txtA_obser.setColumns(20);
-        txtA_obser.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-        txtA_obser.setForeground(new java.awt.Color(255, 255, 255));
+        txtA_obser.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         txtA_obser.setRows(5);
         jScrollPane1.setViewportView(txtA_obser);
 
-        btn_cerrar.setBackground(new java.awt.Color(0, 102, 204));
-        btn_cerrar.setForeground(new java.awt.Color(255, 255, 255));
+        btn_cerrar.setBackground(new java.awt.Color(153, 153, 153));
+        btn_cerrar.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         btn_cerrar.setText("Cerrar");
         btn_cerrar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -145,7 +144,7 @@ public class ObservacionP extends MenuP {
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 146, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(btn_cerrar)
-                .addGap(0, 53, Short.MAX_VALUE))
+                .addGap(0, 49, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 

@@ -1,7 +1,7 @@
 <?php
 $dbhost='localhost'; // Servidor
-$dbusername='root'; // Nombre de usuario
-$dbuserpass='root'; // Contraseña
+$dbusername='administrador'; // Nombre de usuario
+$dbuserpass='cavaliere'; // Contraseña
 $dbname='ticket'; // Nombre de la base de datos
 session_start();
 

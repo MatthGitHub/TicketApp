@@ -1,8 +1,7 @@
 <?php
 include('inc/config.php');
-include('inc/menu.php');
 if($_SESSION["logeado"] != "SI"){
-  header ("Location: index.php");
+header ("Location: index.php");
 exit;
 }
 
@@ -12,7 +11,14 @@ mysqli_select_db($link,$dbname) or die('No se puede seleccionar la base de datos
 $query = mysqli_query($link,"SELECT * FROM asuntos") or die(mysql_error());
 $query2 = mysqli_query($link,"SELECT * FROM servicios") or die(mysql_error());
 
-$juliano= gregoriantojd (4,28,2016);
+$strConsulta = "SELECT id_asuntoP, nombre FROM asuntos";
+$result = $link->query($strConsulta);
+$opciones = '<option value="0"> Elige una marca</option>';
+while( $fila = $result->fetch_array() )
+{
+  $opciones.='<option value="'.$fila["id_asuntoP"].'">'.$fila["nombre"].'</option>';
+}
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -23,9 +29,26 @@ $juliano= gregoriantojd (4,28,2016);
     <title>Nuevo Ticket</title>
 
     <!-- Bootstrap -->
+    <script src="js/jquery-1.12.3.js"></script>
     <link href="css/bootstrap.min.css" rel="stylesheet">
-	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+    <link href="css/bootstrap.css" rel="stylesheet">
+
 	<link href="css/bootstrap-datetimepicker.min.css" rel="stylesheet">
+  <script type="text/javascript" src="js/jquery-1.12.3.js"></script>
+  <script type="text/javascript">
+    $(document).ready(function(){
+      $("#asunto").change(function(){
+        $.ajax({
+          url:"procesa.php",
+          type: "POST",
+          data:"idAsunto="+$("#asunto").val(),
+          success: function(opciones){
+            $("#servicios").html(opciones);
+          }
+        })
+      });
+    });
+  </script>
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -86,13 +109,13 @@ body
   <body>
     <br>
         <div class="container">
-
+          <?php include('inc/menu.php'); ?>
       <!-- Main component for a primary marketing message or call to action -->
       <div class="jumbotron">
 
 
 <div class="container">
-	<form name="form1" method="post" action="insertar_lote.php">
+	<form name="form1" method="post" action="insertar.php?tipo=ticket">
     <div class="row">
         <div class="col-md-4 col-md-offset-4">
             <div class="panel panel-default">
@@ -103,7 +126,8 @@ body
                     <div class="form-group">
                         <span class="input-group-addon"><span class="glyphicon glyphicon-chevron-down"> Asuntos </span></span>
                         <div class="col-xs-15 selectContainer">
-                            <select class="form-control" name="idProveedor">
+                            <select class="form-control" name="asunto" id="asunto">
+                                <option> Eliga un asunto </option>
                                 <?php while($asuntos = mysqli_fetch_array($query)){ ?>
                                 <option value=<?php echo $asuntos['id_asuntoP'] ?>><?php echo $asuntos['nombre']?></option>
                                 <?php } ?>
@@ -111,30 +135,28 @@ body
                         </div>
                     </div>
                     <div class="form-group">
-                        <span class="input-group-addon"><span class="glyphicon glyphicon-chevron-down"> Asuntos </span></span>
+                        <span class="input-group-addon"><span class="glyphicon glyphicon-chevron-down"> Servicios </span></span>
                         <div class="col-xs-15 selectContainer">
-                            <select class="form-control" name="idProveedor">
-                                <?php while($servicios = mysqli_fetch_array($query2)){ ?>
-                                <option value=<?php echo $servicios['id_asuntoS'] ?>><?php echo $servicios['nombre_asuntoS']?></option>
-                                <?php } ?>
+                            <select class="form-control" name="servicios" id="servicios">
                             </select>
                         </div>
                     </div>
-                 </div>
-				         <div class="form-group">
-                           <div class="input-group">
-                               <span class="input-group-addon"><span class="glyphicon glyphicon-cloud-download"></span></span>
-                               <input name="nIngreso" type="text" class="form-control"  id="nIngreso" placeholder="Numero de ingreso del dia" />
-                           </div>
-                       </div>
-                    <div class="form-group">
-                           <div class="input-group">
-                               <span class="input-group-addon"><span class="glyphicon glyphicon-stats"></span></span>
-                               <input name="cantidad" type="text" class="form-control"  id="cantidad" value="" placeholder="Cantidad en KG" />
-                           </div>
-                       </div>
-                <input type="submit" name="Submit" value="Registrar"  class="btn btn-sm btn-primary btn-block">
- </form>
+
+                 <div class="form-group">
+                        <div class="input-group">
+                            <span class="input-group-addon"><span class="glyphicon glyphicon-phone-alt"></span>Numero interno</span>
+                            <input type="text" class="form-control"  name="interno" id="interno" value="" placeholder="Interno" />
+                        </div>
+                    </div>
+
+                   <div class="form-group">
+                       <label for="comment">Observacion:</label>
+                       <textarea class="form-control" rows="5" id="observacion" name="observacion"></textarea>
+                  </div>
+                </div>
+
+                <input type="submit" name="Submit" value="Enviar"  class="btn btn-sm btn-primary btn-block">
+              </form>
             </div>
                      <?php
 if(isset($_GET['sucess'])){
@@ -192,11 +214,5 @@ echo "";
    <script src="js/moment.min.js"></script>
    <script src="js/bootstrap-datetimepicker.min.js"></script>
    <script src="js/bootstrap-datetimepicker.es.js"></script>
-   <script type="text/javascript">
-	 $('#divMiCalendario').datetimepicker({
-		  format: 'YYYY-MM-DD'
-	  });
-	  $('#divMiCalendario').data("DateTimePicker").show();
-   </script>
-  </body>
+ </body>
 </html>

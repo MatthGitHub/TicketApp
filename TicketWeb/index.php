@@ -1,3 +1,14 @@
+<?php
+include('inc/config.php');
+$link = mysqli_connect ($dbhost, $dbusername, $dbuserpass);
+mysqli_select_db($link,$dbname);
+
+$estadoPGM = mysqli_query($link,"SELECT estado FROM estado_actual_pgm eap JOIN estados_pgm ep ON ep.id_estado = eap.fk_estado_pgm ");
+$estadoPGM = mysqli_fetch_array($estadoPGM);
+$estadoPGM = $estadoPGM['estado'];
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -10,9 +21,12 @@
     <title>Acceso</title>
 
     <!-- Bootstrap core CSS -->
-    <link href="css/bootstrap.min.css" rel="stylesheet">
-    <link href="style.css" rel="stylesheet">
+    <script src="js/jquery-1.12.3.js"></script>
     <script src="js/bootstrap.min.js"></script>
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/bootstrap.css" rel="stylesheet">
+
+
     <!-- Just for debugging purposes. Don't actually copy this line! -->
     <!--[if lt IE 9]><script src="../../assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
 
@@ -71,7 +85,7 @@ body
                 <input type="submit" name="Submit" value="Iniciar Sesion"  class="btn btn-sm btn-primary btn-block">
                <br>
                </form>
-            </div>
+              </div>
 <?php
 if(isset($_GET['errorpass'])){
 echo "
@@ -132,6 +146,24 @@ echo "
 }else{
 echo "";
 }
+
+switch ($estadoPGM) {
+case "Excelente":
+    ?> <li><a href="#"><h3> Estado PGM: </h3><h4><span class="green">.</span><?php echo $estadoPGM; ?></h4></a></li> <?php
+    break;
+case "Bien":
+    ?> <li><a href="#"><h3> Estado PGM: </h3><h4><span class="blue">.</span><?php echo $estadoPGM; ?></h4></a></li> <?php
+    break;
+case "Lento":
+    ?> <li><a href="#"><h3> Estado PGM: </h3><h4><span class="orange">.</span><?php echo $estadoPGM; ?></h4></a></li> <?php
+    break;
+case "Bloqueado":
+    ?> <li><a href="#"><h3> Estado PGM: </h3><h4><span class="red">.</span><?php echo $estadoPGM; ?></h4></a></li> <?php
+    break;
+case "Reiniciando":
+    ?> <li><a href="#"><h3> Estado PGM: </h3><h4><span class="grey">.</span><?php echo $estadoPGM; ?></h4></a></li> <?php
+    break;
+  }
 ?>
         </div>
     </div>

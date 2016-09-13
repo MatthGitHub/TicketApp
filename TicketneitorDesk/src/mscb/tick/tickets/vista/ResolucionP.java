@@ -5,6 +5,7 @@
  */
 package mscb.tick.tickets.vista;
 
+import java.util.Date;
 import mscb.tick.conocimiento.vista.*;
 import javax.swing.JOptionPane;
 import mscb.tick.conocimiento.servicios.ConocimientoServ;
@@ -194,11 +195,19 @@ public class ResolucionP extends MenuP {
         // TODO add your handling code here:
         if(JOptionPane.showConfirmDialog(mainFrame, "Confirmar", "Seguro desea enviar?", JOptionPane.YES_NO_OPTION) == 0){
             serviciosC = new ConocimientoServ();
+            Date fecha = new Date();
             BaseConocimiento miBase = new BaseConocimiento();
             miBase.setFkTicket(miTick);
             miBase.setResolucion(txtA_respuesta.getText());
+            miBase.setFecha(fecha);
             if(serviciosC.nuevaBase(miBase)){
                 JOptionPane.showMessageDialog(mainFrame, "Resolucion guardada!");
+                setVisible(false);
+                mainFrame.setVisible(false);
+                estePanel = null;
+                mainFrame.dispose();
+                mainFrame = null;
+                System.gc();
             }else{
                 JOptionPane.showMessageDialog(mainFrame, "Error al guardar resolucion!");
             }

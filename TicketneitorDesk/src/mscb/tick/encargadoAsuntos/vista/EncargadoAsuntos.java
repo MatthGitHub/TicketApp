@@ -78,7 +78,7 @@ public class EncargadoAsuntos extends MenuP {
 
     private void cargarComboBoxAsuntoS() {
         serviciosA = new AsuntoSecundarioServ();
-        miListaA = serviciosA.traerPorAreaPrincipal((Asuntos) cmbx_asuntosP.getSelectedItem());
+        miListaA = serviciosA.traerPorAreaPrincipalyUsuario((Asuntos) cmbx_asuntosP.getSelectedItem(), (Usuarios) cmbx_usuarios.getSelectedItem());
         cmbx_asuntosS.removeAllItems();
         for (int i = 0; i < miListaA.size(); i++) {
             cmbx_asuntosS.addItem(miListaA.get(i));
@@ -145,6 +145,7 @@ public class EncargadoAsuntos extends MenuP {
         btn_agregar = new javax.swing.JButton();
         lbl_asuntos1 = new javax.swing.JLabel();
         lbl_servicios = new javax.swing.JLabel();
+        btn_quitar1 = new javax.swing.JButton();
 
         setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Asignar asuntos", javax.swing.border.TitledBorder.RIGHT, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Bradley Hand ITC", 0, 24), java.awt.Color.white)); // NOI18N
 
@@ -236,6 +237,15 @@ public class EncargadoAsuntos extends MenuP {
         lbl_servicios.setForeground(new java.awt.Color(255, 255, 255));
         lbl_servicios.setText("Servicios:");
 
+        btn_quitar1.setBackground(new java.awt.Color(153, 153, 153));
+        btn_quitar1.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        btn_quitar1.setText("asuntos sin encargados");
+        btn_quitar1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_quitar1ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -269,7 +279,8 @@ public class EncargadoAsuntos extends MenuP {
                         .addComponent(btn_volver, javax.swing.GroupLayout.PREFERRED_SIZE, 149, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(157, 157, 157)
                         .addComponent(btn_quitar, javax.swing.GroupLayout.PREFERRED_SIZE, 151, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btn_quitar1, javax.swing.GroupLayout.PREFERRED_SIZE, 239, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
 
@@ -294,6 +305,7 @@ public class EncargadoAsuntos extends MenuP {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(btn_volver, javax.swing.GroupLayout.DEFAULT_SIZE, 34, Short.MAX_VALUE)
+                    .addComponent(btn_quitar1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(btn_quitar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
@@ -323,6 +335,9 @@ public class EncargadoAsuntos extends MenuP {
         lbl_asuntos.setVisible(true);
         user = (Usuarios) cmbx_usuarios.getSelectedItem();
         cargarTabla();
+        if(cmbx_asuntosS.isVisible()){
+            cargarComboBoxAsuntoS();
+        }
     }//GEN-LAST:event_cmbx_usuariosActionPerformed
 
     private void cmbx_asuntosSActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbx_asuntosSActionPerformed
@@ -332,21 +347,28 @@ public class EncargadoAsuntos extends MenuP {
 
     private void btn_agregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_agregarActionPerformed
         // TODO add your handling code here:
-        if (JOptionPane.showConfirmDialog(mainFrame, "Seguro desea agregar este asunto?", "Seguro", JOptionPane.YES_NO_OPTION) == 0) {
+        if(cmbx_asuntosS.getSelectedItem() == null){
+            JOptionPane.showMessageDialog(this, "No quedan servicios", "Error", JOptionPane.ERROR_MESSAGE);
+        }else{
+            if (JOptionPane.showConfirmDialog(mainFrame, "Seguro desea agregar este asunto?", "Seguro", JOptionPane.YES_NO_OPTION) == 0) {
             //Usuarios miUsuario = (Usuarios) cmbx_usuarios.getSelectedItem();
             user.getServiciosList().add((Servicios) cmbx_asuntosS.getSelectedItem());
             serviciosU = new UsuarioServ();
             if (serviciosU.modificarUsuario(user) == 0) {
                 JOptionPane.showMessageDialog(mainFrame, "Asunto agregado!");
                 cargarTabla();
+                AsuntoSinEncargadosP tablEnc = AsuntoSinEncargadosP.getAsuntoSinEncargadosP(null);
+                cargarComboBoxAsuntoS();
+                tablEnc.llenarTabla();
                 if(user.equals(LoginEJB.usuario)){
                     LoginEJB.usuario.getServiciosList().add((Servicios) cmbx_asuntosS.getSelectedItem());
                 }
             } else {
                 JOptionPane.showMessageDialog(mainFrame, "Error al agregar asunto!");
             }
-
         }
+        }
+        
     }//GEN-LAST:event_btn_agregarActionPerformed
 
     private void btn_quitarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_quitarActionPerformed
@@ -380,6 +402,7 @@ public class EncargadoAsuntos extends MenuP {
                 serviciosU = new UsuarioServ();
                 if (serviciosU.modificarUsuario(miUsuario) == 0) {
                     JOptionPane.showMessageDialog(mainFrame, "Asunto quitado!");
+                    cargarComboBoxAsuntoS();
                     cargarTabla();
                 } else {
                     JOptionPane.showMessageDialog(mainFrame, "Error al quitar asunto!");
@@ -388,10 +411,16 @@ public class EncargadoAsuntos extends MenuP {
         }
     }//GEN-LAST:event_btn_quitarActionPerformed
 
+    private void btn_quitar1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_quitar1ActionPerformed
+        // TODO add your handling code here:
+        mainFrame.asuntosSinEncargar();
+    }//GEN-LAST:event_btn_quitar1ActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btn_agregar;
     private javax.swing.JButton btn_quitar;
+    private javax.swing.JButton btn_quitar1;
     private javax.swing.JButton btn_volver;
     private javax.swing.JComboBox cmbx_asuntosP;
     private javax.swing.JComboBox cmbx_asuntosS;

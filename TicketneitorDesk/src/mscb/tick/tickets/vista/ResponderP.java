@@ -6,6 +6,7 @@
 package mscb.tick.tickets.vista;
 
 import javax.swing.JOptionPane;
+import mscb.tick.empleados.servicios.EmpleadoServ;
 import mscb.tick.entidades.Estados;
 import mscb.tick.entidades.Tickets;
 import mscb.tick.estados.servicios.EstadoServ;
@@ -26,6 +27,7 @@ public class ResponderP extends MenuP {
     private Tickets miTick;
     private TicketServ serviciosT;
     private MisTickets panelMisti;
+    private EmpleadoServ serviciosE;
     /**
      * Creates new form ResponderP
      */
@@ -34,8 +36,9 @@ public class ResponderP extends MenuP {
         panelMisti = MisTickets.getMisTickets(mainFrameO);
         this.mainFrame = mainFrame;
         this.miTick = miTick;
+        serviciosE = new EmpleadoServ();
         lbl_ticket.setText(miTick.getIdTicket().toString());
-        lbl_usuarioE.setText(miTick.getFkUsuarioEmisor().getNombreUsuario());
+        lbl_usuarioE.setText(miTick.getFkUsuarioEmisor().getFkEmpleado().getNombre()+" "+miTick.getFkUsuarioEmisor().getFkEmpleado().getApellido());
         lbl_areaE.setText(miTick.getFkAreaEmisor().getNombreArea());
         setSize(520, 380);
         setVisible(true);
@@ -71,8 +74,8 @@ public class ResponderP extends MenuP {
 
         setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Responder", javax.swing.border.TitledBorder.RIGHT, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Bradley Hand ITC", 0, 36), java.awt.Color.white)); // NOI18N
 
-        btn_cerrar.setBackground(new java.awt.Color(0, 102, 204));
-        btn_cerrar.setForeground(new java.awt.Color(255, 255, 255));
+        btn_cerrar.setBackground(new java.awt.Color(153, 153, 153));
+        btn_cerrar.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         btn_cerrar.setText("cerrar");
         btn_cerrar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -80,8 +83,8 @@ public class ResponderP extends MenuP {
             }
         });
 
-        btn_enviar.setBackground(new java.awt.Color(0, 102, 204));
-        btn_enviar.setForeground(new java.awt.Color(255, 255, 255));
+        btn_enviar.setBackground(new java.awt.Color(153, 153, 153));
+        btn_enviar.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         btn_enviar.setText("enviar");
         btn_enviar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -110,10 +113,9 @@ public class ResponderP extends MenuP {
         lbl_areaE.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         lbl_areaE.setForeground(new java.awt.Color(255, 255, 255));
 
-        txtA_respuesta.setBackground(new java.awt.Color(0, 102, 204));
+        txtA_respuesta.setBackground(new java.awt.Color(204, 204, 204));
         txtA_respuesta.setColumns(20);
         txtA_respuesta.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        txtA_respuesta.setForeground(new java.awt.Color(255, 255, 255));
         txtA_respuesta.setRows(5);
         jScrollPane1.setViewportView(txtA_respuesta);
 
@@ -130,22 +132,20 @@ public class ResponderP extends MenuP {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 486, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel1)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(lbl_ticket, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(70, 70, 70)
-                                .addComponent(jLabel3)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(lbl_usuarioE, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel5)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(lbl_areaE, javax.swing.GroupLayout.PREFERRED_SIZE, 186, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGap(0, 169, Short.MAX_VALUE)))
+                        .addComponent(jLabel5)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(lbl_areaE, javax.swing.GroupLayout.PREFERRED_SIZE, 186, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLabel1)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(lbl_ticket, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(70, 70, 70)
+                        .addComponent(jLabel3)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(lbl_usuarioE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -188,7 +188,7 @@ public class ResponderP extends MenuP {
 
     private void btn_enviarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_enviarActionPerformed
         // TODO add your handling code here:
-        if(JOptionPane.showConfirmDialog(mainFrame, "Confirmar", "Seguro desea enviar?", JOptionPane.YES_NO_OPTION) == 0){
+        if(JOptionPane.showConfirmDialog(mainFrame,"Seguro desea enviar?","Confirmar", JOptionPane.YES_NO_OPTION) == 0){
             serviciosT = new TicketServ();
             Estados estad = new Estados();
             EstadoServ serviciosE = new EstadoServ();

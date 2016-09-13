@@ -9,10 +9,13 @@ import java.text.DateFormat;
 import java.util.List;
 import java.util.Locale;
 import java.util.Vector;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import mscb.tick.conocimiento.servicios.ConocimientoServ;
 import mscb.tick.entidades.BaseConocimiento;
 import mscb.tick.entidades.Tickets;
+import mscb.tick.login.Login;
+import mscb.tick.login.servicios.LoginEJB;
 import mscb.tick.main.Main;
 import mscb.tick.tickets.servicios.TicketServ;
 import mscb.tick.util.MenuP;
@@ -140,16 +143,25 @@ public class BaseConocimientoV extends MenuP {
     private void btn_volverActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_volverActionPerformed
         // TODO add your handling code here:
         this.setVisible(false);
-        mainFrame.menuPrincipal();
+        if(LoginEJB.usuario.getFkPermiso().getIdPermiso() == 1){
+            mainFrame.menuPrincipal();
+        }else{
+            mainFrame.miTickets();
+        }
         estePanel = null;
         System.gc();
     }//GEN-LAST:event_btn_volverActionPerformed
 
     private void btn_verResolucionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_verResolucionActionPerformed
         // TODO add your handling code here:
-        serviciosT = new TicketServ();
-        Tickets miTick = serviciosT.buscarUno(Integer.parseInt(modelo.getValueAt(jt_conocimiento.getSelectedRow(), 0).toString()));
-        mainFrame.verResolucionTicket(miTick);
+        if(jt_conocimiento.getSelectedRow() != -1){
+            serviciosT = new TicketServ();
+            BaseConocimiento miBase = serviciosC.buscarUno(Integer.parseInt(modelo.getValueAt(jt_conocimiento.getSelectedRow(), 1).toString()));
+            mainFrame.verResolucionTicket(miBase);
+        }else{
+            JOptionPane.showMessageDialog(this, "Error","Debe seleccionar una y solo una fila", JOptionPane.ERROR_MESSAGE);
+        }
+        
     }//GEN-LAST:event_btn_verResolucionActionPerformed
 
 

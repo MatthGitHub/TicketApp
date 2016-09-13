@@ -36,7 +36,7 @@ public class Login extends JPanel {
     private Login(Main mainFrame) {
         initComponents();
         this.mainFrame = mainFrame;
-        mainFrame.btn_mini.setVisible(false);
+        mainFrame.btn_mini.setVisible(true);
         lbl_mensaje.setVisible(false);
         setSize(320, 220);
         setVisible(true);

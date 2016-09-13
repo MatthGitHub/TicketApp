@@ -2,6 +2,7 @@
 // Configura los datos de tu cuenta
 include('config.php');
 
+if(isset($_POST['nombre_usuario']) && isset($_POST['contrasenia'])){
 // Conectar a la base de datos
 $link = mysqli_connect ($dbhost, $dbusername, $dbuserpass);
 mysqli_select_db($link,$dbname) or die('No se puede seleccionar la base de datos');
@@ -21,11 +22,12 @@ if ($_POST['nombre_usuario']) {
 			header ("Location: ../index.php?errorpass");
 			exit();
 		}else{
-		$query = mysqli_query($link,"SELECT id_usuario,nombre_usuario,contrasenia,fk_permiso FROM usuarios WHERE nombre_usuario = '$nombre_usuario'") or die(mysql_error());
+		$query = mysqli_query($link,"SELECT id_usuario,nombre_usuario,contrasenia,fk_permiso,id_area FROM usuarios u JOIN empleados e ON u.fk_empleado = e.id_empleado JOIN areas a ON e.fk_area = a.id_area WHERE nombre_usuario = '$nombre_usuario'") or die(mysql_error());
 		$row = mysqli_fetch_array($query);
 		$nombre_usuario2 = $row['nombre_usuario'];
 		$_SESSION["s_nombre_usuario"] = $row['nombre_usuario'];
 
+		$_SESSION["area"] = $row['id_area'];
 		$_SESSION["logeado"] = "SI";
 		$_SESSION["permiso"] = $row['fk_permiso'];
 		$_SESSION["id_usuario"] = $row['id_usuario'];
@@ -43,10 +45,15 @@ if ($_POST['nombre_usuario']) {
 			}
 			if($data['activo'] != 1){
 				header("Location: ../index.php?erroractiv");
+				exit();
 			}
-
 			header ("Location: ../inicio.php");
+			exit();
 			}
 	}
+}
+}else{
+	header("Location: ../index.php?errorpass");
+	exit();
 }
 ?>

@@ -7,6 +7,7 @@ package mscb.tick.conocimiento.vista;
 
 import java.awt.MouseInfo;
 import java.awt.Point;
+import mscb.tick.entidades.BaseConocimiento;
 import mscb.tick.entidades.Tickets;
 import mscb.tick.main.Main;
 
@@ -17,28 +18,26 @@ import mscb.tick.main.Main;
 public class ResolucionVerF extends javax.swing.JFrame {
     private ResolucionVerP miPanel;
     Main mainFrame;
-    private Tickets miTick;
     private int x;
     private int y;
     /**
      * Creates new form ResponderF
      */
-    public ResolucionVerF(Tickets miTick, Main mainFrame) {
+    public ResolucionVerF(BaseConocimiento miBase, Main mainFrame) {
         initComponents();
         this.mainFrame = mainFrame;
-        this.miTick = miTick;
-        setTitle("Responder");
+        setTitle("Ver resolucion de ticket");
         this.setSize(520, 380);
         setVisible(true);
-        ResolucionVerM(miTick);
+        ResolucionVerM(miBase);
     }
 
     private ResolucionVerF() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     
-    public void ResolucionVerM(Tickets miTick){
-        miPanel = ResolucionVerP.getVerResolucion(miTick, this);
+    public void ResolucionVerM(BaseConocimiento miBase){
+        miPanel = ResolucionVerP.getVerResolucion(miBase, this);
         
         if(!miPanel.isVisible() == false){
             getContentPane().add(miPanel);

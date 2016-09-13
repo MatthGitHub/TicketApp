@@ -16,7 +16,9 @@ if($_SESSION["logeado"] != "SI"){
     <title>Sistema TicketsMSCB</title>
 
     <!-- Bootstrap -->
+		<script src="js/jquery-1.12.3.js"></script>
     <link href="css/bootstrap.min.css" rel="stylesheet">
+		<link href="css/bootstrap.css" rel="stylesheet">
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -37,11 +39,14 @@ if($_SESSION["logeado"] != "SI"){
       <div class="jumbotron">
         <h1>Service Desk </h1>
         <p>
-			<a class="btn btn-lg btn-primary" href="ticket_nuevo.php" role="button">Nuevo Ticket &raquo;</a>
+			<a class="btn btn-lg btn-primary" href="ticket_nuevo.php" role="button">Nuevo ticket &raquo;</a>
         </p>
-        <p>
-			<a class="btn btn-lg btn-primary" href="tickets.php" role="button">Mis Tickets &raquo;</a>
-        </p>
+				<p>
+					<a class="btn btn-lg btn-primary" href="tickets_recientes.php" role="button">Tickets recientes &raquo;</a>
+				</p>
+			<p>
+				<a class="btn btn-lg btn-primary" href="tickets.php" role="button">Mis tickets &raquo;</a>
+			</p>
       </div>
 
     </div> <!-- /container -->

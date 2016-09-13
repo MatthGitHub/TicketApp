@@ -24,6 +24,8 @@ import mscb.tick.tickets.vista.NuevoTicket;
 import mscb.tick.tickets.vista.ObservacionF;
 import mscb.tick.conocimiento.vista.ResolucionVerF;
 import mscb.tick.conocimiento.vista.ResolucionVerP;
+import mscb.tick.encargadoAsuntos.vista.AsuntoSinEncargadosF;
+import mscb.tick.entidades.BaseConocimiento;
 import mscb.tick.historial.servicios.HistorialServ;
 import mscb.tick.hitorialTicket.vista.HistorialTicketV;
 import mscb.tick.razonesTransf.vista.Razones;
@@ -84,6 +86,8 @@ public class Main extends javax.swing.JFrame {
     
     private AsuntoSec asuntoSec;
     private NuevoAsuntoSecFrame nuevoAsuntoSec;
+    private AsuntoSinEncargadosF asuntoSinEnc;
+    
     private BaseConocimientoV baseCono;
     private HistorialTicketV hisTick;
     
@@ -295,12 +299,12 @@ public class Main extends javax.swing.JFrame {
      * Abre ventana para ver la resolucion del ticket
      * @param miTick 
      */
-    public void verResolucionTicket(Tickets miTick){
+    public void verResolucionTicket(BaseConocimiento miBase){
         if(resoVerF == null){
-            resoVerF = new ResolucionVerF(miTick, this);
+            resoVerF = new ResolucionVerF(miBase, this);
         }else{
             resoVerF.setVisible(true);
-            resoVerF.ResolucionVerM(miTick);
+            resoVerF.ResolucionVerM(miBase);
         }
         revalidate();
     }
@@ -409,6 +413,21 @@ public class Main extends javax.swing.JFrame {
             getContentPane().add(razones);
         }else{
             razones.setVisible(true);
+        }
+        revalidate();
+    }
+    
+    
+    /**
+     * Ventana con asuntos sin encargar a nadie
+     * 
+     */
+    public void asuntosSinEncargar(){
+        if(asuntoSinEnc == null){
+            asuntoSinEnc = new AsuntoSinEncargadosF(this);
+        }else{
+            asuntoSinEnc.setVisible(true);
+            asuntoSinEnc.asunticosMeth();
         }
         revalidate();
     }

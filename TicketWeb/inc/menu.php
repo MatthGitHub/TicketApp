@@ -1,3 +1,15 @@
+<?php
+
+$link = mysqli_connect ($dbhost, $dbusername, $dbuserpass);
+mysqli_select_db($link,$dbname);
+
+$estadoPGM = mysqli_query($link,"SELECT estado FROM estado_actual_pgm eap JOIN estados_pgm ep ON ep.id_estado = eap.fk_estado_pgm ");
+$estadoPGM = mysqli_fetch_array($estadoPGM);
+$estadoPGM = $estadoPGM['estado'];
+
+?>
+
+
 <div class="navbar navbar-default" role="navigation">
 <div class="container-fluid">
   <div class="navbar-header">
@@ -20,13 +32,32 @@
           <li><a href="usuarios.php">Listar</a></li>
             <li><a href="registrarse.php">Nuevo</a></li>
           </ul>
-        </li><?php
+        </li>
+  <?php
   }
-?>
+  ?>
   </ul>
   <ul class="nav navbar-nav navbar-right">
-<li><a href="form_cambiar_clave.php"> Cambiar clave </a></li>
-     <li><a href=""> <?php echo $_SESSION["s_nombre_usuario"]; ?> </a></li>
+    <?php
+    switch ($estadoPGM) {
+    case "Excelente":
+        ?> <li><a href="#"> Estado PGM: <h6><span class="green">.</span><?php echo $estadoPGM; ?></h6></a></li> <?php
+        break;
+    case "Bien":
+        ?> <li><a href="#"> Estado PGM: <h6><span class="blue">.</span><?php echo $estadoPGM; ?></h6></a></li> <?php
+        break;
+    case "Lento":
+        ?> <li><a href="#"> Estado PGM: <h6><span class="orange">.</span><?php echo $estadoPGM; ?></h6></a></li> <?php
+        break;
+    case "Bloqueado":
+        ?> <li><a href="#"> Estado PGM: <h6><span class="red">.</span><?php echo $estadoPGM; ?></h6></a></li> <?php
+        break;
+    case "Reiniciando":
+        ?> <li><a href="#"> Estado PGM: <h6><span class="grey">.</span><?php echo $estadoPGM; ?></h6></a></li> <?php
+        break;
+      } ?>
+    <li><a href="form_cambiar_clave.php"> Cambiar clave </a></li>
+    <li><a href=""> <?php echo $_SESSION["s_nombre_usuario"]; ?> </a></li>
     <li><a href="">Fecha:
     <?php
     // Establecer la zona horaria predeterminada a usar. Disponible desde PHP 5.1

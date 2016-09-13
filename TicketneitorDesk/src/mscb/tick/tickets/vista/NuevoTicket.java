@@ -13,12 +13,15 @@ import mscb.tick.areaSistemas.servicios.AreaSistemaServ;
 import mscb.tick.asuntoPrincipal.servicios.AsuntoPrincipalServ;
 import mscb.tick.asuntoSecundario.servicios.AsuntoSecundarioServ;
 import mscb.tick.entidades.Asuntos;
+import mscb.tick.entidades.HistorialTickets;
 import mscb.tick.entidades.Servicios;
 import mscb.tick.entidades.Tickets;
 import mscb.tick.estados.servicios.EstadoServ;
+import mscb.tick.historial.servicios.HistorialServ;
 import mscb.tick.login.servicios.LoginEJB;
 import mscb.tick.main.Main;
 import mscb.tick.tickets.servicios.TicketServ;
+import mscb.tick.usuarios.servicios.UsuarioServ;
 import mscb.tick.util.MenuP;
 
 /**
@@ -369,6 +372,14 @@ public class NuevoTicket extends MenuP {
            }else{
                JOptionPane.showMessageDialog(mainFrame, "Error", "No se envio ticket", JOptionPane.ERROR_MESSAGE);
            }
+        HistorialServ serviciosH = new HistorialServ();
+        HistorialTickets miHis = new HistorialTickets();
+        Date fecha = new Date();
+        miHis.setFecha(fecha);
+        miHis.setFkTicket(miTick);
+        miHis.setFkUsuarioEmisor(LoginEJB.usuario);
+        miHis.setFkEstado(miTick.getFkEstado());
+        serviciosH.nuevo(miHis);
         mainFrame.menuPrincipal();
         this.setVisible(false);
         b=0;

@@ -32,4 +32,8 @@ public class ConocimientoServ {
             return false;
         }
     }
+    
+    public BaseConocimiento buscarUno(int id){
+        return jpa.findBaseConocimiento(id);
+    }
 }

@@ -12,6 +12,7 @@ import javax.persistence.Persistence;
 import mscb.tick.controladores.ServiciosJpaController;
 import mscb.tick.entidades.Asuntos;
 import mscb.tick.entidades.Servicios;
+import mscb.tick.entidades.Usuarios;
 
 /**
  *
@@ -37,6 +38,23 @@ public class AsuntoSecundarioServ {
         return aux;
         
     }
+    
+    public List <Servicios> traerPorAreaPrincipalyUsuario(Asuntos asunto, Usuarios user){
+        
+        miLista = new ArrayList<>();
+        miLista = jpa.findServiciosEntities();
+        aux = new ArrayList<>();
+        for(int i = 0; i < miLista.size(); i++){
+            if(asunto.getServiciosList().contains(miLista.get(i))){
+                if(!miLista.get(i).getUsuariosList().contains(user)){
+                    aux.add(miLista.get(i));
+                }
+            }
+        }
+        return aux;
+        
+    }
+    
     public List <Servicios> traerTodos(){
         return jpa.findServiciosEntities();
     }
@@ -64,6 +82,17 @@ public class AsuntoSecundarioServ {
             System.out.println(e+" - Carga nuevo asunto secundario");
             return false;
         }
+    }
+    
+    public List<Servicios> traerAsuntoSinEncargado(){
+        miLista = jpa.findServiciosEntities();
+        aux = new ArrayList<>();
+        for(int i = 0; i < miLista.size(); i ++){
+            if(miLista.get(i).getUsuariosList().isEmpty()){
+                aux.add(miLista.get(i));
+            }
+        }
+        return aux;
     }
     
 }
