@@ -184,7 +184,7 @@ public class MisTickets extends MenuP {
         btn_volver = new javax.swing.JButton();
         btn_conocimiento = new javax.swing.JButton();
 
-        setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Mis Tickets", javax.swing.border.TitledBorder.RIGHT, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Bradley Hand ITC", 0, 24), java.awt.Color.white)); // NOI18N
+        setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Mis Tickets", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Bradley Hand ITC", 0, 24), java.awt.Color.white)); // NOI18N
 
         txt_buscar.setBackground(new java.awt.Color(204, 204, 204));
         txt_buscar.setFont(new java.awt.Font("Candara", 0, 14)); // NOI18N

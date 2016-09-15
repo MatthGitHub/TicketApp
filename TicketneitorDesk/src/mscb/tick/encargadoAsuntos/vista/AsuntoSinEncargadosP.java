@@ -82,7 +82,7 @@ public class AsuntoSinEncargadosP extends MenuP {
         jScrollPane1 = new javax.swing.JScrollPane();
         jt_asuntos = new javax.swing.JTable();
 
-        setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Asuntos sin encargados", javax.swing.border.TitledBorder.RIGHT, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Bradley Hand ITC", 0, 24), new java.awt.Color(255, 255, 255))); // NOI18N
+        setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Asuntos sin encargados", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Bradley Hand ITC", 0, 24), new java.awt.Color(255, 255, 255))); // NOI18N
 
         btn_cerrar.setBackground(new java.awt.Color(153, 153, 153));
         btn_cerrar.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N

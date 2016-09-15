@@ -5,8 +5,10 @@
  */
 package mscb.tick.tickets.vista;
 
+import java.awt.Image;
 import java.awt.MouseInfo;
 import java.awt.Point;
+import java.awt.Toolkit;
 import mscb.tick.entidades.Tickets;
 import mscb.tick.main.Main;
 
@@ -20,6 +22,14 @@ public class ObservacionF extends javax.swing.JFrame {
     private int x;
     private int y;
     
+    @Override
+    public Image getIconImage() {
+        Image retValue = Toolkit.getDefaultToolkit().
+                getImage(ClassLoader.getSystemResource("mscb/tick/imagenes/ticket.png"));
+
+
+        return retValue;
+    }
     /**
      * Creates new form ObservacionF
      */
@@ -60,6 +70,7 @@ public class ObservacionF extends javax.swing.JFrame {
         btn_mover = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setIconImage(getIconImage());
         setUndecorated(true);
 
         btn_mover.setBackground(new java.awt.Color(153, 153, 153));
@@ -87,9 +98,9 @@ public class ObservacionF extends javax.swing.JFrame {
             getContentPane().setLayout(layout);
             layout.setHorizontalGroup(
                 layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(layout.createSequentialGroup()
-                    .addComponent(btn_mover)
-                    .addGap(0, 399, Short.MAX_VALUE))
+                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                    .addGap(0, 399, Short.MAX_VALUE)
+                    .addComponent(btn_mover))
             );
             layout.setVerticalGroup(
                 layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)

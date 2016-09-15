@@ -61,7 +61,7 @@ public class ObservacionP extends MenuP {
         txtA_obser = new javax.swing.JTextArea();
         btn_cerrar = new javax.swing.JButton();
 
-        setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Observacion", javax.swing.border.TitledBorder.RIGHT, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Bradley Hand ITC", 0, 24), java.awt.Color.white)); // NOI18N
+        setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Observacion", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Bradley Hand ITC", 0, 24), java.awt.Color.white)); // NOI18N
 
         lbl_numero.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         lbl_numero.setForeground(new java.awt.Color(255, 255, 255));

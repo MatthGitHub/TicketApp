@@ -13,19 +13,18 @@ import javax.swing.JPanel;
 import mscb.tick.login.servicios.LoginEJB;
 import mscb.tick.main.Main;
 import mscb.tick.usuarios.servicios.UsuarioServ;
+import mscb.tick.util.MenuP;
 
 /**
  *
  * @author Administrador
  */
-public class Login extends JPanel {
+public class Login extends MenuP {
 
     Main mainFrame;
     private static Login ingreso;
     private int nombre, clave;
     private UsuarioServ buscador;
-    private static String fondo;
-    private Image background;
     private LoginEJB loginejb;
 
     /**
@@ -42,8 +41,6 @@ public class Login extends JPanel {
         setVisible(true);
         mainFrame.setSize(320, 220);
         mainFrame.setTitle("Login");
-        fondo = "lib/imagenes/menuPrincipal.jpg";
-        setBackground(fondo);
     }
 
     public static Login getLogin(Main mainFrame) {
@@ -51,31 +48,6 @@ public class Login extends JPanel {
             ingreso = new Login(mainFrame);
         }
         return ingreso;
-    }
-
-    // Metodo que es llamado automaticamente por la maquina virtual Java cada vez que repinta
-    public void paintComponent(Graphics g) {
-
-        /* Obtenemos el tamaño del panel para hacer que se ajuste a este
-         cada vez que redimensionemos la ventana y se lo pasamos al drawImage */
-        int width = this.getSize().width;
-        int height = this.getSize().height;
-
-        // Mandamos que pinte la imagen en el panel
-        if (this.background != null) {
-            g.drawImage(this.background, 0, 0, width, height, null);
-        }
-
-        super.paintComponent(g);
-    }
-
-    // Metodo donde le pasaremos la dirección de la imagen a cargar.
-    public void setBackground(String imagePath) {
-
-        // Construimos la imagen y se la asignamos al atributo background.
-        this.setOpaque(false);
-        this.background = new ImageIcon(imagePath).getImage();
-        repaint();
     }
 
     /**

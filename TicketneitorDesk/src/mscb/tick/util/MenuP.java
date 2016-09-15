@@ -7,6 +7,7 @@ package mscb.tick.util;
 
 import java.awt.Graphics;
 import java.awt.Image;
+import java.awt.Toolkit;
 import javax.swing.ImageIcon;
 
 /**
@@ -46,10 +47,17 @@ public class MenuP extends javax.swing.JPanel {
 
         // Construimos la imagen y se la asignamos al atributo background.
         this.setOpaque(false);
-        this.background = new ImageIcon(imagePath).getImage();
+        this.background = getIconImage();
         repaint();
     }
+    
+    public Image getIconImage() {
+        Image retValue = Toolkit.getDefaultToolkit().
+                getImage(ClassLoader.getSystemResource("mscb/tick/imagenes/MenuPrincipal.jpg"));
 
+
+        return retValue;
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always

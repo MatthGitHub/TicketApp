@@ -9,7 +9,6 @@ import java.awt.Color;
 import java.util.Date;
 import java.util.List;
 import javax.swing.JOptionPane;
-import mscb.tick.controladores.EstadoActualPgmJpaController;
 import mscb.tick.entidades.EstadoActualPgm;
 import mscb.tick.entidades.EstadosPgm;
 import mscb.tick.estadoActualPgm.servicios.EstadoActualPgmServ;
@@ -94,7 +93,7 @@ public class EstadoPGMP extends MenuP {
         cmbx_estadosPgm = new javax.swing.JComboBox();
         jp_color = new javax.swing.JPanel();
 
-        setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Estado PGM", javax.swing.border.TitledBorder.RIGHT, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Bradley Hand ITC", 0, 24), new java.awt.Color(255, 255, 255))); // NOI18N
+        setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Estado PGM", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Bradley Hand ITC", 0, 24), new java.awt.Color(255, 255, 255))); // NOI18N
         setForeground(new java.awt.Color(255, 255, 255));
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N

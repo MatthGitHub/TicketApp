@@ -78,12 +78,14 @@ public class EncargadoAsuntos extends MenuP {
 
     private void cargarComboBoxAsuntoS() {
         serviciosA = new AsuntoSecundarioServ();
-        miListaA = serviciosA.traerPorAreaPrincipalyUsuario((Asuntos) cmbx_asuntosP.getSelectedItem(), (Usuarios) cmbx_usuarios.getSelectedItem());
-        cmbx_asuntosS.removeAllItems();
-        for (int i = 0; i < miListaA.size(); i++) {
+        if(!cmbx_asuntosP.getSelectedItem().equals(" ")){
+            miListaA = serviciosA.traerPorAreaPrincipalyUsuario((Asuntos) cmbx_asuntosP.getSelectedItem(), (Usuarios) cmbx_usuarios.getSelectedItem());
+            cmbx_asuntosS.removeAllItems();
+            for (int i = 0; i < miListaA.size(); i++) {
             cmbx_asuntosS.addItem(miListaA.get(i));
+            }
         }
-
+        
     }
 
     private void cargarComboBoxAsuntoP() {
@@ -147,7 +149,7 @@ public class EncargadoAsuntos extends MenuP {
         lbl_servicios = new javax.swing.JLabel();
         btn_quitar1 = new javax.swing.JButton();
 
-        setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Asignar asuntos", javax.swing.border.TitledBorder.RIGHT, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Bradley Hand ITC", 0, 24), java.awt.Color.white)); // NOI18N
+        setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Asignar asuntos", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Bradley Hand ITC", 0, 24), java.awt.Color.white)); // NOI18N
 
         cmbx_usuarios.setBackground(new java.awt.Color(153, 153, 153));
         cmbx_usuarios.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
@@ -357,9 +359,11 @@ public class EncargadoAsuntos extends MenuP {
             if (serviciosU.modificarUsuario(user) == 0) {
                 JOptionPane.showMessageDialog(mainFrame, "Asunto agregado!");
                 cargarTabla();
-                AsuntoSinEncargadosP tablEnc = AsuntoSinEncargadosP.getAsuntoSinEncargadosP(null);
+                if(mainFrame.asuntoSinEnc != null){
+                    AsuntoSinEncargadosP tablEnc = AsuntoSinEncargadosP.getAsuntoSinEncargadosP(mainFrame.asuntoSinEnc);
+                    tablEnc.llenarTabla();
+                }
                 cargarComboBoxAsuntoS();
-                tablEnc.llenarTabla();
                 if(user.equals(LoginEJB.usuario)){
                     LoginEJB.usuario.getServiciosList().add((Servicios) cmbx_asuntosS.getSelectedItem());
                 }
@@ -404,6 +408,10 @@ public class EncargadoAsuntos extends MenuP {
                     JOptionPane.showMessageDialog(mainFrame, "Asunto quitado!");
                     cargarComboBoxAsuntoS();
                     cargarTabla();
+                    if(mainFrame.asuntoSinEnc != null){
+                        AsuntoSinEncargadosP tablEnc = AsuntoSinEncargadosP.getAsuntoSinEncargadosP(mainFrame.asuntoSinEnc);
+                        tablEnc.llenarTabla();
+                    }
                 } else {
                     JOptionPane.showMessageDialog(mainFrame, "Error al quitar asunto!");
                 }

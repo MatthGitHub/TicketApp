@@ -5,8 +5,10 @@
  */
 package mscb.tick.usuarios.vista;
 
+import java.awt.Image;
 import java.awt.MouseInfo;
 import java.awt.Point;
+import java.awt.Toolkit;
 import mscb.tick.main.Main;
 
 /**
@@ -19,7 +21,16 @@ public class NuevoUsuarioF extends javax.swing.JFrame {
     Main mainFrame;
     private int x;
     private int y;
+    
+    @Override
+    public Image getIconImage() {
+        Image retValue = Toolkit.getDefaultToolkit().
+                getImage(ClassLoader.getSystemResource("mscb/tick/imagenes/usuario.png"));
 
+
+        return retValue;
+    }
+    
     /**
      * Creates new form NuevoUsuarioF
      */
@@ -60,6 +71,7 @@ public class NuevoUsuarioF extends javax.swing.JFrame {
         btn_mover = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setIconImage(getIconImage());
         setUndecorated(true);
 
         btn_mover.setBackground(new java.awt.Color(153, 153, 153));

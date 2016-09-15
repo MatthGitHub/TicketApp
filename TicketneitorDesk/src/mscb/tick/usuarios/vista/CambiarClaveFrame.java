@@ -5,6 +5,8 @@
  */
 package mscb.tick.usuarios.vista;
 
+import java.awt.Image;
+import java.awt.Toolkit;
 import mscb.tick.main.Main;
 
 /**
@@ -14,6 +16,16 @@ import mscb.tick.main.Main;
 public class CambiarClaveFrame extends javax.swing.JFrame {
     CambiarClavePanel esePanel;
     Main mainFrame;
+    @Override
+    public Image getIconImage() {
+        Image retValue = Toolkit.getDefaultToolkit().
+                getImage(ClassLoader.getSystemResource("mscb/tick/imagenes/CambiarClave.png"));
+
+
+        return retValue;
+    }
+    
+    
     /**
      * Creates new form CambiarClaveFrame
      */
@@ -21,6 +33,7 @@ public class CambiarClaveFrame extends javax.swing.JFrame {
         initComponents();
         setSize(250, 300);
         setVisible(true);
+        setTitle("Cambiar clave");
         setLocationRelativeTo(null);
         cargarPanel(this);
     }
@@ -51,6 +64,7 @@ public class CambiarClaveFrame extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Cambiar clave");
+        setIconImage(getIconImage());
         setUndecorated(true);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());

@@ -6,6 +6,8 @@
 package mscb.tick.login;
 
 import java.awt.Image;
+import java.awt.Toolkit;
+import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import mscb.tick.login.servicios.LoginEJB;
 import mscb.tick.main.Main;
@@ -16,10 +18,17 @@ import mscb.tick.util.MenuP;
  * @author Administrador
  */
 public class MenuPrincipal extends MenuP {
-    private static String fondo;
-    private Image background;
     private static MenuPrincipal menuP;
     Main mainFrame;
+    
+    public Image getIconImage(String path) {
+        Image retValue = Toolkit.getDefaultToolkit().
+                getImage(ClassLoader.getSystemResource(path));
+
+
+        return retValue;
+    }
+    
     /**
      * Creates new form MenuPrincipal
      */
@@ -29,6 +38,7 @@ public class MenuPrincipal extends MenuP {
         this.mainFrame = mainFrame;
         lblNombreUsuario.setText(LoginEJB.usuario.getNombreUsuario());
         mainFrame.btn_mini.setVisible(true);
+        //cargarIconos();
         setSize(800, 600);
         setVisible(true);
         mainFrame.setSize(800, 600);
@@ -43,7 +53,14 @@ public class MenuPrincipal extends MenuP {
         return menuP;
     }
     
-    
+    private void cargarIconos(){
+        Image icon = getIconImage("mscb/tick/imagenes/usuarios.png");
+        ImageIcon icon2 = new ImageIcon(icon);
+        btn_admusu.setIcon(icon2);
+        icon = getIconImage("mscb/tick/imagenes/carpeta.png");
+        icon2 = new ImageIcon(icon);
+        btn_conocimiento.setIcon(icon2);
+    }
      
     /**
      * This method is called from within the constructor to initialize the form.

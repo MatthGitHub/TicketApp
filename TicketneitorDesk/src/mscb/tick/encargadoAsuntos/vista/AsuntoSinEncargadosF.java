@@ -5,8 +5,10 @@
  */
 package mscb.tick.encargadoAsuntos.vista;
 
+import java.awt.Image;
 import java.awt.MouseInfo;
 import java.awt.Point;
+import java.awt.Toolkit;
 import javax.swing.table.DefaultTableModel;
 import mscb.tick.main.Main;
 
@@ -19,6 +21,17 @@ public class AsuntoSinEncargadosF extends javax.swing.JFrame {
     private int x;
     private int y;
     private AsuntoSinEncargadosP asuntico;
+    
+    @Override
+    public Image getIconImage() {
+        Image retValue = Toolkit.getDefaultToolkit().
+                getImage(ClassLoader.getSystemResource("mscb/tick/imagenes/encargado.png"));
+
+
+        return retValue;
+    }
+    
+    
     
     /**
      * Creates new form AsuntoSinEncargadosF
@@ -59,6 +72,7 @@ public class AsuntoSinEncargadosF extends javax.swing.JFrame {
         btn_mover = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setIconImage(getIconImage());
         setUndecorated(true);
 
         btn_mover.setBackground(new java.awt.Color(153, 153, 153));
@@ -86,9 +100,9 @@ public class AsuntoSinEncargadosF extends javax.swing.JFrame {
             getContentPane().setLayout(layout);
             layout.setHorizontalGroup(
                 layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(layout.createSequentialGroup()
-                    .addComponent(btn_mover)
-                    .addGap(0, 357, Short.MAX_VALUE))
+                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                    .addGap(0, 357, Short.MAX_VALUE)
+                    .addComponent(btn_mover))
             );
             layout.setVerticalGroup(
                 layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)

@@ -75,7 +75,7 @@ public class ResolucionP extends MenuP {
         jScrollPane1 = new javax.swing.JScrollPane();
         txtA_respuesta = new javax.swing.JTextArea();
 
-        setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Resolucion", javax.swing.border.TitledBorder.RIGHT, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Bradley Hand ITC", 0, 36), java.awt.Color.white)); // NOI18N
+        setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Resolucion", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Bradley Hand ITC", 0, 36), java.awt.Color.white)); // NOI18N
 
         btn_cerrar.setBackground(new java.awt.Color(153, 153, 153));
         btn_cerrar.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N

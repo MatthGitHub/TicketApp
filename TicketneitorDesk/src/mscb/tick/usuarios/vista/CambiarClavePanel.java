@@ -57,7 +57,7 @@ public class CambiarClavePanel extends MenuP {
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
 
-        setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Nueva clave", javax.swing.border.TitledBorder.RIGHT, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Vivaldi", 0, 18), java.awt.Color.white)); // NOI18N
+        setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Nueva clave", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Vivaldi", 0, 18), java.awt.Color.white)); // NOI18N
 
         pswr_actual.setBackground(new java.awt.Color(204, 204, 204));
         pswr_actual.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N

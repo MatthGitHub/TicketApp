@@ -5,8 +5,10 @@
  */
 package mscb.tick.main;
 
+import java.awt.Image;
 import java.awt.MouseInfo;
 import java.awt.Point;
+import java.awt.Toolkit;
 import mscb.tick.asuntoSecundarios.vista.AsuntoSec;
 import mscb.tick.asuntoSecundarios.vista.NuevoAsuntoSecFrame;
 import mscb.tick.asuntos.vista.AsuntosPrin;
@@ -23,14 +25,11 @@ import mscb.tick.tickets.vista.MisTickets;
 import mscb.tick.tickets.vista.NuevoTicket;
 import mscb.tick.tickets.vista.ObservacionF;
 import mscb.tick.conocimiento.vista.ResolucionVerF;
-import mscb.tick.conocimiento.vista.ResolucionVerP;
 import mscb.tick.encargadoAsuntos.vista.AsuntoSinEncargadosF;
 import mscb.tick.entidades.BaseConocimiento;
-import mscb.tick.historial.servicios.HistorialServ;
 import mscb.tick.hitorialTicket.vista.HistorialTicketV;
 import mscb.tick.razonesTransf.vista.Razones;
 import mscb.tick.tickets.vista.ResolucionF;
-import mscb.tick.tickets.vista.ResolucionP;
 import mscb.tick.tickets.vista.ResponderF;
 import mscb.tick.tickets.vista.RespuestaF;
 import mscb.tick.tickets.vista.TicketsV;
@@ -43,6 +42,8 @@ import mscb.tick.usuarios.vista.UsuariosV;
  *
  * @author Administrador
  */
+
+
 public class Main extends javax.swing.JFrame {
     
     private int x;
@@ -54,7 +55,7 @@ public class Main extends javax.swing.JFrame {
     
     private Login ingreso;
     private MenuPrincipal mppal;
-    private Info inf;
+    private InfoF inf;
         
     private UsuariosV usu;
     private NuevoUsuarioF formUsuario;
@@ -77,16 +78,14 @@ public class Main extends javax.swing.JFrame {
     private TransferenciaF transferir;
     private EstadoPGMF cambiarPgm;
     private ResolucionF resoF;
-    private ResolucionP resoP;
     private ResolucionVerF resoVerF;
-    private ResolucionVerP resoVerP;
     
     private AsuntosPrin asuntos;
     private NuevoAsuntoFrame nuevoAsunto;
     
     private AsuntoSec asuntoSec;
     private NuevoAsuntoSecFrame nuevoAsuntoSec;
-    private AsuntoSinEncargadosF asuntoSinEnc;
+    public AsuntoSinEncargadosF asuntoSinEnc;
     
     private BaseConocimientoV baseCono;
     private HistorialTicketV hisTick;
@@ -94,6 +93,15 @@ public class Main extends javax.swing.JFrame {
     private Razones razones;
     
             
+    @Override
+    public Image getIconImage() {
+        Image retValue = Toolkit.getDefaultToolkit().
+                getImage(ClassLoader.getSystemResource("mscb/tick/imagenes/icono.png"));
+
+
+        return retValue;
+    }
+    
     /**
      * Creates new form Main
      */
@@ -140,7 +148,13 @@ public class Main extends javax.swing.JFrame {
      * Ventana de informacion de la app. Es un Frame
      */
     public void ventanaInfo(){
-        inf = new Info();
+        if(inf == null){
+            inf = new InfoF(this);
+        }else{
+            inf.setVisible(true);
+            inf.panelInfoP();
+        }
+        revalidate();
     }
     /**
      * Llama a la ventana con la tabla de usuarios y sus menus.
@@ -447,6 +461,7 @@ public class Main extends javax.swing.JFrame {
         chkbx_thread.setText("jCheckBox1");
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setIconImage(getIconImage());
         setUndecorated(true);
 
         btn_mini.setBackground(new java.awt.Color(153, 153, 0));
@@ -482,18 +497,19 @@ public class Main extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addComponent(btn_mini)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(474, Short.MAX_VALUE)
                 .addComponent(btn_mover)
-                .addGap(0, 484, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(btn_mini)
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btn_mini, javax.swing.GroupLayout.PREFERRED_SIZE, 13, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btn_mover, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
+                    .addComponent(btn_mover, javax.swing.GroupLayout.PREFERRED_SIZE, 13, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(0, 291, Short.MAX_VALUE))
         );
 
