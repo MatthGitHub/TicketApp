@@ -180,18 +180,18 @@ public class UsuarioServ {
     }
     
     
-    public int modificarUsuario(Usuarios aModif){
+    public boolean modificarUsuario(Usuarios aModif){
         try {
             jpa.edit(aModif);
-            return 0;
+            return true;
         } catch (NonexistentEntityException ex) {
             System.out.println("Error al modificar usuario. No existe");
             Logger.getLogger(UsuarioServ.class.getName()).log(Level.SEVERE, null, ex);
-            return 1;
+            return false;
         } catch (Exception ex) {
             System.out.println("Error al modificar usuario");
             Logger.getLogger(UsuarioServ.class.getName()).log(Level.SEVERE, null, ex);
-            return 1;
+            return false;
         }
         
     }
@@ -208,4 +208,7 @@ public class UsuarioServ {
         return miUsu;
     }
     
+    public Usuarios buscarUnUsuario(int id){
+        return jpa.findUsuarios(id);
+    }
 }

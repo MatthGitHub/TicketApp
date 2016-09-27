@@ -27,6 +27,7 @@ import mscb.tick.tickets.vista.ObservacionF;
 import mscb.tick.conocimiento.vista.ResolucionVerF;
 import mscb.tick.encargadoAsuntos.vista.AsuntoSinEncargadosF;
 import mscb.tick.entidades.BaseConocimiento;
+import mscb.tick.entidades.Usuarios;
 import mscb.tick.hitorialTicket.vista.HistorialTicketV;
 import mscb.tick.razonesTransf.vista.Razones;
 import mscb.tick.tickets.vista.ResolucionF;
@@ -35,6 +36,7 @@ import mscb.tick.tickets.vista.RespuestaF;
 import mscb.tick.tickets.vista.TicketsV;
 import mscb.tick.tickets.vista.TransferenciaF;
 import mscb.tick.usuarios.vista.CambiarClaveFrame;
+import mscb.tick.usuarios.vista.CambiarTipoF;
 import mscb.tick.usuarios.vista.NuevoUsuarioF;
 import mscb.tick.usuarios.vista.UsuariosV;
 
@@ -60,6 +62,7 @@ public class Main extends javax.swing.JFrame {
     private UsuariosV usu;
     private NuevoUsuarioF formUsuario;
     private CambiarClaveFrame cambiarCl;
+    private CambiarTipoF cambiarTipoU;
     
     private NuevoTicket formTicket;
     private TicketsV tabTick;
@@ -181,7 +184,18 @@ public class Main extends javax.swing.JFrame {
         }
         revalidate();
     }
-    
+    /**
+     * Ventana para modificar el tipo de usuario
+     */
+    public void cambiarTipoUsuario(Usuarios usu){
+        if(cambiarTipoU == null){
+            cambiarTipoU = new CambiarTipoF(this,usu);
+        }else{
+            cambiarTipoU.setVisible(true);
+            cambiarTipoU.CambiarTipoM(usu);
+        }
+        revalidate();
+    }
     /**
      * Llama al frame con el fomrulario para cambiar la clave del usuario 
      */

@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 08-09-2016 a las 11:14:37
+-- Tiempo de generación: 15-09-2016 a las 13:14:39
 -- Versión del servidor: 5.7.11
 -- Versión de PHP: 5.6.19
 
@@ -239,7 +239,7 @@ CREATE TABLE `empleados` (
 --
 
 INSERT INTO `empleados` (`id_empleado`, `nombre`, `apellido`, `documento`, `fk_area`, `legajo`) VALUES
-(1, 'matias', 'benditti', '35593648', 38, 1),
+(1, 'matias', 'benditti', '35593648', 38, 999998),
 (2, 'ernesto', 'nahuel', '14245647', 144, 2),
 (3, 'segundo', 'mato', '10675520', 61, 3),
 (4, 'maria susana', 'pineda', '10442217', 11, 8),
@@ -549,7 +549,7 @@ INSERT INTO `empleados` (`id_empleado`, `nombre`, `apellido`, `documento`, `fk_a
 (391, 'mirta maria', 'rosas', '10985988', 153, 601),
 (393, 'rodrigo', 'dalziel', '4576981', 143, 603),
 (394, 'graciela patricia', 'soto', '12679690', 200, 605),
-(395, 'gladys mabel', 'iba', '14759902', 38, 606),
+(395, 'gladys mabel', 'ibañez', '14759902', 38, 606),
 (396, 'nestor jose', 'riquelme', '20122137', 9159, 608),
 (397, 'martin', 'castillo', '7396713', 8, 609),
 (398, 'rolando a.', 'picuntureo', '12679684', 81, 610),
@@ -1210,9 +1210,9 @@ INSERT INTO `empleados` (`id_empleado`, `nombre`, `apellido`, `documento`, `fk_a
 (1414, 'javier', 'namor', '28385819', 56, 11122),
 (1415, 'alejandro', 'navarro', '22527437', 61, 21328),
 (1416, 'roberto', 'navarro', '25825800', 145, 21331),
-(1417, 'segundo', 'nicolas', '8216410', 8, 21329),
-(1418, 'laura', 'nicole', '28932911', 9168, 11478);
+(1417, 'segundo', 'nicolas', '8216410', 8, 21329);
 INSERT INTO `empleados` (`id_empleado`, `nombre`, `apellido`, `documento`, `fk_area`, `legajo`) VALUES
+(1418, 'laura', 'nicole', '28932911', 9168, 11478),
 (1419, 'francisco', 'ñancufil', '24828682', 61, 11219),
 (1420, 'mario', 'ñancufil', '27965482', 80, 11159),
 (1421, 'ricardo', 'obando', '31552190', 8, 11658),
@@ -2139,9 +2139,9 @@ INSERT INTO `empleados` (`id_empleado`, `nombre`, `apellido`, `documento`, `fk_a
 (2346, 'luis', 'da silva evora', '10985623', 87, 20321),
 (2347, 'hector hernan', 'ferreyra', '25496305', 110, 13227),
 (2348, 'maria magdalena', 'cotaro', '11846228', 11, 11367),
-(2349, 'jose luis', 'gamin', '0', 9181, 12171),
-(2350, 'matias mariano', 'grande', '31943012', 143, 11415);
+(2349, 'jose luis', 'gamin', '0', 9181, 12171);
 INSERT INTO `empleados` (`id_empleado`, `nombre`, `apellido`, `documento`, `fk_area`, `legajo`) VALUES
+(2350, 'matias mariano', 'grande', '31943012', 143, 11415),
 (2351, 'luis adolfo', 'piedrabuena', '30391634', 38, 13244),
 (2352, 'andrea fabiana', 'villalobos', '27520443', 144, 12800),
 (2353, 'hector segundo', 'carrasco cardenas', '92766787', 9181, 12679),
@@ -2642,7 +2642,8 @@ INSERT INTO `empleados` (`id_empleado`, `nombre`, `apellido`, `documento`, `fk_a
 (2848, 'marcela vanina', 'maldonado', '31662910', 11, 14329),
 (2849, 'elsa dominga', 'rosales', '16162937', 9160, 13578),
 (2850, 'lorena beatriz', 'prado', '30391867', 9160, 14237),
-(2851, 'estefania', 'klein', '32768591', 38, 4);
+(2851, 'estefania', 'klein', '32768591', 38, 999997),
+(2852, 'bruno', 'ovando', '38091463', 38, 999999);
 
 -- --------------------------------------------------------
 
@@ -2668,6 +2669,8 @@ INSERT INTO `encargado_servicios` (`usuario`, `asunto`) VALUES
 (3, 32),
 (3, 37),
 (3, 48),
+(3, 49),
+(3, 50),
 (3, 51),
 (3, 52),
 (3, 53),
@@ -2676,21 +2679,87 @@ INSERT INTO `encargado_servicios` (`usuario`, `asunto`) VALUES
 (3, 56),
 (3, 57),
 (3, 58),
-(14, 49),
-(14, 50),
+(3, 63),
+(3, 64),
+(3, 65),
+(3, 66),
+(3, 67),
+(3, 68),
+(3, 69),
+(3, 70),
+(3, 71),
+(3, 74),
+(3, 75),
+(3, 76),
+(3, 77),
+(3, 78),
+(3, 79),
+(3, 80),
+(3, 81),
+(3, 82),
+(3, 83),
+(3, 84),
+(3, 85),
+(3, 86),
+(3, 87),
+(3, 88),
+(3, 89),
+(15, 27),
+(15, 28),
+(15, 29),
+(15, 31),
+(15, 37),
+(15, 48),
+(15, 65),
 (16, 59),
 (16, 60),
+(16, 62),
+(16, 90),
+(16, 91),
+(16, 92),
+(16, 93),
+(16, 94),
+(17, 29),
+(17, 30),
 (17, 32),
+(17, 49),
+(17, 50),
+(17, 66),
+(17, 67),
+(17, 68),
+(17, 69),
+(17, 70),
+(17, 71),
+(17, 74),
+(17, 75),
+(17, 76),
+(17, 77),
+(17, 78),
+(17, 79),
+(17, 80),
+(17, 81),
+(17, 82),
+(17, 83),
+(17, 84),
+(17, 85),
+(17, 86),
+(17, 87),
+(17, 88),
 (18, 33),
 (18, 34),
 (18, 35),
 (18, 36),
+(18, 38),
 (18, 41),
 (18, 42),
 (18, 43),
 (18, 44),
 (18, 45),
-(18, 47);
+(18, 47),
+(24, 39),
+(24, 40),
+(24, 46),
+(24, 48);
 
 -- --------------------------------------------------------
 
@@ -2755,7 +2824,7 @@ CREATE TABLE `estado_actual_pgm` (
 --
 
 INSERT INTO `estado_actual_pgm` (`id`, `fk_estado_pgm`, `fecha`) VALUES
-(1, 2, '2016-09-02 18:13:59');
+(1, 2, '2016-09-13 18:53:17');
 
 -- --------------------------------------------------------
 
@@ -2771,6 +2840,15 @@ CREATE TABLE `historial_tickets` (
   `fecha` date NOT NULL,
   `fk_estado` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Volcado de datos para la tabla `historial_tickets`
+--
+
+INSERT INTO `historial_tickets` (`id_historial`, `fk_ticket`, `fk_usuario_emisor`, `fk_usuario_receptor`, `fecha`, `fk_estado`) VALUES
+(4, 2, 18, 3, '2016-09-09', 1),
+(7, 2, 18, 3, '2016-09-09', 5),
+(9, 5, 22, NULL, '2016-09-15', 1);
 
 -- --------------------------------------------------------
 
@@ -2873,7 +2951,6 @@ INSERT INTO `servicios` (`id_asuntoS`, `nombre_asuntoS`, `pertenece`) VALUES
 (58, 'Baja usuario cajero', 15),
 (59, 'Pedido de nuevo correo electronico', 16),
 (60, 'Baja de correo electronico', 16),
-(61, 'No funciona algun componente de la pc', 17),
 (62, 'Problemas con el turnero', 17),
 (63, 'Cambio de area', 18),
 (64, 'Otros problemas', 18),
@@ -2899,7 +2976,13 @@ INSERT INTO `servicios` (`id_asuntoS`, `nombre_asuntoS`, `pertenece`) VALUES
 (86, 'Modificacion de sueldo basico en las subrrogancias', 12),
 (87, 'Actualizacion de salario minimo vital y movil', 12),
 (88, 'Actualizacion de limites para asignaciones familiares', 12),
-(89, 'Agregar nuevo servicio (Cual,por y para que)', 19);
+(89, 'Agregar nuevo servicio (Cual,por y para que)', 19),
+(90, 'Mal funcionamiento del CPU', 17),
+(91, 'Problemas con el mouse o teclado', 17),
+(92, 'Mal funcionamiento de la impresora', 17),
+(93, 'No funciona internet', 17),
+(94, 'No funcionan los mail', 17),
+(95, 'Cambio-Movimiento de impresoras', 17);
 
 -- --------------------------------------------------------
 
@@ -2921,6 +3004,14 @@ CREATE TABLE `tickets` (
   `fk_estado` int(11) DEFAULT NULL,
   `fk_razon` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish2_ci;
+
+--
+-- Volcado de datos para la tabla `tickets`
+--
+
+INSERT INTO `tickets` (`id_ticket`, `fecha`, `hora`, `fk_area_emisor`, `fk_usuario_emisor`, `fk_area_sistemas`, `asunto`, `observacion`, `usuario_receptor`, `respuesta`, `fk_estado`, `fk_razon`) VALUES
+(2, '2016-09-09', '2016-09-14 14:09:30', 38, 18, NULL, 29, 'Buenos dÃ­as:\nMediante la presente solicito se genere clave de usuario y permisos iguales a agente FICARE, a las siguientes pasantes:\nTRONCOSO, MARIANA BELEN DNI 35818794 \nPEREZ KAREN YAMILA DNI  38806587\n \nSaludos, Erica - Numero de interno: 111', 3, 'Ya estan realizados los usuarios:\nUsuario: mtroncoso - calve: mariana\nUsuario: kperez - clave: karen\n\nRecordad cambiar la clave lo antes posible.', 5, NULL),
+(5, '2016-09-15', '2016-09-15 14:35:46', 38, 22, NULL, 95, 'Lilian solicita\nNuevamente te vuelvo a solicitar el cambio de impresoras entre Contribuciones y Coordinación.  \n\n\n\n\n\nPor otro lado tambien te confirmo para que procedas a habilitar cada una de las PC del departamento de contribuciones para que puedan utilizar la "impresora masiva" a partir del de hoy. \n\n\n\n\n\nMuchas gracias. \n\n\n\nSaludos \n\n\n\n\n\nLilian. \n\n', NULL, NULL, 1, NULL);
 
 -- --------------------------------------------------------
 
@@ -2962,13 +3053,18 @@ CREATE TABLE `usuarios` (
 --
 
 INSERT INTO `usuarios` (`id_usuario`, `nombre_usuario`, `contrasenia`, `fk_empleado`, `activo`, `fk_permiso`, `id_extreme`) VALUES
-(3, 'mbenditti', '090c36e3bb39377468363197afb3e91b', 1, 1, 1, NULL),
-(14, 'eklein', '05d4be078abfb95ae07395971051c2f1', 2851, 1, 1, NULL),
+(3, 'mbenditti', '992f1570e7d76ebd5239bd5d83ca025b', 1, 1, 1, NULL),
 (15, 'ekayser', '6b5b0dd03c9c85725032ce5f3a0918ae', 1637, 1, 2, NULL),
 (16, 'gdinardo', '4c96f8324e3ba54a99e78249b95daa30', 146, 1, 1, NULL),
 (17, 'gcastro', '4c96f8324e3ba54a99e78249b95daa30', 2023, 1, 2, NULL),
 (18, 'avarano', 'e94ef563867e9c9df3fcc999bdb045f5', 113, 1, 2, NULL),
-(19, 'etomatis', '6d6354ece40846bf7fca65dfabd5d9d4', 1177, 1, 2, NULL);
+(19, 'etomatis', '6d6354ece40846bf7fca65dfabd5d9d4', 1177, 1, 2, NULL),
+(21, 'eklein', '0dad057ace699c95af66875078362cf4', 2851, 1, 2, NULL),
+(22, 'hacuña', '3ab9071536d62f29aa8b3fd39141f6ad', 199, 1, 1, NULL),
+(23, 'bmarin', 'e4f7614a887a8cc07a2eea93a1e31122', 983, 1, 2, NULL),
+(24, 'gibanez', '05fe03b494c0f1a7d6cb49f0bf3fd70d', 395, 1, 2, NULL),
+(25, 'dalvarez', 'aa47f8215c6f30a0dcdb2a36a9f4168e', 2555, 1, 2, NULL),
+(27, 'bovando', 'e3928a3bc4be46516aa33a79bbdfdb08', 2852, 1, 1, NULL);
 
 --
 -- Índices para tablas volcadas
@@ -3120,12 +3216,12 @@ ALTER TABLE `asuntos`
 -- AUTO_INCREMENT de la tabla `base_conocimiento`
 --
 ALTER TABLE `base_conocimiento`
-  MODIFY `id_resolucion` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_resolucion` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 --
 -- AUTO_INCREMENT de la tabla `empleados`
 --
 ALTER TABLE `empleados`
-  MODIFY `id_empleado` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2852;
+  MODIFY `id_empleado` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2853;
 --
 -- AUTO_INCREMENT de la tabla `estados`
 --
@@ -3140,7 +3236,7 @@ ALTER TABLE `estados_pgm`
 -- AUTO_INCREMENT de la tabla `historial_tickets`
 --
 ALTER TABLE `historial_tickets`
-  MODIFY `id_historial` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id_historial` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 --
 -- AUTO_INCREMENT de la tabla `permisos`
 --
@@ -3155,12 +3251,12 @@ ALTER TABLE `razones_transferencias`
 -- AUTO_INCREMENT de la tabla `servicios`
 --
 ALTER TABLE `servicios`
-  MODIFY `id_asuntoS` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=90;
+  MODIFY `id_asuntoS` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=96;
 --
 -- AUTO_INCREMENT de la tabla `tickets`
 --
 ALTER TABLE `tickets`
-  MODIFY `id_ticket` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id_ticket` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 --
 -- AUTO_INCREMENT de la tabla `tipo_usuario`
 --
@@ -3170,7 +3266,7 @@ ALTER TABLE `tipo_usuario`
 -- AUTO_INCREMENT de la tabla `usuarios`
 --
 ALTER TABLE `usuarios`
-  MODIFY `id_usuario` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
+  MODIFY `id_usuario` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28;
 --
 -- Restricciones para tablas volcadas
 --

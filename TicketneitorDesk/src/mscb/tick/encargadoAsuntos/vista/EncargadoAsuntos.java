@@ -356,7 +356,7 @@ public class EncargadoAsuntos extends MenuP {
             //Usuarios miUsuario = (Usuarios) cmbx_usuarios.getSelectedItem();
             user.getServiciosList().add((Servicios) cmbx_asuntosS.getSelectedItem());
             serviciosU = new UsuarioServ();
-            if (serviciosU.modificarUsuario(user) == 0) {
+            if (serviciosU.modificarUsuario(user)) {
                 JOptionPane.showMessageDialog(mainFrame, "Asunto agregado!");
                 cargarTabla();
                 if(mainFrame.asuntoSinEnc != null){
@@ -404,7 +404,7 @@ public class EncargadoAsuntos extends MenuP {
                 }
                 miUsuario.getServiciosList().remove(miAsu);
                 serviciosU = new UsuarioServ();
-                if (serviciosU.modificarUsuario(miUsuario) == 0) {
+                if (serviciosU.modificarUsuario(miUsuario)) {
                     JOptionPane.showMessageDialog(mainFrame, "Asunto quitado!");
                     cargarComboBoxAsuntoS();
                     cargarTabla();
