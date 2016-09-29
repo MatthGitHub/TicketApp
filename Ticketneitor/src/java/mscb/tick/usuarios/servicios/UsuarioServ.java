@@ -204,7 +204,7 @@ public class UsuarioServ {
             }
         }
         Usuarios miUsu = new Usuarios();
-        miUsu.setNombreUsuario("No se encontro");
+        miUsu.setNombreUsuario("No");
         return miUsu;
     }
     

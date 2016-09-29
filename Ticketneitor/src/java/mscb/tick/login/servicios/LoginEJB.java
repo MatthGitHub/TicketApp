@@ -32,7 +32,26 @@ public class LoginEJB {
 
         serviciosU = new UsuarioServ();
         miLista = serviciosU.traerTodos();
-        for (int i = 0; i < miLista.size(); i++) {
+        
+        Usuarios miUsuario = serviciosU.buscarUsuarioPorNombre(nombre);
+        if(!miUsuario.getNombreUsuario().equals("No")){
+            if(miUsuario.getContrasenia().equals(clave)){
+                if(miUsuario.getActivo()){
+                    usuario = miUsuario;
+                    return true;
+                }else{
+                    mensaje = "Usuario Inactivo";
+                    return false;
+                }
+            }else{
+                 mensaje = "Clave incorrecta";
+                 return false;
+            }
+        }else{
+             mensaje = "Usuario inexistente";
+             return false;
+        }
+        /*for (int i = 0; i < miLista.size(); i++) {
             if (miLista.get(i).getNombreUsuario().equalsIgnoreCase(nombre)) {
                 if (miLista.get(i).getContrasenia().equals(clave)) {
                     if (miLista.get(i).getActivo()) {
@@ -40,18 +59,16 @@ public class LoginEJB {
                         return true;
                     } else {
                         mensaje = "Usuario Inactivo";
-                        return false;
+                        break;
                     }
                 } else {
                     mensaje = "Clave incorrecta";
-                    return false;
+                    break;
                 }
             } else {
                 mensaje = "Usuario inexistente";
-                return false;
+                break;
             }
-            
-        }
-    return false;
+        }*/
     }
 }
