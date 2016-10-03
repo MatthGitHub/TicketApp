@@ -15,6 +15,8 @@ import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
@@ -37,6 +39,8 @@ public class TipoUsuario implements Serializable {
     @Column(name = "id_tipo_usuario")
     private Integer idTipoUsuario;
     @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 30)
     @Column(name = "nombre_tipo_usuario")
     private String nombreTipoUsuario;
 
@@ -90,7 +94,7 @@ public class TipoUsuario implements Serializable {
 
     @Override
     public String toString() {
-        return this.nombreTipoUsuario;
+        return "mscb.tick.entidades.TipoUsuario[ idTipoUsuario=" + idTipoUsuario + " ]";
     }
     
 }

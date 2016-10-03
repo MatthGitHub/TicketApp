@@ -10,9 +10,9 @@ import javax.persistence.Query;
 import javax.persistence.EntityNotFoundException;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
-import mscb.tick.entidades.RazonesTransferencias;
 import mscb.tick.entidades.Areas;
 import mscb.tick.entidades.Estados;
+import mscb.tick.entidades.RazonesTransferencias;
 import mscb.tick.entidades.Usuarios;
 import mscb.tick.entidades.AreaSistemas;
 import mscb.tick.entidades.Servicios;
@@ -24,6 +24,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import mscb.tick.controladores.exceptions.IllegalOrphanException;
 import mscb.tick.controladores.exceptions.NonexistentEntityException;
+import mscb.tick.entidades.HistorialTickets;
 import mscb.tick.entidades.Tickets;
 
 /**
@@ -45,15 +46,13 @@ public class TicketsJpaController implements Serializable {
         if (tickets.getBaseConocimientoList() == null) {
             tickets.setBaseConocimientoList(new ArrayList<BaseConocimiento>());
         }
+        if (tickets.getHistorialTicketsList() == null) {
+            tickets.setHistorialTicketsList(new ArrayList<HistorialTickets>());
+        }
         EntityManager em = null;
         try {
             em = getEntityManager();
             em.getTransaction().begin();
-            RazonesTransferencias fkRazon = tickets.getFkRazon();
-            if (fkRazon != null) {
-                fkRazon = em.getReference(fkRazon.getClass(), fkRazon.getIdRazon());
-                tickets.setFkRazon(fkRazon);
-            }
             Areas fkAreaEmisor = tickets.getFkAreaEmisor();
             if (fkAreaEmisor != null) {
                 fkAreaEmisor = em.getReference(fkAreaEmisor.getClass(), fkAreaEmisor.getIdArea());
@@ -63,6 +62,11 @@ public class TicketsJpaController implements Serializable {
             if (fkEstado != null) {
                 fkEstado = em.getReference(fkEstado.getClass(), fkEstado.getIdEstado());
                 tickets.setFkEstado(fkEstado);
+            }
+            RazonesTransferencias fkRazon = tickets.getFkRazon();
+            if (fkRazon != null) {
+                fkRazon = em.getReference(fkRazon.getClass(), fkRazon.getIdRazon());
+                tickets.setFkRazon(fkRazon);
             }
             Usuarios fkUsuarioEmisor = tickets.getFkUsuarioEmisor();
             if (fkUsuarioEmisor != null) {
@@ -95,11 +99,13 @@ public class TicketsJpaController implements Serializable {
                 attachedBaseConocimientoList.add(baseConocimientoListBaseConocimientoToAttach);
             }
             tickets.setBaseConocimientoList(attachedBaseConocimientoList);
-            em.persist(tickets);
-            if (fkRazon != null) {
-                fkRazon.getTicketsList().add(tickets);
-                fkRazon = em.merge(fkRazon);
+            List<HistorialTickets> attachedHistorialTicketsList = new ArrayList<HistorialTickets>();
+            for (HistorialTickets historialTicketsListHistorialTicketsToAttach : tickets.getHistorialTicketsList()) {
+                historialTicketsListHistorialTicketsToAttach = em.getReference(historialTicketsListHistorialTicketsToAttach.getClass(), historialTicketsListHistorialTicketsToAttach.getIdHistorial());
+                attachedHistorialTicketsList.add(historialTicketsListHistorialTicketsToAttach);
             }
+            tickets.setHistorialTicketsList(attachedHistorialTicketsList);
+            em.persist(tickets);
             if (fkAreaEmisor != null) {
                 fkAreaEmisor.getTicketsList().add(tickets);
                 fkAreaEmisor = em.merge(fkAreaEmisor);
@@ -107,6 +113,10 @@ public class TicketsJpaController implements Serializable {
             if (fkEstado != null) {
                 fkEstado.getTicketsList().add(tickets);
                 fkEstado = em.merge(fkEstado);
+            }
+            if (fkRazon != null) {
+                fkRazon.getTicketsList().add(tickets);
+                fkRazon = em.merge(fkRazon);
             }
             if (fkUsuarioEmisor != null) {
                 fkUsuarioEmisor.getTicketsList().add(tickets);
@@ -142,6 +152,15 @@ public class TicketsJpaController implements Serializable {
                     oldFkTicketOfBaseConocimientoListBaseConocimiento = em.merge(oldFkTicketOfBaseConocimientoListBaseConocimiento);
                 }
             }
+            for (HistorialTickets historialTicketsListHistorialTickets : tickets.getHistorialTicketsList()) {
+                Tickets oldFkTicketOfHistorialTicketsListHistorialTickets = historialTicketsListHistorialTickets.getFkTicket();
+                historialTicketsListHistorialTickets.setFkTicket(tickets);
+                historialTicketsListHistorialTickets = em.merge(historialTicketsListHistorialTickets);
+                if (oldFkTicketOfHistorialTicketsListHistorialTickets != null) {
+                    oldFkTicketOfHistorialTicketsListHistorialTickets.getHistorialTicketsList().remove(historialTicketsListHistorialTickets);
+                    oldFkTicketOfHistorialTicketsListHistorialTickets = em.merge(oldFkTicketOfHistorialTicketsListHistorialTickets);
+                }
+            }
             em.getTransaction().commit();
         } finally {
             if (em != null) {
@@ -156,12 +175,12 @@ public class TicketsJpaController implements Serializable {
             em = getEntityManager();
             em.getTransaction().begin();
             Tickets persistentTickets = em.find(Tickets.class, tickets.getIdTicket());
-            RazonesTransferencias fkRazonOld = persistentTickets.getFkRazon();
-            RazonesTransferencias fkRazonNew = tickets.getFkRazon();
             Areas fkAreaEmisorOld = persistentTickets.getFkAreaEmisor();
             Areas fkAreaEmisorNew = tickets.getFkAreaEmisor();
             Estados fkEstadoOld = persistentTickets.getFkEstado();
             Estados fkEstadoNew = tickets.getFkEstado();
+            RazonesTransferencias fkRazonOld = persistentTickets.getFkRazon();
+            RazonesTransferencias fkRazonNew = tickets.getFkRazon();
             Usuarios fkUsuarioEmisorOld = persistentTickets.getFkUsuarioEmisor();
             Usuarios fkUsuarioEmisorNew = tickets.getFkUsuarioEmisor();
             Usuarios usuarioReceptorOld = persistentTickets.getUsuarioReceptor();
@@ -174,6 +193,8 @@ public class TicketsJpaController implements Serializable {
             Respuestas respuestasNew = tickets.getRespuestas();
             List<BaseConocimiento> baseConocimientoListOld = persistentTickets.getBaseConocimientoList();
             List<BaseConocimiento> baseConocimientoListNew = tickets.getBaseConocimientoList();
+            List<HistorialTickets> historialTicketsListOld = persistentTickets.getHistorialTicketsList();
+            List<HistorialTickets> historialTicketsListNew = tickets.getHistorialTicketsList();
             List<String> illegalOrphanMessages = null;
             if (respuestasOld != null && !respuestasOld.equals(respuestasNew)) {
                 if (illegalOrphanMessages == null) {
@@ -189,12 +210,16 @@ public class TicketsJpaController implements Serializable {
                     illegalOrphanMessages.add("You must retain BaseConocimiento " + baseConocimientoListOldBaseConocimiento + " since its fkTicket field is not nullable.");
                 }
             }
+            for (HistorialTickets historialTicketsListOldHistorialTickets : historialTicketsListOld) {
+                if (!historialTicketsListNew.contains(historialTicketsListOldHistorialTickets)) {
+                    if (illegalOrphanMessages == null) {
+                        illegalOrphanMessages = new ArrayList<String>();
+                    }
+                    illegalOrphanMessages.add("You must retain HistorialTickets " + historialTicketsListOldHistorialTickets + " since its fkTicket field is not nullable.");
+                }
+            }
             if (illegalOrphanMessages != null) {
                 throw new IllegalOrphanException(illegalOrphanMessages);
-            }
-            if (fkRazonNew != null) {
-                fkRazonNew = em.getReference(fkRazonNew.getClass(), fkRazonNew.getIdRazon());
-                tickets.setFkRazon(fkRazonNew);
             }
             if (fkAreaEmisorNew != null) {
                 fkAreaEmisorNew = em.getReference(fkAreaEmisorNew.getClass(), fkAreaEmisorNew.getIdArea());
@@ -203,6 +228,10 @@ public class TicketsJpaController implements Serializable {
             if (fkEstadoNew != null) {
                 fkEstadoNew = em.getReference(fkEstadoNew.getClass(), fkEstadoNew.getIdEstado());
                 tickets.setFkEstado(fkEstadoNew);
+            }
+            if (fkRazonNew != null) {
+                fkRazonNew = em.getReference(fkRazonNew.getClass(), fkRazonNew.getIdRazon());
+                tickets.setFkRazon(fkRazonNew);
             }
             if (fkUsuarioEmisorNew != null) {
                 fkUsuarioEmisorNew = em.getReference(fkUsuarioEmisorNew.getClass(), fkUsuarioEmisorNew.getIdUsuario());
@@ -231,15 +260,14 @@ public class TicketsJpaController implements Serializable {
             }
             baseConocimientoListNew = attachedBaseConocimientoListNew;
             tickets.setBaseConocimientoList(baseConocimientoListNew);
+            List<HistorialTickets> attachedHistorialTicketsListNew = new ArrayList<HistorialTickets>();
+            for (HistorialTickets historialTicketsListNewHistorialTicketsToAttach : historialTicketsListNew) {
+                historialTicketsListNewHistorialTicketsToAttach = em.getReference(historialTicketsListNewHistorialTicketsToAttach.getClass(), historialTicketsListNewHistorialTicketsToAttach.getIdHistorial());
+                attachedHistorialTicketsListNew.add(historialTicketsListNewHistorialTicketsToAttach);
+            }
+            historialTicketsListNew = attachedHistorialTicketsListNew;
+            tickets.setHistorialTicketsList(historialTicketsListNew);
             tickets = em.merge(tickets);
-            if (fkRazonOld != null && !fkRazonOld.equals(fkRazonNew)) {
-                fkRazonOld.getTicketsList().remove(tickets);
-                fkRazonOld = em.merge(fkRazonOld);
-            }
-            if (fkRazonNew != null && !fkRazonNew.equals(fkRazonOld)) {
-                fkRazonNew.getTicketsList().add(tickets);
-                fkRazonNew = em.merge(fkRazonNew);
-            }
             if (fkAreaEmisorOld != null && !fkAreaEmisorOld.equals(fkAreaEmisorNew)) {
                 fkAreaEmisorOld.getTicketsList().remove(tickets);
                 fkAreaEmisorOld = em.merge(fkAreaEmisorOld);
@@ -255,6 +283,14 @@ public class TicketsJpaController implements Serializable {
             if (fkEstadoNew != null && !fkEstadoNew.equals(fkEstadoOld)) {
                 fkEstadoNew.getTicketsList().add(tickets);
                 fkEstadoNew = em.merge(fkEstadoNew);
+            }
+            if (fkRazonOld != null && !fkRazonOld.equals(fkRazonNew)) {
+                fkRazonOld.getTicketsList().remove(tickets);
+                fkRazonOld = em.merge(fkRazonOld);
+            }
+            if (fkRazonNew != null && !fkRazonNew.equals(fkRazonOld)) {
+                fkRazonNew.getTicketsList().add(tickets);
+                fkRazonNew = em.merge(fkRazonNew);
             }
             if (fkUsuarioEmisorOld != null && !fkUsuarioEmisorOld.equals(fkUsuarioEmisorNew)) {
                 fkUsuarioEmisorOld.getTicketsList().remove(tickets);
@@ -308,6 +344,17 @@ public class TicketsJpaController implements Serializable {
                     }
                 }
             }
+            for (HistorialTickets historialTicketsListNewHistorialTickets : historialTicketsListNew) {
+                if (!historialTicketsListOld.contains(historialTicketsListNewHistorialTickets)) {
+                    Tickets oldFkTicketOfHistorialTicketsListNewHistorialTickets = historialTicketsListNewHistorialTickets.getFkTicket();
+                    historialTicketsListNewHistorialTickets.setFkTicket(tickets);
+                    historialTicketsListNewHistorialTickets = em.merge(historialTicketsListNewHistorialTickets);
+                    if (oldFkTicketOfHistorialTicketsListNewHistorialTickets != null && !oldFkTicketOfHistorialTicketsListNewHistorialTickets.equals(tickets)) {
+                        oldFkTicketOfHistorialTicketsListNewHistorialTickets.getHistorialTicketsList().remove(historialTicketsListNewHistorialTickets);
+                        oldFkTicketOfHistorialTicketsListNewHistorialTickets = em.merge(oldFkTicketOfHistorialTicketsListNewHistorialTickets);
+                    }
+                }
+            }
             em.getTransaction().commit();
         } catch (Exception ex) {
             String msg = ex.getLocalizedMessage();
@@ -352,13 +399,15 @@ public class TicketsJpaController implements Serializable {
                 }
                 illegalOrphanMessages.add("This Tickets (" + tickets + ") cannot be destroyed since the BaseConocimiento " + baseConocimientoListOrphanCheckBaseConocimiento + " in its baseConocimientoList field has a non-nullable fkTicket field.");
             }
+            List<HistorialTickets> historialTicketsListOrphanCheck = tickets.getHistorialTicketsList();
+            for (HistorialTickets historialTicketsListOrphanCheckHistorialTickets : historialTicketsListOrphanCheck) {
+                if (illegalOrphanMessages == null) {
+                    illegalOrphanMessages = new ArrayList<String>();
+                }
+                illegalOrphanMessages.add("This Tickets (" + tickets + ") cannot be destroyed since the HistorialTickets " + historialTicketsListOrphanCheckHistorialTickets + " in its historialTicketsList field has a non-nullable fkTicket field.");
+            }
             if (illegalOrphanMessages != null) {
                 throw new IllegalOrphanException(illegalOrphanMessages);
-            }
-            RazonesTransferencias fkRazon = tickets.getFkRazon();
-            if (fkRazon != null) {
-                fkRazon.getTicketsList().remove(tickets);
-                fkRazon = em.merge(fkRazon);
             }
             Areas fkAreaEmisor = tickets.getFkAreaEmisor();
             if (fkAreaEmisor != null) {
@@ -369,6 +418,11 @@ public class TicketsJpaController implements Serializable {
             if (fkEstado != null) {
                 fkEstado.getTicketsList().remove(tickets);
                 fkEstado = em.merge(fkEstado);
+            }
+            RazonesTransferencias fkRazon = tickets.getFkRazon();
+            if (fkRazon != null) {
+                fkRazon.getTicketsList().remove(tickets);
+                fkRazon = em.merge(fkRazon);
             }
             Usuarios fkUsuarioEmisor = tickets.getFkUsuarioEmisor();
             if (fkUsuarioEmisor != null) {

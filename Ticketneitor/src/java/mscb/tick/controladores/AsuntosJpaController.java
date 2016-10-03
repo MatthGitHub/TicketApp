@@ -10,6 +10,7 @@ import javax.persistence.Query;
 import javax.persistence.EntityNotFoundException;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
+import mscb.tick.entidades.Areas;
 import mscb.tick.entidades.Servicios;
 import java.util.ArrayList;
 import java.util.List;
@@ -42,6 +43,11 @@ public class AsuntosJpaController implements Serializable {
         try {
             em = getEntityManager();
             em.getTransaction().begin();
+            Areas fkArea = asuntos.getFkArea();
+            if (fkArea != null) {
+                fkArea = em.getReference(fkArea.getClass(), fkArea.getIdArea());
+                asuntos.setFkArea(fkArea);
+            }
             List<Servicios> attachedServiciosList = new ArrayList<Servicios>();
             for (Servicios serviciosListServiciosToAttach : asuntos.getServiciosList()) {
                 serviciosListServiciosToAttach = em.getReference(serviciosListServiciosToAttach.getClass(), serviciosListServiciosToAttach.getIdasuntoS());
@@ -49,6 +55,10 @@ public class AsuntosJpaController implements Serializable {
             }
             asuntos.setServiciosList(attachedServiciosList);
             em.persist(asuntos);
+            if (fkArea != null) {
+                fkArea.getAsuntosList().add(asuntos);
+                fkArea = em.merge(fkArea);
+            }
             for (Servicios serviciosListServicios : asuntos.getServiciosList()) {
                 Asuntos oldPerteneceOfServiciosListServicios = serviciosListServicios.getPertenece();
                 serviciosListServicios.setPertenece(asuntos);
@@ -72,6 +82,8 @@ public class AsuntosJpaController implements Serializable {
             em = getEntityManager();
             em.getTransaction().begin();
             Asuntos persistentAsuntos = em.find(Asuntos.class, asuntos.getIdasuntoP());
+            Areas fkAreaOld = persistentAsuntos.getFkArea();
+            Areas fkAreaNew = asuntos.getFkArea();
             List<Servicios> serviciosListOld = persistentAsuntos.getServiciosList();
             List<Servicios> serviciosListNew = asuntos.getServiciosList();
             List<String> illegalOrphanMessages = null;
@@ -86,6 +98,10 @@ public class AsuntosJpaController implements Serializable {
             if (illegalOrphanMessages != null) {
                 throw new IllegalOrphanException(illegalOrphanMessages);
             }
+            if (fkAreaNew != null) {
+                fkAreaNew = em.getReference(fkAreaNew.getClass(), fkAreaNew.getIdArea());
+                asuntos.setFkArea(fkAreaNew);
+            }
             List<Servicios> attachedServiciosListNew = new ArrayList<Servicios>();
             for (Servicios serviciosListNewServiciosToAttach : serviciosListNew) {
                 serviciosListNewServiciosToAttach = em.getReference(serviciosListNewServiciosToAttach.getClass(), serviciosListNewServiciosToAttach.getIdasuntoS());
@@ -94,6 +110,14 @@ public class AsuntosJpaController implements Serializable {
             serviciosListNew = attachedServiciosListNew;
             asuntos.setServiciosList(serviciosListNew);
             asuntos = em.merge(asuntos);
+            if (fkAreaOld != null && !fkAreaOld.equals(fkAreaNew)) {
+                fkAreaOld.getAsuntosList().remove(asuntos);
+                fkAreaOld = em.merge(fkAreaOld);
+            }
+            if (fkAreaNew != null && !fkAreaNew.equals(fkAreaOld)) {
+                fkAreaNew.getAsuntosList().add(asuntos);
+                fkAreaNew = em.merge(fkAreaNew);
+            }
             for (Servicios serviciosListNewServicios : serviciosListNew) {
                 if (!serviciosListOld.contains(serviciosListNewServicios)) {
                     Asuntos oldPerteneceOfServiciosListNewServicios = serviciosListNewServicios.getPertenece();
@@ -144,6 +168,11 @@ public class AsuntosJpaController implements Serializable {
             }
             if (illegalOrphanMessages != null) {
                 throw new IllegalOrphanException(illegalOrphanMessages);
+            }
+            Areas fkArea = asuntos.getFkArea();
+            if (fkArea != null) {
+                fkArea.getAsuntosList().remove(asuntos);
+                fkArea = em.merge(fkArea);
             }
             em.remove(asuntos);
             em.getTransaction().commit();

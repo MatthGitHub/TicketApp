@@ -17,6 +17,8 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
@@ -33,9 +35,6 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Estados.findByNombre", query = "SELECT e FROM Estados e WHERE e.nombre = :nombre")})
 public class Estados implements Serializable {
 
-    @OneToMany(mappedBy = "fkEstado")
-    private List<HistorialTickets> historialTicketsList;
-
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -43,10 +42,14 @@ public class Estados implements Serializable {
     @Column(name = "id_estado")
     private Integer idEstado;
     @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 30)
     @Column(name = "nombre")
     private String nombre;
     @OneToMany(mappedBy = "fkEstado")
     private List<Tickets> ticketsList;
+    @OneToMany(mappedBy = "fkEstado")
+    private List<HistorialTickets> historialTicketsList;
 
     public Estados() {
     }
@@ -85,6 +88,15 @@ public class Estados implements Serializable {
         this.ticketsList = ticketsList;
     }
 
+    @XmlTransient
+    public List<HistorialTickets> getHistorialTicketsList() {
+        return historialTicketsList;
+    }
+
+    public void setHistorialTicketsList(List<HistorialTickets> historialTicketsList) {
+        this.historialTicketsList = historialTicketsList;
+    }
+
     @Override
     public int hashCode() {
         int hash = 0;
@@ -107,16 +119,7 @@ public class Estados implements Serializable {
 
     @Override
     public String toString() {
-        return this.getNombre();
-    }
-
-    @XmlTransient
-    public List<HistorialTickets> getHistorialTicketsList() {
-        return historialTicketsList;
-    }
-
-    public void setHistorialTicketsList(List<HistorialTickets> historialTicketsList) {
-        this.historialTicketsList = historialTicketsList;
+        return "mscb.tick.entidades.Estados[ idEstado=" + idEstado + " ]";
     }
     
 }

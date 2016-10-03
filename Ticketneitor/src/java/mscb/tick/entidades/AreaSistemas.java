@@ -17,6 +17,8 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
@@ -40,6 +42,8 @@ public class AreaSistemas implements Serializable {
     @Column(name = "id_area_sistemas")
     private Integer idAreaSistemas;
     @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 30)
     @Column(name = "nombre_area")
     private String nombreArea;
     @OneToMany(mappedBy = "fkAreaSistemas")
@@ -104,7 +108,7 @@ public class AreaSistemas implements Serializable {
 
     @Override
     public String toString() {
-        return this.nombreArea;
+        return "mscb.tick.entidades.AreaSistemas[ idAreaSistemas=" + idAreaSistemas + " ]";
     }
     
 }

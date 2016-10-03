@@ -17,6 +17,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import mscb.tick.controladores.exceptions.NonexistentEntityException;
 import mscb.tick.entidades.Estados;
+import mscb.tick.entidades.HistorialTickets;
 
 /**
  *
@@ -37,6 +38,9 @@ public class EstadosJpaController implements Serializable {
         if (estados.getTicketsList() == null) {
             estados.setTicketsList(new ArrayList<Tickets>());
         }
+        if (estados.getHistorialTicketsList() == null) {
+            estados.setHistorialTicketsList(new ArrayList<HistorialTickets>());
+        }
         EntityManager em = null;
         try {
             em = getEntityManager();
@@ -47,6 +51,12 @@ public class EstadosJpaController implements Serializable {
                 attachedTicketsList.add(ticketsListTicketsToAttach);
             }
             estados.setTicketsList(attachedTicketsList);
+            List<HistorialTickets> attachedHistorialTicketsList = new ArrayList<HistorialTickets>();
+            for (HistorialTickets historialTicketsListHistorialTicketsToAttach : estados.getHistorialTicketsList()) {
+                historialTicketsListHistorialTicketsToAttach = em.getReference(historialTicketsListHistorialTicketsToAttach.getClass(), historialTicketsListHistorialTicketsToAttach.getIdHistorial());
+                attachedHistorialTicketsList.add(historialTicketsListHistorialTicketsToAttach);
+            }
+            estados.setHistorialTicketsList(attachedHistorialTicketsList);
             em.persist(estados);
             for (Tickets ticketsListTickets : estados.getTicketsList()) {
                 Estados oldFkEstadoOfTicketsListTickets = ticketsListTickets.getFkEstado();
@@ -55,6 +65,15 @@ public class EstadosJpaController implements Serializable {
                 if (oldFkEstadoOfTicketsListTickets != null) {
                     oldFkEstadoOfTicketsListTickets.getTicketsList().remove(ticketsListTickets);
                     oldFkEstadoOfTicketsListTickets = em.merge(oldFkEstadoOfTicketsListTickets);
+                }
+            }
+            for (HistorialTickets historialTicketsListHistorialTickets : estados.getHistorialTicketsList()) {
+                Estados oldFkEstadoOfHistorialTicketsListHistorialTickets = historialTicketsListHistorialTickets.getFkEstado();
+                historialTicketsListHistorialTickets.setFkEstado(estados);
+                historialTicketsListHistorialTickets = em.merge(historialTicketsListHistorialTickets);
+                if (oldFkEstadoOfHistorialTicketsListHistorialTickets != null) {
+                    oldFkEstadoOfHistorialTicketsListHistorialTickets.getHistorialTicketsList().remove(historialTicketsListHistorialTickets);
+                    oldFkEstadoOfHistorialTicketsListHistorialTickets = em.merge(oldFkEstadoOfHistorialTicketsListHistorialTickets);
                 }
             }
             em.getTransaction().commit();
@@ -73,6 +92,8 @@ public class EstadosJpaController implements Serializable {
             Estados persistentEstados = em.find(Estados.class, estados.getIdEstado());
             List<Tickets> ticketsListOld = persistentEstados.getTicketsList();
             List<Tickets> ticketsListNew = estados.getTicketsList();
+            List<HistorialTickets> historialTicketsListOld = persistentEstados.getHistorialTicketsList();
+            List<HistorialTickets> historialTicketsListNew = estados.getHistorialTicketsList();
             List<Tickets> attachedTicketsListNew = new ArrayList<Tickets>();
             for (Tickets ticketsListNewTicketsToAttach : ticketsListNew) {
                 ticketsListNewTicketsToAttach = em.getReference(ticketsListNewTicketsToAttach.getClass(), ticketsListNewTicketsToAttach.getIdTicket());
@@ -80,6 +101,13 @@ public class EstadosJpaController implements Serializable {
             }
             ticketsListNew = attachedTicketsListNew;
             estados.setTicketsList(ticketsListNew);
+            List<HistorialTickets> attachedHistorialTicketsListNew = new ArrayList<HistorialTickets>();
+            for (HistorialTickets historialTicketsListNewHistorialTicketsToAttach : historialTicketsListNew) {
+                historialTicketsListNewHistorialTicketsToAttach = em.getReference(historialTicketsListNewHistorialTicketsToAttach.getClass(), historialTicketsListNewHistorialTicketsToAttach.getIdHistorial());
+                attachedHistorialTicketsListNew.add(historialTicketsListNewHistorialTicketsToAttach);
+            }
+            historialTicketsListNew = attachedHistorialTicketsListNew;
+            estados.setHistorialTicketsList(historialTicketsListNew);
             estados = em.merge(estados);
             for (Tickets ticketsListOldTickets : ticketsListOld) {
                 if (!ticketsListNew.contains(ticketsListOldTickets)) {
@@ -95,6 +123,23 @@ public class EstadosJpaController implements Serializable {
                     if (oldFkEstadoOfTicketsListNewTickets != null && !oldFkEstadoOfTicketsListNewTickets.equals(estados)) {
                         oldFkEstadoOfTicketsListNewTickets.getTicketsList().remove(ticketsListNewTickets);
                         oldFkEstadoOfTicketsListNewTickets = em.merge(oldFkEstadoOfTicketsListNewTickets);
+                    }
+                }
+            }
+            for (HistorialTickets historialTicketsListOldHistorialTickets : historialTicketsListOld) {
+                if (!historialTicketsListNew.contains(historialTicketsListOldHistorialTickets)) {
+                    historialTicketsListOldHistorialTickets.setFkEstado(null);
+                    historialTicketsListOldHistorialTickets = em.merge(historialTicketsListOldHistorialTickets);
+                }
+            }
+            for (HistorialTickets historialTicketsListNewHistorialTickets : historialTicketsListNew) {
+                if (!historialTicketsListOld.contains(historialTicketsListNewHistorialTickets)) {
+                    Estados oldFkEstadoOfHistorialTicketsListNewHistorialTickets = historialTicketsListNewHistorialTickets.getFkEstado();
+                    historialTicketsListNewHistorialTickets.setFkEstado(estados);
+                    historialTicketsListNewHistorialTickets = em.merge(historialTicketsListNewHistorialTickets);
+                    if (oldFkEstadoOfHistorialTicketsListNewHistorialTickets != null && !oldFkEstadoOfHistorialTicketsListNewHistorialTickets.equals(estados)) {
+                        oldFkEstadoOfHistorialTicketsListNewHistorialTickets.getHistorialTicketsList().remove(historialTicketsListNewHistorialTickets);
+                        oldFkEstadoOfHistorialTicketsListNewHistorialTickets = em.merge(oldFkEstadoOfHistorialTicketsListNewHistorialTickets);
                     }
                 }
             }
@@ -131,6 +176,11 @@ public class EstadosJpaController implements Serializable {
             for (Tickets ticketsListTickets : ticketsList) {
                 ticketsListTickets.setFkEstado(null);
                 ticketsListTickets = em.merge(ticketsListTickets);
+            }
+            List<HistorialTickets> historialTicketsList = estados.getHistorialTicketsList();
+            for (HistorialTickets historialTicketsListHistorialTickets : historialTicketsList) {
+                historialTicketsListHistorialTickets.setFkEstado(null);
+                historialTicketsListHistorialTickets = em.merge(historialTicketsListHistorialTickets);
             }
             em.remove(estados);
             em.getTransaction().commit();

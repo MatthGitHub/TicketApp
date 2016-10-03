@@ -20,6 +20,7 @@ import javax.persistence.EntityManagerFactory;
 import mscb.tick.controladores.exceptions.IllegalOrphanException;
 import mscb.tick.controladores.exceptions.NonexistentEntityException;
 import mscb.tick.entidades.Tickets;
+import mscb.tick.entidades.HistorialTickets;
 import mscb.tick.entidades.Respuestas;
 import mscb.tick.entidades.Usuarios;
 
@@ -47,6 +48,12 @@ public class UsuariosJpaController implements Serializable {
         }
         if (usuarios.getTicketsList1() == null) {
             usuarios.setTicketsList1(new ArrayList<Tickets>());
+        }
+        if (usuarios.getHistorialTicketsList() == null) {
+            usuarios.setHistorialTicketsList(new ArrayList<HistorialTickets>());
+        }
+        if (usuarios.getHistorialTicketsList1() == null) {
+            usuarios.setHistorialTicketsList1(new ArrayList<HistorialTickets>());
         }
         if (usuarios.getRespuestasList() == null) {
             usuarios.setRespuestasList(new ArrayList<Respuestas>());
@@ -83,6 +90,18 @@ public class UsuariosJpaController implements Serializable {
                 attachedTicketsList1.add(ticketsList1TicketsToAttach);
             }
             usuarios.setTicketsList1(attachedTicketsList1);
+            List<HistorialTickets> attachedHistorialTicketsList = new ArrayList<HistorialTickets>();
+            for (HistorialTickets historialTicketsListHistorialTicketsToAttach : usuarios.getHistorialTicketsList()) {
+                historialTicketsListHistorialTicketsToAttach = em.getReference(historialTicketsListHistorialTicketsToAttach.getClass(), historialTicketsListHistorialTicketsToAttach.getIdHistorial());
+                attachedHistorialTicketsList.add(historialTicketsListHistorialTicketsToAttach);
+            }
+            usuarios.setHistorialTicketsList(attachedHistorialTicketsList);
+            List<HistorialTickets> attachedHistorialTicketsList1 = new ArrayList<HistorialTickets>();
+            for (HistorialTickets historialTicketsList1HistorialTicketsToAttach : usuarios.getHistorialTicketsList1()) {
+                historialTicketsList1HistorialTicketsToAttach = em.getReference(historialTicketsList1HistorialTicketsToAttach.getClass(), historialTicketsList1HistorialTicketsToAttach.getIdHistorial());
+                attachedHistorialTicketsList1.add(historialTicketsList1HistorialTicketsToAttach);
+            }
+            usuarios.setHistorialTicketsList1(attachedHistorialTicketsList1);
             List<Respuestas> attachedRespuestasList = new ArrayList<Respuestas>();
             for (Respuestas respuestasListRespuestasToAttach : usuarios.getRespuestasList()) {
                 respuestasListRespuestasToAttach = em.getReference(respuestasListRespuestasToAttach.getClass(), respuestasListRespuestasToAttach.getIdTicket());
@@ -120,6 +139,24 @@ public class UsuariosJpaController implements Serializable {
                     oldUsuarioReceptorOfTicketsList1Tickets = em.merge(oldUsuarioReceptorOfTicketsList1Tickets);
                 }
             }
+            for (HistorialTickets historialTicketsListHistorialTickets : usuarios.getHistorialTicketsList()) {
+                Usuarios oldFkUsuarioEmisorOfHistorialTicketsListHistorialTickets = historialTicketsListHistorialTickets.getFkUsuarioEmisor();
+                historialTicketsListHistorialTickets.setFkUsuarioEmisor(usuarios);
+                historialTicketsListHistorialTickets = em.merge(historialTicketsListHistorialTickets);
+                if (oldFkUsuarioEmisorOfHistorialTicketsListHistorialTickets != null) {
+                    oldFkUsuarioEmisorOfHistorialTicketsListHistorialTickets.getHistorialTicketsList().remove(historialTicketsListHistorialTickets);
+                    oldFkUsuarioEmisorOfHistorialTicketsListHistorialTickets = em.merge(oldFkUsuarioEmisorOfHistorialTicketsListHistorialTickets);
+                }
+            }
+            for (HistorialTickets historialTicketsList1HistorialTickets : usuarios.getHistorialTicketsList1()) {
+                Usuarios oldFkUsuarioReceptorOfHistorialTicketsList1HistorialTickets = historialTicketsList1HistorialTickets.getFkUsuarioReceptor();
+                historialTicketsList1HistorialTickets.setFkUsuarioReceptor(usuarios);
+                historialTicketsList1HistorialTickets = em.merge(historialTicketsList1HistorialTickets);
+                if (oldFkUsuarioReceptorOfHistorialTicketsList1HistorialTickets != null) {
+                    oldFkUsuarioReceptorOfHistorialTicketsList1HistorialTickets.getHistorialTicketsList1().remove(historialTicketsList1HistorialTickets);
+                    oldFkUsuarioReceptorOfHistorialTicketsList1HistorialTickets = em.merge(oldFkUsuarioReceptorOfHistorialTicketsList1HistorialTickets);
+                }
+            }
             for (Respuestas respuestasListRespuestas : usuarios.getRespuestasList()) {
                 Usuarios oldIdUsuarioOfRespuestasListRespuestas = respuestasListRespuestas.getIdUsuario();
                 respuestasListRespuestas.setIdUsuario(usuarios);
@@ -153,6 +190,10 @@ public class UsuariosJpaController implements Serializable {
             List<Tickets> ticketsListNew = usuarios.getTicketsList();
             List<Tickets> ticketsList1Old = persistentUsuarios.getTicketsList1();
             List<Tickets> ticketsList1New = usuarios.getTicketsList1();
+            List<HistorialTickets> historialTicketsListOld = persistentUsuarios.getHistorialTicketsList();
+            List<HistorialTickets> historialTicketsListNew = usuarios.getHistorialTicketsList();
+            List<HistorialTickets> historialTicketsList1Old = persistentUsuarios.getHistorialTicketsList1();
+            List<HistorialTickets> historialTicketsList1New = usuarios.getHistorialTicketsList1();
             List<Respuestas> respuestasListOld = persistentUsuarios.getRespuestasList();
             List<Respuestas> respuestasListNew = usuarios.getRespuestasList();
             List<String> illegalOrphanMessages = null;
@@ -162,6 +203,14 @@ public class UsuariosJpaController implements Serializable {
                         illegalOrphanMessages = new ArrayList<String>();
                     }
                     illegalOrphanMessages.add("You must retain Tickets " + ticketsListOldTickets + " since its fkUsuarioEmisor field is not nullable.");
+                }
+            }
+            for (HistorialTickets historialTicketsListOldHistorialTickets : historialTicketsListOld) {
+                if (!historialTicketsListNew.contains(historialTicketsListOldHistorialTickets)) {
+                    if (illegalOrphanMessages == null) {
+                        illegalOrphanMessages = new ArrayList<String>();
+                    }
+                    illegalOrphanMessages.add("You must retain HistorialTickets " + historialTicketsListOldHistorialTickets + " since its fkUsuarioEmisor field is not nullable.");
                 }
             }
             for (Respuestas respuestasListOldRespuestas : respuestasListOld) {
@@ -204,6 +253,20 @@ public class UsuariosJpaController implements Serializable {
             }
             ticketsList1New = attachedTicketsList1New;
             usuarios.setTicketsList1(ticketsList1New);
+            List<HistorialTickets> attachedHistorialTicketsListNew = new ArrayList<HistorialTickets>();
+            for (HistorialTickets historialTicketsListNewHistorialTicketsToAttach : historialTicketsListNew) {
+                historialTicketsListNewHistorialTicketsToAttach = em.getReference(historialTicketsListNewHistorialTicketsToAttach.getClass(), historialTicketsListNewHistorialTicketsToAttach.getIdHistorial());
+                attachedHistorialTicketsListNew.add(historialTicketsListNewHistorialTicketsToAttach);
+            }
+            historialTicketsListNew = attachedHistorialTicketsListNew;
+            usuarios.setHistorialTicketsList(historialTicketsListNew);
+            List<HistorialTickets> attachedHistorialTicketsList1New = new ArrayList<HistorialTickets>();
+            for (HistorialTickets historialTicketsList1NewHistorialTicketsToAttach : historialTicketsList1New) {
+                historialTicketsList1NewHistorialTicketsToAttach = em.getReference(historialTicketsList1NewHistorialTicketsToAttach.getClass(), historialTicketsList1NewHistorialTicketsToAttach.getIdHistorial());
+                attachedHistorialTicketsList1New.add(historialTicketsList1NewHistorialTicketsToAttach);
+            }
+            historialTicketsList1New = attachedHistorialTicketsList1New;
+            usuarios.setHistorialTicketsList1(historialTicketsList1New);
             List<Respuestas> attachedRespuestasListNew = new ArrayList<Respuestas>();
             for (Respuestas respuestasListNewRespuestasToAttach : respuestasListNew) {
                 respuestasListNewRespuestasToAttach = em.getReference(respuestasListNewRespuestasToAttach.getClass(), respuestasListNewRespuestasToAttach.getIdTicket());
@@ -268,6 +331,34 @@ public class UsuariosJpaController implements Serializable {
                     }
                 }
             }
+            for (HistorialTickets historialTicketsListNewHistorialTickets : historialTicketsListNew) {
+                if (!historialTicketsListOld.contains(historialTicketsListNewHistorialTickets)) {
+                    Usuarios oldFkUsuarioEmisorOfHistorialTicketsListNewHistorialTickets = historialTicketsListNewHistorialTickets.getFkUsuarioEmisor();
+                    historialTicketsListNewHistorialTickets.setFkUsuarioEmisor(usuarios);
+                    historialTicketsListNewHistorialTickets = em.merge(historialTicketsListNewHistorialTickets);
+                    if (oldFkUsuarioEmisorOfHistorialTicketsListNewHistorialTickets != null && !oldFkUsuarioEmisorOfHistorialTicketsListNewHistorialTickets.equals(usuarios)) {
+                        oldFkUsuarioEmisorOfHistorialTicketsListNewHistorialTickets.getHistorialTicketsList().remove(historialTicketsListNewHistorialTickets);
+                        oldFkUsuarioEmisorOfHistorialTicketsListNewHistorialTickets = em.merge(oldFkUsuarioEmisorOfHistorialTicketsListNewHistorialTickets);
+                    }
+                }
+            }
+            for (HistorialTickets historialTicketsList1OldHistorialTickets : historialTicketsList1Old) {
+                if (!historialTicketsList1New.contains(historialTicketsList1OldHistorialTickets)) {
+                    historialTicketsList1OldHistorialTickets.setFkUsuarioReceptor(null);
+                    historialTicketsList1OldHistorialTickets = em.merge(historialTicketsList1OldHistorialTickets);
+                }
+            }
+            for (HistorialTickets historialTicketsList1NewHistorialTickets : historialTicketsList1New) {
+                if (!historialTicketsList1Old.contains(historialTicketsList1NewHistorialTickets)) {
+                    Usuarios oldFkUsuarioReceptorOfHistorialTicketsList1NewHistorialTickets = historialTicketsList1NewHistorialTickets.getFkUsuarioReceptor();
+                    historialTicketsList1NewHistorialTickets.setFkUsuarioReceptor(usuarios);
+                    historialTicketsList1NewHistorialTickets = em.merge(historialTicketsList1NewHistorialTickets);
+                    if (oldFkUsuarioReceptorOfHistorialTicketsList1NewHistorialTickets != null && !oldFkUsuarioReceptorOfHistorialTicketsList1NewHistorialTickets.equals(usuarios)) {
+                        oldFkUsuarioReceptorOfHistorialTicketsList1NewHistorialTickets.getHistorialTicketsList1().remove(historialTicketsList1NewHistorialTickets);
+                        oldFkUsuarioReceptorOfHistorialTicketsList1NewHistorialTickets = em.merge(oldFkUsuarioReceptorOfHistorialTicketsList1NewHistorialTickets);
+                    }
+                }
+            }
             for (Respuestas respuestasListNewRespuestas : respuestasListNew) {
                 if (!respuestasListOld.contains(respuestasListNewRespuestas)) {
                     Usuarios oldIdUsuarioOfRespuestasListNewRespuestas = respuestasListNewRespuestas.getIdUsuario();
@@ -316,6 +407,13 @@ public class UsuariosJpaController implements Serializable {
                 }
                 illegalOrphanMessages.add("This Usuarios (" + usuarios + ") cannot be destroyed since the Tickets " + ticketsListOrphanCheckTickets + " in its ticketsList field has a non-nullable fkUsuarioEmisor field.");
             }
+            List<HistorialTickets> historialTicketsListOrphanCheck = usuarios.getHistorialTicketsList();
+            for (HistorialTickets historialTicketsListOrphanCheckHistorialTickets : historialTicketsListOrphanCheck) {
+                if (illegalOrphanMessages == null) {
+                    illegalOrphanMessages = new ArrayList<String>();
+                }
+                illegalOrphanMessages.add("This Usuarios (" + usuarios + ") cannot be destroyed since the HistorialTickets " + historialTicketsListOrphanCheckHistorialTickets + " in its historialTicketsList field has a non-nullable fkUsuarioEmisor field.");
+            }
             List<Respuestas> respuestasListOrphanCheck = usuarios.getRespuestasList();
             for (Respuestas respuestasListOrphanCheckRespuestas : respuestasListOrphanCheck) {
                 if (illegalOrphanMessages == null) {
@@ -345,6 +443,11 @@ public class UsuariosJpaController implements Serializable {
             for (Tickets ticketsList1Tickets : ticketsList1) {
                 ticketsList1Tickets.setUsuarioReceptor(null);
                 ticketsList1Tickets = em.merge(ticketsList1Tickets);
+            }
+            List<HistorialTickets> historialTicketsList1 = usuarios.getHistorialTicketsList1();
+            for (HistorialTickets historialTicketsList1HistorialTickets : historialTicketsList1) {
+                historialTicketsList1HistorialTickets.setFkUsuarioReceptor(null);
+                historialTicketsList1HistorialTickets = em.merge(historialTicketsList1HistorialTickets);
             }
             em.remove(usuarios);
             em.getTransaction().commit();

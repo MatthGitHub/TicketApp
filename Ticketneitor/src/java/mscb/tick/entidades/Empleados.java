@@ -20,6 +20,8 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
@@ -46,15 +48,22 @@ public class Empleados implements Serializable {
     @Column(name = "id_empleado")
     private Integer idEmpleado;
     @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 30)
     @Column(name = "nombre")
     private String nombre;
     @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 30)
     @Column(name = "apellido")
     private String apellido;
     @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 10)
     @Column(name = "documento")
     private String documento;
     @Basic(optional = false)
+    @NotNull
     @Column(name = "legajo")
     private int legajo;
     @JoinColumn(name = "fk_area", referencedColumnName = "id_area")
@@ -157,7 +166,7 @@ public class Empleados implements Serializable {
 
     @Override
     public String toString() {
-        return this.apellido+" "+this.nombre;
+        return "mscb.tick.entidades.Empleados[ idEmpleado=" + idEmpleado + " ]";
     }
     
 }

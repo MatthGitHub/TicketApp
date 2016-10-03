@@ -9,6 +9,8 @@ import java.awt.Image;
 import java.awt.MouseInfo;
 import java.awt.Point;
 import java.awt.Toolkit;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
 import mscb.tick.asuntoSecundarios.vista.AsuntoSec;
 import mscb.tick.asuntoSecundarios.vista.NuevoAsuntoSecFrame;
 import mscb.tick.asuntos.vista.AsuntosPrin;
@@ -110,7 +112,10 @@ public class Main extends javax.swing.JFrame {
      */
     public Main() {
         initComponents();
+        setDefaultCloseOperation(0);
+        setResizable(false);
         setLocationRelativeTo(null);
+        jMB_bar.setVisible(false);
         escuchador =  Listener.getListener(1);
         actualizador = new Actualizador(this);
         ventanaLogin();
@@ -469,91 +474,212 @@ public class Main extends javax.swing.JFrame {
     private void initComponents() {
 
         chkbx_thread = new javax.swing.JCheckBox();
-        btn_mini = new javax.swing.JButton();
-        btn_mover = new javax.swing.JButton();
+        jMB_bar = new javax.swing.JMenuBar();
+        jM_archivo = new javax.swing.JMenu();
+        mi_misTicket = new javax.swing.JMenuItem();
+        mi_nuevoTicket = new javax.swing.JMenuItem();
+        mi_salir = new javax.swing.JMenuItem();
+        jm_administracion = new javax.swing.JMenu();
+        mi_administrar = new javax.swing.JMenuItem();
+        mi_conocimiento = new javax.swing.JMenuItem();
+        mi_estadoPGM = new javax.swing.JMenuItem();
+        jM_configuracion = new javax.swing.JMenu();
+        mi_areas = new javax.swing.JMenuItem();
+        mi_asunutos = new javax.swing.JMenuItem();
+        mi_servicios = new javax.swing.JMenuItem();
+        mi_razones = new javax.swing.JMenuItem();
+        mi_usuarios = new javax.swing.JMenuItem();
+        mi_asignar = new javax.swing.JMenuItem();
 
         chkbx_thread.setText("jCheckBox1");
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setIconImage(getIconImage());
-        setUndecorated(true);
 
-        btn_mini.setBackground(new java.awt.Color(153, 153, 0));
-        btn_mini.setText("-");
-        btn_mini.addActionListener(new java.awt.event.ActionListener() {
+        jMB_bar.setBackground(new java.awt.Color(153, 153, 153));
+
+        jM_archivo.setText("archivo");
+
+        mi_misTicket.setText("mis tickets");
+        mi_misTicket.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btn_miniActionPerformed(evt);
+                mi_misTicketActionPerformed(evt);
             }
         });
+        jM_archivo.add(mi_misTicket);
 
-        btn_mover.setBackground(new java.awt.Color(0, 153, 153));
-        btn_mover.setText("+");
-        btn_mover.addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
-            public void mouseDragged(java.awt.event.MouseEvent evt) {
-                btn_moverMouseDragged(evt);
-            }
-            public void mouseMoved(java.awt.event.MouseEvent evt) {
-                btn_moverMouseMoved(evt);
-            }
-        });
-        btn_mover.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mousePressed(java.awt.event.MouseEvent evt) {
-                btn_moverMousePressed(evt);
-            }
-        });
-        btn_mover.addActionListener(new java.awt.event.ActionListener() {
+        mi_nuevoTicket.setText("nuevo ticket");
+        mi_nuevoTicket.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btn_moverActionPerformed(evt);
+                mi_nuevoTicketActionPerformed(evt);
             }
         });
+        jM_archivo.add(mi_nuevoTicket);
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(474, Short.MAX_VALUE)
-                .addComponent(btn_mover)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(btn_mini)
-                .addContainerGap())
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btn_mini, javax.swing.GroupLayout.PREFERRED_SIZE, 13, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btn_mover, javax.swing.GroupLayout.PREFERRED_SIZE, 13, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(0, 291, Short.MAX_VALUE))
-        );
+        mi_salir.setText("salir");
+        mi_salir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mi_salirActionPerformed(evt);
+            }
+        });
+        jM_archivo.add(mi_salir);
+
+        jMB_bar.add(jM_archivo);
+
+        jm_administracion.setText("administracion");
+
+        mi_administrar.setText("administrar tickets");
+        mi_administrar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mi_administrarActionPerformed(evt);
+            }
+        });
+        jm_administracion.add(mi_administrar);
+
+        mi_conocimiento.setText("base de conocimiento");
+        mi_conocimiento.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mi_conocimientoActionPerformed(evt);
+            }
+        });
+        jm_administracion.add(mi_conocimiento);
+
+        mi_estadoPGM.setText("estado del pgm");
+        mi_estadoPGM.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mi_estadoPGMActionPerformed(evt);
+            }
+        });
+        jm_administracion.add(mi_estadoPGM);
+
+        jMB_bar.add(jm_administracion);
+
+        jM_configuracion.setText("configuracion");
+
+        mi_areas.setText("areas");
+        mi_areas.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mi_areasActionPerformed(evt);
+            }
+        });
+        jM_configuracion.add(mi_areas);
+
+        mi_asunutos.setText("asuntos");
+        mi_asunutos.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mi_asunutosActionPerformed(evt);
+            }
+        });
+        jM_configuracion.add(mi_asunutos);
+
+        mi_servicios.setText("servicios");
+        mi_servicios.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mi_serviciosActionPerformed(evt);
+            }
+        });
+        jM_configuracion.add(mi_servicios);
+
+        mi_razones.setText("razones de transf");
+        mi_razones.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mi_razonesActionPerformed(evt);
+            }
+        });
+        jM_configuracion.add(mi_razones);
+
+        mi_usuarios.setText("usuarios");
+        mi_usuarios.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mi_usuariosActionPerformed(evt);
+            }
+        });
+        jM_configuracion.add(mi_usuarios);
+
+        mi_asignar.setText("asignar asuntos a usuarios");
+        mi_asignar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mi_asignarActionPerformed(evt);
+            }
+        });
+        jM_configuracion.add(mi_asignar);
+
+        jMB_bar.add(jM_configuracion);
+
+        setJMenuBar(jMB_bar);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void btn_miniActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_miniActionPerformed
+    private void mi_misTicketActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mi_misTicketActionPerformed
         // TODO add your handling code here:
-        this.setExtendedState(ICONIFIED);
-    }//GEN-LAST:event_btn_miniActionPerformed
+        miTickets();
+        mppal.setVisible(false);
+    }//GEN-LAST:event_mi_misTicketActionPerformed
 
-    private void btn_moverMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_moverMousePressed
+    private void mi_areasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mi_areasActionPerformed
         // TODO add your handling code here:
-        x = evt.getX();
-        y = evt.getY();
-    }//GEN-LAST:event_btn_moverMousePressed
+    }//GEN-LAST:event_mi_areasActionPerformed
 
-    private void btn_moverMouseDragged(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_moverMouseDragged
+    private void mi_administrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mi_administrarActionPerformed
         // TODO add your handling code here:
-        Point point = MouseInfo.getPointerInfo().getLocation();
-        setLocation(point.x - x, point.y - y);
-    }//GEN-LAST:event_btn_moverMouseDragged
+        tickets();
+        mppal.setVisible(false);
+    }//GEN-LAST:event_mi_administrarActionPerformed
 
-    private void btn_moverMouseMoved(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_moverMouseMoved
+    private void mi_conocimientoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mi_conocimientoActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_btn_moverMouseMoved
+        mppal.setVisible(false);
+        tickets();
+    }//GEN-LAST:event_mi_conocimientoActionPerformed
 
-    private void btn_moverActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_moverActionPerformed
+    private void mi_estadoPGMActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mi_estadoPGMActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_btn_moverActionPerformed
+        cambiarEstadoPGM();
+    }//GEN-LAST:event_mi_estadoPGMActionPerformed
+
+    private void mi_asunutosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mi_asunutosActionPerformed
+        // TODO add your handling code here:
+        asuntos();
+        mppal.setVisible(false);
+    }//GEN-LAST:event_mi_asunutosActionPerformed
+
+    private void mi_serviciosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mi_serviciosActionPerformed
+        // TODO add your handling code here:
+        asuntoSecundarios();
+        mppal.setVisible(false);
+    }//GEN-LAST:event_mi_serviciosActionPerformed
+
+    private void mi_razonesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mi_razonesActionPerformed
+        // TODO add your handling code here:
+        razonesDeTransferencias();
+        mppal.setVisible(false);
+    }//GEN-LAST:event_mi_razonesActionPerformed
+
+    private void mi_usuariosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mi_usuariosActionPerformed
+        // TODO add your handling code here:
+        ventanausuarios();
+        mppal.setVisible(false);
+    }//GEN-LAST:event_mi_usuariosActionPerformed
+
+    private void mi_asignarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mi_asignarActionPerformed
+        // TODO add your handling code here:
+        asignarAsuntosEncargado();
+        mppal.setVisible(false);
+    }//GEN-LAST:event_mi_asignarActionPerformed
+
+    private void mi_nuevoTicketActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mi_nuevoTicketActionPerformed
+        // TODO add your handling code here:
+        nuevoTicket();
+        mppal.setVisible(false);
+    }//GEN-LAST:event_mi_nuevoTicketActionPerformed
+
+    private void mi_salirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mi_salirActionPerformed
+        // TODO add your handling code here:
+        if (JOptionPane.showConfirmDialog(this, "El programa se cerrará. Continuar?", "Confirmar", JOptionPane.YES_NO_OPTION) == 0) {
+            System.exit(0);
+        }
+    }//GEN-LAST:event_mi_salirActionPerformed
 
     /**
      * @param args the command line arguments
@@ -591,8 +717,22 @@ public class Main extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    public javax.swing.JButton btn_mini;
-    private javax.swing.JButton btn_mover;
     public static javax.swing.JCheckBox chkbx_thread;
+    public javax.swing.JMenuBar jMB_bar;
+    private javax.swing.JMenu jM_archivo;
+    private javax.swing.JMenu jM_configuracion;
+    private javax.swing.JMenu jm_administracion;
+    private javax.swing.JMenuItem mi_administrar;
+    private javax.swing.JMenuItem mi_areas;
+    private javax.swing.JMenuItem mi_asignar;
+    private javax.swing.JMenuItem mi_asunutos;
+    private javax.swing.JMenuItem mi_conocimiento;
+    private javax.swing.JMenuItem mi_estadoPGM;
+    private javax.swing.JMenuItem mi_misTicket;
+    private javax.swing.JMenuItem mi_nuevoTicket;
+    private javax.swing.JMenuItem mi_razones;
+    private javax.swing.JMenuItem mi_salir;
+    private javax.swing.JMenuItem mi_servicios;
+    private javax.swing.JMenuItem mi_usuarios;
     // End of variables declaration//GEN-END:variables
 }

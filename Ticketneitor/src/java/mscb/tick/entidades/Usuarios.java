@@ -22,6 +22,8 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
@@ -48,14 +50,18 @@ public class Usuarios implements Serializable {
     @Column(name = "id_usuario")
     private Integer idUsuario;
     @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 10)
     @Column(name = "nombre_usuario")
     private String nombreUsuario;
-    @Basic(optional = false)
+    @Size(max = 36)
     @Column(name = "contrasenia")
     private String contrasenia;
     @Basic(optional = false)
+    @NotNull
     @Column(name = "activo")
     private boolean activo;
+    @Size(max = 180)
     @Column(name = "id_extreme")
     private String idExtreme;
     @JoinTable(name = "encargado_servicios", joinColumns = {
@@ -73,9 +79,9 @@ public class Usuarios implements Serializable {
     @JoinColumn(name = "fk_permiso", referencedColumnName = "id_permiso")
     @ManyToOne(optional = false)
     private Permisos fkPermiso;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "fkUsuarioReceptor")
-    private List<HistorialTickets> historialTicketsList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "fkUsuarioEmisor")
+    private List<HistorialTickets> historialTicketsList;
+    @OneToMany(mappedBy = "fkUsuarioReceptor")
     private List<HistorialTickets> historialTicketsList1;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "idUsuario")
     private List<Respuestas> respuestasList;
@@ -87,10 +93,9 @@ public class Usuarios implements Serializable {
         this.idUsuario = idUsuario;
     }
 
-    public Usuarios(Integer idUsuario, String nombreUsuario, String contrasenia, boolean activo) {
+    public Usuarios(Integer idUsuario, String nombreUsuario, boolean activo) {
         this.idUsuario = idUsuario;
         this.nombreUsuario = nombreUsuario;
-        this.contrasenia = contrasenia;
         this.activo = activo;
     }
 
@@ -226,7 +231,7 @@ public class Usuarios implements Serializable {
 
     @Override
     public String toString() {
-        return this.nombreUsuario;
+        return "mscb.tick.entidades.Usuarios[ idUsuario=" + idUsuario + " ]";
     }
     
 }

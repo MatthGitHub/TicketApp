@@ -24,6 +24,8 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
@@ -50,26 +52,30 @@ public class Tickets implements Serializable {
     @Column(name = "id_ticket")
     private Integer idTicket;
     @Basic(optional = false)
+    @NotNull
     @Column(name = "fecha")
     @Temporal(TemporalType.DATE)
     private Date fecha;
     @Basic(optional = false)
+    @NotNull
     @Column(name = "hora")
     @Temporal(TemporalType.TIMESTAMP)
     private Date hora;
+    @Size(max = 1500)
     @Column(name = "observacion")
     private String observacion;
+    @Size(max = 1500)
     @Column(name = "respuesta")
     private String respuesta;
-    @JoinColumn(name = "fk_razon", referencedColumnName = "id_razon")
-    @ManyToOne
-    private RazonesTransferencias fkRazon;
     @JoinColumn(name = "fk_area_emisor", referencedColumnName = "id_area")
     @ManyToOne(optional = false)
     private Areas fkAreaEmisor;
     @JoinColumn(name = "fk_estado", referencedColumnName = "id_estado")
     @ManyToOne
     private Estados fkEstado;
+    @JoinColumn(name = "fk_razon", referencedColumnName = "id_razon")
+    @ManyToOne
+    private RazonesTransferencias fkRazon;
     @JoinColumn(name = "fk_usuario_emisor", referencedColumnName = "id_usuario")
     @ManyToOne(optional = false)
     private Usuarios fkUsuarioEmisor;
@@ -142,14 +148,6 @@ public class Tickets implements Serializable {
         this.respuesta = respuesta;
     }
 
-    public RazonesTransferencias getFkRazon() {
-        return fkRazon;
-    }
-
-    public void setFkRazon(RazonesTransferencias fkRazon) {
-        this.fkRazon = fkRazon;
-    }
-
     public Areas getFkAreaEmisor() {
         return fkAreaEmisor;
     }
@@ -164,6 +162,14 @@ public class Tickets implements Serializable {
 
     public void setFkEstado(Estados fkEstado) {
         this.fkEstado = fkEstado;
+    }
+
+    public RazonesTransferencias getFkRazon() {
+        return fkRazon;
+    }
+
+    public void setFkRazon(RazonesTransferencias fkRazon) {
+        this.fkRazon = fkRazon;
     }
 
     public Usuarios getFkUsuarioEmisor() {
@@ -246,7 +252,7 @@ public class Tickets implements Serializable {
 
     @Override
     public String toString() {
-        return this.idTicket.toString();
+        return "mscb.tick.entidades.Tickets[ idTicket=" + idTicket + " ]";
     }
     
 }

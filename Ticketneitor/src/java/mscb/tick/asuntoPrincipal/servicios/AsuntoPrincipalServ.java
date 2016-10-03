@@ -5,11 +5,13 @@
  */
 package mscb.tick.asuntoPrincipal.servicios;
 
+import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import mscb.tick.controladores.AsuntosJpaController;
 import mscb.tick.controladores.ServiciosJpaController;
+import mscb.tick.entidades.Areas;
 import mscb.tick.entidades.Asuntos;
 
 /**
@@ -44,5 +46,16 @@ public class AsuntoPrincipalServ {
         }
     }
     
+    public List<Asuntos> asuntosPorArea(Areas area){
+        List<Asuntos> miLista = jpa.findAsuntosEntities();
+        List<Asuntos> aux = new ArrayList<>();
+        
+        for(int i = 0 ; i < miLista.size(); i ++){
+            if(miLista.get(i).getFkArea().equals(area)){
+                aux.add(miLista.get(i));
+            }
+        }
+        return aux;
+    }
     
 }

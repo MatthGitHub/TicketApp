@@ -18,6 +18,7 @@ import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
@@ -36,9 +37,11 @@ public class EstadoActualPgm implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)
+    @NotNull
     @Column(name = "id")
     private Integer id;
     @Basic(optional = false)
+    @NotNull
     @Column(name = "fecha")
     @Temporal(TemporalType.TIMESTAMP)
     private Date fecha;
@@ -104,7 +107,7 @@ public class EstadoActualPgm implements Serializable {
 
     @Override
     public String toString() {
-        return "mscb.tick.asuntoSecundarios.vista.EstadoActualPgm[ id=" + id + " ]";
+        return "mscb.tick.entidades.EstadoActualPgm[ id=" + id + " ]";
     }
     
 }

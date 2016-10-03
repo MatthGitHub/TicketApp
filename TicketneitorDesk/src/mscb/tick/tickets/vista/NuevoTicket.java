@@ -10,8 +10,10 @@ import java.util.Date;
 import java.util.List;
 import javax.swing.JOptionPane;
 import mscb.tick.areaSistemas.servicios.AreaSistemaServ;
+import mscb.tick.areas.servicios.AreaServ;
 import mscb.tick.asuntoPrincipal.servicios.AsuntoPrincipalServ;
 import mscb.tick.asuntoSecundario.servicios.AsuntoSecundarioServ;
+import mscb.tick.entidades.Areas;
 import mscb.tick.entidades.Asuntos;
 import mscb.tick.entidades.HistorialTickets;
 import mscb.tick.entidades.Servicios;
@@ -42,6 +44,7 @@ public class NuevoTicket extends MenuP {
     private TicketServ serviciosT;
     private Time hora;
     private EstadoServ serviciosEst;
+    private AreaServ serviciosA;
     
     /**
      * Creates new form NuevoTicket
@@ -53,8 +56,10 @@ public class NuevoTicket extends MenuP {
         this.mainFrame = mainFrame;
         setSize(800, 600);
         setVisible(true);
+        lblAsunto.setVisible(false);
+        cmbx_asuntoPrincipal.setVisible(false);
         cmbx_asuntoSecundario.setVisible(false);
-        llenarAsuntoPrincipal();
+        llenarAreas();
     }
     
     public static NuevoTicket getNuevoTicket(Main mainFrame){
@@ -64,9 +69,17 @@ public class NuevoTicket extends MenuP {
         return form;
     }
     
-    private void llenarAsuntoPrincipal(){
+    private void llenarAreas(){
+        serviciosA = new AreaServ();
+        List<Areas> misAreas = serviciosA.traerTodasconAsuntos();
+        for(int i = 0; i < misAreas.size(); i++){
+            cmbx_areas.addItem(misAreas.get(i));
+        }
+    }
+    
+    private void llenarAsuntoPrincipal(Areas area){
         serviciosPrincipal = new AsuntoPrincipalServ();
-        miListaAP = serviciosPrincipal.traerTodos();
+        miListaAP = serviciosPrincipal.asuntosPorArea(area);
         
         for(int i = 0 ; i < miListaAP.size(); i++){
             cmbx_asuntoPrincipal.addItem(miListaAP.get(i));
@@ -146,13 +159,15 @@ public class NuevoTicket extends MenuP {
         jLabel4 = new javax.swing.JLabel();
         btn_volver = new javax.swing.JButton();
         btn_guardar = new javax.swing.JButton();
+        cmbx_areas = new javax.swing.JComboBox();
+        lblAsunto = new javax.swing.JLabel();
 
         setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Nuevo pedido a sistemas", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Bradley Hand ITC", 0, 24), java.awt.Color.white)); // NOI18N
 
         jLabel1.setBackground(new java.awt.Color(0, 102, 204));
         jLabel1.setFont(new java.awt.Font("CG Times", 3, 18)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel1.setText("Eliga un asunto:");
+        jLabel1.setText("Eliga un area:");
 
         cmbx_asuntoPrincipal.setBackground(new java.awt.Color(153, 153, 153));
         cmbx_asuntoPrincipal.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
@@ -213,6 +228,19 @@ public class NuevoTicket extends MenuP {
             }
         });
 
+        cmbx_areas.setBackground(new java.awt.Color(153, 153, 153));
+        cmbx_areas.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        cmbx_areas.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cmbx_areasActionPerformed(evt);
+            }
+        });
+
+        lblAsunto.setBackground(new java.awt.Color(0, 102, 204));
+        lblAsunto.setFont(new java.awt.Font("CG Times", 3, 18)); // NOI18N
+        lblAsunto.setForeground(new java.awt.Color(255, 255, 255));
+        lblAsunto.setText("Eliga un asunto:");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -228,12 +256,15 @@ public class NuevoTicket extends MenuP {
                 .addContainerGap()
                 .addComponent(jScrollPane1))
             .addGroup(layout.createSequentialGroup()
-                .addGap(23, 23, 23)
-                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 185, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(68, 68, 68)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jLabel1)
+                    .addComponent(lblAsunto))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(cmbx_asuntoSecundario, 0, 388, Short.MAX_VALUE)
-                    .addComponent(cmbx_asuntoPrincipal, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(cmbx_asuntoPrincipal, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(cmbx_areas, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
@@ -245,8 +276,8 @@ public class NuevoTicket extends MenuP {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel1)
-                    .addComponent(cmbx_asuntoPrincipal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(cmbx_areas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel1))
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
@@ -254,9 +285,13 @@ public class NuevoTicket extends MenuP {
                         .addGap(18, 18, 18)
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
+                        .addGap(6, 6, 6)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(cmbx_asuntoPrincipal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(lblAsunto))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(cmbx_asuntoSecundario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(78, 78, 78)
+                        .addGap(46, 46, 46)
                         .addComponent(jLabel3)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jLabel4)
@@ -388,10 +423,22 @@ public class NuevoTicket extends MenuP {
         }
     }//GEN-LAST:event_btn_guardarActionPerformed
 
+    private void cmbx_areasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbx_areasActionPerformed
+        // TODO add your handling code here:
+        b++;
+        if(b != 1){
+            b =0;
+            llenarAsuntoPrincipal((Areas) cmbx_areas.getSelectedItem());
+            cmbx_asuntoPrincipal.setVisible(true);
+        }
+        
+    }//GEN-LAST:event_cmbx_areasActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btn_guardar;
     private javax.swing.JButton btn_volver;
+    private javax.swing.JComboBox cmbx_areas;
     private javax.swing.JComboBox cmbx_asuntoPrincipal;
     private javax.swing.JComboBox cmbx_asuntoSecundario;
     private javax.swing.JLabel jLabel1;
@@ -399,6 +446,7 @@ public class NuevoTicket extends MenuP {
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JLabel lblAsunto;
     private javax.swing.JTextArea txtA_obs;
     // End of variables declaration//GEN-END:variables
 }

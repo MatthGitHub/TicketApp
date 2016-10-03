@@ -21,6 +21,7 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
@@ -33,14 +34,9 @@ import javax.xml.bind.annotation.XmlRootElement;
 @NamedQueries({
     @NamedQuery(name = "BaseConocimiento.findAll", query = "SELECT b FROM BaseConocimiento b"),
     @NamedQuery(name = "BaseConocimiento.findByIdResolucion", query = "SELECT b FROM BaseConocimiento b WHERE b.idResolucion = :idResolucion"),
-    @NamedQuery(name = "BaseConocimiento.findByResolucion", query = "SELECT b FROM BaseConocimiento b WHERE b.resolucion = :resolucion")})
+    @NamedQuery(name = "BaseConocimiento.findByResolucion", query = "SELECT b FROM BaseConocimiento b WHERE b.resolucion = :resolucion"),
+    @NamedQuery(name = "BaseConocimiento.findByFecha", query = "SELECT b FROM BaseConocimiento b WHERE b.fecha = :fecha")})
 public class BaseConocimiento implements Serializable {
-
-    @Basic(optional = false)
-    @NotNull
-    @Column(name = "fecha")
-    @Temporal(TemporalType.DATE)
-    private Date fecha;
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -49,8 +45,15 @@ public class BaseConocimiento implements Serializable {
     @Column(name = "id_resolucion")
     private Integer idResolucion;
     @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 3500)
     @Column(name = "resolucion")
     private String resolucion;
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = "fecha")
+    @Temporal(TemporalType.DATE)
+    private Date fecha;
     @JoinColumn(name = "fk_ticket", referencedColumnName = "id_ticket")
     @ManyToOne(optional = false)
     private Tickets fkTicket;
@@ -62,9 +65,10 @@ public class BaseConocimiento implements Serializable {
         this.idResolucion = idResolucion;
     }
 
-    public BaseConocimiento(Integer idResolucion, String resolucion) {
+    public BaseConocimiento(Integer idResolucion, String resolucion, Date fecha) {
         this.idResolucion = idResolucion;
         this.resolucion = resolucion;
+        this.fecha = fecha;
     }
 
     public Integer getIdResolucion() {
@@ -81,6 +85,14 @@ public class BaseConocimiento implements Serializable {
 
     public void setResolucion(String resolucion) {
         this.resolucion = resolucion;
+    }
+
+    public Date getFecha() {
+        return fecha;
+    }
+
+    public void setFecha(Date fecha) {
+        this.fecha = fecha;
     }
 
     public Tickets getFkTicket() {
@@ -113,15 +125,7 @@ public class BaseConocimiento implements Serializable {
 
     @Override
     public String toString() {
-        return this.idResolucion+" - "+this.fkTicket;
-    }
-
-    public Date getFecha() {
-        return fecha;
-    }
-
-    public void setFecha(Date fecha) {
-        this.fecha = fecha;
+        return "mscb.tick.entidades.BaseConocimiento[ idResolucion=" + idResolucion + " ]";
     }
     
 }

@@ -14,10 +14,14 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
@@ -41,10 +45,15 @@ public class Asuntos implements Serializable {
     @Column(name = "id_asuntoP")
     private Integer idasuntoP;
     @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 50)
     @Column(name = "nombre")
     private String nombre;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "pertenece")
     private List<Servicios> serviciosList;
+    @JoinColumn(name = "fk_area", referencedColumnName = "id_area")
+    @ManyToOne(optional = false)
+    private Areas fkArea;
 
     public Asuntos() {
     }
@@ -83,6 +92,14 @@ public class Asuntos implements Serializable {
         this.serviciosList = serviciosList;
     }
 
+    public Areas getFkArea() {
+        return fkArea;
+    }
+
+    public void setFkArea(Areas fkArea) {
+        this.fkArea = fkArea;
+    }
+
     @Override
     public int hashCode() {
         int hash = 0;
@@ -105,7 +122,7 @@ public class Asuntos implements Serializable {
 
     @Override
     public String toString() {
-        return this.nombre;
+        return "mscb.tick.entidades.Asuntos[ idasuntoP=" + idasuntoP + " ]";
     }
     
 }
