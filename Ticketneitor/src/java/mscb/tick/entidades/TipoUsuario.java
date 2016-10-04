@@ -94,7 +94,7 @@ public class TipoUsuario implements Serializable {
 
     @Override
     public String toString() {
-        return "mscb.tick.entidades.TipoUsuario[ idTipoUsuario=" + idTipoUsuario + " ]";
+        return this.nombreTipoUsuario;
     }
     
 }

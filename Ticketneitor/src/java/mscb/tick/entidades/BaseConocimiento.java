@@ -125,7 +125,7 @@ public class BaseConocimiento implements Serializable {
 
     @Override
     public String toString() {
-        return "mscb.tick.entidades.BaseConocimiento[ idResolucion=" + idResolucion + " ]";
+        return "Tick:"+this.fkTicket+"-Resol:"+this.idResolucion;
     }
     
 }

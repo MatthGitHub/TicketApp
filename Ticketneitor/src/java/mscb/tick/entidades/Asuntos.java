@@ -122,7 +122,7 @@ public class Asuntos implements Serializable {
 
     @Override
     public String toString() {
-        return "mscb.tick.entidades.Asuntos[ idasuntoP=" + idasuntoP + " ]";
+        return this.nombre;
     }
     
 }

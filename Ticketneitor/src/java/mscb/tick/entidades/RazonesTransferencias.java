@@ -108,7 +108,7 @@ public class RazonesTransferencias implements Serializable {
 
     @Override
     public String toString() {
-        return "mscb.tick.entidades.RazonesTransferencias[ idRazon=" + idRazon + " ]";
+        return this.nombreRazon;
     }
     
 }

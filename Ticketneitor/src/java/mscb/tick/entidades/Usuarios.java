@@ -231,7 +231,7 @@ public class Usuarios implements Serializable {
 
     @Override
     public String toString() {
-        return "mscb.tick.entidades.Usuarios[ idUsuario=" + idUsuario + " ]";
+        return nombreUsuario;
     }
     
 }

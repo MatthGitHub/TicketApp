@@ -119,7 +119,7 @@ public class Estados implements Serializable {
 
     @Override
     public String toString() {
-        return "mscb.tick.entidades.Estados[ idEstado=" + idEstado + " ]";
+        return this.nombre;
     }
     
 }

@@ -166,7 +166,7 @@ public class Empleados implements Serializable {
 
     @Override
     public String toString() {
-        return "mscb.tick.entidades.Empleados[ idEmpleado=" + idEmpleado + " ]";
+        return this.apellido+" "+this.nombre;
     }
     
 }

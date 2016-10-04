@@ -464,6 +464,12 @@ public class Main extends javax.swing.JFrame {
         }
         revalidate();
     }
+    
+     
+    private void removerPaneles(JPanel actual){
+        this.getContentPane().removeAll();
+        
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -476,6 +482,7 @@ public class Main extends javax.swing.JFrame {
         chkbx_thread = new javax.swing.JCheckBox();
         jMB_bar = new javax.swing.JMenuBar();
         jM_archivo = new javax.swing.JMenu();
+        mi_misTicket1 = new javax.swing.JMenuItem();
         mi_misTicket = new javax.swing.JMenuItem();
         mi_nuevoTicket = new javax.swing.JMenuItem();
         mi_salir = new javax.swing.JMenuItem();
@@ -499,6 +506,14 @@ public class Main extends javax.swing.JFrame {
         jMB_bar.setBackground(new java.awt.Color(153, 153, 153));
 
         jM_archivo.setText("archivo");
+
+        mi_misTicket1.setText("inicio");
+        mi_misTicket1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mi_misTicket1ActionPerformed(evt);
+            }
+        });
+        jM_archivo.add(mi_misTicket1);
 
         mi_misTicket.setText("mis tickets");
         mi_misTicket.addActionListener(new java.awt.event.ActionListener() {
@@ -613,8 +628,9 @@ public class Main extends javax.swing.JFrame {
 
     private void mi_misTicketActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mi_misTicketActionPerformed
         // TODO add your handling code here:
+        this.getContentPane().removeAll();
         miTickets();
-        mppal.setVisible(false);
+        this.repaint();
     }//GEN-LAST:event_mi_misTicketActionPerformed
 
     private void mi_areasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mi_areasActionPerformed
@@ -623,14 +639,16 @@ public class Main extends javax.swing.JFrame {
 
     private void mi_administrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mi_administrarActionPerformed
         // TODO add your handling code here:
+        this.getContentPane().removeAll();
         tickets();
-        mppal.setVisible(false);
+        this.repaint();
     }//GEN-LAST:event_mi_administrarActionPerformed
 
     private void mi_conocimientoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mi_conocimientoActionPerformed
         // TODO add your handling code here:
-        mppal.setVisible(false);
-        tickets();
+        this.getContentPane().removeAll();
+        baseDeConocimiento();
+        this.repaint();
     }//GEN-LAST:event_mi_conocimientoActionPerformed
 
     private void mi_estadoPGMActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mi_estadoPGMActionPerformed
@@ -640,38 +658,44 @@ public class Main extends javax.swing.JFrame {
 
     private void mi_asunutosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mi_asunutosActionPerformed
         // TODO add your handling code here:
+        this.getContentPane().removeAll();
         asuntos();
-        mppal.setVisible(false);
+        this.repaint();
     }//GEN-LAST:event_mi_asunutosActionPerformed
 
     private void mi_serviciosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mi_serviciosActionPerformed
         // TODO add your handling code here:
+        this.getContentPane().removeAll();
         asuntoSecundarios();
-        mppal.setVisible(false);
+        this.repaint();
     }//GEN-LAST:event_mi_serviciosActionPerformed
 
     private void mi_razonesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mi_razonesActionPerformed
         // TODO add your handling code here:
+       this.getContentPane().removeAll();
         razonesDeTransferencias();
-        mppal.setVisible(false);
+        this.repaint();
     }//GEN-LAST:event_mi_razonesActionPerformed
 
     private void mi_usuariosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mi_usuariosActionPerformed
         // TODO add your handling code here:
+        this.getContentPane().removeAll();
         ventanausuarios();
-        mppal.setVisible(false);
+        this.repaint();
     }//GEN-LAST:event_mi_usuariosActionPerformed
 
     private void mi_asignarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mi_asignarActionPerformed
         // TODO add your handling code here:
+        this.getContentPane().removeAll();
         asignarAsuntosEncargado();
-        mppal.setVisible(false);
+        this.repaint();
     }//GEN-LAST:event_mi_asignarActionPerformed
 
     private void mi_nuevoTicketActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mi_nuevoTicketActionPerformed
         // TODO add your handling code here:
+        this.getContentPane().removeAll();
         nuevoTicket();
-        mppal.setVisible(false);
+        this.repaint();
     }//GEN-LAST:event_mi_nuevoTicketActionPerformed
 
     private void mi_salirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mi_salirActionPerformed
@@ -680,6 +704,13 @@ public class Main extends javax.swing.JFrame {
             System.exit(0);
         }
     }//GEN-LAST:event_mi_salirActionPerformed
+
+    private void mi_misTicket1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mi_misTicket1ActionPerformed
+        // TODO add your handling code here:
+        this.getContentPane().removeAll();
+        menuPrincipal();
+        this.repaint();
+    }//GEN-LAST:event_mi_misTicket1ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -729,6 +760,7 @@ public class Main extends javax.swing.JFrame {
     private javax.swing.JMenuItem mi_conocimiento;
     private javax.swing.JMenuItem mi_estadoPGM;
     private javax.swing.JMenuItem mi_misTicket;
+    private javax.swing.JMenuItem mi_misTicket1;
     private javax.swing.JMenuItem mi_nuevoTicket;
     private javax.swing.JMenuItem mi_razones;
     private javax.swing.JMenuItem mi_salir;

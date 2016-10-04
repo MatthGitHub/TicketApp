@@ -109,7 +109,7 @@ public class EstadosPgm implements Serializable {
 
     @Override
     public String toString() {
-        return "mscb.tick.entidades.EstadosPgm[ idEstado=" + idEstado + " ]";
+        return this.estado;
     }
     
 }

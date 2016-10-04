@@ -155,7 +155,7 @@ public class Areas implements Serializable {
 
     @Override
     public String toString() {
-        return "mscb.tick.entidades.Areas[ idArea=" + idArea + " ]";
+        return this.nombreArea;
     }
     
 }

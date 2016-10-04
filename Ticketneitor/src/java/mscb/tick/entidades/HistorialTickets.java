@@ -142,7 +142,7 @@ public class HistorialTickets implements Serializable {
 
     @Override
     public String toString() {
-        return "mscb.tick.entidades.HistorialTickets[ idHistorial=" + idHistorial + " ]";
+        return this.idHistorial.toString();
     }
     
 }

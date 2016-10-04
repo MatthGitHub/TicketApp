@@ -44,6 +44,7 @@ public class EncargadoAsuntos extends MenuP {
      */
     private EncargadoAsuntos(Main mainFrame) {
         initComponents();
+        this.mainFrame = mainFrame;
         modelo = (DefaultTableModel) jt_asuntos.getModel();
         cmbx_asuntosP.setVisible(false);
         cmbx_asuntosS.setVisible(false);
@@ -51,8 +52,6 @@ public class EncargadoAsuntos extends MenuP {
         lbl_servicios.setVisible(false);
         btn_agregar.setVisible(false);
         miListaA = new ArrayList<>();
-        this.mainFrame = mainFrame;
-        this.setSize(800, 600);
         this.setVisible(true);
         cargarComboBoxUsuarios();
         cargarComboBoxAsuntoP();

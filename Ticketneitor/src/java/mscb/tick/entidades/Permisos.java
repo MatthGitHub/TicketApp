@@ -109,7 +109,7 @@ public class Permisos implements Serializable {
 
     @Override
     public String toString() {
-        return "mscb.tick.entidades.Permisos[ idPermiso=" + idPermiso + " ]";
+        return this.nombrePermiso;
     }
     
 }
