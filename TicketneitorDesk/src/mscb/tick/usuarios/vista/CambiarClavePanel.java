@@ -18,12 +18,12 @@ import mscb.tick.util.MenuP;
  */
 public class CambiarClavePanel extends MenuP {
     public static CambiarClavePanel estePanel;
-    CambiarClaveFrame mainFrame;
+    CambiarClaveDialog mainFrame;
     private UsuarioServ servicios;
     /**
      * Creates new form CambiarClavePanel
      */
-    private CambiarClavePanel(CambiarClaveFrame mainFrame) {
+    private CambiarClavePanel(CambiarClaveDialog mainFrame) {
         initComponents();
         this.mainFrame = mainFrame;
         setSize(250, 300);
@@ -32,7 +32,7 @@ public class CambiarClavePanel extends MenuP {
         pswr_actual.setText("");
     }
     
-    public static CambiarClavePanel getCambiarClavePanel(CambiarClaveFrame mainFrame){
+    public static CambiarClavePanel getCambiarClavePanel(CambiarClaveDialog mainFrame){
         if(estePanel == null){
             estePanel = new CambiarClavePanel(mainFrame);
         }

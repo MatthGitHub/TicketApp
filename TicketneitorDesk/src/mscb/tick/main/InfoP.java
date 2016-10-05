@@ -13,20 +13,20 @@ import mscb.tick.util.MenuP;
  */
 public class InfoP extends MenuP {
     Main mainFrameO;
-    InfoF mainFrame;
+    InfoD mainFrame;
     private static InfoP estePanel;
     
     /**
      * Creates new form InfoP
      */
-    private InfoP(InfoF mainFrame) {
+    private InfoP(InfoD mainFrame) {
         initComponents();
         this.mainFrame = mainFrame;
         setSize(230, 260);
         setVisible(true);
     }
     
-    public static InfoP getInfoP(InfoF mainFrame){
+    public static InfoP getInfoP(InfoD mainFrame){
         if(estePanel == null){
             estePanel = new InfoP(mainFrame);
         }

@@ -21,7 +21,7 @@ import mscb.tick.util.MenuP;
  */
 public class EstadoPGMP extends MenuP {
     private static EstadoPGMP estePanel;
-    private EstadoPGMF mainFrame;
+    private EstadoPGMD mainFrame;
     Main mainFrameO;
     private EstadosPgmServ serviciosPgm;
     private EstadoActualPgmServ serviciosPgmA;
@@ -29,7 +29,7 @@ public class EstadoPGMP extends MenuP {
     /**
      * Creates new form EstadoPGMP
      */
-    public EstadoPGMP(EstadoPGMF mainFrame) {
+    public EstadoPGMP(EstadoPGMD mainFrame) {
         initComponents();
         this.mainFrame = mainFrame;
         setSize(260, 360);
@@ -41,7 +41,7 @@ public class EstadoPGMP extends MenuP {
         cargarComboBoxEstados();
     }
     
-    public static EstadoPGMP getPanelPgm(EstadoPGMF mainFrame){
+    public static EstadoPGMP getPanelPgm(EstadoPGMD mainFrame){
         if(estePanel == null ){
             estePanel = new EstadoPGMP(mainFrame);
         }

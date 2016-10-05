@@ -19,7 +19,7 @@ import mscb.tick.util.MenuP;
  * @author Administrador
  */
 public class AsuntoSinEncargadosP extends MenuP {
-    AsuntoSinEncargadosF mainFrame;
+    AsuntoSinEncargadoD mainFrame;
     private Main mainFrameO;
     private static AsuntoSinEncargadosP estePanel;
     private DefaultTableModel modelo;
@@ -28,7 +28,7 @@ public class AsuntoSinEncargadosP extends MenuP {
     /**
      * Creates new form AsuntoSinEncargados
      */
-    private AsuntoSinEncargadosP(AsuntoSinEncargadosF mainFrame) {
+    private AsuntoSinEncargadosP(AsuntoSinEncargadoD mainFrame) {
         initComponents();
         this.mainFrame = mainFrame;
         setSize(360, 320);
@@ -38,7 +38,7 @@ public class AsuntoSinEncargadosP extends MenuP {
         llenarTabla();
     }
     
-    public static AsuntoSinEncargadosP getAsuntoSinEncargadosP(AsuntoSinEncargadosF mainFrame){
+    public static AsuntoSinEncargadosP getAsuntoSinEncargadosP(AsuntoSinEncargadoD mainFrame){
         if(estePanel == null){
             estePanel = new AsuntoSinEncargadosP(mainFrame);
         }

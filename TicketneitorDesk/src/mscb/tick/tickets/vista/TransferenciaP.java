@@ -21,7 +21,6 @@ import mscb.tick.login.servicios.LoginEJB;
 import mscb.tick.main.Main;
 import mscb.tick.razones.servicios.RazoneServ;
 import mscb.tick.tickets.servicios.TicketServ;
-import mscb.tick.usuarios.servicios.UsuarioServ;
 import mscb.tick.util.MenuP;
 
 /**
@@ -30,7 +29,7 @@ import mscb.tick.util.MenuP;
  */
 public class TransferenciaP extends MenuP {
     private static TransferenciaP estePanel;
-    private TransferenciaF mainFrame;
+    private TransferenciaD mainFrame;
     Main mainFrameO;
     private Tickets miTick;
     private TicketServ serviciosT;
@@ -45,7 +44,7 @@ public class TransferenciaP extends MenuP {
     /**
      * Creates new form TransferenciaP
      */
-    private TransferenciaP(Tickets miTick, TransferenciaF mainFrame) {
+    private TransferenciaP(Tickets miTick, TransferenciaD mainFrame) {
         initComponents();
         panelMisti = MisTickets.getMisTickets(mainFrameO);
         this.mainFrame = mainFrame;
@@ -65,7 +64,7 @@ public class TransferenciaP extends MenuP {
         llenarAsuntoPrincipal();
     }
     
-    public static TransferenciaP getPanelTransferencia(Tickets miTick, TransferenciaF mainFrame){
+    public static TransferenciaP getPanelTransferencia(Tickets miTick, TransferenciaD mainFrame){
         if(estePanel == null ){
             estePanel = new TransferenciaP(miTick, mainFrame);
         }
@@ -301,7 +300,7 @@ public class TransferenciaP extends MenuP {
         if(JOptionPane.showConfirmDialog(mainFrame, "Seguro desea transferir?","Confirmar",JOptionPane.YES_NO_OPTION) == 0){
             miTick.setAsunto((Servicios) cmbx_asuntoSecundario.getSelectedItem());
             miTick.setFkRazon((RazonesTransferencias) cmbx_razones.getSelectedItem());
-            miTick.setFkUsuarioEmisor(LoginEJB.usuario);
+            miTick.setUsuarioReceptor(LoginEJB.usuario);
             miTick.setFkEstado(estad.traerEstado(1));
             if(serviciosT.modificarTicket(miTick) == 0){
                 JOptionPane.showMessageDialog(this, "Ticket transferido");
@@ -310,11 +309,18 @@ public class TransferenciaP extends MenuP {
                 Date fecha = new Date();
                 miHis.setFecha(fecha);
                 miHis.setFkTicket(miTick);
-                miHis.setFkUsuarioEmisor(LoginEJB.usuario);
+                miHis.setFkUsuarioEmisor(miTick.getFkUsuarioEmisor());
+                miHis.setFkUsuarioReceptor(LoginEJB.usuario);
                 miHis.setFkEstado(miTick.getFkEstado());
                 miTick.setUsuarioReceptor(null);
                 serviciosH.nuevo(miHis);
                 MisTickets.getMisTickets(mainFrameO).llenarTabla();
+                setVisible(false);
+                mainFrame.setVisible(false);
+                estePanel = null;
+                mainFrame.dispose();
+                mainFrame = null;
+                System.gc();
             }
         }
     }//GEN-LAST:event_btn_guardarActionPerformed

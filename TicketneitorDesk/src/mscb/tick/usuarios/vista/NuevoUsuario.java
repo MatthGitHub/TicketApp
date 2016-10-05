@@ -25,7 +25,7 @@ import mscb.tick.util.MenuP;
  */
 public class NuevoUsuario extends MenuP {
     private static NuevoUsuario estePanel;
-    NuevoUsuarioF mainFrame;
+    NuevoUsuarioD mainFrame;
     Main mainFrameO;
     private EmpleadoServ buscaE;
     private List <Empleados> listaEmp;
@@ -38,7 +38,7 @@ public class NuevoUsuario extends MenuP {
     /**
      * Creates new form NuevoUsuario
      */
-    private NuevoUsuario(NuevoUsuarioF mainFrame,Main mainFrameO) {
+    private NuevoUsuario(NuevoUsuarioD mainFrame,Main mainFrameO) {
         initComponents();
         this.mainFrame = mainFrame;
         this.mainFrameO = mainFrameO;
@@ -52,7 +52,7 @@ public class NuevoUsuario extends MenuP {
         txt_nombre.requestFocus();
     }
     
-    public static NuevoUsuario getNuevoUsuarioPanel(NuevoUsuarioF mainFrame,Main mainFrameO){
+    public static NuevoUsuario getNuevoUsuarioPanel(NuevoUsuarioD mainFrame,Main mainFrameO){
         if(estePanel == null){
             estePanel = new NuevoUsuario(mainFrame,mainFrameO);
         }
@@ -225,6 +225,10 @@ public class NuevoUsuario extends MenuP {
                         .addGap(262, 262, 262))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(btn_volver, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(btn_guardar, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
                                 .addComponent(jLabel2)
@@ -234,12 +238,7 @@ public class NuevoUsuario extends MenuP {
                                 .addComponent(jLabel1)
                                 .addGap(18, 18, 18)
                                 .addComponent(txt_clave, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(0, 0, Short.MAX_VALUE))
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(btn_volver, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(451, 451, 451)
-                                .addComponent(btn_guardar, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(8, 8, 8)))
+                                .addGap(0, 190, Short.MAX_VALUE)))
                         .addGap(25, 25, 25))))
         );
         layout.setVerticalGroup(
@@ -259,11 +258,12 @@ public class NuevoUsuario extends MenuP {
                     .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(txt_buscar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 252, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 206, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btn_guardar, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btn_volver, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addComponent(btn_volver, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btn_guardar, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(41, 41, 41))
         );
     }// </editor-fold>//GEN-END:initComponents
 

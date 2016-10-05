@@ -23,7 +23,7 @@ import mscb.tick.util.MenuP;
  * @author Administrador
  */
 public class ResolucionVerP extends MenuP {
-    private ResolucionVerF mainFrame;
+    private ResolucionVerD mainFrame;
     Main mainFrameO;
     private static ResolucionVerP estePanel;
     private Tickets miTick;
@@ -32,7 +32,7 @@ public class ResolucionVerP extends MenuP {
     /**
      * Creates new form ResponderP
      */
-    private ResolucionVerP(BaseConocimiento miBase, ResolucionVerF mainFrame) {
+    private ResolucionVerP(BaseConocimiento miBase, ResolucionVerD mainFrame) {
         initComponents();
         this.mainFrame = mainFrame;
         this.miTick = miBase.getFkTicket();
@@ -44,7 +44,7 @@ public class ResolucionVerP extends MenuP {
         setVisible(true);
     }
     
-    public static ResolucionVerP getVerResolucion(BaseConocimiento miBase, ResolucionVerF mainFrame){
+    public static ResolucionVerP getVerResolucion(BaseConocimiento miBase, ResolucionVerD mainFrame){
         if(estePanel == null ){
             estePanel = new ResolucionVerP(miBase, mainFrame);
         }
@@ -115,10 +115,6 @@ public class ResolucionVerP extends MenuP {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(38, 38, 38)
-                .addComponent(btn_cerrar)
-                .addGap(31, 393, Short.MAX_VALUE))
-            .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jScrollPane1)
@@ -135,7 +131,8 @@ public class ResolucionVerP extends MenuP {
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(jLabel5)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(lbl_areaE, javax.swing.GroupLayout.PREFERRED_SIZE, 186, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addComponent(lbl_areaE, javax.swing.GroupLayout.PREFERRED_SIZE, 186, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(btn_cerrar))
                         .addGap(0, 169, Short.MAX_VALUE)))
                 .addContainerGap())
         );
@@ -158,10 +155,10 @@ public class ResolucionVerP extends MenuP {
                     .addComponent(jLabel5)
                     .addComponent(lbl_areaE, javax.swing.GroupLayout.PREFERRED_SIZE, 17, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(43, 43, 43)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 153, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btn_cerrar)
-                .addContainerGap())
+                .addContainerGap(23, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 

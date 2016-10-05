@@ -17,11 +17,11 @@ public class ObservacionP extends MenuP {
     private static ObservacionP estePanel;
     private Tickets miTick;
     private Main mainFrameO;
-    private ObservacionF mainFrame;
+    private ObservacionD mainFrame;
     /**
      * Creates new form Observacion
      */
-    private ObservacionP(Tickets miTick, ObservacionF mainFrame) {
+    private ObservacionP(Tickets miTick, ObservacionD mainFrame) {
         initComponents();
         setSize(520, 300);
         setVisible(true);
@@ -34,7 +34,7 @@ public class ObservacionP extends MenuP {
         txtA_obser.setEditable(false);
     }
     
-    public static ObservacionP getObservacionP(Tickets miTick,ObservacionF mainFrame){
+    public static ObservacionP getObservacionP(Tickets miTick,ObservacionD mainFrame){
         if(estePanel == null){
             estePanel = new ObservacionP(miTick,mainFrame);
         }
@@ -116,12 +116,13 @@ public class ObservacionP extends MenuP {
                         .addGap(18, 18, 18)
                         .addComponent(jLabel1)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(lbl_usuarioE, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(lbl_usuarioE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel3)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(lbl_areaE, javax.swing.GroupLayout.PREFERRED_SIZE, 219, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(0, 0, Short.MAX_VALUE))
+                        .addComponent(lbl_areaE, javax.swing.GroupLayout.PREFERRED_SIZE, 219, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE)))
+                .addGap(10, 10, 10))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addGap(0, 195, Short.MAX_VALUE)
                 .addComponent(btn_cerrar, javax.swing.GroupLayout.PREFERRED_SIZE, 128, javax.swing.GroupLayout.PREFERRED_SIZE)

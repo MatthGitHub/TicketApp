@@ -5,8 +5,11 @@
  */
 package mscb.tick.asuntos.vista;
 
+import java.util.List;
 import javax.swing.JOptionPane;
+import mscb.tick.areas.servicios.AreaServ;
 import mscb.tick.asuntoPrincipal.servicios.AsuntoPrincipalServ;
+import mscb.tick.entidades.Areas;
 import mscb.tick.entidades.Asuntos;
 import mscb.tick.main.Main;
 import mscb.tick.util.MenuP;
@@ -16,32 +19,45 @@ import mscb.tick.util.MenuP;
  * @author Administrador
  */
 public class NuevoAsunto extends MenuP {
-    NuevoAsuntoFrame mainFrame;
+    NuevoAsuntoD mainFrame;
     Main mainFrameO;
     private static NuevoAsunto nuevoAsunto;
     private AsuntoPrincipalServ serviciosA;
     private Asuntos miAsunto;
     private AsuntosPrin asuntos;
-    
+    private Areas miArea;
     /**
      * Creates new form NuevoAsunto singleton
      */
-    private NuevoAsunto(NuevoAsuntoFrame mainFrame,Main mainFrameO) {
+    private NuevoAsunto(NuevoAsuntoD mainFrame,Main mainFrameO,Areas miArea) {
         initComponents();
+        this.miArea = miArea;
         this.mainFrameO = mainFrameO;
         this.mainFrame = mainFrame;
+        if(miArea.getNombreArea().equals("nuevo")){
+            cargarComboBox();
+        }else{
+            cmbx_areas.setVisible(false);
+            lblArea.setText(miArea.getNombreArea());
+        }
         setSize(260, 320);
         setVisible(true);
     }
     
-    public static NuevoAsunto getNuevoAsunto(NuevoAsuntoFrame mainFrame,Main mainFrameO){
+    public static NuevoAsunto getNuevoAsunto(NuevoAsuntoD mainFrame,Main mainFrameO,Areas miArea){
         if(nuevoAsunto == null){
-            nuevoAsunto = new NuevoAsunto(mainFrame,mainFrameO);
+            nuevoAsunto = new NuevoAsunto(mainFrame,mainFrameO, miArea);
         }
         return nuevoAsunto;
     }
     
-    
+    private void cargarComboBox(){
+        AreaServ serviciosAr = new AreaServ();
+        List<Areas> miLista = serviciosAr.traerTodas();
+        for(int i = 0; i < miLista.size();i++){
+            cmbx_areas.addItem(miLista.get(i));
+        }
+    }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -56,8 +72,9 @@ public class NuevoAsunto extends MenuP {
         txt_nombreAsunto = new javax.swing.JTextField();
         btn_salir = new javax.swing.JButton();
         btn_nuevo = new javax.swing.JButton();
-        cmbx_areas = new javax.swing.JComboBox();
         jLabel2 = new javax.swing.JLabel();
+        lblArea = new javax.swing.JLabel();
+        cmbx_areas = new javax.swing.JComboBox();
 
         setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Nuevo Asunto", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Bradley Hand ITC", 0, 24), java.awt.Color.white)); // NOI18N
 
@@ -86,18 +103,23 @@ public class NuevoAsunto extends MenuP {
             }
         });
 
+        jLabel2.setBackground(new java.awt.Color(0, 102, 204));
+        jLabel2.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        jLabel2.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel2.setText("Area:");
+
+        lblArea.setBackground(new java.awt.Color(0, 102, 204));
+        lblArea.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        lblArea.setForeground(new java.awt.Color(255, 255, 255));
+
         cmbx_areas.setBackground(new java.awt.Color(153, 153, 153));
         cmbx_areas.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        cmbx_areas.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "-", " " }));
         cmbx_areas.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 cmbx_areasActionPerformed(evt);
             }
         });
-
-        jLabel2.setBackground(new java.awt.Color(0, 102, 204));
-        jLabel2.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
-        jLabel2.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel2.setText("Seleccionar un area:");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -105,27 +127,30 @@ public class NuevoAsunto extends MenuP {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addComponent(btn_salir, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 54, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 48, Short.MAX_VALUE)
                 .addComponent(btn_nuevo, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE))
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(txt_nombreAsunto, javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(cmbx_areas, javax.swing.GroupLayout.Alignment.TRAILING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel2)
-                        .addGap(0, 0, Short.MAX_VALUE)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(lblArea, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(cmbx_areas, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jLabel2)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(cmbx_areas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(13, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel2)
+                    .addComponent(lblArea, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
+                .addComponent(cmbx_areas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(3, 3, 3)
                 .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(txt_nombreAsunto, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -152,9 +177,10 @@ public class NuevoAsunto extends MenuP {
                 serviciosA = new AsuntoPrincipalServ();
                 miAsunto = new Asuntos();
                 miAsunto.setNombre(txt_nombreAsunto.getText());
+                miAsunto.setFkArea(miArea);
                 if(serviciosA.nuevoAsunto(miAsunto)){
                     asuntos = AsuntosPrin.getAsuntos(mainFrameO);
-                    asuntos.llenarTablar();
+                    asuntos.llenarTabla();
                     JOptionPane.showMessageDialog(mainFrame, "Asunto cargado!");
                 }else{
                     JOptionPane.showMessageDialog(mainFrame, "Error al cargar asunto!");
@@ -171,7 +197,6 @@ public class NuevoAsunto extends MenuP {
     private void cmbx_areasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbx_areasActionPerformed
         // TODO add your handling code here:
         
-
     }//GEN-LAST:event_cmbx_areasActionPerformed
 
 
@@ -181,6 +206,7 @@ public class NuevoAsunto extends MenuP {
     private javax.swing.JComboBox cmbx_areas;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel lblArea;
     private javax.swing.JTextField txt_nombreAsunto;
     // End of variables declaration//GEN-END:variables
 }

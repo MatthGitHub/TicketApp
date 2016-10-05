@@ -252,7 +252,7 @@ public class Tickets implements Serializable {
 
     @Override
     public String toString() {
-        return this.idTicket+"-"+this.fkUsuarioEmisor.getNombreUsuario()+"-"+this.fecha;
+        return this.idTicket.toString();
     }
     
 }

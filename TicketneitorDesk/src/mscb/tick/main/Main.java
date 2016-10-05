@@ -5,6 +5,7 @@
  */
 package mscb.tick.main;
 
+import java.awt.Dialog;
 import java.awt.Image;
 import java.awt.MouseInfo;
 import java.awt.Point;
@@ -12,10 +13,11 @@ import java.awt.Toolkit;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import mscb.tick.asuntoSecundarios.vista.AsuntoSec;
-import mscb.tick.asuntoSecundarios.vista.NuevoAsuntoSecFrame;
+import mscb.tick.asuntoSecundarios.vista.NuevoAsuntoSecD;
 import mscb.tick.asuntos.vista.AsuntosPrin;
-import mscb.tick.asuntos.vista.NuevoAsuntoFrame;
+import mscb.tick.asuntos.vista.NuevoAsuntoD;
 import mscb.tick.conocimiento.vista.BaseConocimientoV;
+import mscb.tick.conocimiento.vista.ResolucionVerD;
 import mscb.tick.encargadoAsuntos.vista.EncargadoAsuntos;
 import mscb.tick.entidades.Asuntos;
 import mscb.tick.entidades.Tickets;
@@ -25,21 +27,21 @@ import mscb.tick.login.MenuPrincipal;
 import mscb.tick.tickets.vista.Actualizador;
 import mscb.tick.tickets.vista.MisTickets;
 import mscb.tick.tickets.vista.NuevoTicket;
-import mscb.tick.tickets.vista.ObservacionF;
-import mscb.tick.conocimiento.vista.ResolucionVerF;
-import mscb.tick.encargadoAsuntos.vista.AsuntoSinEncargadosF;
+import mscb.tick.encargadoAsuntos.vista.AsuntoSinEncargadoD;
+import mscb.tick.entidades.Areas;
 import mscb.tick.entidades.BaseConocimiento;
 import mscb.tick.entidades.Usuarios;
 import mscb.tick.hitorialTicket.vista.HistorialTicketV;
 import mscb.tick.razonesTransf.vista.Razones;
-import mscb.tick.tickets.vista.ResolucionF;
-import mscb.tick.tickets.vista.ResponderF;
-import mscb.tick.tickets.vista.RespuestaF;
+import mscb.tick.tickets.vista.ObservacionD;
+import mscb.tick.tickets.vista.ResolucionD;
+import mscb.tick.tickets.vista.ResponderD;
+import mscb.tick.tickets.vista.RespuestaD;
 import mscb.tick.tickets.vista.TicketsV;
-import mscb.tick.tickets.vista.TransferenciaF;
-import mscb.tick.usuarios.vista.CambiarClaveFrame;
-import mscb.tick.usuarios.vista.CambiarTipoF;
-import mscb.tick.usuarios.vista.NuevoUsuarioF;
+import mscb.tick.tickets.vista.TransferenciaD;
+import mscb.tick.usuarios.vista.CambiarClaveDialog;
+import mscb.tick.usuarios.vista.CambiarTipoD;
+import mscb.tick.usuarios.vista.NuevoUsuarioD;
 import mscb.tick.usuarios.vista.UsuariosV;
 
 /**
@@ -50,21 +52,18 @@ import mscb.tick.usuarios.vista.UsuariosV;
 
 public class Main extends javax.swing.JFrame {
     
-    private int x;
-    private int y;
-
     //Objetos de los paneles.
     private Listener escuchador;
     private Actualizador actualizador;
     
     private Login ingreso;
     private MenuPrincipal mppal;
-    private InfoF inf;
+    private InfoD inf;
         
     private UsuariosV usu;
-    private NuevoUsuarioF formUsuario;
-    private CambiarClaveFrame cambiarCl;
-    private CambiarTipoF cambiarTipoU;
+    private NuevoUsuarioD formUsuario;
+    private CambiarClaveDialog cambiarCl;
+    private CambiarTipoD cambiarTipoU;
     
     private NuevoTicket formTicket;
     private TicketsV tabTick;
@@ -75,22 +74,22 @@ public class Main extends javax.swing.JFrame {
         
     private MisTickets misTickets;
     
-    private ObservacionF observacion;
+    private ObservacionD observacion;
     private Tickets miTick;
     
-    private ResponderF responder;
-    private RespuestaF respuesta;
-    private TransferenciaF transferir;
-    private EstadoPGMF cambiarPgm;
-    private ResolucionF resoF;
-    private ResolucionVerF resoVerF;
+    private ResponderD responder;
+    private RespuestaD respuesta;
+    private TransferenciaD transferir;
+    private EstadoPGMD cambiarPgm;
+    private ResolucionD resoF;
+    private ResolucionVerD resoVerF;
     
     private AsuntosPrin asuntos;
-    private NuevoAsuntoFrame nuevoAsunto;
+    private NuevoAsuntoD nuevoAsunto;
     
     private AsuntoSec asuntoSec;
-    private NuevoAsuntoSecFrame nuevoAsuntoSec;
-    public AsuntoSinEncargadosF asuntoSinEnc;
+    private NuevoAsuntoSecD nuevoAsuntoSec;
+    public AsuntoSinEncargadoD asuntoSinEnc;
     
     private BaseConocimientoV baseCono;
     private HistorialTicketV hisTick;
@@ -157,10 +156,10 @@ public class Main extends javax.swing.JFrame {
      */
     public void ventanaInfo(){
         if(inf == null){
-            inf = new InfoF(this);
+            inf = new InfoD(this,true);
         }else{
-            inf.setVisible(true);
             inf.panelInfoP();
+            inf.setVisible(true);
         }
         revalidate();
     }
@@ -180,24 +179,25 @@ public class Main extends javax.swing.JFrame {
     /**
      * Llama al frame con el fomrulario para un nuevo usuario
      */
-    public void nuevoUsuario(Main mainFrame){
+    public void nuevoUsuario(){
         if(formUsuario == null){
-            formUsuario = new NuevoUsuarioF(mainFrame);
+            formUsuario = new NuevoUsuarioD(this,true);
         }else{
+            formUsuario.cargarFormulario(this);
             formUsuario.setVisible(true);
-            formUsuario.cargarFormulario(mainFrame);
         }
         revalidate();
     }
     /**
      * Ventana para modificar el tipo de usuario
+     * @param usu
      */
     public void cambiarTipoUsuario(Usuarios usu){
         if(cambiarTipoU == null){
-            cambiarTipoU = new CambiarTipoF(this,usu);
+            cambiarTipoU = new CambiarTipoD(this,true,usu);
         }else{
-            cambiarTipoU.setVisible(true);
             cambiarTipoU.CambiarTipoM(usu);
+            cambiarTipoU.setVisible(true);
         }
         revalidate();
     }
@@ -206,10 +206,10 @@ public class Main extends javax.swing.JFrame {
      */
     public void cambiarClave(){
         if(cambiarCl == null){
-            cambiarCl = new CambiarClaveFrame(this);
+            cambiarCl = new CambiarClaveDialog(this,Dialog.ModalityType.APPLICATION_MODAL);
         }else{
-            cambiarCl.setVisible(true);
             cambiarCl.cargarPanel(cambiarCl);
+            cambiarCl.setVisible(true);
         }
         revalidate();
     }
@@ -268,37 +268,41 @@ public class Main extends javax.swing.JFrame {
     }
     /**
      * Muestra ventana con observacion
+     * @param miTick
      */
     public void Observaciones(Tickets miTick){
         if(observacion == null){
-            observacion = new ObservacionF(miTick, this);
+            observacion = new ObservacionD(this,true,miTick);
         }else{
-            observacion.setVisible(true);
             observacion.Observacion(miTick);
+            observacion.setVisible(true);
         }
         revalidate();
     }
     /**
      * Formulario de respuesta para tickets
+     * 
+     * @param miTick
      */
     public void Respuestas(Tickets miTick){
         if(responder == null){
-            responder = new ResponderF(miTick, this);
+            responder = new ResponderD(this,true,miTick);
         }else{
-            responder.setVisible(true);
             responder.ResponderM(miTick);
+            responder.setVisible(true);
         }
         revalidate();
     }
     /**
      * Muestra ventana con respuestas
+     * @param miTick
      */
     public void verRespuestas(Tickets miTick){
         if(respuesta == null){
-            respuesta = new RespuestaF(miTick, this);
+            respuesta = new RespuestaD(this,true,miTick);
         }else{
-            respuesta.setVisible(true);
             respuesta.RespuestaMeth(miTick);
+            respuesta.setVisible(true);
         }
         revalidate();
     }
@@ -308,10 +312,10 @@ public class Main extends javax.swing.JFrame {
      */
     public void transferirTicket(Tickets miTick){
         if(transferir == null){
-            transferir = new TransferenciaF(miTick, this);
+            transferir = new TransferenciaD(this,true,miTick);
         }else{
-            transferir.setVisible(true);
             transferir.TransPanel(miTick);
+            transferir.setVisible(true);
         }
         revalidate();
     }
@@ -321,23 +325,23 @@ public class Main extends javax.swing.JFrame {
      */
     public void resolucionTicket(Tickets miTick){
         if(resoF == null){
-            resoF = new ResolucionF(miTick, this);
+            resoF = new ResolucionD(this,true,miTick);
         }else{
-            resoF.setVisible(true);
             resoF.ResolucionM(miTick);
+            resoF.setVisible(true);
         }
         revalidate();
     }
     /**
-     * Abre ventana para ver la resolucion del ticket
-     * @param miTick 
+     * Abre ventana para ver la resolucion del ticket 
+     * @param miBase
      */
     public void verResolucionTicket(BaseConocimiento miBase){
         if(resoVerF == null){
-            resoVerF = new ResolucionVerF(miBase, this);
+            resoVerF = new ResolucionVerD(this,true,miBase);
         }else{
-            resoVerF.setVisible(true);
             resoVerF.ResolucionVerM(miBase);
+            resoVerF.setVisible(true);
         }
         revalidate();
     }
@@ -359,12 +363,12 @@ public class Main extends javax.swing.JFrame {
     /**
      * Muestra ventana nuevo asunto principal
      */
-    public void nuevoAsunto(){
+    public void nuevoAsunto(Areas miArea){
         if(nuevoAsunto == null){
-            nuevoAsunto = new NuevoAsuntoFrame(this);
+            nuevoAsunto = new NuevoAsuntoD(this,true,miArea);
         }else{
+            nuevoAsunto.nuevoAsunto(miArea);
             nuevoAsunto.setVisible(true);
-            nuevoAsunto.nuevoAsunto();
         }
         revalidate();
     }
@@ -385,13 +389,14 @@ public class Main extends javax.swing.JFrame {
     
     /**
      * Muestra ventana nuevo asunto secundario
+     * @param miAsuntoPP
      */
     public void nuevoAsuntoSecundario(Asuntos miAsuntoPP){
         if(nuevoAsuntoSec == null){
-            nuevoAsuntoSec = new NuevoAsuntoSecFrame(this, miAsuntoPP);
+            nuevoAsuntoSec = new NuevoAsuntoSecD(this,true, miAsuntoPP);
         }else{
-            nuevoAsuntoSec.setVisible(true);
             nuevoAsuntoSec.nuevoAsunto(miAsuntoPP);
+            nuevoAsuntoSec.setVisible(true);
         }
         revalidate();
     }
@@ -400,10 +405,10 @@ public class Main extends javax.swing.JFrame {
      */
     public void cambiarEstadoPGM(){
         if(cambiarPgm == null){
-            cambiarPgm = new EstadoPGMF(this);
+            cambiarPgm = new EstadoPGMD(this,false);
         }else{
-            cambiarPgm.setVisible(true);
             cambiarPgm.PgmPanel();
+            cambiarPgm.setVisible(true);
         }
         revalidate();
     }
@@ -424,6 +429,7 @@ public class Main extends javax.swing.JFrame {
     
     /**
      *Ventana con el historial de ticket seleccionado 
+     * @param miTick
      */
     public void historialDeTickets(Tickets miTick){
         hisTick = HistorialTicketV.getHistorialTicketV(this,miTick);
@@ -457,19 +463,15 @@ public class Main extends javax.swing.JFrame {
      */
     public void asuntosSinEncargar(){
         if(asuntoSinEnc == null){
-            asuntoSinEnc = new AsuntoSinEncargadosF(this);
+            asuntoSinEnc = new AsuntoSinEncargadoD(this,false);
         }else{
-            asuntoSinEnc.setVisible(true);
             asuntoSinEnc.asunticosMeth();
+            asuntoSinEnc.setVisible(true);
         }
         revalidate();
     }
     
      
-    private void removerPaneles(JPanel actual){
-        this.getContentPane().removeAll();
-        
-    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always

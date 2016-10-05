@@ -14,13 +14,13 @@ import mscb.tick.util.MenuP;
  * @author Administrador
  */
 public class InformacionSistema extends MenuP {
-    InfoF mainFrame;
+    InfoD mainFrame;
     private static InformacionSistema estePanel;
     private OperatingSystemMXBean mxbean;
     /**
      * Creates new form System
      */
-    private InformacionSistema(InfoF mainFrame) {
+    private InformacionSistema(InfoD mainFrame) {
         initComponents();
         this.mainFrame = mainFrame;
          mxbean = (OperatingSystemMXBean) ManagementFactory.getOperatingSystemMXBean();
@@ -34,7 +34,7 @@ public class InformacionSistema extends MenuP {
         lbl_ramD.setText(mxbean.getFreePhysicalMemorySize()/1048576 + " MB ");
     }
     
-    public static InformacionSistema getInformacionSistema(InfoF mainFrame){
+    public static InformacionSistema getInformacionSistema(InfoD mainFrame){
         if(estePanel == null){
             estePanel = new InformacionSistema(mainFrame);
         }

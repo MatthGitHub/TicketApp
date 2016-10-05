@@ -19,7 +19,7 @@ import mscb.tick.util.MenuP;
  * @author Administrador
  */
 public class NuevoAsuntoSec extends MenuP {
-    NuevoAsuntoSecFrame mainFrame;
+    NuevoAsuntoSecD mainFrame;
     Main mainFrameO;
     private static NuevoAsuntoSec nuevoAsunto;
     private AsuntoSecundarioServ serviciosA;
@@ -30,7 +30,7 @@ public class NuevoAsuntoSec extends MenuP {
     /**
      * Creates new form NuevoAsunto singleton
      */
-    private NuevoAsuntoSec(NuevoAsuntoSecFrame mainFrame,Main mainFrameO,Asuntos miAsuntoPP) {
+    private NuevoAsuntoSec(NuevoAsuntoSecD mainFrame,Main mainFrameO,Asuntos miAsuntoPP) {
         initComponents();
         this.mainFrameO = mainFrameO;
         this.mainFrame = mainFrame;
@@ -41,7 +41,7 @@ public class NuevoAsuntoSec extends MenuP {
         txt_nombreAsunto.requestFocus();
     }
     
-    public static NuevoAsuntoSec getNuevoAsunto(NuevoAsuntoSecFrame mainFrame,Main mainFrameO,Asuntos miAsuntoPP){
+    public static NuevoAsuntoSec getNuevoAsunto(NuevoAsuntoSecD mainFrame,Main mainFrameO,Asuntos miAsuntoPP){
         if(nuevoAsunto == null){
             nuevoAsunto = new NuevoAsuntoSec(mainFrame,mainFrameO,miAsuntoPP);
         }

@@ -21,7 +21,7 @@ import mscb.tick.util.MenuP;
  * @author Administrador
  */
 public class ResponderP extends MenuP {
-    private ResponderF mainFrame;
+    private ResponderD mainFrame;
     Main mainFrameO;
     private static ResponderP estePanel;
     private Tickets miTick;
@@ -31,7 +31,7 @@ public class ResponderP extends MenuP {
     /**
      * Creates new form ResponderP
      */
-    private ResponderP(Tickets miTick, ResponderF mainFrame) {
+    private ResponderP(Tickets miTick, ResponderD mainFrame) {
         initComponents();
         panelMisti = MisTickets.getMisTickets(mainFrameO);
         this.mainFrame = mainFrame;
@@ -44,7 +44,7 @@ public class ResponderP extends MenuP {
         setVisible(true);
     }
     
-    public static ResponderP getResponder(Tickets miTick, ResponderF mainFrame){
+    public static ResponderP getResponder(Tickets miTick, ResponderD mainFrame){
         if(estePanel == null ){
             estePanel = new ResponderP(miTick, mainFrame);
         }

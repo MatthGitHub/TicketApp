@@ -100,6 +100,11 @@ public class Login extends MenuP {
                 btn_entrarActionPerformed(evt);
             }
         });
+        btn_entrar.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                btn_entrarKeyPressed(evt);
+            }
+        });
 
         lbl_mensaje.setFont(new java.awt.Font("Lucida Grande", 1, 14)); // NOI18N
         lbl_mensaje.setForeground(new java.awt.Color(255, 51, 51));
@@ -197,6 +202,10 @@ public class Login extends MenuP {
             JOptionPane.showMessageDialog(this, "Ingrese una clave!", "Error", JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_pswr_claveActionPerformed
+
+    private void btn_entrarKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_btn_entrarKeyPressed
+        // TODO add your handling code here
+    }//GEN-LAST:event_btn_entrarKeyPressed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

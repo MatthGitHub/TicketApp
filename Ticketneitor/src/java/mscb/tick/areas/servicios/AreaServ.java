@@ -32,4 +32,8 @@ public class AreaServ {
          }
          return aux;
     }
+    
+    public List<Areas> traerTodas(){
+        return jpa.findAreasEntities();
+    }
 }

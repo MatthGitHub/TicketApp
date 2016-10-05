@@ -540,8 +540,9 @@ public class MisTickets extends MenuP {
         // TODO add your handling code here:
         if((jt_tickets.getSelectedRow() != -1)&&(jt_tickets.getSelectedRowCount() == 1)){
             if(JOptionPane.showConfirmDialog(this, "Desea cargar una resolucion para el ticket?", "Base de conocimiento", JOptionPane.YES_NO_OPTION) == 0){
-                mainFrame.transferirTicket(serviciosT.buscarUno(Integer.parseInt(modelo.getValueAt(jt_tickets.getSelectedRow(), 0).toString())));
-                mainFrame.resolucionTicket(serviciosT.buscarUno(Integer.parseInt(modelo.getValueAt(jt_tickets.getSelectedRow(), 0).toString())));
+                int ide = Integer.parseInt(modelo.getValueAt(jt_tickets.getSelectedRow(), 0).toString());
+                mainFrame.transferirTicket(serviciosT.buscarUno(ide));
+                mainFrame.resolucionTicket(serviciosT.buscarUno(ide));
                 llenarTabla();
             }else{
                 mainFrame.transferirTicket(serviciosT.buscarUno(Integer.parseInt(modelo.getValueAt(jt_tickets.getSelectedRow(), 0).toString())));

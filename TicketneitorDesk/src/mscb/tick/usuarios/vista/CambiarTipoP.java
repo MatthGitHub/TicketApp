@@ -20,7 +20,7 @@ import mscb.tick.util.MenuP;
  */
 public class CambiarTipoP extends MenuP {
     private static CambiarTipoP estePanel;
-    private CambiarTipoF mainFrame;
+    private CambiarTipoD mainFrame;
     private Main mainFrameO;
     private Usuarios usu;
     private PermisoServ serviciosP;
@@ -32,7 +32,7 @@ public class CambiarTipoP extends MenuP {
      * @param mainFrame
      * @param usu 
      */
-    public CambiarTipoP(CambiarTipoF mainFrame, Usuarios usu,Main mainFrameO) {
+    public CambiarTipoP(CambiarTipoD mainFrame, Usuarios usu,Main mainFrameO) {
         initComponents();
         serviciosP = new PermisoServ();
         serviciosU = new UsuarioServ();
@@ -46,7 +46,7 @@ public class CambiarTipoP extends MenuP {
         cargarComboBox();
     }
     
-    public static CambiarTipoP getPanelPgm(CambiarTipoF mainFrame, Usuarios usu,Main mainFrameO){
+    public static CambiarTipoP getPanelPgm(CambiarTipoD mainFrame, Usuarios usu,Main mainFrameO){
         if(estePanel == null ){
             estePanel = new CambiarTipoP(mainFrame,usu,mainFrameO);
         }

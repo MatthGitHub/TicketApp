@@ -25,7 +25,7 @@ import mscb.tick.util.MenuP;
  * @author Administrador
  */
 public class ResolucionP extends MenuP {
-    private ResolucionF mainFrame;
+    private ResolucionD mainFrame;
     Main mainFrameO;
     private static ResolucionP estePanel;
     private Tickets miTick;
@@ -35,7 +35,7 @@ public class ResolucionP extends MenuP {
     /**
      * Creates new form ResponderP
      */
-    private ResolucionP(Tickets miTick, ResolucionF mainFrame) {
+    private ResolucionP(Tickets miTick, ResolucionD mainFrame) {
         initComponents();
         panelMisti = MisTickets.getMisTickets(mainFrameO);
         this.mainFrame = mainFrame;
@@ -47,7 +47,7 @@ public class ResolucionP extends MenuP {
         setVisible(true);
     }
     
-    public static ResolucionP getResolucion(Tickets miTick, ResolucionF mainFrame){
+    public static ResolucionP getResolucion(Tickets miTick, ResolucionD mainFrame){
         if(estePanel == null ){
             estePanel = new ResolucionP(miTick, mainFrame);
         }

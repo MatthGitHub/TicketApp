@@ -17,11 +17,11 @@ public class RespuestaP extends MenuP {
     private static RespuestaP estePanel;
     private Tickets miTick;
     private Main mainFrameO;
-    private RespuestaF mainFrame;
+    private RespuestaD mainFrame;
     /**
      * Creates new form RespuestaP
      */
-    private RespuestaP(Tickets miTick, RespuestaF mainFrame) {
+    private RespuestaP(Tickets miTick, RespuestaD mainFrame) {
         initComponents();
         setSize(520, 300);
         setVisible(true);
@@ -34,7 +34,7 @@ public class RespuestaP extends MenuP {
         txtA_obser.setEditable(false);
     }
     
-    public static RespuestaP getRespuestaP(Tickets miTick,RespuestaF mainFrame){
+    public static RespuestaP getRespuestaP(Tickets miTick,RespuestaD mainFrame){
         if(estePanel == null){
             estePanel = new RespuestaP(miTick,mainFrame);
         }
