@@ -129,13 +129,12 @@ public class TicketServ {
         try {
             jpa.destroy(id);
             return true;
-        } catch (IllegalOrphanException ex) {
-            Logger.getLogger(TicketServ.class.getName()).log(Level.SEVERE, null, ex);
-            System.out.println(ex+" - Error al eliminar ticket");
-            return false;
         } catch (NonexistentEntityException ex) {
             Logger.getLogger(TicketServ.class.getName()).log(Level.SEVERE, null, ex);
             System.out.println(ex+" - Error al eliminar ticket (No existe el ID macho)");
+            return false;
+        } catch (IllegalOrphanException ex) {
+            Logger.getLogger(TicketServ.class.getName()).log(Level.SEVERE, null, ex);
             return false;
         }
     }

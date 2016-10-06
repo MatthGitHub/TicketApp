@@ -55,12 +55,14 @@ public class Areas implements Serializable {
     @Size(max = 45)
     @Column(name = "correo")
     private String correo;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "fkAreaEmisor")
-    private List<Tickets> ticketsList;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "fkArea")
-    private List<Empleados> empleadosList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "fkArea")
     private List<Asuntos> asuntosList;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "fkAreaEmisor")
+    private List<Tickets> ticketsList;
+    @OneToMany(mappedBy = "fkAreaReceptor")
+    private List<Tickets> ticketsList1;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "fkArea")
+    private List<Empleados> empleadosList;
 
     public Areas() {
     }
@@ -107,6 +109,15 @@ public class Areas implements Serializable {
     }
 
     @XmlTransient
+    public List<Asuntos> getAsuntosList() {
+        return asuntosList;
+    }
+
+    public void setAsuntosList(List<Asuntos> asuntosList) {
+        this.asuntosList = asuntosList;
+    }
+
+    @XmlTransient
     public List<Tickets> getTicketsList() {
         return ticketsList;
     }
@@ -116,21 +127,21 @@ public class Areas implements Serializable {
     }
 
     @XmlTransient
+    public List<Tickets> getTicketsList1() {
+        return ticketsList1;
+    }
+
+    public void setTicketsList1(List<Tickets> ticketsList1) {
+        this.ticketsList1 = ticketsList1;
+    }
+
+    @XmlTransient
     public List<Empleados> getEmpleadosList() {
         return empleadosList;
     }
 
     public void setEmpleadosList(List<Empleados> empleadosList) {
         this.empleadosList = empleadosList;
-    }
-
-    @XmlTransient
-    public List<Asuntos> getAsuntosList() {
-        return asuntosList;
-    }
-
-    public void setAsuntosList(List<Asuntos> asuntosList) {
-        this.asuntosList = asuntosList;
     }
 
     @Override
@@ -155,7 +166,7 @@ public class Areas implements Serializable {
 
     @Override
     public String toString() {
-        return this.nombreArea;
+        return "mscb.tick.entidades.Areas[ idArea=" + idArea + " ]";
     }
     
 }

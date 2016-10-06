@@ -5,19 +5,105 @@
  */
 package mscb.tick.areas.vista;
 
+import java.text.DateFormat;
+import java.util.List;
+import java.util.Locale;
+import javax.swing.JOptionPane;
+import javax.swing.JTable;
+import javax.swing.table.DefaultTableModel;
+import mscb.tick.areas.servicios.AreaServ;
+import mscb.tick.entidades.Areas;
+import mscb.tick.main.Main;
+import mscb.tick.util.MenuP;
+
 /**
  *
  * @author Administrador
  */
-public class AreasV extends javax.swing.JPanel {
-
+public class AreasV extends MenuP {
+    Main mainFrame;
+    private static AreasV estePanel;
+    private DefaultTableModel modelo;
+    private List<Areas> miLista;
+    private AreaServ serviciosA;
     /**
      * Creates new form AreasV
      */
-    public AreasV() {
+    private AreasV(Main mainFrame) {
         initComponents();
+        this.mainFrame = mainFrame;
+        modelo = (DefaultTableModel) jt_areas.getModel();
+        serviciosA = new AreaServ();
+        setVisible(true);
+        llenarTabla();
     }
+    
+    public static AreasV getAreasV(Main mainFrame){
+        if(estePanel == null){
+            estePanel = new AreasV(mainFrame);
+        }
+        return estePanel;
+    }
+    
+    public void llenarTabla() {
+        vaciarTabla(jt_areas);
+        miLista = serviciosA.traerTodas();
+        String v[] = new String[4];
 
+        for (int i = 0; i < miLista.size(); i++) {
+            v[0] = miLista.get(i).getIdArea().toString();
+            v[1] = miLista.get(i).getNombreArea();
+            if(miLista.get(i).getDireccion() == null){
+                v[2] = "No tiene";
+            }else{
+                v[2] = miLista.get(i).getDireccion();
+            }
+            if(miLista.get(i).getCorreo() == null){
+                v[3] = "No tiene";
+            }else{
+                v[3] = miLista.get(i).getCorreo();
+            }
+            modelo.addRow(v);
+        }
+        revalidate();
+
+    }
+    
+    public void llenarTabla(List<Areas> miLista) {
+        vaciarTabla(jt_areas);
+        String v[] = new String[4];
+
+        for (int i = 0; i < miLista.size(); i++) {
+            v[0] = miLista.get(i).getIdArea().toString();
+            v[1] = miLista.get(i).getNombreArea();
+            if(miLista.get(i).getDireccion() == null){
+                v[2] = "No tiene";
+            }else{
+                v[2] = miLista.get(i).getDireccion();
+            }
+            if(miLista.get(i).getCorreo() == null){
+                v[3] = "No tiene";
+            }else{
+                v[3] = miLista.get(i).getCorreo();
+            }
+            modelo.addRow(v);
+        }
+        revalidate();
+
+    }
+    
+    
+     private void vaciarTabla(JTable tabla) {
+        try {
+            DefaultTableModel modelo = (DefaultTableModel) tabla.getModel();
+            int filas = tabla.getRowCount();
+            for (int i = 0; filas > i; i++) {
+                modelo.removeRow(0);
+            }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Error al limpiar la tabla.");
+        }
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -27,19 +113,199 @@ public class AreasV extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        btn_volver = new javax.swing.JButton();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jt_areas = new javax.swing.JTable();
+        btn_eliminar = new javax.swing.JButton();
+        btn_nueva = new javax.swing.JButton();
+        jLabel1 = new javax.swing.JLabel();
+        txt_busca = new javax.swing.JTextField();
+        btn_modificar = new javax.swing.JButton();
+
+        setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Areas", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Bradley Hand ITC", 0, 24), new java.awt.Color(255, 255, 255))); // NOI18N
+
+        btn_volver.setBackground(new java.awt.Color(153, 153, 153));
+        btn_volver.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        btn_volver.setText("volver");
+        btn_volver.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_volverActionPerformed(evt);
+            }
+        });
+
+        jt_areas.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "ID", "Nombre", "Direccion", "Correo"
+            }
+        ) {
+            Class[] types = new Class [] {
+                java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
+            };
+            boolean[] canEdit = new boolean [] {
+                false, true, true, true
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        jt_areas.getTableHeader().setReorderingAllowed(false);
+        jScrollPane1.setViewportView(jt_areas);
+        if (jt_areas.getColumnModel().getColumnCount() > 0) {
+            jt_areas.getColumnModel().getColumn(0).setMinWidth(60);
+            jt_areas.getColumnModel().getColumn(0).setPreferredWidth(60);
+            jt_areas.getColumnModel().getColumn(0).setMaxWidth(60);
+        }
+
+        btn_eliminar.setBackground(new java.awt.Color(153, 153, 153));
+        btn_eliminar.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        btn_eliminar.setText("eliminar");
+        btn_eliminar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_eliminarActionPerformed(evt);
+            }
+        });
+
+        btn_nueva.setBackground(new java.awt.Color(153, 153, 153));
+        btn_nueva.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        btn_nueva.setText("nueva");
+        btn_nueva.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_nuevaActionPerformed(evt);
+            }
+        });
+
+        jLabel1.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jLabel1.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel1.setText("Buscar:");
+
+        txt_busca.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txt_buscaActionPerformed(evt);
+            }
+        });
+
+        btn_modificar.setBackground(new java.awt.Color(153, 153, 153));
+        btn_modificar.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        btn_modificar.setText("modificar");
+        btn_modificar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_modificarActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(32, 32, 32)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLabel1)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(txt_busca, javax.swing.GroupLayout.PREFERRED_SIZE, 155, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 721, Short.MAX_VALUE)
+                        .addGroup(layout.createSequentialGroup()
+                            .addComponent(btn_volver)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(btn_eliminar)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(btn_modificar)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(btn_nueva))))
+                .addGap(35, 35, 35))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 300, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel1)
+                    .addComponent(txt_busca, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 34, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btn_volver)
+                    .addComponent(btn_eliminar)
+                    .addComponent(btn_nueva)
+                    .addComponent(btn_modificar))
+                .addContainerGap(50, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
+    private void btn_volverActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_volverActionPerformed
+        // TODO add your handling code here:
+        this.setVisible(false);
+        mainFrame.menuPrincipal();
+        estePanel = null;
+        System.gc();
+    }//GEN-LAST:event_btn_volverActionPerformed
+
+    private void btn_eliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_eliminarActionPerformed
+        // TODO add your handling code here:
+        if((jt_areas.getSelectedRow() != -1)&&(jt_areas.getSelectedRowCount() < 2)&&(jt_areas.getSelectedRowCount() == 1)){
+            if(JOptionPane.showConfirmDialog(this, "Seguro desea eliminar?", "Confirmar", JOptionPane.YES_NO_OPTION) == 0){
+                if(serviciosA.eliminar(Integer.parseInt(jt_areas.getValueAt(jt_areas.getSelectedRow(), 0).toString()))){
+                    JOptionPane.showMessageDialog(this, "Area eliminada", "Realizado", JOptionPane.INFORMATION_MESSAGE);
+                    llenarTabla();
+                }else{
+                    JOptionPane.showMessageDialog(this, "Error al eliminar area, comprobar asuntos asignados", "Error", JOptionPane.ERROR_MESSAGE);
+                }
+            }
+        }else{
+            JOptionPane.showMessageDialog(this, "Debe selecionar una y solo una fila!", "Error de seleccion", JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_btn_eliminarActionPerformed
+
+    private void btn_nuevaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_nuevaActionPerformed
+        // TODO add your handling code here:
+        mainFrame.nuevaArea();
+    }//GEN-LAST:event_btn_nuevaActionPerformed
+
+    private void txt_buscaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txt_buscaActionPerformed
+        // TODO add your handling code here:
+        llenarTabla(serviciosA.buscar(txt_busca.getText()));
+    }//GEN-LAST:event_txt_buscaActionPerformed
+
+    private void btn_modificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_modificarActionPerformed
+        // TODO add your handling code here:
+         if((jt_areas.getSelectedRow() != -1)&&(jt_areas.getSelectedRowCount() < 2)&&(jt_areas.getSelectedRowCount() == 1)){
+            if(JOptionPane.showConfirmDialog(this, "Seguro desea modificar?", "Confirmar", JOptionPane.YES_NO_OPTION) == 0){
+                Areas miArea = new Areas();
+                miArea.setIdArea(Integer.parseInt(jt_areas.getValueAt(jt_areas.getSelectedRow(), 0).toString()));
+                miArea.setNombreArea(jt_areas.getValueAt(jt_areas.getSelectedRow(), 1).toString());
+                miArea.setDireccion(jt_areas.getValueAt(jt_areas.getSelectedRow(), 2).toString());
+                miArea.setCorreo(jt_areas.getValueAt(jt_areas.getSelectedRow(), 3).toString());
+                if(serviciosA.modificar(miArea)){
+                    JOptionPane.showMessageDialog(this, "Area modificada", "Realizado", JOptionPane.INFORMATION_MESSAGE);
+                    llenarTabla();
+                }else{
+                    JOptionPane.showMessageDialog(this, "Error al modificar area", "Error", JOptionPane.ERROR_MESSAGE);
+                }
+            }
+        }else{
+            JOptionPane.showMessageDialog(this, "Debe selecionar una y solo una fila!", "Error de seleccion", JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_btn_modificarActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btn_eliminar;
+    private javax.swing.JButton btn_modificar;
+    private javax.swing.JButton btn_nueva;
+    private javax.swing.JButton btn_volver;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JTable jt_areas;
+    private javax.swing.JTextField txt_busca;
     // End of variables declaration//GEN-END:variables
 }

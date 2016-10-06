@@ -358,68 +358,28 @@ public class NuevoTicket extends MenuP {
             miTick.setFkUsuarioEmisor(LoginEJB.usuario);
             miTick.setHora(fecha);
             miTick.setObservacion(txtA_obs.getText());
-            switch (cmbx_asuntoPrincipal.getSelectedItem().toString()){
-                case "PGM":
-                    miTick.setFkAreaSistemas(sis.traerUno(1));
-                    break;
-                
-                case "WebDoc":
-                    miTick.setFkAreaSistemas(sis.traerUno(1));
-                    break;
-                
-                case "Bariloche.gov.ar":
-                    miTick.setFkAreaSistemas(sis.traerUno(1));
-                    break;
-                
-                case "Comunicar":
-                    miTick.setFkAreaSistemas(sis.traerUno(1));
-                    break;
-                
-                case "Cajero":
-                    miTick.setFkAreaSistemas(sis.traerUno(1));
-                    break;
-                    
-                case "Sueldos":
-                    miTick.setFkAreaSistemas(sis.traerUno(1));
-                    break;
-                    
-                case "Pagina de Medicina":
-                    miTick.setFkAreaSistemas(sis.traerUno(1));
-                    break;
-                    
-                case "Correo":
-                    miTick.setFkAreaSistemas(sis.traerUno(2));
-                    break;
-                    
-                case "Tecnico":
-                    miTick.setFkAreaSistemas(sis.traerUno(2));
-                    break;
-                    
-                case "Problemas de comunicacion":
-                    miTick.setFkAreaSistemas(sis.traerUno(2));
-                    break;
+            miTick.setFkEstado(serviciosEst.traerEstado(1));
+            miTick.setUsuarioReceptor(null);
+            miTick.setFkAreaReceptor((Areas) cmbx_areas.getSelectedItem());
+            miTick.setRespuesta(null);
+            if(serviciosT.nuevoTicket(miTick) == 0){
+                JOptionPane.showMessageDialog(mainFrame, "Ticket enviado...");
+            }else{
+                JOptionPane.showMessageDialog(mainFrame, "Error", "No se envio ticket", JOptionPane.ERROR_MESSAGE);
             }
-           miTick.setFkEstado(serviciosEst.traerEstado(1));
-           miTick.setUsuarioReceptor(null);
-           miTick.setRespuesta(null);
-           if(serviciosT.nuevoTicket(miTick) == 0){
-               JOptionPane.showMessageDialog(mainFrame, "Ticket enviado...");
-           }else{
-               JOptionPane.showMessageDialog(mainFrame, "Error", "No se envio ticket", JOptionPane.ERROR_MESSAGE);
-           }
-        HistorialServ serviciosH = new HistorialServ();
-        HistorialTickets miHis = new HistorialTickets();
-        Date fecha = new Date();
-        miHis.setFecha(fecha);
-        miHis.setFkTicket(miTick);
-        miHis.setFkUsuarioEmisor(LoginEJB.usuario);
-        miHis.setFkEstado(miTick.getFkEstado());
-        serviciosH.nuevo(miHis);
-        mainFrame.menuPrincipal();
-        this.setVisible(false);
-        b=0;
-        form = null;
-        System.gc();
+            HistorialServ serviciosH = new HistorialServ();
+            HistorialTickets miHis = new HistorialTickets();
+            Date fecha = new Date();
+            miHis.setFecha(fecha);
+            miHis.setFkTicket(miTick);
+            miHis.setFkUsuarioEmisor(LoginEJB.usuario);
+            miHis.setFkEstado(miTick.getFkEstado());
+            serviciosH.nuevo(miHis);
+            mainFrame.menuPrincipal();
+            this.setVisible(false);
+            b=0;
+            form = null;
+            System.gc();
         }
     }//GEN-LAST:event_btn_guardarActionPerformed
 

@@ -7,8 +7,10 @@ package mscb.tick.areas.servicios;
 
 import java.util.ArrayList;
 import java.util.List;
+import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
+import javax.persistence.Query;
 import mscb.tick.controladores.AreasJpaController;
 import mscb.tick.entidades.Areas;
 
@@ -35,5 +37,46 @@ public class AreaServ {
     
     public List<Areas> traerTodas(){
         return jpa.findAreasEntities();
+    }
+    
+    public boolean nueva(Areas miArea){
+        try {
+            jpa.create(miArea);
+            return true;
+        } catch (Exception e) {
+            System.out.println(e+" - Error al crear nueva area");
+            return false;
+        }
+    }
+    
+    public boolean eliminar(int id){
+        try {
+            jpa.destroy(id);
+            return true;
+        } catch (Exception e) {
+            System.err.println(e+" - Error al eliminar area");
+            return false;
+        }
+    }
+    
+    public boolean modificar(Areas miArea){
+        try {
+            jpa.edit(miArea);
+            return true;
+        } catch (Exception e) {
+            System.out.println(e+" - Error al modificar area");
+            return false;
+        }
+    }
+    
+    public List<Areas> buscar(String patron){
+        EntityManager em = emf.createEntityManager();
+        Query q;
+        
+        q = em.createQuery("SELECT DISTINCT a "
+                + "FROM Areas a "
+                + "WHERE a.nombreArea LIKE :patron");
+        q.setParameter("patron", "%"+ patron+"%");
+        return q.getResultList();
     }
 }

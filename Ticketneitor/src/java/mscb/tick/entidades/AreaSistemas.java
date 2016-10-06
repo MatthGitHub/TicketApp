@@ -46,9 +46,7 @@ public class AreaSistemas implements Serializable {
     @Size(min = 1, max = 30)
     @Column(name = "nombre_area")
     private String nombreArea;
-    @OneToMany(mappedBy = "fkAreaSistemas")
-    private List<Tickets> ticketsList;
-
+    
     public AreaSistemas() {
     }
 
@@ -75,15 +73,6 @@ public class AreaSistemas implements Serializable {
 
     public void setNombreArea(String nombreArea) {
         this.nombreArea = nombreArea;
-    }
-
-    @XmlTransient
-    public List<Tickets> getTicketsList() {
-        return ticketsList;
-    }
-
-    public void setTicketsList(List<Tickets> ticketsList) {
-        this.ticketsList = ticketsList;
     }
 
     @Override

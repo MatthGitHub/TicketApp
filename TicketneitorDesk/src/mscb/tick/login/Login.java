@@ -167,22 +167,15 @@ public class Login extends MenuP {
         if ((txt_nombre.getText().trim().length() > 0) && (pswr_clave.getText().trim().length() > 0)) {
             loginejb = new LoginEJB();
             if (loginejb.login(txt_nombre.getText(), pswr_clave.getText())) {
-                if (LoginEJB.usuario.getFkPermiso().getIdPermiso().equals(1)) {
                     mainFrame.setSize(800, 600);
                     mainFrame.setResizable(true);
-                    mainFrame.jMB_bar.setVisible(true);
+                    mainFrame.validarPermisos(LoginEJB.usuario);
                     mainFrame.setLocationRelativeTo(null);
                     mainFrame.setTitle("Ticketneitor");
                     mainFrame.menuPrincipal();
                     ingreso.setVisible(false);
                     ingreso = null;
                     System.gc();
-                } else {
-                    ingreso.setVisible(false);
-                    mainFrame.miTickets();
-                    ingreso = null;
-                    System.gc();
-                }
             }else{
                 lbl_mensaje.setText(LoginEJB.mensaje);
                 lbl_mensaje.setVisible(true);

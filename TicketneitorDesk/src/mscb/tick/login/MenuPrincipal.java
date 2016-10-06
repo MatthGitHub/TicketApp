@@ -187,6 +187,7 @@ public class MenuPrincipal extends MenuP {
         if(JOptionPane.showConfirmDialog(this,"Seguro desea cerrar sesion?","Confirmar",JOptionPane.YES_NO_OPTION)==0){
             this.setVisible(false);
             menuP = null;
+            LoginEJB.usuario = null;
             System.gc();
             mainFrame.ventanaLogin();
         }

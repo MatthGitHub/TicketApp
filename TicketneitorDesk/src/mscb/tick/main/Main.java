@@ -7,11 +7,10 @@ package mscb.tick.main;
 
 import java.awt.Dialog;
 import java.awt.Image;
-import java.awt.MouseInfo;
-import java.awt.Point;
 import java.awt.Toolkit;
 import javax.swing.JOptionPane;
-import javax.swing.JPanel;
+import mscb.tick.areas.vista.AreasV;
+import mscb.tick.areas.vista.NuevaAreaD;
 import mscb.tick.asuntoSecundarios.vista.AsuntoSec;
 import mscb.tick.asuntoSecundarios.vista.NuevoAsuntoSecD;
 import mscb.tick.asuntos.vista.AsuntosPrin;
@@ -32,6 +31,7 @@ import mscb.tick.entidades.Areas;
 import mscb.tick.entidades.BaseConocimiento;
 import mscb.tick.entidades.Usuarios;
 import mscb.tick.hitorialTicket.vista.HistorialTicketV;
+import mscb.tick.login.servicios.LoginEJB;
 import mscb.tick.razonesTransf.vista.Razones;
 import mscb.tick.tickets.vista.ObservacionD;
 import mscb.tick.tickets.vista.ResolucionD;
@@ -96,6 +96,8 @@ public class Main extends javax.swing.JFrame {
     
     private Razones razones;
     
+    private AreasV areasV;
+    private NuevaAreaD nuevaArea;
             
     @Override
     public Image getIconImage() {
@@ -125,6 +127,21 @@ public class Main extends javax.swing.JFrame {
     public Main getMainFrame(){
         return this;
     }
+    
+    public void validarPermisos(Usuarios usuario){
+        if(usuario.getFkPermiso().getIdPermiso() == 1){
+            jMB_bar.setVisible(true);
+            jm_administracion.setVisible(true);
+            jM_configuracion.setVisible(true);
+        }else{
+            jMB_bar.setVisible(true);
+            jm_administracion.setVisible(false);
+            jM_configuracion.setVisible(false);
+        }
+        
+    }
+    
+    
     /**
      * Llamada a la ventana del Login
      */
@@ -135,6 +152,7 @@ public class Main extends javax.swing.JFrame {
            getContentPane().add(ingreso);
         }else{
             ingreso.setVisible(true);
+            validarPermisos(LoginEJB.usuario);
         }
         revalidate();
     }
@@ -471,7 +489,30 @@ public class Main extends javax.swing.JFrame {
         revalidate();
     }
     
-     
+    
+    /**
+     * Llamada a la ventana de areas
+     */
+    public void areas(){
+        areasV = AreasV.getAreasV(this);
+        
+        if(!areasV.isVisible() == false){
+            getContentPane().add(areasV);
+        }else{
+            areasV.setVisible(true);
+        }
+        revalidate();
+    }
+    
+    public void nuevaArea(){
+        if(nuevaArea == null){
+            nuevaArea = new NuevaAreaD(this, true);
+        }else{
+            nuevaArea.nuevaAreaM();
+            nuevaArea.setVisible(true);
+        }
+        revalidate();
+    } 
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -487,10 +528,10 @@ public class Main extends javax.swing.JFrame {
         mi_misTicket1 = new javax.swing.JMenuItem();
         mi_misTicket = new javax.swing.JMenuItem();
         mi_nuevoTicket = new javax.swing.JMenuItem();
+        mi_conocimiento = new javax.swing.JMenuItem();
         mi_salir = new javax.swing.JMenuItem();
         jm_administracion = new javax.swing.JMenu();
         mi_administrar = new javax.swing.JMenuItem();
-        mi_conocimiento = new javax.swing.JMenuItem();
         mi_estadoPGM = new javax.swing.JMenuItem();
         jM_configuracion = new javax.swing.JMenu();
         mi_areas = new javax.swing.JMenuItem();
@@ -533,6 +574,14 @@ public class Main extends javax.swing.JFrame {
         });
         jM_archivo.add(mi_nuevoTicket);
 
+        mi_conocimiento.setText("base de conocimiento");
+        mi_conocimiento.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mi_conocimientoActionPerformed(evt);
+            }
+        });
+        jM_archivo.add(mi_conocimiento);
+
         mi_salir.setText("salir");
         mi_salir.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -552,14 +601,6 @@ public class Main extends javax.swing.JFrame {
             }
         });
         jm_administracion.add(mi_administrar);
-
-        mi_conocimiento.setText("base de conocimiento");
-        mi_conocimiento.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                mi_conocimientoActionPerformed(evt);
-            }
-        });
-        jm_administracion.add(mi_conocimiento);
 
         mi_estadoPGM.setText("estado del pgm");
         mi_estadoPGM.addActionListener(new java.awt.event.ActionListener() {
@@ -637,6 +678,9 @@ public class Main extends javax.swing.JFrame {
 
     private void mi_areasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mi_areasActionPerformed
         // TODO add your handling code here:
+        this.getContentPane().removeAll();
+        areas();
+        this.repaint();
     }//GEN-LAST:event_mi_areasActionPerformed
 
     private void mi_administrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mi_administrarActionPerformed
