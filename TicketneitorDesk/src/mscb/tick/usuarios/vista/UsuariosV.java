@@ -11,6 +11,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 import mscb.tick.entidades.Usuarios;
+import mscb.tick.login.servicios.LoginEJB;
 import mscb.tick.main.Main;
 import mscb.tick.usuarios.servicios.UsuarioServ;
 import mscb.tick.util.MenuP;

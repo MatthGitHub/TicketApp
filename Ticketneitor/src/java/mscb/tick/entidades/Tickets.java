@@ -222,7 +222,7 @@ public class Tickets implements Serializable {
 
     @Override
     public String toString() {
-        return "mscb.tick.entidades.Tickets[ idTicket=" + idTicket + " ]";
+        return this.idTicket.toString();
     }
 
     @XmlTransient

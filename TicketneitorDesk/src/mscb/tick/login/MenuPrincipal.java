@@ -29,7 +29,7 @@ public class MenuPrincipal extends MenuP {
         initComponents();
         this.mainFrame = mainFrame;
         //cargarIconos();
-        lblNombreUsuario.setText(LoginEJB.usuario.getNombreUsuario());
+        lblNombreUsuario.setText(LoginEJB.usuario.getFkEmpleado().getNombre());
         setVisible(true);
     }
     

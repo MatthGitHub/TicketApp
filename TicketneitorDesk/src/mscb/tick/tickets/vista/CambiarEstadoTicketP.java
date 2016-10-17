@@ -10,14 +10,17 @@ package mscb.tick.tickets.vista;
  * @author Administrador
  */
 public class CambiarEstadoTicketP extends javax.swing.JPanel {
-
+    private static CambiarEstadoTicketP estePanel;
+    CambiarEstadoTicketD mainFrame;
+    
     /**
      * Creates new form CambiarEstadoTicketP
      */
-    public CambiarEstadoTicketP() {
+    private CambiarEstadoTicketP() {
         initComponents();
     }
-
+    
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -31,11 +34,11 @@ public class CambiarEstadoTicketP extends javax.swing.JPanel {
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 223, Short.MAX_VALUE)
+            .addGap(0, 225, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 300, Short.MAX_VALUE)
+            .addGap(0, 290, Short.MAX_VALUE)
         );
     }// </editor-fold>//GEN-END:initComponents
 

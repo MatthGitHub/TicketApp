@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 15-09-2016 a las 13:14:39
+-- Tiempo de generación: 06-10-2016 a las 13:37:17
 -- Versión del servidor: 5.7.11
 -- Versión de PHP: 5.6.19
 
@@ -188,23 +188,24 @@ INSERT INTO `area_sistemas` (`id_area_sistemas`, `nombre_area`) VALUES
 
 CREATE TABLE `asuntos` (
   `id_asuntoP` int(11) NOT NULL,
-  `nombre` varchar(50) COLLATE utf8_spanish2_ci NOT NULL
+  `nombre` varchar(50) COLLATE utf8_spanish2_ci NOT NULL,
+  `fk_area` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish2_ci;
 
 --
 -- Volcado de datos para la tabla `asuntos`
 --
 
-INSERT INTO `asuntos` (`id_asuntoP`, `nombre`) VALUES
-(11, 'PGM'),
-(12, 'Sueldos'),
-(13, 'WebDoc'),
-(14, 'Terminal'),
-(15, 'Cajero'),
-(16, 'Correo'),
-(17, 'Servicio tecnico'),
-(18, 'Personal'),
-(19, 'Tickets');
+INSERT INTO `asuntos` (`id_asuntoP`, `nombre`, `fk_area`) VALUES
+(11, 'PGM', 38),
+(12, 'Sueldos', 38),
+(13, 'WebDoc', 38),
+(14, 'Terminal', 38),
+(15, 'Cajero', 38),
+(16, 'Correo', 38),
+(17, 'Servicio tecnico', 38),
+(19, 'Tickets', 38),
+(20, 'Informe de pedidos', 38);
 
 -- --------------------------------------------------------
 
@@ -2679,8 +2680,6 @@ INSERT INTO `encargado_servicios` (`usuario`, `asunto`) VALUES
 (3, 56),
 (3, 57),
 (3, 58),
-(3, 63),
-(3, 64),
 (3, 65),
 (3, 66),
 (3, 67),
@@ -2719,6 +2718,8 @@ INSERT INTO `encargado_servicios` (`usuario`, `asunto`) VALUES
 (16, 92),
 (16, 93),
 (16, 94),
+(16, 95),
+(16, 96),
 (17, 29),
 (17, 30),
 (17, 32),
@@ -2756,6 +2757,11 @@ INSERT INTO `encargado_servicios` (`usuario`, `asunto`) VALUES
 (18, 44),
 (18, 45),
 (18, 47),
+(23, 97),
+(23, 98),
+(23, 99),
+(23, 100),
+(23, 101),
 (24, 39),
 (24, 40),
 (24, 46),
@@ -2840,15 +2846,6 @@ CREATE TABLE `historial_tickets` (
   `fecha` date NOT NULL,
   `fk_estado` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
---
--- Volcado de datos para la tabla `historial_tickets`
---
-
-INSERT INTO `historial_tickets` (`id_historial`, `fk_ticket`, `fk_usuario_emisor`, `fk_usuario_receptor`, `fecha`, `fk_estado`) VALUES
-(4, 2, 18, 3, '2016-09-09', 1),
-(7, 2, 18, 3, '2016-09-09', 5),
-(9, 5, 22, NULL, '2016-09-15', 1);
 
 -- --------------------------------------------------------
 
@@ -2952,8 +2949,6 @@ INSERT INTO `servicios` (`id_asuntoS`, `nombre_asuntoS`, `pertenece`) VALUES
 (59, 'Pedido de nuevo correo electronico', 16),
 (60, 'Baja de correo electronico', 16),
 (62, 'Problemas con el turnero', 17),
-(63, 'Cambio de area', 18),
-(64, 'Otros problemas', 18),
 (65, 'Cambio de area del usuario', 11),
 (66, 'Generacion de informes de sueldos', 12),
 (67, 'Programacion de liquidacion', 12),
@@ -2982,7 +2977,13 @@ INSERT INTO `servicios` (`id_asuntoS`, `nombre_asuntoS`, `pertenece`) VALUES
 (92, 'Mal funcionamiento de la impresora', 17),
 (93, 'No funciona internet', 17),
 (94, 'No funcionan los mail', 17),
-(95, 'Cambio-Movimiento de impresoras', 17);
+(95, 'Cambio-Movimiento de impresoras', 17),
+(96, 'No puedo enviar correos', 16),
+(97, 'Saber si esta entregado', 20),
+(98, 'Saber en que secretaria se encuentra', 20),
+(99, 'Como realizar un pedido de abastecimiento', 20),
+(100, 'Da error al cargar el pedido', 20),
+(101, 'A que cuenta lo tengo que imputar', 20);
 
 -- --------------------------------------------------------
 
@@ -2996,7 +2997,7 @@ CREATE TABLE `tickets` (
   `hora` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `fk_area_emisor` int(11) NOT NULL,
   `fk_usuario_emisor` int(11) NOT NULL,
-  `fk_area_sistemas` int(11) DEFAULT NULL,
+  `fk_area_receptor` int(11) DEFAULT NULL,
   `asunto` int(11) NOT NULL,
   `observacion` varchar(1500) COLLATE utf8_spanish2_ci DEFAULT NULL,
   `usuario_receptor` int(11) DEFAULT NULL,
@@ -3004,14 +3005,6 @@ CREATE TABLE `tickets` (
   `fk_estado` int(11) DEFAULT NULL,
   `fk_razon` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish2_ci;
-
---
--- Volcado de datos para la tabla `tickets`
---
-
-INSERT INTO `tickets` (`id_ticket`, `fecha`, `hora`, `fk_area_emisor`, `fk_usuario_emisor`, `fk_area_sistemas`, `asunto`, `observacion`, `usuario_receptor`, `respuesta`, `fk_estado`, `fk_razon`) VALUES
-(2, '2016-09-09', '2016-09-14 14:09:30', 38, 18, NULL, 29, 'Buenos dÃ­as:\nMediante la presente solicito se genere clave de usuario y permisos iguales a agente FICARE, a las siguientes pasantes:\nTRONCOSO, MARIANA BELEN DNI 35818794 \nPEREZ KAREN YAMILA DNI  38806587\n \nSaludos, Erica - Numero de interno: 111', 3, 'Ya estan realizados los usuarios:\nUsuario: mtroncoso - calve: mariana\nUsuario: kperez - clave: karen\n\nRecordad cambiar la clave lo antes posible.', 5, NULL),
-(5, '2016-09-15', '2016-09-15 14:35:46', 38, 22, NULL, 95, 'Lilian solicita\nNuevamente te vuelvo a solicitar el cambio de impresoras entre Contribuciones y Coordinación.  \n\n\n\n\n\nPor otro lado tambien te confirmo para que procedas a habilitar cada una de las PC del departamento de contribuciones para que puedan utilizar la "impresora masiva" a partir del de hoy. \n\n\n\n\n\nMuchas gracias. \n\n\n\nSaludos \n\n\n\n\n\nLilian. \n\n', NULL, NULL, 1, NULL);
 
 -- --------------------------------------------------------
 
@@ -3040,7 +3033,7 @@ INSERT INTO `tipo_usuario` (`id_tipo_usuario`, `nombre_tipo_usuario`) VALUES
 
 CREATE TABLE `usuarios` (
   `id_usuario` int(11) NOT NULL,
-  `nombre_usuario` varchar(10) COLLATE utf8_spanish2_ci NOT NULL,
+  `nombre_usuario` varchar(15) COLLATE utf8_spanish2_ci NOT NULL,
   `contrasenia` varchar(36) COLLATE utf8_spanish2_ci DEFAULT NULL,
   `fk_empleado` int(11) NOT NULL,
   `activo` tinyint(1) NOT NULL,
@@ -3053,18 +3046,19 @@ CREATE TABLE `usuarios` (
 --
 
 INSERT INTO `usuarios` (`id_usuario`, `nombre_usuario`, `contrasenia`, `fk_empleado`, `activo`, `fk_permiso`, `id_extreme`) VALUES
-(3, 'mbenditti', '992f1570e7d76ebd5239bd5d83ca025b', 1, 1, 1, NULL),
+(3, 'mbenditti', '992f1570e7d76ebd5239bd5d83ca025b', 1, 1, 2, NULL),
 (15, 'ekayser', '6b5b0dd03c9c85725032ce5f3a0918ae', 1637, 1, 2, NULL),
-(16, 'gdinardo', '4c96f8324e3ba54a99e78249b95daa30', 146, 1, 1, NULL),
+(16, 'gdinardo', '4c96f8324e3ba54a99e78249b95daa30', 146, 1, 2, NULL),
 (17, 'gcastro', '4c96f8324e3ba54a99e78249b95daa30', 2023, 1, 2, NULL),
 (18, 'avarano', 'e94ef563867e9c9df3fcc999bdb045f5', 113, 1, 2, NULL),
 (19, 'etomatis', '6d6354ece40846bf7fca65dfabd5d9d4', 1177, 1, 2, NULL),
 (21, 'eklein', '0dad057ace699c95af66875078362cf4', 2851, 1, 2, NULL),
-(22, 'hacuña', '3ab9071536d62f29aa8b3fd39141f6ad', 199, 1, 1, NULL),
+(22, 'hacuña', '3ab9071536d62f29aa8b3fd39141f6ad', 199, 1, 2, NULL),
 (23, 'bmarin', 'e4f7614a887a8cc07a2eea93a1e31122', 983, 1, 2, NULL),
 (24, 'gibanez', '05fe03b494c0f1a7d6cb49f0bf3fd70d', 395, 1, 2, NULL),
 (25, 'dalvarez', 'aa47f8215c6f30a0dcdb2a36a9f4168e', 2555, 1, 2, NULL),
-(27, 'bovando', 'e3928a3bc4be46516aa33a79bbdfdb08', 2852, 1, 1, NULL);
+(27, 'bovando', 'e3928a3bc4be46516aa33a79bbdfdb08', 2852, 1, 2, NULL),
+(28, 'administrador', '6f8725703f6dcc6bf2a329d2fe77fb39', 1, 1, 1, NULL);
 
 --
 -- Índices para tablas volcadas
@@ -3086,7 +3080,8 @@ ALTER TABLE `area_sistemas`
 -- Indices de la tabla `asuntos`
 --
 ALTER TABLE `asuntos`
-  ADD PRIMARY KEY (`id_asuntoP`);
+  ADD PRIMARY KEY (`id_asuntoP`),
+  ADD KEY `fk_area` (`fk_area`);
 
 --
 -- Indices de la tabla `base_conocimiento`
@@ -3171,9 +3166,9 @@ ALTER TABLE `servicios`
 --
 ALTER TABLE `tickets`
   ADD PRIMARY KEY (`id_ticket`),
-  ADD KEY `fk_area_emisor` (`fk_area_emisor`,`fk_usuario_emisor`,`fk_area_sistemas`,`usuario_receptor`),
-  ADD KEY `fk_usuario_emisor` (`fk_usuario_emisor`,`fk_area_sistemas`,`usuario_receptor`),
-  ADD KEY `fk_area_sistemas` (`fk_area_sistemas`),
+  ADD KEY `fk_area_emisor` (`fk_area_emisor`,`fk_usuario_emisor`,`fk_area_receptor`,`usuario_receptor`),
+  ADD KEY `fk_usuario_emisor` (`fk_usuario_emisor`,`fk_area_receptor`,`usuario_receptor`),
+  ADD KEY `fk_area_sistemas` (`fk_area_receptor`),
   ADD KEY `usuario_receptor` (`usuario_receptor`),
   ADD KEY `asunto` (`asunto`),
   ADD KEY `fk_estado` (`fk_estado`),
@@ -3201,7 +3196,7 @@ ALTER TABLE `usuarios`
 -- AUTO_INCREMENT de la tabla `areas`
 --
 ALTER TABLE `areas`
-  MODIFY `id_area` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9183;
+  MODIFY `id_area` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9186;
 --
 -- AUTO_INCREMENT de la tabla `area_sistemas`
 --
@@ -3211,7 +3206,7 @@ ALTER TABLE `area_sistemas`
 -- AUTO_INCREMENT de la tabla `asuntos`
 --
 ALTER TABLE `asuntos`
-  MODIFY `id_asuntoP` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
+  MODIFY `id_asuntoP` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
 --
 -- AUTO_INCREMENT de la tabla `base_conocimiento`
 --
@@ -3236,7 +3231,7 @@ ALTER TABLE `estados_pgm`
 -- AUTO_INCREMENT de la tabla `historial_tickets`
 --
 ALTER TABLE `historial_tickets`
-  MODIFY `id_historial` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `id_historial` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
 --
 -- AUTO_INCREMENT de la tabla `permisos`
 --
@@ -3251,12 +3246,12 @@ ALTER TABLE `razones_transferencias`
 -- AUTO_INCREMENT de la tabla `servicios`
 --
 ALTER TABLE `servicios`
-  MODIFY `id_asuntoS` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=96;
+  MODIFY `id_asuntoS` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=102;
 --
 -- AUTO_INCREMENT de la tabla `tickets`
 --
 ALTER TABLE `tickets`
-  MODIFY `id_ticket` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id_ticket` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 --
 -- AUTO_INCREMENT de la tabla `tipo_usuario`
 --
@@ -3266,10 +3261,16 @@ ALTER TABLE `tipo_usuario`
 -- AUTO_INCREMENT de la tabla `usuarios`
 --
 ALTER TABLE `usuarios`
-  MODIFY `id_usuario` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28;
+  MODIFY `id_usuario` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
 --
 -- Restricciones para tablas volcadas
 --
+
+--
+-- Filtros para la tabla `asuntos`
+--
+ALTER TABLE `asuntos`
+  ADD CONSTRAINT `asuntos_ibfk_1` FOREIGN KEY (`fk_area`) REFERENCES `areas` (`id_area`) ON UPDATE CASCADE;
 
 --
 -- Filtros para la tabla `base_conocimiento`
@@ -3327,7 +3328,7 @@ ALTER TABLE `tickets`
   ADD CONSTRAINT `tickets_ibfk_11` FOREIGN KEY (`fk_razon`) REFERENCES `razones_transferencias` (`id_razon`),
   ADD CONSTRAINT `tickets_ibfk_2` FOREIGN KEY (`fk_usuario_emisor`) REFERENCES `usuarios` (`id_usuario`),
   ADD CONSTRAINT `tickets_ibfk_4` FOREIGN KEY (`usuario_receptor`) REFERENCES `usuarios` (`id_usuario`),
-  ADD CONSTRAINT `tickets_ibfk_5` FOREIGN KEY (`fk_area_sistemas`) REFERENCES `area_sistemas` (`id_area_sistemas`),
+  ADD CONSTRAINT `tickets_ibfk_5` FOREIGN KEY (`fk_area_receptor`) REFERENCES `areas` (`id_area`),
   ADD CONSTRAINT `tickets_ibfk_8` FOREIGN KEY (`asunto`) REFERENCES `servicios` (`id_asuntoS`);
 
 --
