@@ -6,17 +6,20 @@
 package mscb.tick.controladores;
 
 import java.io.Serializable;
-import java.util.List;
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
 import javax.persistence.Query;
 import javax.persistence.EntityNotFoundException;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
+import mscb.tick.entidades.Tickets;
+import mscb.tick.entidades.Usuarios;
+import java.util.ArrayList;
+import java.util.List;
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import mscb.tick.controladores.exceptions.IllegalOrphanException;
 import mscb.tick.controladores.exceptions.NonexistentEntityException;
 import mscb.tick.controladores.exceptions.PreexistingEntityException;
 import mscb.tick.entidades.Respuestas;
-import mscb.tick.entidades.Usuarios;
 
 /**
  *
@@ -33,17 +36,40 @@ public class RespuestasJpaController implements Serializable {
         return emf.createEntityManager();
     }
 
-    public void create(Respuestas respuestas) throws PreexistingEntityException, Exception {
+    public void create(Respuestas respuestas) throws IllegalOrphanException, PreexistingEntityException, Exception {
+        List<String> illegalOrphanMessages = null;
+        Tickets ticketsOrphanCheck = respuestas.getTickets();
+        if (ticketsOrphanCheck != null) {
+            Respuestas oldRespuestasOfTickets = ticketsOrphanCheck.getRespuestas();
+            if (oldRespuestasOfTickets != null) {
+                if (illegalOrphanMessages == null) {
+                    illegalOrphanMessages = new ArrayList<String>();
+                }
+                illegalOrphanMessages.add("The Tickets " + ticketsOrphanCheck + " already has an item of type Respuestas whose tickets column cannot be null. Please make another selection for the tickets field.");
+            }
+        }
+        if (illegalOrphanMessages != null) {
+            throw new IllegalOrphanException(illegalOrphanMessages);
+        }
         EntityManager em = null;
         try {
             em = getEntityManager();
             em.getTransaction().begin();
+            Tickets tickets = respuestas.getTickets();
+            if (tickets != null) {
+                tickets = em.getReference(tickets.getClass(), tickets.getIdTicket());
+                respuestas.setTickets(tickets);
+            }
             Usuarios idUsuario = respuestas.getIdUsuario();
             if (idUsuario != null) {
                 idUsuario = em.getReference(idUsuario.getClass(), idUsuario.getIdUsuario());
                 respuestas.setIdUsuario(idUsuario);
             }
             em.persist(respuestas);
+            if (tickets != null) {
+                tickets.setRespuestas(respuestas);
+                tickets = em.merge(tickets);
+            }
             if (idUsuario != null) {
                 idUsuario.getRespuestasList().add(respuestas);
                 idUsuario = em.merge(idUsuario);
@@ -61,19 +87,46 @@ public class RespuestasJpaController implements Serializable {
         }
     }
 
-    public void edit(Respuestas respuestas) throws NonexistentEntityException, Exception {
+    public void edit(Respuestas respuestas) throws IllegalOrphanException, NonexistentEntityException, Exception {
         EntityManager em = null;
         try {
             em = getEntityManager();
             em.getTransaction().begin();
             Respuestas persistentRespuestas = em.find(Respuestas.class, respuestas.getIdTicket());
+            Tickets ticketsOld = persistentRespuestas.getTickets();
+            Tickets ticketsNew = respuestas.getTickets();
             Usuarios idUsuarioOld = persistentRespuestas.getIdUsuario();
             Usuarios idUsuarioNew = respuestas.getIdUsuario();
+            List<String> illegalOrphanMessages = null;
+            if (ticketsNew != null && !ticketsNew.equals(ticketsOld)) {
+                Respuestas oldRespuestasOfTickets = ticketsNew.getRespuestas();
+                if (oldRespuestasOfTickets != null) {
+                    if (illegalOrphanMessages == null) {
+                        illegalOrphanMessages = new ArrayList<String>();
+                    }
+                    illegalOrphanMessages.add("The Tickets " + ticketsNew + " already has an item of type Respuestas whose tickets column cannot be null. Please make another selection for the tickets field.");
+                }
+            }
+            if (illegalOrphanMessages != null) {
+                throw new IllegalOrphanException(illegalOrphanMessages);
+            }
+            if (ticketsNew != null) {
+                ticketsNew = em.getReference(ticketsNew.getClass(), ticketsNew.getIdTicket());
+                respuestas.setTickets(ticketsNew);
+            }
             if (idUsuarioNew != null) {
                 idUsuarioNew = em.getReference(idUsuarioNew.getClass(), idUsuarioNew.getIdUsuario());
                 respuestas.setIdUsuario(idUsuarioNew);
             }
             respuestas = em.merge(respuestas);
+            if (ticketsOld != null && !ticketsOld.equals(ticketsNew)) {
+                ticketsOld.setRespuestas(null);
+                ticketsOld = em.merge(ticketsOld);
+            }
+            if (ticketsNew != null && !ticketsNew.equals(ticketsOld)) {
+                ticketsNew.setRespuestas(respuestas);
+                ticketsNew = em.merge(ticketsNew);
+            }
             if (idUsuarioOld != null && !idUsuarioOld.equals(idUsuarioNew)) {
                 idUsuarioOld.getRespuestasList().remove(respuestas);
                 idUsuarioOld = em.merge(idUsuarioOld);
@@ -110,6 +163,11 @@ public class RespuestasJpaController implements Serializable {
                 respuestas.getIdTicket();
             } catch (EntityNotFoundException enfe) {
                 throw new NonexistentEntityException("The respuestas with id " + id + " no longer exists.", enfe);
+            }
+            Tickets tickets = respuestas.getTickets();
+            if (tickets != null) {
+                tickets.setRespuestas(null);
+                tickets = em.merge(tickets);
             }
             Usuarios idUsuario = respuestas.getIdUsuario();
             if (idUsuario != null) {

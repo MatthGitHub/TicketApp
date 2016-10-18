@@ -108,6 +108,7 @@ $query = mysqli_query($link,"SELECT id_ticket,fecha,hora,respuesta,nombre,observ
             					<th> Hora </th>
             					<th> Respuesta </th>
                       <th> Estado </th>
+                      <th width="10%"> Observacion </th>
                   </thead>
                     <tbody>
                     	<?php while($tickets = mysqli_fetch_array($query)){ ?>

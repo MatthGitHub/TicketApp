@@ -20,6 +20,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -43,9 +44,6 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Tickets.findByObservacion", query = "SELECT t FROM Tickets t WHERE t.observacion = :observacion"),
     @NamedQuery(name = "Tickets.findByRespuesta", query = "SELECT t FROM Tickets t WHERE t.respuesta = :respuesta")})
 public class Tickets implements Serializable {
-
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "fkTicket")
-    private List<HistorialTickets> historialTicketsList;
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -90,6 +88,12 @@ public class Tickets implements Serializable {
     @JoinColumn(name = "asunto", referencedColumnName = "id_asuntoS")
     @ManyToOne(optional = false)
     private Servicios asunto;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "fkTicket")
+    private List<BaseConocimiento> baseConocimientoList;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "fkTicket")
+    private List<HistorialTickets> historialTicketsList;
+    @OneToOne(cascade = CascadeType.ALL, mappedBy = "tickets")
+    private Respuestas respuestas;
 
     public Tickets() {
     }
@@ -200,6 +204,32 @@ public class Tickets implements Serializable {
         this.asunto = asunto;
     }
 
+    @XmlTransient
+    public List<BaseConocimiento> getBaseConocimientoList() {
+        return baseConocimientoList;
+    }
+
+    public void setBaseConocimientoList(List<BaseConocimiento> baseConocimientoList) {
+        this.baseConocimientoList = baseConocimientoList;
+    }
+
+    @XmlTransient
+    public List<HistorialTickets> getHistorialTicketsList() {
+        return historialTicketsList;
+    }
+
+    public void setHistorialTicketsList(List<HistorialTickets> historialTicketsList) {
+        this.historialTicketsList = historialTicketsList;
+    }
+
+    public Respuestas getRespuestas() {
+        return respuestas;
+    }
+
+    public void setRespuestas(Respuestas respuestas) {
+        this.respuestas = respuestas;
+    }
+
     @Override
     public int hashCode() {
         int hash = 0;
@@ -222,16 +252,7 @@ public class Tickets implements Serializable {
 
     @Override
     public String toString() {
-        return this.idTicket.toString();
-    }
-
-    @XmlTransient
-    public List<HistorialTickets> getHistorialTicketsList() {
-        return historialTicketsList;
-    }
-
-    public void setHistorialTicketsList(List<HistorialTickets> historialTicketsList) {
-        this.historialTicketsList = historialTicketsList;
+        return this.getIdTicket().toString();
     }
     
 }

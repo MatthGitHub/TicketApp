@@ -125,7 +125,7 @@ public class BaseConocimiento implements Serializable {
 
     @Override
     public String toString() {
-        return "Tick:"+this.fkTicket+"-Resol:"+this.idResolucion;
+        return this.getIdResolucion().toString();
     }
     
 }

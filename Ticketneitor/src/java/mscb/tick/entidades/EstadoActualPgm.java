@@ -107,7 +107,7 @@ public class EstadoActualPgm implements Serializable {
 
     @Override
     public String toString() {
-        return this.id+"-"+this.fkEstadoPgm;
+        return this.getId().toString();
     }
     
 }

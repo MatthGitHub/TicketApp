@@ -9,8 +9,10 @@ import mscb.tick.main.*;
 import java.util.List;
 import javax.swing.JOptionPane;
 import mscb.tick.entidades.Permisos;
+import mscb.tick.entidades.Roles;
 import mscb.tick.entidades.Usuarios;
 import mscb.tick.permisos.servicios.PermisoServ;
+import mscb.tick.roles.servicios.RoleServ;
 import mscb.tick.usuarios.servicios.UsuarioServ;
 import mscb.tick.util.MenuP;
 
@@ -23,7 +25,7 @@ public class CambiarTipoP extends MenuP {
     private CambiarTipoD mainFrame;
     private Main mainFrameO;
     private Usuarios usu;
-    private PermisoServ serviciosP;
+    private RoleServ serviciosP;
     private UsuarioServ serviciosU;
     private UsuariosV tabla;
     
@@ -34,7 +36,7 @@ public class CambiarTipoP extends MenuP {
      */
     public CambiarTipoP(CambiarTipoD mainFrame, Usuarios usu,Main mainFrameO) {
         initComponents();
-        serviciosP = new PermisoServ();
+        serviciosP = new RoleServ();
         serviciosU = new UsuarioServ();
         this.mainFrame = mainFrame;
         this.mainFrameO = mainFrameO;
@@ -42,7 +44,7 @@ public class CambiarTipoP extends MenuP {
         setVisible(true);
         this.usu = usu;
         lbl_nombre.setText(usu.getNombreUsuario());
-        lbl_tipoU.setText(usu.getFkPermiso().getNombrePermiso());
+        lbl_tipoU.setText(usu.getFkRol().getNombreRol());
         cargarComboBox();
     }
     
@@ -58,7 +60,7 @@ public class CambiarTipoP extends MenuP {
      * 
      */
     private void cargarComboBox(){
-        List<Permisos> miLista = serviciosP.traerTodos();
+        List<Roles> miLista = serviciosP.traerTodos();
         for(int i = 0; i < miLista.size(); i++){
             cmbx_permisos.addItem(miLista.get(i));
         }
@@ -166,7 +168,7 @@ public class CambiarTipoP extends MenuP {
 
     private void btn_guardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_guardarActionPerformed
         // TODO add your handling code here:
-        usu.setFkPermiso((Permisos) cmbx_permisos.getSelectedItem());
+        usu.setFkRol((Roles) cmbx_permisos.getSelectedItem());
         if(serviciosU.modificarUsuario(usu)){
             tabla = UsuariosV.getUsuarios(mainFrameO);
             tabla.cargarTablaUsuarios();

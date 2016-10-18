@@ -110,7 +110,7 @@ public class Respuestas implements Serializable {
 
     @Override
     public String toString() {
-        return this.idTicket.toString()+"-"+this.idUsuario.getNombreUsuario();
+        return this.getIdTicket()+" - "+this.getIdUsuario().getNombreUsuario();
     }
     
 }

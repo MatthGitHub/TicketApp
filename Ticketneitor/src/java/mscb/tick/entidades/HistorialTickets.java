@@ -142,7 +142,7 @@ public class HistorialTickets implements Serializable {
 
     @Override
     public String toString() {
-        return this.idHistorial.toString();
+        return this.getIdHistorial().toString();
     }
     
 }

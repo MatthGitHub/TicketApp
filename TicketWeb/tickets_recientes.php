@@ -9,7 +9,7 @@ $id_usuario =  $_SESSION["id_usuario"];
 // Conectar a la base de datos
 $link = mysqli_connect ($dbhost, $dbusername, $dbuserpass);
 mysqli_select_db($link,$dbname) or die('No se puede seleccionar la base de datos');
-$query = mysqli_query($link,"SELECT id_ticket,fecha,hora,respuesta,nombre FROM tickets t JOIN estados e ON t.fk_estado = e.id_estado WHERE t.fk_usuario_emisor = $id_usuario AND t.fk_estado NOT IN (5,7)") or die(mysql_error());
+$query = mysqli_query($link,"SELECT id_ticket,fecha,hora,respuesta,nombre,observacion FROM tickets t JOIN estados e ON t.fk_estado = e.id_estado WHERE t.fk_usuario_emisor = $id_usuario AND t.fk_estado NOT IN (5,7)") or die(mysql_error());
 
 ?>
 

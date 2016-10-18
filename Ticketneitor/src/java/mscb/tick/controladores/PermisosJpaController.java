@@ -10,12 +10,11 @@ import javax.persistence.Query;
 import javax.persistence.EntityNotFoundException;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
-import mscb.tick.entidades.Usuarios;
+import mscb.tick.entidades.Roles;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
-import mscb.tick.controladores.exceptions.IllegalOrphanException;
 import mscb.tick.controladores.exceptions.NonexistentEntityException;
 import mscb.tick.entidades.Permisos;
 
@@ -35,28 +34,23 @@ public class PermisosJpaController implements Serializable {
     }
 
     public void create(Permisos permisos) {
-        if (permisos.getUsuariosList() == null) {
-            permisos.setUsuariosList(new ArrayList<Usuarios>());
+        if (permisos.getRolesList() == null) {
+            permisos.setRolesList(new ArrayList<Roles>());
         }
         EntityManager em = null;
         try {
             em = getEntityManager();
             em.getTransaction().begin();
-            List<Usuarios> attachedUsuariosList = new ArrayList<Usuarios>();
-            for (Usuarios usuariosListUsuariosToAttach : permisos.getUsuariosList()) {
-                usuariosListUsuariosToAttach = em.getReference(usuariosListUsuariosToAttach.getClass(), usuariosListUsuariosToAttach.getIdUsuario());
-                attachedUsuariosList.add(usuariosListUsuariosToAttach);
+            List<Roles> attachedRolesList = new ArrayList<Roles>();
+            for (Roles rolesListRolesToAttach : permisos.getRolesList()) {
+                rolesListRolesToAttach = em.getReference(rolesListRolesToAttach.getClass(), rolesListRolesToAttach.getIdRol());
+                attachedRolesList.add(rolesListRolesToAttach);
             }
-            permisos.setUsuariosList(attachedUsuariosList);
+            permisos.setRolesList(attachedRolesList);
             em.persist(permisos);
-            for (Usuarios usuariosListUsuarios : permisos.getUsuariosList()) {
-                Permisos oldFkPermisoOfUsuariosListUsuarios = usuariosListUsuarios.getFkPermiso();
-                usuariosListUsuarios.setFkPermiso(permisos);
-                usuariosListUsuarios = em.merge(usuariosListUsuarios);
-                if (oldFkPermisoOfUsuariosListUsuarios != null) {
-                    oldFkPermisoOfUsuariosListUsuarios.getUsuariosList().remove(usuariosListUsuarios);
-                    oldFkPermisoOfUsuariosListUsuarios = em.merge(oldFkPermisoOfUsuariosListUsuarios);
-                }
+            for (Roles rolesListRoles : permisos.getRolesList()) {
+                rolesListRoles.getPermisosList().add(permisos);
+                rolesListRoles = em.merge(rolesListRoles);
             }
             em.getTransaction().commit();
         } finally {
@@ -66,43 +60,32 @@ public class PermisosJpaController implements Serializable {
         }
     }
 
-    public void edit(Permisos permisos) throws IllegalOrphanException, NonexistentEntityException, Exception {
+    public void edit(Permisos permisos) throws NonexistentEntityException, Exception {
         EntityManager em = null;
         try {
             em = getEntityManager();
             em.getTransaction().begin();
             Permisos persistentPermisos = em.find(Permisos.class, permisos.getIdPermiso());
-            List<Usuarios> usuariosListOld = persistentPermisos.getUsuariosList();
-            List<Usuarios> usuariosListNew = permisos.getUsuariosList();
-            List<String> illegalOrphanMessages = null;
-            for (Usuarios usuariosListOldUsuarios : usuariosListOld) {
-                if (!usuariosListNew.contains(usuariosListOldUsuarios)) {
-                    if (illegalOrphanMessages == null) {
-                        illegalOrphanMessages = new ArrayList<String>();
-                    }
-                    illegalOrphanMessages.add("You must retain Usuarios " + usuariosListOldUsuarios + " since its fkPermiso field is not nullable.");
+            List<Roles> rolesListOld = persistentPermisos.getRolesList();
+            List<Roles> rolesListNew = permisos.getRolesList();
+            List<Roles> attachedRolesListNew = new ArrayList<Roles>();
+            for (Roles rolesListNewRolesToAttach : rolesListNew) {
+                rolesListNewRolesToAttach = em.getReference(rolesListNewRolesToAttach.getClass(), rolesListNewRolesToAttach.getIdRol());
+                attachedRolesListNew.add(rolesListNewRolesToAttach);
+            }
+            rolesListNew = attachedRolesListNew;
+            permisos.setRolesList(rolesListNew);
+            permisos = em.merge(permisos);
+            for (Roles rolesListOldRoles : rolesListOld) {
+                if (!rolesListNew.contains(rolesListOldRoles)) {
+                    rolesListOldRoles.getPermisosList().remove(permisos);
+                    rolesListOldRoles = em.merge(rolesListOldRoles);
                 }
             }
-            if (illegalOrphanMessages != null) {
-                throw new IllegalOrphanException(illegalOrphanMessages);
-            }
-            List<Usuarios> attachedUsuariosListNew = new ArrayList<Usuarios>();
-            for (Usuarios usuariosListNewUsuariosToAttach : usuariosListNew) {
-                usuariosListNewUsuariosToAttach = em.getReference(usuariosListNewUsuariosToAttach.getClass(), usuariosListNewUsuariosToAttach.getIdUsuario());
-                attachedUsuariosListNew.add(usuariosListNewUsuariosToAttach);
-            }
-            usuariosListNew = attachedUsuariosListNew;
-            permisos.setUsuariosList(usuariosListNew);
-            permisos = em.merge(permisos);
-            for (Usuarios usuariosListNewUsuarios : usuariosListNew) {
-                if (!usuariosListOld.contains(usuariosListNewUsuarios)) {
-                    Permisos oldFkPermisoOfUsuariosListNewUsuarios = usuariosListNewUsuarios.getFkPermiso();
-                    usuariosListNewUsuarios.setFkPermiso(permisos);
-                    usuariosListNewUsuarios = em.merge(usuariosListNewUsuarios);
-                    if (oldFkPermisoOfUsuariosListNewUsuarios != null && !oldFkPermisoOfUsuariosListNewUsuarios.equals(permisos)) {
-                        oldFkPermisoOfUsuariosListNewUsuarios.getUsuariosList().remove(usuariosListNewUsuarios);
-                        oldFkPermisoOfUsuariosListNewUsuarios = em.merge(oldFkPermisoOfUsuariosListNewUsuarios);
-                    }
+            for (Roles rolesListNewRoles : rolesListNew) {
+                if (!rolesListOld.contains(rolesListNewRoles)) {
+                    rolesListNewRoles.getPermisosList().add(permisos);
+                    rolesListNewRoles = em.merge(rolesListNewRoles);
                 }
             }
             em.getTransaction().commit();
@@ -122,7 +105,7 @@ public class PermisosJpaController implements Serializable {
         }
     }
 
-    public void destroy(Integer id) throws IllegalOrphanException, NonexistentEntityException {
+    public void destroy(Integer id) throws NonexistentEntityException {
         EntityManager em = null;
         try {
             em = getEntityManager();
@@ -134,16 +117,10 @@ public class PermisosJpaController implements Serializable {
             } catch (EntityNotFoundException enfe) {
                 throw new NonexistentEntityException("The permisos with id " + id + " no longer exists.", enfe);
             }
-            List<String> illegalOrphanMessages = null;
-            List<Usuarios> usuariosListOrphanCheck = permisos.getUsuariosList();
-            for (Usuarios usuariosListOrphanCheckUsuarios : usuariosListOrphanCheck) {
-                if (illegalOrphanMessages == null) {
-                    illegalOrphanMessages = new ArrayList<String>();
-                }
-                illegalOrphanMessages.add("This Permisos (" + permisos + ") cannot be destroyed since the Usuarios " + usuariosListOrphanCheckUsuarios + " in its usuariosList field has a non-nullable fkPermiso field.");
-            }
-            if (illegalOrphanMessages != null) {
-                throw new IllegalOrphanException(illegalOrphanMessages);
+            List<Roles> rolesList = permisos.getRolesList();
+            for (Roles rolesListRoles : rolesList) {
+                rolesListRoles.getPermisosList().remove(permisos);
+                rolesListRoles = em.merge(rolesListRoles);
             }
             em.remove(permisos);
             em.getTransaction().commit();

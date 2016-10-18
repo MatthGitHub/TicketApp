@@ -64,7 +64,7 @@ if($tipo == 'usuario'){
 
 if($tipo == 'ticket'){
     // Si es ticket comprobamos que ning�n campo est� vac�o y que todos los campos existan.
-    if(isset($_POST['asunto']) && isset($_POST['servicios'])
+    if(isset($_POST['asunto']) && isset($_POST['servicios']) && isset($_POST['area'])
         && isset($_POST['interno']) && is_numeric($_POST['interno'])
         && $_POST['interno'] > 99 && $_POST['interno'] < 999){
       // Si entramos es que todo se ha realizado correctamente
@@ -76,14 +76,15 @@ if($tipo == 'ticket'){
       $hora = date('Y-m-d H:i:s');
       $usuario = $_SESSION['id_usuario'];
       $area = $_SESSION['area'];
+      $areaR = $_POST['area'];
 
 
       $link = mysqli_connect ($dbhost, $dbusername, $dbuserpass);
       mysqli_select_db($link,$dbname);
 
       // Con esta sentencia SQL insertaremos los datos en la base de datos
-      mysqli_query($link,"INSERT INTO tickets (fecha,hora,fk_area_emisor,fk_usuario_emisor,asunto,observacion,fk_estado)
-      VALUES ('{$fecha}','{$hora}','{$area}','{$usuario}','{$servicio}','{$obs}','1')");
+      mysqli_query($link,"INSERT INTO tickets (fecha,hora,fk_area_emisor,fk_usuario_emisor,fk_area_receptor,asunto,observacion,fk_estado)
+      VALUES ('{$fecha}','{$hora}','{$area}','{$usuario}','{$areaR}','{$servicio}','{$obs}','1')");
       // Ahora comprobaremos que todo ha ido correctamente
       $my_error = mysql_error();
       $idTicket = mysqli_insert_id($link);

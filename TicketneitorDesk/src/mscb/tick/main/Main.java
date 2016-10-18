@@ -129,7 +129,7 @@ public class Main extends javax.swing.JFrame {
     }
     
     public void validarPermisos(Usuarios usuario){
-        if(usuario.getFkPermiso().getIdPermiso() == 1){
+        if(usuario.getFkRol().getIdRol() == 1){
             jMB_bar.setVisible(true);
             jm_administracion.setVisible(true);
             jM_configuracion.setVisible(true);

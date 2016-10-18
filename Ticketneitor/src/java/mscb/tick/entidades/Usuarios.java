@@ -51,7 +51,7 @@ public class Usuarios implements Serializable {
     private Integer idUsuario;
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 10)
+    @Size(min = 1, max = 15)
     @Column(name = "nombre_usuario")
     private String nombreUsuario;
     @Size(max = 36)
@@ -76,9 +76,9 @@ public class Usuarios implements Serializable {
     @JoinColumn(name = "fk_empleado", referencedColumnName = "id_empleado")
     @ManyToOne(optional = false)
     private Empleados fkEmpleado;
-    @JoinColumn(name = "fk_permiso", referencedColumnName = "id_permiso")
+    @JoinColumn(name = "fk_rol", referencedColumnName = "id_rol")
     @ManyToOne(optional = false)
-    private Permisos fkPermiso;
+    private Roles fkRol;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "fkUsuarioEmisor")
     private List<HistorialTickets> historialTicketsList;
     @OneToMany(mappedBy = "fkUsuarioReceptor")
@@ -174,12 +174,12 @@ public class Usuarios implements Serializable {
         this.fkEmpleado = fkEmpleado;
     }
 
-    public Permisos getFkPermiso() {
-        return fkPermiso;
+    public Roles getFkRol() {
+        return fkRol;
     }
 
-    public void setFkPermiso(Permisos fkPermiso) {
-        this.fkPermiso = fkPermiso;
+    public void setFkRol(Roles fkRol) {
+        this.fkRol = fkRol;
     }
 
     @XmlTransient
@@ -231,7 +231,7 @@ public class Usuarios implements Serializable {
 
     @Override
     public String toString() {
-        return nombreUsuario;
+        return this.getNombreUsuario();
     }
     
 }

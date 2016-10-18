@@ -11,7 +11,7 @@ import javax.persistence.EntityNotFoundException;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 import mscb.tick.entidades.Empleados;
-import mscb.tick.entidades.Permisos;
+import mscb.tick.entidades.Roles;
 import mscb.tick.entidades.Servicios;
 import java.util.ArrayList;
 import java.util.List;
@@ -67,10 +67,10 @@ public class UsuariosJpaController implements Serializable {
                 fkEmpleado = em.getReference(fkEmpleado.getClass(), fkEmpleado.getIdEmpleado());
                 usuarios.setFkEmpleado(fkEmpleado);
             }
-            Permisos fkPermiso = usuarios.getFkPermiso();
-            if (fkPermiso != null) {
-                fkPermiso = em.getReference(fkPermiso.getClass(), fkPermiso.getIdPermiso());
-                usuarios.setFkPermiso(fkPermiso);
+            Roles fkRol = usuarios.getFkRol();
+            if (fkRol != null) {
+                fkRol = em.getReference(fkRol.getClass(), fkRol.getIdRol());
+                usuarios.setFkRol(fkRol);
             }
             List<Servicios> attachedServiciosList = new ArrayList<Servicios>();
             for (Servicios serviciosListServiciosToAttach : usuarios.getServiciosList()) {
@@ -113,9 +113,9 @@ public class UsuariosJpaController implements Serializable {
                 fkEmpleado.getUsuariosList().add(usuarios);
                 fkEmpleado = em.merge(fkEmpleado);
             }
-            if (fkPermiso != null) {
-                fkPermiso.getUsuariosList().add(usuarios);
-                fkPermiso = em.merge(fkPermiso);
+            if (fkRol != null) {
+                fkRol.getUsuariosList().add(usuarios);
+                fkRol = em.merge(fkRol);
             }
             for (Servicios serviciosListServicios : usuarios.getServiciosList()) {
                 serviciosListServicios.getUsuariosList().add(usuarios);
@@ -182,8 +182,8 @@ public class UsuariosJpaController implements Serializable {
             Usuarios persistentUsuarios = em.find(Usuarios.class, usuarios.getIdUsuario());
             Empleados fkEmpleadoOld = persistentUsuarios.getFkEmpleado();
             Empleados fkEmpleadoNew = usuarios.getFkEmpleado();
-            Permisos fkPermisoOld = persistentUsuarios.getFkPermiso();
-            Permisos fkPermisoNew = usuarios.getFkPermiso();
+            Roles fkRolOld = persistentUsuarios.getFkRol();
+            Roles fkRolNew = usuarios.getFkRol();
             List<Servicios> serviciosListOld = persistentUsuarios.getServiciosList();
             List<Servicios> serviciosListNew = usuarios.getServiciosList();
             List<Tickets> ticketsListOld = persistentUsuarios.getTicketsList();
@@ -228,9 +228,9 @@ public class UsuariosJpaController implements Serializable {
                 fkEmpleadoNew = em.getReference(fkEmpleadoNew.getClass(), fkEmpleadoNew.getIdEmpleado());
                 usuarios.setFkEmpleado(fkEmpleadoNew);
             }
-            if (fkPermisoNew != null) {
-                fkPermisoNew = em.getReference(fkPermisoNew.getClass(), fkPermisoNew.getIdPermiso());
-                usuarios.setFkPermiso(fkPermisoNew);
+            if (fkRolNew != null) {
+                fkRolNew = em.getReference(fkRolNew.getClass(), fkRolNew.getIdRol());
+                usuarios.setFkRol(fkRolNew);
             }
             List<Servicios> attachedServiciosListNew = new ArrayList<Servicios>();
             for (Servicios serviciosListNewServiciosToAttach : serviciosListNew) {
@@ -283,13 +283,13 @@ public class UsuariosJpaController implements Serializable {
                 fkEmpleadoNew.getUsuariosList().add(usuarios);
                 fkEmpleadoNew = em.merge(fkEmpleadoNew);
             }
-            if (fkPermisoOld != null && !fkPermisoOld.equals(fkPermisoNew)) {
-                fkPermisoOld.getUsuariosList().remove(usuarios);
-                fkPermisoOld = em.merge(fkPermisoOld);
+            if (fkRolOld != null && !fkRolOld.equals(fkRolNew)) {
+                fkRolOld.getUsuariosList().remove(usuarios);
+                fkRolOld = em.merge(fkRolOld);
             }
-            if (fkPermisoNew != null && !fkPermisoNew.equals(fkPermisoOld)) {
-                fkPermisoNew.getUsuariosList().add(usuarios);
-                fkPermisoNew = em.merge(fkPermisoNew);
+            if (fkRolNew != null && !fkRolNew.equals(fkRolOld)) {
+                fkRolNew.getUsuariosList().add(usuarios);
+                fkRolNew = em.merge(fkRolNew);
             }
             for (Servicios serviciosListOldServicios : serviciosListOld) {
                 if (!serviciosListNew.contains(serviciosListOldServicios)) {
@@ -429,10 +429,10 @@ public class UsuariosJpaController implements Serializable {
                 fkEmpleado.getUsuariosList().remove(usuarios);
                 fkEmpleado = em.merge(fkEmpleado);
             }
-            Permisos fkPermiso = usuarios.getFkPermiso();
-            if (fkPermiso != null) {
-                fkPermiso.getUsuariosList().remove(usuarios);
-                fkPermiso = em.merge(fkPermiso);
+            Roles fkRol = usuarios.getFkRol();
+            if (fkRol != null) {
+                fkRol.getUsuariosList().remove(usuarios);
+                fkRol = em.merge(fkRol);
             }
             List<Servicios> serviciosList = usuarios.getServiciosList();
             for (Servicios serviciosListServicios : serviciosList) {

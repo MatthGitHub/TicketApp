@@ -15,6 +15,7 @@ import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 import mscb.tick.controladores.exceptions.NonexistentEntityException;
 import mscb.tick.entidades.BaseConocimiento;
+import mscb.tick.entidades.Tickets;
 
 /**
  *
@@ -36,7 +37,16 @@ public class BaseConocimientoJpaController implements Serializable {
         try {
             em = getEntityManager();
             em.getTransaction().begin();
+            Tickets fkTicket = baseConocimiento.getFkTicket();
+            if (fkTicket != null) {
+                fkTicket = em.getReference(fkTicket.getClass(), fkTicket.getIdTicket());
+                baseConocimiento.setFkTicket(fkTicket);
+            }
             em.persist(baseConocimiento);
+            if (fkTicket != null) {
+                fkTicket.getBaseConocimientoList().add(baseConocimiento);
+                fkTicket = em.merge(fkTicket);
+            }
             em.getTransaction().commit();
         } finally {
             if (em != null) {
@@ -50,7 +60,22 @@ public class BaseConocimientoJpaController implements Serializable {
         try {
             em = getEntityManager();
             em.getTransaction().begin();
+            BaseConocimiento persistentBaseConocimiento = em.find(BaseConocimiento.class, baseConocimiento.getIdResolucion());
+            Tickets fkTicketOld = persistentBaseConocimiento.getFkTicket();
+            Tickets fkTicketNew = baseConocimiento.getFkTicket();
+            if (fkTicketNew != null) {
+                fkTicketNew = em.getReference(fkTicketNew.getClass(), fkTicketNew.getIdTicket());
+                baseConocimiento.setFkTicket(fkTicketNew);
+            }
             baseConocimiento = em.merge(baseConocimiento);
+            if (fkTicketOld != null && !fkTicketOld.equals(fkTicketNew)) {
+                fkTicketOld.getBaseConocimientoList().remove(baseConocimiento);
+                fkTicketOld = em.merge(fkTicketOld);
+            }
+            if (fkTicketNew != null && !fkTicketNew.equals(fkTicketOld)) {
+                fkTicketNew.getBaseConocimientoList().add(baseConocimiento);
+                fkTicketNew = em.merge(fkTicketNew);
+            }
             em.getTransaction().commit();
         } catch (Exception ex) {
             String msg = ex.getLocalizedMessage();
@@ -79,6 +104,11 @@ public class BaseConocimientoJpaController implements Serializable {
                 baseConocimiento.getIdResolucion();
             } catch (EntityNotFoundException enfe) {
                 throw new NonexistentEntityException("The baseConocimiento with id " + id + " no longer exists.", enfe);
+            }
+            Tickets fkTicket = baseConocimiento.getFkTicket();
+            if (fkTicket != null) {
+                fkTicket.getBaseConocimientoList().remove(baseConocimiento);
+                fkTicket = em.merge(fkTicket);
             }
             em.remove(baseConocimiento);
             em.getTransaction().commit();

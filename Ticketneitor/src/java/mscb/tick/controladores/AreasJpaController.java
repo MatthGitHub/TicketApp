@@ -10,7 +10,7 @@ import javax.persistence.Query;
 import javax.persistence.EntityNotFoundException;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
-import mscb.tick.entidades.Asuntos;
+import mscb.tick.entidades.Tickets;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.EntityManager;
@@ -18,8 +18,8 @@ import javax.persistence.EntityManagerFactory;
 import mscb.tick.controladores.exceptions.IllegalOrphanException;
 import mscb.tick.controladores.exceptions.NonexistentEntityException;
 import mscb.tick.entidades.Areas;
-import mscb.tick.entidades.Tickets;
 import mscb.tick.entidades.Empleados;
+import mscb.tick.entidades.Asuntos;
 
 /**
  *
@@ -37,9 +37,6 @@ public class AreasJpaController implements Serializable {
     }
 
     public void create(Areas areas) {
-        if (areas.getAsuntosList() == null) {
-            areas.setAsuntosList(new ArrayList<Asuntos>());
-        }
         if (areas.getTicketsList() == null) {
             areas.setTicketsList(new ArrayList<Tickets>());
         }
@@ -49,16 +46,13 @@ public class AreasJpaController implements Serializable {
         if (areas.getEmpleadosList() == null) {
             areas.setEmpleadosList(new ArrayList<Empleados>());
         }
+        if (areas.getAsuntosList() == null) {
+            areas.setAsuntosList(new ArrayList<Asuntos>());
+        }
         EntityManager em = null;
         try {
             em = getEntityManager();
             em.getTransaction().begin();
-            List<Asuntos> attachedAsuntosList = new ArrayList<Asuntos>();
-            for (Asuntos asuntosListAsuntosToAttach : areas.getAsuntosList()) {
-                asuntosListAsuntosToAttach = em.getReference(asuntosListAsuntosToAttach.getClass(), asuntosListAsuntosToAttach.getIdasuntoP());
-                attachedAsuntosList.add(asuntosListAsuntosToAttach);
-            }
-            areas.setAsuntosList(attachedAsuntosList);
             List<Tickets> attachedTicketsList = new ArrayList<Tickets>();
             for (Tickets ticketsListTicketsToAttach : areas.getTicketsList()) {
                 ticketsListTicketsToAttach = em.getReference(ticketsListTicketsToAttach.getClass(), ticketsListTicketsToAttach.getIdTicket());
@@ -77,16 +71,13 @@ public class AreasJpaController implements Serializable {
                 attachedEmpleadosList.add(empleadosListEmpleadosToAttach);
             }
             areas.setEmpleadosList(attachedEmpleadosList);
-            em.persist(areas);
-            for (Asuntos asuntosListAsuntos : areas.getAsuntosList()) {
-                Areas oldFkAreaOfAsuntosListAsuntos = asuntosListAsuntos.getFkArea();
-                asuntosListAsuntos.setFkArea(areas);
-                asuntosListAsuntos = em.merge(asuntosListAsuntos);
-                if (oldFkAreaOfAsuntosListAsuntos != null) {
-                    oldFkAreaOfAsuntosListAsuntos.getAsuntosList().remove(asuntosListAsuntos);
-                    oldFkAreaOfAsuntosListAsuntos = em.merge(oldFkAreaOfAsuntosListAsuntos);
-                }
+            List<Asuntos> attachedAsuntosList = new ArrayList<Asuntos>();
+            for (Asuntos asuntosListAsuntosToAttach : areas.getAsuntosList()) {
+                asuntosListAsuntosToAttach = em.getReference(asuntosListAsuntosToAttach.getClass(), asuntosListAsuntosToAttach.getIdasuntoP());
+                attachedAsuntosList.add(asuntosListAsuntosToAttach);
             }
+            areas.setAsuntosList(attachedAsuntosList);
+            em.persist(areas);
             for (Tickets ticketsListTickets : areas.getTicketsList()) {
                 Areas oldFkAreaEmisorOfTicketsListTickets = ticketsListTickets.getFkAreaEmisor();
                 ticketsListTickets.setFkAreaEmisor(areas);
@@ -114,6 +105,15 @@ public class AreasJpaController implements Serializable {
                     oldFkAreaOfEmpleadosListEmpleados = em.merge(oldFkAreaOfEmpleadosListEmpleados);
                 }
             }
+            for (Asuntos asuntosListAsuntos : areas.getAsuntosList()) {
+                Areas oldFkAreaOfAsuntosListAsuntos = asuntosListAsuntos.getFkArea();
+                asuntosListAsuntos.setFkArea(areas);
+                asuntosListAsuntos = em.merge(asuntosListAsuntos);
+                if (oldFkAreaOfAsuntosListAsuntos != null) {
+                    oldFkAreaOfAsuntosListAsuntos.getAsuntosList().remove(asuntosListAsuntos);
+                    oldFkAreaOfAsuntosListAsuntos = em.merge(oldFkAreaOfAsuntosListAsuntos);
+                }
+            }
             em.getTransaction().commit();
         } finally {
             if (em != null) {
@@ -128,23 +128,15 @@ public class AreasJpaController implements Serializable {
             em = getEntityManager();
             em.getTransaction().begin();
             Areas persistentAreas = em.find(Areas.class, areas.getIdArea());
-            List<Asuntos> asuntosListOld = persistentAreas.getAsuntosList();
-            List<Asuntos> asuntosListNew = areas.getAsuntosList();
             List<Tickets> ticketsListOld = persistentAreas.getTicketsList();
             List<Tickets> ticketsListNew = areas.getTicketsList();
             List<Tickets> ticketsList1Old = persistentAreas.getTicketsList1();
             List<Tickets> ticketsList1New = areas.getTicketsList1();
             List<Empleados> empleadosListOld = persistentAreas.getEmpleadosList();
             List<Empleados> empleadosListNew = areas.getEmpleadosList();
+            List<Asuntos> asuntosListOld = persistentAreas.getAsuntosList();
+            List<Asuntos> asuntosListNew = areas.getAsuntosList();
             List<String> illegalOrphanMessages = null;
-            for (Asuntos asuntosListOldAsuntos : asuntosListOld) {
-                if (!asuntosListNew.contains(asuntosListOldAsuntos)) {
-                    if (illegalOrphanMessages == null) {
-                        illegalOrphanMessages = new ArrayList<String>();
-                    }
-                    illegalOrphanMessages.add("You must retain Asuntos " + asuntosListOldAsuntos + " since its fkArea field is not nullable.");
-                }
-            }
             for (Tickets ticketsListOldTickets : ticketsListOld) {
                 if (!ticketsListNew.contains(ticketsListOldTickets)) {
                     if (illegalOrphanMessages == null) {
@@ -161,16 +153,17 @@ public class AreasJpaController implements Serializable {
                     illegalOrphanMessages.add("You must retain Empleados " + empleadosListOldEmpleados + " since its fkArea field is not nullable.");
                 }
             }
+            for (Asuntos asuntosListOldAsuntos : asuntosListOld) {
+                if (!asuntosListNew.contains(asuntosListOldAsuntos)) {
+                    if (illegalOrphanMessages == null) {
+                        illegalOrphanMessages = new ArrayList<String>();
+                    }
+                    illegalOrphanMessages.add("You must retain Asuntos " + asuntosListOldAsuntos + " since its fkArea field is not nullable.");
+                }
+            }
             if (illegalOrphanMessages != null) {
                 throw new IllegalOrphanException(illegalOrphanMessages);
             }
-            List<Asuntos> attachedAsuntosListNew = new ArrayList<Asuntos>();
-            for (Asuntos asuntosListNewAsuntosToAttach : asuntosListNew) {
-                asuntosListNewAsuntosToAttach = em.getReference(asuntosListNewAsuntosToAttach.getClass(), asuntosListNewAsuntosToAttach.getIdasuntoP());
-                attachedAsuntosListNew.add(asuntosListNewAsuntosToAttach);
-            }
-            asuntosListNew = attachedAsuntosListNew;
-            areas.setAsuntosList(asuntosListNew);
             List<Tickets> attachedTicketsListNew = new ArrayList<Tickets>();
             for (Tickets ticketsListNewTicketsToAttach : ticketsListNew) {
                 ticketsListNewTicketsToAttach = em.getReference(ticketsListNewTicketsToAttach.getClass(), ticketsListNewTicketsToAttach.getIdTicket());
@@ -192,18 +185,14 @@ public class AreasJpaController implements Serializable {
             }
             empleadosListNew = attachedEmpleadosListNew;
             areas.setEmpleadosList(empleadosListNew);
-            areas = em.merge(areas);
-            for (Asuntos asuntosListNewAsuntos : asuntosListNew) {
-                if (!asuntosListOld.contains(asuntosListNewAsuntos)) {
-                    Areas oldFkAreaOfAsuntosListNewAsuntos = asuntosListNewAsuntos.getFkArea();
-                    asuntosListNewAsuntos.setFkArea(areas);
-                    asuntosListNewAsuntos = em.merge(asuntosListNewAsuntos);
-                    if (oldFkAreaOfAsuntosListNewAsuntos != null && !oldFkAreaOfAsuntosListNewAsuntos.equals(areas)) {
-                        oldFkAreaOfAsuntosListNewAsuntos.getAsuntosList().remove(asuntosListNewAsuntos);
-                        oldFkAreaOfAsuntosListNewAsuntos = em.merge(oldFkAreaOfAsuntosListNewAsuntos);
-                    }
-                }
+            List<Asuntos> attachedAsuntosListNew = new ArrayList<Asuntos>();
+            for (Asuntos asuntosListNewAsuntosToAttach : asuntosListNew) {
+                asuntosListNewAsuntosToAttach = em.getReference(asuntosListNewAsuntosToAttach.getClass(), asuntosListNewAsuntosToAttach.getIdasuntoP());
+                attachedAsuntosListNew.add(asuntosListNewAsuntosToAttach);
             }
+            asuntosListNew = attachedAsuntosListNew;
+            areas.setAsuntosList(asuntosListNew);
+            areas = em.merge(areas);
             for (Tickets ticketsListNewTickets : ticketsListNew) {
                 if (!ticketsListOld.contains(ticketsListNewTickets)) {
                     Areas oldFkAreaEmisorOfTicketsListNewTickets = ticketsListNewTickets.getFkAreaEmisor();
@@ -243,6 +232,17 @@ public class AreasJpaController implements Serializable {
                     }
                 }
             }
+            for (Asuntos asuntosListNewAsuntos : asuntosListNew) {
+                if (!asuntosListOld.contains(asuntosListNewAsuntos)) {
+                    Areas oldFkAreaOfAsuntosListNewAsuntos = asuntosListNewAsuntos.getFkArea();
+                    asuntosListNewAsuntos.setFkArea(areas);
+                    asuntosListNewAsuntos = em.merge(asuntosListNewAsuntos);
+                    if (oldFkAreaOfAsuntosListNewAsuntos != null && !oldFkAreaOfAsuntosListNewAsuntos.equals(areas)) {
+                        oldFkAreaOfAsuntosListNewAsuntos.getAsuntosList().remove(asuntosListNewAsuntos);
+                        oldFkAreaOfAsuntosListNewAsuntos = em.merge(oldFkAreaOfAsuntosListNewAsuntos);
+                    }
+                }
+            }
             em.getTransaction().commit();
         } catch (Exception ex) {
             String msg = ex.getLocalizedMessage();
@@ -273,13 +273,6 @@ public class AreasJpaController implements Serializable {
                 throw new NonexistentEntityException("The areas with id " + id + " no longer exists.", enfe);
             }
             List<String> illegalOrphanMessages = null;
-            List<Asuntos> asuntosListOrphanCheck = areas.getAsuntosList();
-            for (Asuntos asuntosListOrphanCheckAsuntos : asuntosListOrphanCheck) {
-                if (illegalOrphanMessages == null) {
-                    illegalOrphanMessages = new ArrayList<String>();
-                }
-                illegalOrphanMessages.add("This Areas (" + areas + ") cannot be destroyed since the Asuntos " + asuntosListOrphanCheckAsuntos + " in its asuntosList field has a non-nullable fkArea field.");
-            }
             List<Tickets> ticketsListOrphanCheck = areas.getTicketsList();
             for (Tickets ticketsListOrphanCheckTickets : ticketsListOrphanCheck) {
                 if (illegalOrphanMessages == null) {
@@ -293,6 +286,13 @@ public class AreasJpaController implements Serializable {
                     illegalOrphanMessages = new ArrayList<String>();
                 }
                 illegalOrphanMessages.add("This Areas (" + areas + ") cannot be destroyed since the Empleados " + empleadosListOrphanCheckEmpleados + " in its empleadosList field has a non-nullable fkArea field.");
+            }
+            List<Asuntos> asuntosListOrphanCheck = areas.getAsuntosList();
+            for (Asuntos asuntosListOrphanCheckAsuntos : asuntosListOrphanCheck) {
+                if (illegalOrphanMessages == null) {
+                    illegalOrphanMessages = new ArrayList<String>();
+                }
+                illegalOrphanMessages.add("This Areas (" + areas + ") cannot be destroyed since the Asuntos " + asuntosListOrphanCheckAsuntos + " in its asuntosList field has a non-nullable fkArea field.");
             }
             if (illegalOrphanMessages != null) {
                 throw new IllegalOrphanException(illegalOrphanMessages);

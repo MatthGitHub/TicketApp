@@ -13,9 +13,11 @@ import javax.swing.table.DefaultTableModel;
 import mscb.tick.empleados.servicios.EmpleadoServ;
 import mscb.tick.entidades.Empleados;
 import mscb.tick.entidades.Permisos;
+import mscb.tick.entidades.Roles;
 import mscb.tick.entidades.Usuarios;
 import mscb.tick.main.Main;
 import mscb.tick.permisos.servicios.PermisoServ;
+import mscb.tick.roles.servicios.RoleServ;
 import mscb.tick.usuarios.servicios.UsuarioServ;
 import mscb.tick.util.MenuP;
 
@@ -29,8 +31,8 @@ public class NuevoUsuario extends MenuP {
     Main mainFrameO;
     private EmpleadoServ buscaE;
     private List <Empleados> listaEmp;
-    private PermisoServ buscaP;
-    private List <Permisos> listaPer;
+    private RoleServ buscaP;
+    private List <Roles> listaPer;
     private Usuarios nuevoUsu;
     private UsuarioServ guardarU;
     private UsuariosV tabla;
@@ -60,7 +62,7 @@ public class NuevoUsuario extends MenuP {
     }
     
     private void cargarCmBxPermisos(){
-        buscaP = new PermisoServ();
+        buscaP = new RoleServ();
         listaPer = new ArrayList<>();
         listaPer = buscaP.traerTodos();
         
@@ -300,7 +302,7 @@ public class NuevoUsuario extends MenuP {
                     nuevoUsu.setContrasenia(txt_clave.getText());
                     nuevoUsu.setNombreUsuario(txt_nombre.getText());
                     nuevoUsu.setFkEmpleado(traerEmpleado());
-                    nuevoUsu.setFkPermiso((Permisos) cmbx_permisos.getSelectedItem());
+                    nuevoUsu.setFkRol((Roles) cmbx_permisos.getSelectedItem());
                     if(guardarU.persistirUsuario(nuevoUsu) == 1){
                         JOptionPane.showMessageDialog(estePanel, "Usuario guardado!");
                         tabla = UsuariosV.getUsuarios(mainFrameO);

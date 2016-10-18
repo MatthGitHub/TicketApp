@@ -134,7 +134,7 @@ public class Servicios implements Serializable {
 
     @Override
     public String toString() {
-        return this.nombreasuntoS;
+        return this.getNombreasuntoS();
     }
     
 }

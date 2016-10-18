@@ -84,7 +84,7 @@ public class UsuariosV extends MenuP {
             vector[3] = aCargar.get(i).getFkEmpleado().getNombre();
             vector[4] = aCargar.get(i).getFkEmpleado().getApellido();
             vector[5] = aCargar.get(i).getFkEmpleado().getFkArea().getNombreArea();
-            vector[7] = aCargar.get(i).getFkPermiso().getNombrePermiso();
+            vector[7] = aCargar.get(i).getFkRol().getNombreRol();
             modelo.addRow(vector);
             
             if(aCargar.get(i).getActivo() == true ){

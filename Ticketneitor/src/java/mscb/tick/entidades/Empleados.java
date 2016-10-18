@@ -166,7 +166,7 @@ public class Empleados implements Serializable {
 
     @Override
     public String toString() {
-        return this.apellido+" "+this.nombre;
+        return this.getApellido()+" "+this.getNombre();
     }
     
 }

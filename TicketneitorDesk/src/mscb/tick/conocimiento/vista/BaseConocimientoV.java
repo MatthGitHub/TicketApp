@@ -143,7 +143,7 @@ public class BaseConocimientoV extends MenuP {
     private void btn_volverActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_volverActionPerformed
         // TODO add your handling code here:
         this.setVisible(false);
-        if(LoginEJB.usuario.getFkPermiso().getIdPermiso() == 1){
+        if(LoginEJB.usuario.getFkRol().getIdRol() == 1){
             mainFrame.menuPrincipal();
         }else{
             mainFrame.miTickets();

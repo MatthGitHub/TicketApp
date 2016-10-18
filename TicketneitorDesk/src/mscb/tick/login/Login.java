@@ -172,7 +172,7 @@ public class Login extends MenuP {
                     mainFrame.validarPermisos(LoginEJB.usuario);
                     mainFrame.setLocationRelativeTo(null);
                     mainFrame.setTitle("Ticketneitor");
-                    if(LoginEJB.usuario.getFkPermiso().getIdPermiso() == 1){
+                    if(LoginEJB.usuario.getFkRol().getIdRol() == 1){
                         mainFrame.menuPrincipal();
                     }else{
                         mainFrame.miTickets();

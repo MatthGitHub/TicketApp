@@ -34,7 +34,7 @@ import javax.xml.bind.annotation.XmlTransient;
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Asuntos.findAll", query = "SELECT a FROM Asuntos a"),
-    @NamedQuery(name = "Asuntos.findByIdasuntoP", query = "SELECT a FROM Asuntos a WHERE a.idasuntoP = :idasuntoP ORDER BY a.nombre"),
+    @NamedQuery(name = "Asuntos.findByIdasuntoP", query = "SELECT a FROM Asuntos a WHERE a.idasuntoP = :idasuntoP"),
     @NamedQuery(name = "Asuntos.findByNombre", query = "SELECT a FROM Asuntos a WHERE a.nombre = :nombre")})
 public class Asuntos implements Serializable {
 
@@ -122,7 +122,7 @@ public class Asuntos implements Serializable {
 
     @Override
     public String toString() {
-        return this.nombre;
+        return this.getNombre();
     }
     
 }

@@ -8,7 +8,7 @@ exit;
 // Conectar a la base de datos
 $link = mysqli_connect ($dbhost, $dbusername, $dbuserpass);
 mysqli_select_db($link,$dbname) or die('No se puede seleccionar la base de datos');
-$query = mysqli_query($link,"SELECT * FROM asuntos") or die(mysql_error());
+$query = mysqli_query($link,"SELECT DISTINCT id_area,nombre_area FROM asuntos JOIN areas ON fk_area = id_area") or die(mysql_error());
 $query2 = mysqli_query($link,"SELECT * FROM servicios") or die(mysql_error());
 
 $strConsulta = "SELECT id_asuntoP, nombre FROM asuntos";
@@ -37,9 +37,19 @@ while( $fila = $result->fetch_array() )
   <script type="text/javascript" src="js/jquery-1.12.3.js"></script>
   <script type="text/javascript">
     $(document).ready(function(){
+      $("#area").change(function(){
+        $.ajax({
+          url:"traerAsuntos.php",
+          type: "POST",
+          data:"idArea="+$("#area").val(),
+          success: function(opciones){
+            $("#asunto").html(opciones);
+          }
+        })
+      });
       $("#asunto").change(function(){
         $.ajax({
-          url:"procesa.php",
+          url:"traerServicios.php",
           type: "POST",
           data:"idAsunto="+$("#asunto").val(),
           success: function(opciones){
@@ -124,13 +134,20 @@ body
                         Nuevo Ticket</h5>
                     <form class="form form-signup" role="form">
                     <div class="form-group">
+                        <span class="input-group-addon"><span class="glyphicon glyphicon-chevron-down"> Areas </span></span>
+                        <div class="col-xs-15 selectContainer">
+                            <select class="form-control" name="area" id="area">
+                                <option> Eliga un area </option>
+                                <?php while($areas = mysqli_fetch_array($query)){ ?>
+                                  <option value=<?php echo $areas['id_area'] ?>><?php echo $areas['nombre_area']?></option>
+                                <?php } ?>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
                         <span class="input-group-addon"><span class="glyphicon glyphicon-chevron-down"> Asuntos </span></span>
                         <div class="col-xs-15 selectContainer">
                             <select class="form-control" name="asunto" id="asunto">
-                                <option> Eliga un asunto </option>
-                                <?php while($asuntos = mysqli_fetch_array($query)){ ?>
-                                <option value=<?php echo $asuntos['id_asuntoP'] ?>><?php echo $asuntos['nombre']?></option>
-                                <?php } ?>
                             </select>
                         </div>
                     </div>

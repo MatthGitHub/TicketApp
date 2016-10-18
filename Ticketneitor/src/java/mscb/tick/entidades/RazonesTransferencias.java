@@ -108,7 +108,7 @@ public class RazonesTransferencias implements Serializable {
 
     @Override
     public String toString() {
-        return this.nombreRazon;
+        return this.getNombreRazon();
     }
     
 }

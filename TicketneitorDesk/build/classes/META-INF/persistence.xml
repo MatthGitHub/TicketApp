@@ -14,12 +14,12 @@
     <class>mscb.tick.entidades.Permisos</class>
     <class>mscb.tick.entidades.RazonesTransferencias</class>
     <class>mscb.tick.entidades.Respuestas</class>
+    <class>mscb.tick.entidades.Roles</class>
     <class>mscb.tick.entidades.Servicios</class>
     <class>mscb.tick.entidades.Tickets</class>
-    <class>mscb.tick.entidades.TipoUsuario</class>
     <class>mscb.tick.entidades.Usuarios</class>
     <properties>
-      <property name="javax.persistence.jdbc.url" value="jdbc:mysql://10.20.130.50:3306/ticket?zeroDateTimeBehavior=convertToNull"/>
+      <property name="javax.persistence.jdbc.url" value="jdbc:mysql://10.20.130.242:3306/ticket?zeroDateTimeBehavior=convertToNull"/>
       <property name="javax.persistence.jdbc.user" value="administrador"/>
       <property name="javax.persistence.jdbc.driver" value="com.mysql.jdbc.Driver"/>
       <property name="javax.persistence.jdbc.password" value="cavaliere"/>

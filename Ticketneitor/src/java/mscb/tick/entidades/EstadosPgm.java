@@ -109,7 +109,7 @@ public class EstadosPgm implements Serializable {
 
     @Override
     public String toString() {
-        return this.estado;
+        return this.getEstado();
     }
     
 }

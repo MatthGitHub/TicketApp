@@ -15,13 +15,15 @@ import mscb.tick.entidades.Estados;
 import mscb.tick.entidades.RazonesTransferencias;
 import mscb.tick.entidades.Usuarios;
 import mscb.tick.entidades.Servicios;
-import mscb.tick.entidades.HistorialTickets;
+import mscb.tick.entidades.Respuestas;
+import mscb.tick.entidades.BaseConocimiento;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import mscb.tick.controladores.exceptions.IllegalOrphanException;
 import mscb.tick.controladores.exceptions.NonexistentEntityException;
+import mscb.tick.entidades.HistorialTickets;
 import mscb.tick.entidades.Tickets;
 
 /**
@@ -40,6 +42,9 @@ public class TicketsJpaController implements Serializable {
     }
 
     public void create(Tickets tickets) {
+        if (tickets.getBaseConocimientoList() == null) {
+            tickets.setBaseConocimientoList(new ArrayList<BaseConocimiento>());
+        }
         if (tickets.getHistorialTicketsList() == null) {
             tickets.setHistorialTicketsList(new ArrayList<HistorialTickets>());
         }
@@ -82,6 +87,17 @@ public class TicketsJpaController implements Serializable {
                 asunto = em.getReference(asunto.getClass(), asunto.getIdasuntoS());
                 tickets.setAsunto(asunto);
             }
+            Respuestas respuestas = tickets.getRespuestas();
+            if (respuestas != null) {
+                respuestas = em.getReference(respuestas.getClass(), respuestas.getIdTicket());
+                tickets.setRespuestas(respuestas);
+            }
+            List<BaseConocimiento> attachedBaseConocimientoList = new ArrayList<BaseConocimiento>();
+            for (BaseConocimiento baseConocimientoListBaseConocimientoToAttach : tickets.getBaseConocimientoList()) {
+                baseConocimientoListBaseConocimientoToAttach = em.getReference(baseConocimientoListBaseConocimientoToAttach.getClass(), baseConocimientoListBaseConocimientoToAttach.getIdResolucion());
+                attachedBaseConocimientoList.add(baseConocimientoListBaseConocimientoToAttach);
+            }
+            tickets.setBaseConocimientoList(attachedBaseConocimientoList);
             List<HistorialTickets> attachedHistorialTicketsList = new ArrayList<HistorialTickets>();
             for (HistorialTickets historialTicketsListHistorialTicketsToAttach : tickets.getHistorialTicketsList()) {
                 historialTicketsListHistorialTicketsToAttach = em.getReference(historialTicketsListHistorialTicketsToAttach.getClass(), historialTicketsListHistorialTicketsToAttach.getIdHistorial());
@@ -116,6 +132,24 @@ public class TicketsJpaController implements Serializable {
             if (asunto != null) {
                 asunto.getTicketsList().add(tickets);
                 asunto = em.merge(asunto);
+            }
+            if (respuestas != null) {
+                Tickets oldTicketsOfRespuestas = respuestas.getTickets();
+                if (oldTicketsOfRespuestas != null) {
+                    oldTicketsOfRespuestas.setRespuestas(null);
+                    oldTicketsOfRespuestas = em.merge(oldTicketsOfRespuestas);
+                }
+                respuestas.setTickets(tickets);
+                respuestas = em.merge(respuestas);
+            }
+            for (BaseConocimiento baseConocimientoListBaseConocimiento : tickets.getBaseConocimientoList()) {
+                Tickets oldFkTicketOfBaseConocimientoListBaseConocimiento = baseConocimientoListBaseConocimiento.getFkTicket();
+                baseConocimientoListBaseConocimiento.setFkTicket(tickets);
+                baseConocimientoListBaseConocimiento = em.merge(baseConocimientoListBaseConocimiento);
+                if (oldFkTicketOfBaseConocimientoListBaseConocimiento != null) {
+                    oldFkTicketOfBaseConocimientoListBaseConocimiento.getBaseConocimientoList().remove(baseConocimientoListBaseConocimiento);
+                    oldFkTicketOfBaseConocimientoListBaseConocimiento = em.merge(oldFkTicketOfBaseConocimientoListBaseConocimiento);
+                }
             }
             for (HistorialTickets historialTicketsListHistorialTickets : tickets.getHistorialTicketsList()) {
                 Tickets oldFkTicketOfHistorialTicketsListHistorialTickets = historialTicketsListHistorialTickets.getFkTicket();
@@ -154,9 +188,27 @@ public class TicketsJpaController implements Serializable {
             Areas fkAreaReceptorNew = tickets.getFkAreaReceptor();
             Servicios asuntoOld = persistentTickets.getAsunto();
             Servicios asuntoNew = tickets.getAsunto();
+            Respuestas respuestasOld = persistentTickets.getRespuestas();
+            Respuestas respuestasNew = tickets.getRespuestas();
+            List<BaseConocimiento> baseConocimientoListOld = persistentTickets.getBaseConocimientoList();
+            List<BaseConocimiento> baseConocimientoListNew = tickets.getBaseConocimientoList();
             List<HistorialTickets> historialTicketsListOld = persistentTickets.getHistorialTicketsList();
             List<HistorialTickets> historialTicketsListNew = tickets.getHistorialTicketsList();
             List<String> illegalOrphanMessages = null;
+            if (respuestasOld != null && !respuestasOld.equals(respuestasNew)) {
+                if (illegalOrphanMessages == null) {
+                    illegalOrphanMessages = new ArrayList<String>();
+                }
+                illegalOrphanMessages.add("You must retain Respuestas " + respuestasOld + " since its tickets field is not nullable.");
+            }
+            for (BaseConocimiento baseConocimientoListOldBaseConocimiento : baseConocimientoListOld) {
+                if (!baseConocimientoListNew.contains(baseConocimientoListOldBaseConocimiento)) {
+                    if (illegalOrphanMessages == null) {
+                        illegalOrphanMessages = new ArrayList<String>();
+                    }
+                    illegalOrphanMessages.add("You must retain BaseConocimiento " + baseConocimientoListOldBaseConocimiento + " since its fkTicket field is not nullable.");
+                }
+            }
             for (HistorialTickets historialTicketsListOldHistorialTickets : historialTicketsListOld) {
                 if (!historialTicketsListNew.contains(historialTicketsListOldHistorialTickets)) {
                     if (illegalOrphanMessages == null) {
@@ -196,6 +248,17 @@ public class TicketsJpaController implements Serializable {
                 asuntoNew = em.getReference(asuntoNew.getClass(), asuntoNew.getIdasuntoS());
                 tickets.setAsunto(asuntoNew);
             }
+            if (respuestasNew != null) {
+                respuestasNew = em.getReference(respuestasNew.getClass(), respuestasNew.getIdTicket());
+                tickets.setRespuestas(respuestasNew);
+            }
+            List<BaseConocimiento> attachedBaseConocimientoListNew = new ArrayList<BaseConocimiento>();
+            for (BaseConocimiento baseConocimientoListNewBaseConocimientoToAttach : baseConocimientoListNew) {
+                baseConocimientoListNewBaseConocimientoToAttach = em.getReference(baseConocimientoListNewBaseConocimientoToAttach.getClass(), baseConocimientoListNewBaseConocimientoToAttach.getIdResolucion());
+                attachedBaseConocimientoListNew.add(baseConocimientoListNewBaseConocimientoToAttach);
+            }
+            baseConocimientoListNew = attachedBaseConocimientoListNew;
+            tickets.setBaseConocimientoList(baseConocimientoListNew);
             List<HistorialTickets> attachedHistorialTicketsListNew = new ArrayList<HistorialTickets>();
             for (HistorialTickets historialTicketsListNewHistorialTicketsToAttach : historialTicketsListNew) {
                 historialTicketsListNewHistorialTicketsToAttach = em.getReference(historialTicketsListNewHistorialTicketsToAttach.getClass(), historialTicketsListNewHistorialTicketsToAttach.getIdHistorial());
@@ -260,6 +323,26 @@ public class TicketsJpaController implements Serializable {
                 asuntoNew.getTicketsList().add(tickets);
                 asuntoNew = em.merge(asuntoNew);
             }
+            if (respuestasNew != null && !respuestasNew.equals(respuestasOld)) {
+                Tickets oldTicketsOfRespuestas = respuestasNew.getTickets();
+                if (oldTicketsOfRespuestas != null) {
+                    oldTicketsOfRespuestas.setRespuestas(null);
+                    oldTicketsOfRespuestas = em.merge(oldTicketsOfRespuestas);
+                }
+                respuestasNew.setTickets(tickets);
+                respuestasNew = em.merge(respuestasNew);
+            }
+            for (BaseConocimiento baseConocimientoListNewBaseConocimiento : baseConocimientoListNew) {
+                if (!baseConocimientoListOld.contains(baseConocimientoListNewBaseConocimiento)) {
+                    Tickets oldFkTicketOfBaseConocimientoListNewBaseConocimiento = baseConocimientoListNewBaseConocimiento.getFkTicket();
+                    baseConocimientoListNewBaseConocimiento.setFkTicket(tickets);
+                    baseConocimientoListNewBaseConocimiento = em.merge(baseConocimientoListNewBaseConocimiento);
+                    if (oldFkTicketOfBaseConocimientoListNewBaseConocimiento != null && !oldFkTicketOfBaseConocimientoListNewBaseConocimiento.equals(tickets)) {
+                        oldFkTicketOfBaseConocimientoListNewBaseConocimiento.getBaseConocimientoList().remove(baseConocimientoListNewBaseConocimiento);
+                        oldFkTicketOfBaseConocimientoListNewBaseConocimiento = em.merge(oldFkTicketOfBaseConocimientoListNewBaseConocimiento);
+                    }
+                }
+            }
             for (HistorialTickets historialTicketsListNewHistorialTickets : historialTicketsListNew) {
                 if (!historialTicketsListOld.contains(historialTicketsListNewHistorialTickets)) {
                     Tickets oldFkTicketOfHistorialTicketsListNewHistorialTickets = historialTicketsListNewHistorialTickets.getFkTicket();
@@ -301,6 +384,20 @@ public class TicketsJpaController implements Serializable {
                 throw new NonexistentEntityException("The tickets with id " + id + " no longer exists.", enfe);
             }
             List<String> illegalOrphanMessages = null;
+            Respuestas respuestasOrphanCheck = tickets.getRespuestas();
+            if (respuestasOrphanCheck != null) {
+                if (illegalOrphanMessages == null) {
+                    illegalOrphanMessages = new ArrayList<String>();
+                }
+                illegalOrphanMessages.add("This Tickets (" + tickets + ") cannot be destroyed since the Respuestas " + respuestasOrphanCheck + " in its respuestas field has a non-nullable tickets field.");
+            }
+            List<BaseConocimiento> baseConocimientoListOrphanCheck = tickets.getBaseConocimientoList();
+            for (BaseConocimiento baseConocimientoListOrphanCheckBaseConocimiento : baseConocimientoListOrphanCheck) {
+                if (illegalOrphanMessages == null) {
+                    illegalOrphanMessages = new ArrayList<String>();
+                }
+                illegalOrphanMessages.add("This Tickets (" + tickets + ") cannot be destroyed since the BaseConocimiento " + baseConocimientoListOrphanCheckBaseConocimiento + " in its baseConocimientoList field has a non-nullable fkTicket field.");
+            }
             List<HistorialTickets> historialTicketsListOrphanCheck = tickets.getHistorialTicketsList();
             for (HistorialTickets historialTicketsListOrphanCheckHistorialTickets : historialTicketsListOrphanCheck) {
                 if (illegalOrphanMessages == null) {
