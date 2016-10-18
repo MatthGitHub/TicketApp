@@ -22,14 +22,14 @@ if ($_POST['nombre_usuario']) {
 			header ("Location: ../index.php?errorpass");
 			exit();
 		}else{
-		$query = mysqli_query($link,"SELECT id_usuario,nombre_usuario,contrasenia,fk_permiso,id_area FROM usuarios u JOIN empleados e ON u.fk_empleado = e.id_empleado JOIN areas a ON e.fk_area = a.id_area WHERE nombre_usuario = '$nombre_usuario'") or die(mysql_error());
+		$query = mysqli_query($link,"SELECT id_usuario,nombre_usuario,contrasenia,fk_rol,id_area FROM usuarios u JOIN empleados e ON u.fk_empleado = e.id_empleado JOIN areas a ON e.fk_area = a.id_area WHERE nombre_usuario = '$nombre_usuario'") or die(mysql_error());
 		$row = mysqli_fetch_array($query);
 		$nombre_usuario2 = $row['nombre_usuario'];
 		$_SESSION["s_nombre_usuario"] = $row['nombre_usuario'];
 
 		$_SESSION["area"] = $row['id_area'];
 		$_SESSION["logeado"] = "SI";
-		$_SESSION["permiso"] = $row['fk_permiso'];
+		$_SESSION["permiso"] = $row['fk_rol'];
 		$_SESSION["id_usuario"] = $row['id_usuario'];
 		/* Si aceptamos recordar los datos */
 			if($_POST['recordar']){
