@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 06-10-2016 a las 13:37:17
+-- Tiempo de generación: 21-10-2016 a las 17:31:31
 -- Versión del servidor: 5.7.11
 -- Versión de PHP: 5.6.19
 
@@ -219,6 +219,13 @@ CREATE TABLE `base_conocimiento` (
   `fk_ticket` int(11) NOT NULL,
   `fecha` date NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Volcado de datos para la tabla `base_conocimiento`
+--
+
+INSERT INTO `base_conocimiento` (`id_resolucion`, `resolucion`, `fk_ticket`, `fecha`) VALUES
+(3, 'no se le creo correo\n', 13, '2016-10-07');
 
 -- --------------------------------------------------------
 
@@ -2644,7 +2651,8 @@ INSERT INTO `empleados` (`id_empleado`, `nombre`, `apellido`, `documento`, `fk_a
 (2849, 'elsa dominga', 'rosales', '16162937', 9160, 13578),
 (2850, 'lorena beatriz', 'prado', '30391867', 9160, 14237),
 (2851, 'estefania', 'klein', '32768591', 38, 999997),
-(2852, 'bruno', 'ovando', '38091463', 38, 999999);
+(2852, 'bruno', 'ovando', '38091463', 38, 999999),
+(2853, 'claudia', 'claudia', '12345987', 38, 988888);
 
 -- --------------------------------------------------------
 
@@ -2757,6 +2765,13 @@ INSERT INTO `encargado_servicios` (`usuario`, `asunto`) VALUES
 (18, 44),
 (18, 45),
 (18, 47),
+(19, 59),
+(19, 62),
+(19, 91),
+(19, 93),
+(19, 94),
+(19, 95),
+(19, 96),
 (23, 97),
 (23, 98),
 (23, 99),
@@ -2765,7 +2780,10 @@ INSERT INTO `encargado_servicios` (`usuario`, `asunto`) VALUES
 (24, 39),
 (24, 40),
 (24, 46),
-(24, 48);
+(24, 48),
+(29, 59),
+(29, 60),
+(29, 96);
 
 -- --------------------------------------------------------
 
@@ -2847,6 +2865,17 @@ CREATE TABLE `historial_tickets` (
   `fk_estado` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+--
+-- Volcado de datos para la tabla `historial_tickets`
+--
+
+INSERT INTO `historial_tickets` (`id_historial`, `fk_ticket`, `fk_usuario_emisor`, `fk_usuario_receptor`, `fecha`, `fk_estado`) VALUES
+(22, 12, 25, NULL, '2016-10-07', 1),
+(23, 13, 25, 19, '2016-10-07', 1),
+(24, 13, 25, 19, '2016-10-07', 5),
+(25, 14, 28, NULL, '2016-10-07', 1),
+(26, 15, 3, 3, '2016-10-19', 1);
+
 -- --------------------------------------------------------
 
 --
@@ -2863,8 +2892,42 @@ CREATE TABLE `permisos` (
 --
 
 INSERT INTO `permisos` (`id_permiso`, `nombre_permiso`) VALUES
-(1, 'administrador'),
-(2, 'usuario');
+(4, 'misTickets'),
+(5, 'nuevoTicket'),
+(6, 'baseConocimiento'),
+(7, 'MenuAdministracion'),
+(8, 'administrarTicketV'),
+(9, 'verHistorialTicketB'),
+(10, 'eliminarTicketB'),
+(11, 'cambiarEstadoB'),
+(12, 'MenuEstadoPGM'),
+(13, 'MenuConfiguracion'),
+(14, 'areasV'),
+(15, 'eliminarAreaB'),
+(16, 'modificarAreaB'),
+(17, 'nuevAreaB'),
+(18, 'asuntosV'),
+(19, 'eliminarAsuntoB'),
+(20, 'nuevoAsuntoB'),
+(21, 'serviciosV'),
+(22, 'eliminarServiciosB'),
+(23, 'nuevoServicioB'),
+(24, 'RazonesTransferenciaV'),
+(25, 'eliminarRazonB'),
+(26, 'nuevaRazonB'),
+(27, 'usuariosV'),
+(28, 'eliminarUsuarioB'),
+(29, 'dehsabilitarUsuarioB'),
+(30, 'habilitarUsuarioB'),
+(31, 'resetearClaveB'),
+(32, 'nuevoUsuarioB'),
+(33, 'cambiarRolUsuarioB'),
+(34, 'AsignarAsuntosV'),
+(35, 'RolesV'),
+(36, 'eliminarRolB'),
+(37, 'nuevoRolB'),
+(38, 'agregarPermisoB'),
+(39, 'quitarPermisoB');
 
 -- --------------------------------------------------------
 
@@ -2896,6 +2959,87 @@ CREATE TABLE `respuestas` (
   `id_usuario` int(11) NOT NULL,
   `respuesta` varchar(1000) COLLATE utf8_spanish2_ci DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish2_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `roles`
+--
+
+CREATE TABLE `roles` (
+  `id_rol` int(11) NOT NULL,
+  `nombre_rol` varchar(30) COLLATE utf8_spanish2_ci NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish2_ci;
+
+--
+-- Volcado de datos para la tabla `roles`
+--
+
+INSERT INTO `roles` (`id_rol`, `nombre_rol`) VALUES
+(1, 'administrador'),
+(2, 'user'),
+(3, 'sistemas'),
+(4, 'jefe de area');
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `roles_permisos`
+--
+
+CREATE TABLE `roles_permisos` (
+  `fk_rol` int(11) NOT NULL,
+  `fk_permiso` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
+
+--
+-- Volcado de datos para la tabla `roles_permisos`
+--
+
+INSERT INTO `roles_permisos` (`fk_rol`, `fk_permiso`) VALUES
+(1, 4),
+(2, 4),
+(3, 4),
+(4, 4),
+(1, 5),
+(2, 5),
+(3, 5),
+(1, 6),
+(2, 6),
+(1, 7),
+(2, 7),
+(1, 8),
+(1, 9),
+(1, 10),
+(1, 11),
+(1, 12),
+(1, 13),
+(1, 14),
+(1, 15),
+(1, 16),
+(1, 17),
+(1, 18),
+(1, 19),
+(1, 20),
+(1, 21),
+(1, 22),
+(1, 23),
+(1, 24),
+(1, 25),
+(1, 26),
+(1, 27),
+(1, 28),
+(1, 29),
+(1, 30),
+(1, 31),
+(1, 32),
+(1, 33),
+(1, 34),
+(1, 35),
+(1, 36),
+(1, 37),
+(1, 38),
+(1, 39);
 
 -- --------------------------------------------------------
 
@@ -3006,24 +3150,15 @@ CREATE TABLE `tickets` (
   `fk_razon` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish2_ci;
 
--- --------------------------------------------------------
-
 --
--- Estructura de tabla para la tabla `tipo_usuario`
+-- Volcado de datos para la tabla `tickets`
 --
 
-CREATE TABLE `tipo_usuario` (
-  `id_tipo_usuario` int(11) NOT NULL,
-  `nombre_tipo_usuario` varchar(30) COLLATE utf8_spanish2_ci NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish2_ci;
-
---
--- Volcado de datos para la tabla `tipo_usuario`
---
-
-INSERT INTO `tipo_usuario` (`id_tipo_usuario`, `nombre_tipo_usuario`) VALUES
-(1, 'administrador'),
-(2, 'user');
+INSERT INTO `tickets` (`id_ticket`, `fecha`, `hora`, `fk_area_emisor`, `fk_usuario_emisor`, `fk_area_receptor`, `asunto`, `observacion`, `usuario_receptor`, `respuesta`, `fk_estado`, `fk_razon`) VALUES
+(12, '2016-10-07', '2016-10-07 13:53:24', 38, 25, 38, 90, 'no me anda - Numero de interno: 146', NULL, NULL, 1, NULL),
+(13, '2016-10-07', '2016-10-07 13:57:48', 38, 25, 38, 59, 'quiero correo\r\n - Numero de interno: 145', 19, 'no tenes correo', 5, NULL),
+(14, '2016-10-07', '2016-10-07 14:06:27', 38, 28, 38, 96, 'no funca nada', NULL, NULL, 2, NULL),
+(15, '2016-10-19', '2016-10-20 16:30:51', 38, 3, 38, 51, ' - Numero de interno: 145', 3, NULL, 2, NULL);
 
 -- --------------------------------------------------------
 
@@ -3037,7 +3172,7 @@ CREATE TABLE `usuarios` (
   `contrasenia` varchar(36) COLLATE utf8_spanish2_ci DEFAULT NULL,
   `fk_empleado` int(11) NOT NULL,
   `activo` tinyint(1) NOT NULL,
-  `fk_permiso` int(11) NOT NULL,
+  `fk_rol` int(11) NOT NULL,
   `id_extreme` varchar(180) COLLATE utf8_spanish2_ci DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish2_ci;
 
@@ -3045,7 +3180,7 @@ CREATE TABLE `usuarios` (
 -- Volcado de datos para la tabla `usuarios`
 --
 
-INSERT INTO `usuarios` (`id_usuario`, `nombre_usuario`, `contrasenia`, `fk_empleado`, `activo`, `fk_permiso`, `id_extreme`) VALUES
+INSERT INTO `usuarios` (`id_usuario`, `nombre_usuario`, `contrasenia`, `fk_empleado`, `activo`, `fk_rol`, `id_extreme`) VALUES
 (3, 'mbenditti', '992f1570e7d76ebd5239bd5d83ca025b', 1, 1, 2, NULL),
 (15, 'ekayser', '6b5b0dd03c9c85725032ce5f3a0918ae', 1637, 1, 2, NULL),
 (16, 'gdinardo', '4c96f8324e3ba54a99e78249b95daa30', 146, 1, 2, NULL),
@@ -3058,7 +3193,8 @@ INSERT INTO `usuarios` (`id_usuario`, `nombre_usuario`, `contrasenia`, `fk_emple
 (24, 'gibanez', '05fe03b494c0f1a7d6cb49f0bf3fd70d', 395, 1, 2, NULL),
 (25, 'dalvarez', 'aa47f8215c6f30a0dcdb2a36a9f4168e', 2555, 1, 2, NULL),
 (27, 'bovando', 'e3928a3bc4be46516aa33a79bbdfdb08', 2852, 1, 2, NULL),
-(28, 'administrador', '6f8725703f6dcc6bf2a329d2fe77fb39', 1, 1, 1, NULL);
+(28, 'administrador', '6f8725703f6dcc6bf2a329d2fe77fb39', 1, 1, 1, NULL),
+(29, 'clorusso', '2b9ff3efc4a999ecfacd18c4bbc57a2e', 2853, 1, 2, NULL);
 
 --
 -- Índices para tablas volcadas
@@ -3155,6 +3291,19 @@ ALTER TABLE `respuestas`
   ADD KEY `id_usuario` (`id_usuario`);
 
 --
+-- Indices de la tabla `roles`
+--
+ALTER TABLE `roles`
+  ADD PRIMARY KEY (`id_rol`);
+
+--
+-- Indices de la tabla `roles_permisos`
+--
+ALTER TABLE `roles_permisos`
+  ADD PRIMARY KEY (`fk_rol`,`fk_permiso`) USING BTREE,
+  ADD KEY `fk_permiso` (`fk_permiso`);
+
+--
 -- Indices de la tabla `servicios`
 --
 ALTER TABLE `servicios`
@@ -3175,18 +3324,12 @@ ALTER TABLE `tickets`
   ADD KEY `fk_razon` (`fk_razon`);
 
 --
--- Indices de la tabla `tipo_usuario`
---
-ALTER TABLE `tipo_usuario`
-  ADD PRIMARY KEY (`id_tipo_usuario`);
-
---
 -- Indices de la tabla `usuarios`
 --
 ALTER TABLE `usuarios`
   ADD PRIMARY KEY (`id_usuario`),
   ADD KEY `fk_empleado` (`fk_empleado`),
-  ADD KEY `fk_permiso` (`fk_permiso`);
+  ADD KEY `fk_permiso` (`fk_rol`);
 
 --
 -- AUTO_INCREMENT de las tablas volcadas
@@ -3196,7 +3339,7 @@ ALTER TABLE `usuarios`
 -- AUTO_INCREMENT de la tabla `areas`
 --
 ALTER TABLE `areas`
-  MODIFY `id_area` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9186;
+  MODIFY `id_area` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9183;
 --
 -- AUTO_INCREMENT de la tabla `area_sistemas`
 --
@@ -3211,12 +3354,12 @@ ALTER TABLE `asuntos`
 -- AUTO_INCREMENT de la tabla `base_conocimiento`
 --
 ALTER TABLE `base_conocimiento`
-  MODIFY `id_resolucion` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id_resolucion` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 --
 -- AUTO_INCREMENT de la tabla `empleados`
 --
 ALTER TABLE `empleados`
-  MODIFY `id_empleado` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2853;
+  MODIFY `id_empleado` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2854;
 --
 -- AUTO_INCREMENT de la tabla `estados`
 --
@@ -3231,17 +3374,22 @@ ALTER TABLE `estados_pgm`
 -- AUTO_INCREMENT de la tabla `historial_tickets`
 --
 ALTER TABLE `historial_tickets`
-  MODIFY `id_historial` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
+  MODIFY `id_historial` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
 --
 -- AUTO_INCREMENT de la tabla `permisos`
 --
 ALTER TABLE `permisos`
-  MODIFY `id_permiso` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id_permiso` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=40;
 --
 -- AUTO_INCREMENT de la tabla `razones_transferencias`
 --
 ALTER TABLE `razones_transferencias`
   MODIFY `id_razon` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+--
+-- AUTO_INCREMENT de la tabla `roles`
+--
+ALTER TABLE `roles`
+  MODIFY `id_rol` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 --
 -- AUTO_INCREMENT de la tabla `servicios`
 --
@@ -3251,17 +3399,12 @@ ALTER TABLE `servicios`
 -- AUTO_INCREMENT de la tabla `tickets`
 --
 ALTER TABLE `tickets`
-  MODIFY `id_ticket` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
---
--- AUTO_INCREMENT de la tabla `tipo_usuario`
---
-ALTER TABLE `tipo_usuario`
-  MODIFY `id_tipo_usuario` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id_ticket` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 --
 -- AUTO_INCREMENT de la tabla `usuarios`
 --
 ALTER TABLE `usuarios`
-  MODIFY `id_usuario` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
+  MODIFY `id_usuario` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=30;
 --
 -- Restricciones para tablas volcadas
 --
@@ -3314,6 +3457,13 @@ ALTER TABLE `respuestas`
   ADD CONSTRAINT `respuestas_ibfk_2` FOREIGN KEY (`id_usuario`) REFERENCES `usuarios` (`id_usuario`);
 
 --
+-- Filtros para la tabla `roles_permisos`
+--
+ALTER TABLE `roles_permisos`
+  ADD CONSTRAINT `roles_permisos_ibfk_1` FOREIGN KEY (`fk_rol`) REFERENCES `roles` (`id_rol`),
+  ADD CONSTRAINT `roles_permisos_ibfk_2` FOREIGN KEY (`fk_permiso`) REFERENCES `permisos` (`id_permiso`);
+
+--
 -- Filtros para la tabla `servicios`
 --
 ALTER TABLE `servicios`
@@ -3336,7 +3486,7 @@ ALTER TABLE `tickets`
 --
 ALTER TABLE `usuarios`
   ADD CONSTRAINT `usuarios_ibfk_1` FOREIGN KEY (`fk_empleado`) REFERENCES `empleados` (`id_empleado`),
-  ADD CONSTRAINT `usuarios_ibfk_2` FOREIGN KEY (`fk_permiso`) REFERENCES `permisos` (`id_permiso`);
+  ADD CONSTRAINT `usuarios_ibfk_2` FOREIGN KEY (`fk_rol`) REFERENCES `roles` (`id_rol`);
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
