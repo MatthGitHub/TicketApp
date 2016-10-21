@@ -39,6 +39,7 @@ public class AsuntosPrin extends MenuP {
         setVisible(true);
         serviciosA = new AsuntoPrincipalServ();
         serviciosAr = new AreaServ();
+        validarPermisos();
         llenarComboAreas();
     }
     
@@ -47,6 +48,25 @@ public class AsuntosPrin extends MenuP {
             asuntos = new AsuntosPrin(mainFrame);
         }
         return asuntos;
+    }
+    
+    private void validarPermisos(){
+        //boton eliminar asunto
+        if(mainFrame.validarPermisos(19)){
+            btn_eliminar.setEnabled(true);
+            btn_eliminar.setVisible(true);
+        }else{
+            btn_eliminar.setEnabled(false);
+            btn_eliminar.setVisible(false); 
+        }
+        //boton nuevo
+        if(mainFrame.validarPermisos(20)){
+            btn_nuevo.setEnabled(true);
+            btn_nuevo.setVisible(true);
+        }else{
+            btn_nuevo.setEnabled(false);
+            btn_nuevo.setVisible(false); 
+        }
     }
     
     private void eliminarAsunto(int id){

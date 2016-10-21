@@ -169,7 +169,7 @@ public class Login extends MenuP {
             if (loginejb.login(txt_nombre.getText(), pswr_clave.getText())) {
                     mainFrame.setSize(800, 600);
                     mainFrame.setResizable(true);
-                    mainFrame.validarPermisos(LoginEJB.usuario);
+                    mainFrame.validarPermisos();
                     mainFrame.setLocationRelativeTo(null);
                     mainFrame.setTitle("Ticketneitor");
                     if(LoginEJB.usuario.getFkRol().getIdRol() == 1){

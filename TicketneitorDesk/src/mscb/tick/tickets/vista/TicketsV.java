@@ -48,6 +48,7 @@ public class TicketsV extends MenuP {
         serviciosT = new TicketServ();
         serviciosE = new EstadoServ();
         serviciosH = new HistorialServ();
+        validarPermisos();
         setVisible(true);
         llenarTabla();
     }
@@ -59,7 +60,32 @@ public class TicketsV extends MenuP {
         return estePanel;
     }
     
-    
+    private void validarPermisos(){
+        //boton ver historial
+        if(mainFrame.validarPermisos(9)){
+            ver_historial.setEnabled(true);
+            ver_historial.setVisible(true);
+        }else{
+            ver_historial.setEnabled(false);
+            ver_historial.setVisible(false); 
+        }
+        //boton eliminar ticket
+        if(mainFrame.validarPermisos(10)){
+            btn_eliminar.setEnabled(true);
+            btn_eliminar.setVisible(true);
+        }else{
+            btn_eliminar.setEnabled(false);
+            btn_eliminar.setVisible(false); 
+        }
+        //boton cambiar estado
+        if(mainFrame.validarPermisos(11)){
+            btn_cambiarEstado.setEnabled(true);
+            btn_cambiarEstado.setVisible(true);
+        }else{
+            btn_cambiarEstado.setEnabled(false);
+            btn_cambiarEstado.setVisible(false); 
+        }
+    }
     
     public void llenarTabla() {
         vaciarTabla(jt_tickets);

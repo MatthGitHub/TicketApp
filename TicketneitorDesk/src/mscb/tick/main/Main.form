@@ -25,12 +25,12 @@
             <Property name="text" type="java.lang.String" value="archivo"/>
           </Properties>
           <SubComponents>
-            <MenuItem class="javax.swing.JMenuItem" name="mi_misTicket1">
+            <MenuItem class="javax.swing.JMenuItem" name="mi_inicio">
               <Properties>
                 <Property name="text" type="java.lang.String" value="inicio"/>
               </Properties>
               <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="mi_misTicket1ActionPerformed"/>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="mi_inicioActionPerformed"/>
               </Events>
             </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="mi_misTicket">
@@ -141,6 +141,14 @@
               </Properties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="mi_asignarActionPerformed"/>
+              </Events>
+            </MenuItem>
+            <MenuItem class="javax.swing.JMenuItem" name="mi_roles">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="roles"/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="mi_rolesActionPerformed"/>
               </Events>
             </MenuItem>
           </SubComponents>

@@ -34,6 +34,7 @@ public class Razones extends MenuP {
         this.mainFrame = mainFrame;
         serviciosR = new RazoneServ();
         pl_nuevo.setVisible(false);
+        validarPermisos();
         llenarTabla();
     }
     
@@ -42,6 +43,25 @@ public class Razones extends MenuP {
             estePanel = new Razones(mainFrame);
         }
         return estePanel;
+    }
+    
+    private void validarPermisos(){
+        //boton eliminar
+        if(mainFrame.validarPermisos(25)){
+            btn_eliminar.setEnabled(true);
+            btn_eliminar.setVisible(true);
+        }else{
+            btn_eliminar.setEnabled(false);
+            btn_eliminar.setVisible(false); 
+        }
+        //boton nuevo
+        if(mainFrame.validarPermisos(26)){
+            btn_nuevo.setEnabled(true);
+            btn_nuevo.setVisible(true);
+        }else{
+            btn_nuevo.setEnabled(false);
+            btn_nuevo.setVisible(false); 
+        }
     }
     
      public void llenarTabla(){

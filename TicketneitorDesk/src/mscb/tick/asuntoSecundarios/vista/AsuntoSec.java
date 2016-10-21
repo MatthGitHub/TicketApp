@@ -39,6 +39,7 @@ public class AsuntoSec extends MenuP {
         setSize(800, 600);
         setVisible(true);
         llenarComboBox();
+        validarPermisos();
     }
     
     public static AsuntoSec getAsuntoSec(Main mainFrame){
@@ -46,6 +47,25 @@ public class AsuntoSec extends MenuP {
             asuntoSec = new AsuntoSec(mainFrame);
         }
         return asuntoSec;
+    }
+    
+    private void validarPermisos(){
+        //boton eliminar
+        if(mainFrame.validarPermisos(22)){
+            btn_eliminar.setEnabled(true);
+            btn_eliminar.setVisible(true);
+        }else{
+            btn_eliminar.setEnabled(false);
+            btn_eliminar.setVisible(false); 
+        }
+        //boton nuevo
+        if(mainFrame.validarPermisos(23)){
+            btn_nuevo.setEnabled(true);
+            btn_nuevo.setVisible(true);
+        }else{
+            btn_nuevo.setEnabled(false);
+            btn_nuevo.setVisible(false); 
+        }
     }
     
     private void llenarComboBox(){

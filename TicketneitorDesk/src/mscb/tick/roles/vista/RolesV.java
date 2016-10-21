@@ -5,7 +5,16 @@
  */
 package mscb.tick.roles.vista;
 
+import java.util.ArrayList;
+import java.util.List;
+import javax.swing.JOptionPane;
+import javax.swing.JTable;
+import javax.swing.table.DefaultTableModel;
+import mscb.tick.entidades.Permisos;
+import mscb.tick.entidades.Roles;
 import mscb.tick.main.Main;
+import mscb.tick.permisos.servicios.PermisoServ;
+import mscb.tick.roles.servicios.RoleServ;
 import mscb.tick.util.MenuP;
 
 /**
@@ -15,14 +24,26 @@ import mscb.tick.util.MenuP;
 public class RolesV extends MenuP {
     Main mainFrame;
     private static RolesV estePanel;
-    
+    private RoleServ serviciosR;
+    private PermisoServ serviciosP;
+    private DefaultTableModel modeloR;
+    private DefaultTableModel modeloA;
+    private DefaultTableModel modeloF;
+    private Roles miRol;
     /**
      * Creates new form RolesV
      */
     private RolesV(Main mainFrame) {
         initComponents();
         this.mainFrame = mainFrame;
-        
+        pnl_nuevo.setVisible(false);
+        serviciosP = new PermisoServ();
+        serviciosR = new RoleServ();
+        modeloR = (DefaultTableModel) jt_roles.getModel();
+        modeloA = (DefaultTableModel) jt_permisosA.getModel();
+        modeloF = (DefaultTableModel) jt_permisosF.getModel();
+        llenarTablaRoles();
+        validarPermisos();
     }
     
     public static RolesV getRolesV(Main mainFrame){
@@ -32,7 +53,98 @@ public class RolesV extends MenuP {
         return estePanel;
     }
     
+    private void validarPermisos(){
+        //boton eliminar
+        if(mainFrame.validarPermisos(36)){
+            btn_eliminar.setEnabled(true);
+            btn_eliminar.setVisible(true);
+        }else{
+            btn_eliminar.setEnabled(false);
+            btn_eliminar.setVisible(false); 
+        }
+        //boton nuevo
+        if(mainFrame.validarPermisos(37)){
+            btn_nuevo.setEnabled(true);
+            btn_nuevo.setVisible(true);
+        }else{
+            btn_nuevo.setEnabled(false);
+            btn_nuevo.setVisible(false); 
+        }
+        //boton agregar
+        if(mainFrame.validarPermisos(38)){
+            btn_agregar.setEnabled(true);
+            btn_agregar.setVisible(true);
+        }else{
+            btn_agregar.setEnabled(false);
+            btn_agregar.setVisible(false); 
+        }
+        //boton quitar
+        if(mainFrame.validarPermisos(39)){
+            btn_quitar.setEnabled(true);
+            btn_quitar.setVisible(true);
+        }else{
+            btn_quitar.setEnabled(false);
+            btn_quitar.setVisible(false); 
+        }
+    }
     
+    private void llenarTablaRoles(){
+        vaciarTabla(jt_roles);
+        List<Roles> misRo = serviciosR.traerTodos();
+        String v[] = new String[2];
+        
+        for(int i = 0; i< misRo.size(); i ++){
+            v[0] = misRo.get(i).getIdRol().toString();
+            v[1] = misRo.get(i).getNombreRol();
+            modeloR.addRow(v);
+            
+        }
+    }
+    
+    private void llenarTablaPermisosActuales(Roles miRol){
+        vaciarTabla(jt_permisosA);
+        List<Permisos> misPer = miRol.getPermisosList();
+        String v[] = new String[2];
+        
+        for(int i = 0; i< misPer.size(); i ++){
+            v[0] = misPer.get(i).getIdPermiso().toString();
+            v[1] = misPer.get(i).getNombrePermiso();
+            modeloA.addRow(v);
+            
+        }
+    }
+    
+    private void llenarTablaPermisosFaltantes(Roles miRol){
+        vaciarTabla(jt_permisosF);
+        List<Permisos> misPer = miRol.getPermisosList();
+        List<Permisos> losPer = serviciosP.traerTodos();
+        for(int i = 0; i < misPer.size(); i ++){
+                if(losPer.contains(misPer.get(i))){
+                       losPer.remove(misPer.get(i));
+                }
+        }
+        
+        String v[] = new String[2];
+        
+        for(int i = 0; i< losPer.size(); i ++){
+            v[0] = losPer.get(i).getIdPermiso().toString();
+            v[1] = losPer.get(i).getNombrePermiso();
+            modeloF.addRow(v);
+            
+        }
+    }
+    
+    private void vaciarTabla(JTable tabla) {
+        try {
+            DefaultTableModel modelo = (DefaultTableModel) tabla.getModel();
+            int filas = tabla.getRowCount();
+            for (int i = 0; filas > i; i++) {
+                modelo.removeRow(0);
+            }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Error al limpiar la tabla.");
+        }
+    }
     
     /**
      * This method is called from within the constructor to initialize the form.
@@ -43,19 +155,307 @@ public class RolesV extends MenuP {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jt_roles = new javax.swing.JTable();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        jt_permisosA = new javax.swing.JTable();
+        jLabel1 = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        jt_permisosF = new javax.swing.JTable();
+        btn_quitar = new javax.swing.JButton();
+        btn_agregar = new javax.swing.JButton();
+        btn_volver = new javax.swing.JButton();
+        btn_eliminar = new javax.swing.JButton();
+        btn_nuevo = new javax.swing.JButton();
+        pnl_nuevo = new MenuP();
+        jLabel3 = new javax.swing.JLabel();
+        txt_nuevoRol = new javax.swing.JTextField();
+        btn_guardar = new javax.swing.JButton();
+        btn_cancelar = new javax.swing.JButton();
+
+        setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Roles", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.TOP, new java.awt.Font("Bradley Hand ITC", 0, 24), new java.awt.Color(255, 255, 255))); // NOI18N
+
+        jt_roles.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "ID", "Rol"
+            }
+        ) {
+            Class[] types = new Class [] {
+                java.lang.Integer.class, java.lang.String.class
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+        });
+        jt_roles.setColumnSelectionAllowed(true);
+        jt_roles.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jt_rolesMouseClicked(evt);
+            }
+        });
+        jScrollPane1.setViewportView(jt_roles);
+        jt_roles.getColumnModel().getSelectionModel().setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        if (jt_roles.getColumnModel().getColumnCount() > 0) {
+            jt_roles.getColumnModel().getColumn(0).setMinWidth(50);
+            jt_roles.getColumnModel().getColumn(0).setPreferredWidth(50);
+            jt_roles.getColumnModel().getColumn(0).setMaxWidth(50);
+        }
+
+        jt_permisosA.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "ID", "Permiso"
+            }
+        ));
+        jScrollPane2.setViewportView(jt_permisosA);
+        if (jt_permisosA.getColumnModel().getColumnCount() > 0) {
+            jt_permisosA.getColumnModel().getColumn(0).setMinWidth(50);
+            jt_permisosA.getColumnModel().getColumn(0).setPreferredWidth(50);
+            jt_permisosA.getColumnModel().getColumn(0).setMaxWidth(50);
+        }
+
+        jLabel1.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jLabel1.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel1.setText("Permisos actuales:");
+
+        jLabel2.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jLabel2.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel2.setText("Permisos faltantes:");
+
+        jt_permisosF.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "ID", "Permiso"
+            }
+        ));
+        jt_permisosF.setColumnSelectionAllowed(true);
+        jScrollPane3.setViewportView(jt_permisosF);
+        jt_permisosF.getColumnModel().getSelectionModel().setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        if (jt_permisosF.getColumnModel().getColumnCount() > 0) {
+            jt_permisosF.getColumnModel().getColumn(0).setMinWidth(50);
+            jt_permisosF.getColumnModel().getColumn(0).setPreferredWidth(50);
+            jt_permisosF.getColumnModel().getColumn(0).setMaxWidth(50);
+        }
+
+        btn_quitar.setText("quitar");
+
+        btn_agregar.setText("agregar");
+        btn_agregar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_agregarActionPerformed(evt);
+            }
+        });
+
+        btn_volver.setText("volver");
+        btn_volver.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_volverActionPerformed(evt);
+            }
+        });
+
+        btn_eliminar.setText("eliminar");
+
+        btn_nuevo.setText("nuevo");
+        btn_nuevo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_nuevoActionPerformed(evt);
+            }
+        });
+
+        jLabel3.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jLabel3.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel3.setText("Nombre del nuevo rol:");
+
+        txt_nuevoRol.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        txt_nuevoRol.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txt_nuevoRolActionPerformed(evt);
+            }
+        });
+
+        btn_guardar.setText("guardar");
+        btn_guardar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_guardarActionPerformed(evt);
+            }
+        });
+
+        btn_cancelar.setText("cancelar");
+        btn_cancelar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_cancelarActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout pnl_nuevoLayout = new javax.swing.GroupLayout(pnl_nuevo);
+        pnl_nuevo.setLayout(pnl_nuevoLayout);
+        pnl_nuevoLayout.setHorizontalGroup(
+            pnl_nuevoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pnl_nuevoLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(pnl_nuevoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(pnl_nuevoLayout.createSequentialGroup()
+                        .addGroup(pnl_nuevoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel3)
+                            .addComponent(txt_nuevoRol, javax.swing.GroupLayout.PREFERRED_SIZE, 282, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnl_nuevoLayout.createSequentialGroup()
+                        .addComponent(btn_cancelar)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btn_guardar)))
+                .addContainerGap())
+        );
+        pnl_nuevoLayout.setVerticalGroup(
+            pnl_nuevoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pnl_nuevoLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel3)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(txt_nuevoRol, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(pnl_nuevoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btn_guardar)
+                    .addComponent(btn_cancelar)))
+        );
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                        .addGroup(layout.createSequentialGroup()
+                            .addComponent(btn_eliminar)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(btn_nuevo))
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 361, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(btn_volver))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(btn_agregar)
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 424, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel1)
+                    .addComponent(jLabel2)
+                    .addComponent(btn_quitar)
+                    .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 424, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(pnl_nuevo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(0, 0, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 300, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(btn_eliminar)
+                            .addComponent(btn_nuevo)))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLabel1)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 117, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btn_quitar)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jLabel2)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 117, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btn_agregar)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(pnl_nuevo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 82, Short.MAX_VALUE)
+                .addComponent(btn_volver)
+                .addContainerGap())
         );
     }// </editor-fold>//GEN-END:initComponents
 
+    private void txt_nuevoRolActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txt_nuevoRolActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txt_nuevoRolActionPerformed
+
+    private void jt_rolesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jt_rolesMouseClicked
+        // TODO add your handling code here:
+        miRol = serviciosR.traerUno(Integer.parseInt(modeloR.getValueAt(jt_roles.getSelectedRow(), 0).toString()));
+        llenarTablaPermisosActuales(miRol);
+        llenarTablaPermisosFaltantes(miRol);
+    }//GEN-LAST:event_jt_rolesMouseClicked
+
+    private void btn_nuevoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_nuevoActionPerformed
+        // TODO add your handling code here:
+        pnl_nuevo.setVisible(true);
+    }//GEN-LAST:event_btn_nuevoActionPerformed
+
+    private void btn_guardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_guardarActionPerformed
+        // TODO add your handling code here:
+        if(!txt_nuevoRol.getText().isEmpty()){
+            txt_nuevoRol.setText("");
+            pnl_nuevo.setVisible(false);
+        }else{
+            JOptionPane.showMessageDialog(this, "Debe inngresar un nombre del rol", "ERROR", JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_btn_guardarActionPerformed
+
+    private void btn_cancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_cancelarActionPerformed
+        // TODO add your handling code here:
+        txt_nuevoRol.setText("");
+        pnl_nuevo.setVisible(false);
+    }//GEN-LAST:event_btn_cancelarActionPerformed
+
+    private void btn_volverActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_volverActionPerformed
+        // TODO add your handling code here:
+        this.setVisible(false);
+        estePanel = null;
+        mainFrame.menuPrincipal();
+    }//GEN-LAST:event_btn_volverActionPerformed
+
+    private void btn_agregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_agregarActionPerformed
+        // TODO add your handling code here:
+        if(jt_permisosF.getSelectedRow()!= -1){
+            Permisos permi = serviciosP.traerUno(Integer.parseInt(modeloF.getValueAt(jt_permisosF.getSelectedRow(), 0).toString()));
+            miRol.getPermisosList().add(permi);
+            if(serviciosR.modificar(miRol)){
+                JOptionPane.showMessageDialog(this, "Permiso agregado", "Exito", JOptionPane.INFORMATION_MESSAGE);
+                llenarTablaPermisosActuales(miRol);
+                llenarTablaPermisosFaltantes(miRol);
+            }else{
+                JOptionPane.showMessageDialog(this, "Error la agregar permiso", "Error", JOptionPane.ERROR_MESSAGE);
+            }
+        }else{
+            JOptionPane.showMessageDialog(this, "Debe seleccionar una y solo una fila!", "ERROR", JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_btn_agregarActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btn_agregar;
+    private javax.swing.JButton btn_cancelar;
+    private javax.swing.JButton btn_eliminar;
+    private javax.swing.JButton btn_guardar;
+    private javax.swing.JButton btn_nuevo;
+    private javax.swing.JButton btn_quitar;
+    private javax.swing.JButton btn_volver;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JScrollPane jScrollPane3;
+    private javax.swing.JTable jt_permisosA;
+    private javax.swing.JTable jt_permisosF;
+    private javax.swing.JTable jt_roles;
+    private javax.swing.JPanel pnl_nuevo;
+    private javax.swing.JTextField txt_nuevoRol;
     // End of variables declaration//GEN-END:variables
 }

@@ -8,6 +8,7 @@ package mscb.tick.main;
 import java.awt.Dialog;
 import java.awt.Image;
 import java.awt.Toolkit;
+import java.util.List;
 import javax.swing.JOptionPane;
 import mscb.tick.areas.vista.AreasV;
 import mscb.tick.areas.vista.NuevaAreaD;
@@ -29,10 +30,13 @@ import mscb.tick.tickets.vista.NuevoTicket;
 import mscb.tick.encargadoAsuntos.vista.AsuntoSinEncargadoD;
 import mscb.tick.entidades.Areas;
 import mscb.tick.entidades.BaseConocimiento;
+import mscb.tick.entidades.Permisos;
 import mscb.tick.entidades.Usuarios;
 import mscb.tick.hitorialTicket.vista.HistorialTicketV;
 import mscb.tick.login.servicios.LoginEJB;
+import mscb.tick.permisos.servicios.PermisoServ;
 import mscb.tick.razonesTransf.vista.Razones;
+import mscb.tick.roles.vista.RolesV;
 import mscb.tick.tickets.vista.ObservacionD;
 import mscb.tick.tickets.vista.ResolucionD;
 import mscb.tick.tickets.vista.ResponderD;
@@ -59,11 +63,14 @@ public class Main extends javax.swing.JFrame {
     private Login ingreso;
     private MenuPrincipal mppal;
     private InfoD inf;
-        
+    private PermisoServ serviciosP;
+    
     private UsuariosV usu;
     private NuevoUsuarioD formUsuario;
     private CambiarClaveDialog cambiarCl;
     private CambiarTipoD cambiarTipoU;
+    
+    private RolesV roles;
     
     private NuevoTicket formTicket;
     private TicketsV tabTick;
@@ -98,7 +105,7 @@ public class Main extends javax.swing.JFrame {
     
     private AreasV areasV;
     private NuevaAreaD nuevaArea;
-            
+    
     @Override
     public Image getIconImage() {
         Image retValue = Toolkit.getDefaultToolkit().
@@ -116,31 +123,120 @@ public class Main extends javax.swing.JFrame {
         setDefaultCloseOperation(0);
         setResizable(false);
         setLocationRelativeTo(null);
-        jMB_bar.setVisible(false);
         escuchador =  Listener.getListener(1);
         actualizador = new Actualizador(this);
         ventanaLogin();
         escuchador.start();
         actualizador.start();
     }
-    
+    /**
+     * 
+     * @return 
+     */
     public Main getMainFrame(){
         return this;
     }
     
-    public void validarPermisos(Usuarios usuario){
-        if(usuario.getFkRol().getIdRol() == 1){
-            jMB_bar.setVisible(true);
+    public void validarPermisos(){
+        serviciosP = new PermisoServ();
+        List<Permisos> permisosU = LoginEJB.usuario.getFkRol().getPermisosList();
+        
+        
+        //miTickets
+        if(permisosU.contains(serviciosP.traerUno(4))){
+            mi_misTicket.setVisible(true);
+        }else{
+            mi_misTicket.setVisible(false);
+        }
+        //nuevo Ticket
+        if(permisosU.contains(serviciosP.traerUno(5))){
+            mi_nuevoTicket.setVisible(true);
+        }else{
+            mi_nuevoTicket.setVisible(false);
+        }
+        //base conocimiento
+        if(permisosU.contains(serviciosP.traerUno(6))){
+            mi_conocimiento.setVisible(true);
+        }else{
+            mi_conocimiento.setVisible(false);
+        }
+        //************** Menu Administracion ********************************
+        if(permisosU.contains(serviciosP.traerUno(7))){
             jm_administracion.setVisible(true);
+        }else{
+            jm_administracion.setVisible(false);
+        }
+        //administrar tickets
+        if(permisosU.contains(serviciosP.traerUno(8))){
+            mi_administrar.setVisible(true);
+        }else{
+            mi_administrar.setVisible(false);
+        }
+        //ver estado del pgm
+        if(permisosU.contains(serviciosP.traerUno(12))){
+            mi_estadoPGM.setVisible(true);
+        }else{
+            mi_estadoPGM.setVisible(false);
+        }
+        //**************** Menu Configuracion *******************************
+        if(permisosU.contains(serviciosP.traerUno(13))){
             jM_configuracion.setVisible(true);
         }else{
-            jMB_bar.setVisible(true);
-            jm_administracion.setVisible(false);
             jM_configuracion.setVisible(false);
         }
-        
+        //areas
+        if(permisosU.contains(serviciosP.traerUno(14))){
+            mi_areas.setVisible(true);
+        }else{
+            mi_areas.setVisible(false);
+        }
+        //asuntos
+        if(permisosU.contains(serviciosP.traerUno(18))){
+            mi_asunutos.setVisible(true);
+        }else{
+            mi_asunutos.setVisible(false);
+        }
+        //servicios
+        if(permisosU.contains(serviciosP.traerUno(21))){
+            mi_servicios.setVisible(true);
+        }else{
+            mi_servicios.setVisible(false);
+        }
+        //Razones de transferencias
+        if(permisosU.contains(serviciosP.traerUno(24))){
+            mi_razones.setVisible(true);
+        }else{
+            mi_razones.setVisible(false);
+        }
+        //usuarios
+        if(permisosU.contains(serviciosP.traerUno(27))){
+            mi_usuarios.setVisible(true);
+        }else{
+            mi_usuarios.setVisible(false);
+        }
+        //asignar asuntos
+        if(permisosU.contains(serviciosP.traerUno(34))){
+            mi_servicios.setVisible(true);
+        }else{
+            mi_servicios.setVisible(false);
+        }
+        //roles
+        if(permisosU.contains(serviciosP.traerUno(35))){
+            mi_roles.setVisible(true);
+        }else{
+            mi_roles.setVisible(false);
+        }
     }
     
+    public boolean validarPermisos(int idPer){
+        serviciosP = new PermisoServ();
+         List<Permisos> permisosU = LoginEJB.usuario.getFkRol().getPermisosList();
+         if(permisosU.contains(serviciosP.traerUno(idPer))){
+             return true;
+         }else{
+             return false;
+         }
+    }
     
     /**
      * Llamada a la ventana del Login
@@ -152,7 +248,7 @@ public class Main extends javax.swing.JFrame {
            getContentPane().add(ingreso);
         }else{
             ingreso.setVisible(true);
-            validarPermisos(LoginEJB.usuario);
+            validarPermisos();
         }
         revalidate();
     }
@@ -513,6 +609,17 @@ public class Main extends javax.swing.JFrame {
         }
         revalidate();
     } 
+    
+    public void roles(){
+        roles = RolesV.getRolesV(this);
+        
+        if(!roles.isVisible()==false){
+            getContentPane().add(roles);
+        }else{
+            roles.setVisible(true);
+        }
+        revalidate();
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -525,7 +632,7 @@ public class Main extends javax.swing.JFrame {
         chkbx_thread = new javax.swing.JCheckBox();
         jMB_bar = new javax.swing.JMenuBar();
         jM_archivo = new javax.swing.JMenu();
-        mi_misTicket1 = new javax.swing.JMenuItem();
+        mi_inicio = new javax.swing.JMenuItem();
         mi_misTicket = new javax.swing.JMenuItem();
         mi_nuevoTicket = new javax.swing.JMenuItem();
         mi_conocimiento = new javax.swing.JMenuItem();
@@ -540,6 +647,7 @@ public class Main extends javax.swing.JFrame {
         mi_razones = new javax.swing.JMenuItem();
         mi_usuarios = new javax.swing.JMenuItem();
         mi_asignar = new javax.swing.JMenuItem();
+        mi_roles = new javax.swing.JMenuItem();
 
         chkbx_thread.setText("jCheckBox1");
 
@@ -550,13 +658,13 @@ public class Main extends javax.swing.JFrame {
 
         jM_archivo.setText("archivo");
 
-        mi_misTicket1.setText("inicio");
-        mi_misTicket1.addActionListener(new java.awt.event.ActionListener() {
+        mi_inicio.setText("inicio");
+        mi_inicio.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                mi_misTicket1ActionPerformed(evt);
+                mi_inicioActionPerformed(evt);
             }
         });
-        jM_archivo.add(mi_misTicket1);
+        jM_archivo.add(mi_inicio);
 
         mi_misTicket.setText("mis tickets");
         mi_misTicket.addActionListener(new java.awt.event.ActionListener() {
@@ -662,6 +770,14 @@ public class Main extends javax.swing.JFrame {
         });
         jM_configuracion.add(mi_asignar);
 
+        mi_roles.setText("roles");
+        mi_roles.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mi_rolesActionPerformed(evt);
+            }
+        });
+        jM_configuracion.add(mi_roles);
+
         jMB_bar.add(jM_configuracion);
 
         setJMenuBar(jMB_bar);
@@ -751,12 +867,19 @@ public class Main extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_mi_salirActionPerformed
 
-    private void mi_misTicket1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mi_misTicket1ActionPerformed
+    private void mi_inicioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mi_inicioActionPerformed
         // TODO add your handling code here:
         this.getContentPane().removeAll();
         menuPrincipal();
         this.repaint();
-    }//GEN-LAST:event_mi_misTicket1ActionPerformed
+    }//GEN-LAST:event_mi_inicioActionPerformed
+
+    private void mi_rolesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mi_rolesActionPerformed
+        // TODO add your handling code here:
+        this.getContentPane().removeAll();
+        roles();
+        this.repaint();
+    }//GEN-LAST:event_mi_rolesActionPerformed
 
     /**
      * @param args the command line arguments
@@ -805,10 +928,11 @@ public class Main extends javax.swing.JFrame {
     private javax.swing.JMenuItem mi_asunutos;
     private javax.swing.JMenuItem mi_conocimiento;
     private javax.swing.JMenuItem mi_estadoPGM;
+    private javax.swing.JMenuItem mi_inicio;
     private javax.swing.JMenuItem mi_misTicket;
-    private javax.swing.JMenuItem mi_misTicket1;
     private javax.swing.JMenuItem mi_nuevoTicket;
     private javax.swing.JMenuItem mi_razones;
+    private javax.swing.JMenuItem mi_roles;
     private javax.swing.JMenuItem mi_salir;
     private javax.swing.JMenuItem mi_servicios;
     private javax.swing.JMenuItem mi_usuarios;

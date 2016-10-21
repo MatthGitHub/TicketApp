@@ -55,7 +55,7 @@
                               <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                           </Group>
                           <Group type="102" alignment="0" attributes="0">
-                              <Component id="btn_desactivar1" min="-2" pref="130" max="-2" attributes="0"/>
+                              <Component id="btn_cambiarTipo" min="-2" pref="130" max="-2" attributes="0"/>
                               <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                           </Group>
                       </Group>
@@ -81,7 +81,7 @@
               <EmptySpace max="32767" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="btn_volver" alignment="3" min="-2" pref="31" max="-2" attributes="0"/>
-                  <Component id="btn_desactivar1" alignment="3" min="-2" pref="31" max="-2" attributes="0"/>
+                  <Component id="btn_cambiarTipo" alignment="3" min="-2" pref="31" max="-2" attributes="0"/>
               </Group>
               <EmptySpace pref="61" max="32767" attributes="0"/>
           </Group>
@@ -242,7 +242,7 @@
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btn_nuevoActionPerformed"/>
       </Events>
     </Component>
-    <Component class="javax.swing.JButton" name="btn_desactivar1">
+    <Component class="javax.swing.JButton" name="btn_cambiarTipo">
       <Properties>
         <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
           <Color blue="99" green="99" red="99" type="rgb"/>
@@ -253,7 +253,7 @@
         <Property name="text" type="java.lang.String" value="cambiar tipo"/>
       </Properties>
       <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btn_desactivar1ActionPerformed"/>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btn_cambiarTipoActionPerformed"/>
       </Events>
     </Component>
   </SubComponents>

@@ -35,6 +35,7 @@ public class AreasV extends MenuP {
         modelo = (DefaultTableModel) jt_areas.getModel();
         serviciosA = new AreaServ();
         setVisible(true);
+        validarPermisos();
         llenarTabla();
     }
     
@@ -43,6 +44,33 @@ public class AreasV extends MenuP {
             estePanel = new AreasV(mainFrame);
         }
         return estePanel;
+    }
+    
+    private void validarPermisos(){
+        //boton eliminar
+        if(mainFrame.validarPermisos(15)){
+            btn_eliminar.setEnabled(true);
+            btn_eliminar.setVisible(true);
+        }else{
+            btn_eliminar.setEnabled(false);
+            btn_eliminar.setVisible(false); 
+        }
+        //boton modificar area
+        if(mainFrame.validarPermisos(16)){
+            btn_modificar.setEnabled(true);
+            btn_modificar.setVisible(true);
+        }else{
+            btn_modificar.setEnabled(false);
+            btn_modificar.setVisible(false); 
+        }
+        //boton nueva
+        if(mainFrame.validarPermisos(17)){
+            btn_nueva.setEnabled(true);
+            btn_nueva.setVisible(true);
+        }else{
+            btn_nueva.setEnabled(false);
+            btn_nueva.setVisible(false); 
+        }
     }
     
     public void llenarTabla() {

@@ -22,4 +22,18 @@ public class RoleServ {
     public List<Roles> traerTodos(){
         return jpa.findRolesEntities();
     }
+    
+    public Roles traerUno(int id){
+        return jpa.findRoles(id);
+    }
+    
+    public boolean modificar(Roles modi){
+        try {
+            jpa.edit(modi);
+            return true;
+        } catch (Exception e) {
+            System.out.println(e+" - Error en modificar Rol");
+            return false;
+        }
+    }
 }

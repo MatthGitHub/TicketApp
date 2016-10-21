@@ -38,6 +38,7 @@ public class UsuariosV extends MenuP {
         this.mainFrame = mainFrame;
         this.setSize(800, 600);
         this.setVisible(true);
+        validarPermisos();
         cargarTablaUsuarios();
     }
     
@@ -47,7 +48,56 @@ public class UsuariosV extends MenuP {
         }
         return usuV;
     }
-
+    private void validarPermisos(){
+        //boton eliminar
+        if(mainFrame.validarPermisos(28)){
+            btn_eliminar.setEnabled(true);
+            btn_eliminar.setVisible(true);
+        }else{
+            btn_eliminar.setEnabled(false);
+            btn_eliminar.setVisible(false); 
+        }
+        //boton deshabilitar
+        if(mainFrame.validarPermisos(29)){
+            btn_desactivar.setEnabled(true);
+            btn_desactivar.setVisible(true);
+        }else{
+            btn_desactivar.setEnabled(false);
+            btn_desactivar.setVisible(false); 
+        }
+        //boton habilitar
+        if(mainFrame.validarPermisos(30)){
+            btn_activar.setEnabled(true);
+            btn_activar.setVisible(true);
+        }else{
+            btn_activar.setEnabled(false);
+            btn_activar.setVisible(false); 
+        }
+        //boton habilitar
+        if(mainFrame.validarPermisos(31)){
+            btn_resetClave.setEnabled(true);
+            btn_resetClave.setVisible(true);
+        }else{
+            btn_resetClave.setEnabled(false);
+            btn_resetClave.setVisible(false); 
+        }
+        //boton nuevo
+        if(mainFrame.validarPermisos(32)){
+            btn_nuevo.setEnabled(true);
+            btn_nuevo.setVisible(true);
+        }else{
+            btn_nuevo.setEnabled(false);
+            btn_nuevo.setVisible(false); 
+        }
+        //boton cambiar tipo
+        if(mainFrame.validarPermisos(33)){
+            btn_cambiarTipo.setEnabled(true);
+            btn_cambiarTipo.setVisible(true);
+        }else{
+            btn_cambiarTipo.setEnabled(false);
+            btn_cambiarTipo.setVisible(false); 
+        }
+    }
     private List <Usuarios> traerUsuarios(){
         servicios = new UsuarioServ();
         listaUsuarios = servicios.traerTodos();
@@ -126,7 +176,7 @@ public class UsuariosV extends MenuP {
         btn_activar = new javax.swing.JButton();
         btn_resetClave = new javax.swing.JButton();
         btn_nuevo = new javax.swing.JButton();
-        btn_desactivar1 = new javax.swing.JButton();
+        btn_cambiarTipo = new javax.swing.JButton();
 
         chkbx_activo.setText("jCheckBox1");
 
@@ -216,12 +266,12 @@ public class UsuariosV extends MenuP {
             }
         });
 
-        btn_desactivar1.setBackground(new java.awt.Color(153, 153, 153));
-        btn_desactivar1.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        btn_desactivar1.setText("cambiar tipo");
-        btn_desactivar1.addActionListener(new java.awt.event.ActionListener() {
+        btn_cambiarTipo.setBackground(new java.awt.Color(153, 153, 153));
+        btn_cambiarTipo.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        btn_cambiarTipo.setText("cambiar tipo");
+        btn_cambiarTipo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btn_desactivar1ActionPerformed(evt);
+                btn_cambiarTipoActionPerformed(evt);
             }
         });
 
@@ -249,7 +299,7 @@ public class UsuariosV extends MenuP {
                                 .addComponent(btn_nuevo, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(0, 0, Short.MAX_VALUE))
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(btn_desactivar1, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(btn_cambiarTipo, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(0, 0, Short.MAX_VALUE))))
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 795, Short.MAX_VALUE))
                 .addContainerGap())
@@ -271,7 +321,7 @@ public class UsuariosV extends MenuP {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btn_volver, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btn_desactivar1, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(btn_cambiarTipo, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(61, Short.MAX_VALUE))
         );
 
@@ -342,20 +392,20 @@ public class UsuariosV extends MenuP {
         }
     }//GEN-LAST:event_btn_eliminarActionPerformed
 
-    private void btn_desactivar1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_desactivar1ActionPerformed
+    private void btn_cambiarTipoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_cambiarTipoActionPerformed
         // TODO add your handling code here:
          if((jt_usuarios.getSelectedRow() != -1)&&(jt_usuarios.getSelectedRowCount()== 1)){
              mainFrame.cambiarTipoUsuario(servicios.buscarUnUsuario(Integer.parseInt(modelo.getValueAt(jt_usuarios.getSelectedRow(), 0).toString())));
          }else{
             JOptionPane.showMessageDialog(mainFrame,"Seleccionar una y solo una fila!", "Error", JOptionPane.ERROR_MESSAGE);
               }
-    }//GEN-LAST:event_btn_desactivar1ActionPerformed
+    }//GEN-LAST:event_btn_cambiarTipoActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btn_activar;
+    private javax.swing.JButton btn_cambiarTipo;
     private javax.swing.JButton btn_desactivar;
-    private javax.swing.JButton btn_desactivar1;
     private javax.swing.JButton btn_eliminar;
     private javax.swing.JButton btn_nuevo;
     private javax.swing.JButton btn_resetClave;

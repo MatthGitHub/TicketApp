@@ -10,6 +10,7 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import mscb.tick.controladores.PermisosJpaController;
 import mscb.tick.entidades.Permisos;
+import mscb.tick.entidades.Roles;
 
 /**
  *
@@ -22,4 +23,9 @@ public class PermisoServ {
     public List <Permisos> traerTodos(){
         return jpa.findPermisosEntities();
     }
+    
+    public Permisos traerUno(int ID){
+        return jpa.findPermisos(ID);
+    }
+    
 }
