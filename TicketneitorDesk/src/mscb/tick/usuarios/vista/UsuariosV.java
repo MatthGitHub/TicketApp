@@ -50,52 +50,52 @@ public class UsuariosV extends MenuP {
     }
     private void validarPermisos(){
         //boton eliminar
-        if(mainFrame.validarPermisos(28)){
-            btn_eliminar.setEnabled(true);
-            btn_eliminar.setVisible(true);
-        }else{
+        if(!mainFrame.validarPermisos(28)){
             btn_eliminar.setEnabled(false);
-            btn_eliminar.setVisible(false); 
+            btn_eliminar.setVisible(false);
+        }else{
+            btn_eliminar.setEnabled(true);
+            btn_eliminar.setVisible(true); 
         }
         //boton deshabilitar
-        if(mainFrame.validarPermisos(29)){
-            btn_desactivar.setEnabled(true);
-            btn_desactivar.setVisible(true);
-        }else{
+        if(!mainFrame.validarPermisos(29)){
             btn_desactivar.setEnabled(false);
-            btn_desactivar.setVisible(false); 
+            btn_desactivar.setVisible(false);
+        }else{
+            btn_desactivar.setEnabled(true);
+            btn_desactivar.setVisible(true); 
         }
         //boton habilitar
-        if(mainFrame.validarPermisos(30)){
-            btn_activar.setEnabled(true);
-            btn_activar.setVisible(true);
-        }else{
+        if(!mainFrame.validarPermisos(30)){
             btn_activar.setEnabled(false);
-            btn_activar.setVisible(false); 
+            btn_activar.setVisible(false);
+        }else{
+            btn_activar.setEnabled(true);
+            btn_activar.setVisible(true); 
         }
         //boton habilitar
-        if(mainFrame.validarPermisos(31)){
-            btn_resetClave.setEnabled(true);
-            btn_resetClave.setVisible(true);
-        }else{
+        if(!mainFrame.validarPermisos(31)){
             btn_resetClave.setEnabled(false);
-            btn_resetClave.setVisible(false); 
+            btn_resetClave.setVisible(false);
+        }else{
+            btn_resetClave.setEnabled(true);
+            btn_resetClave.setVisible(true); 
         }
         //boton nuevo
-        if(mainFrame.validarPermisos(32)){
-            btn_nuevo.setEnabled(true);
-            btn_nuevo.setVisible(true);
-        }else{
+        if(!mainFrame.validarPermisos(32)){
             btn_nuevo.setEnabled(false);
-            btn_nuevo.setVisible(false); 
+            btn_nuevo.setVisible(false);
+        }else{
+            btn_nuevo.setEnabled(true);
+            btn_nuevo.setVisible(true); 
         }
         //boton cambiar tipo
-        if(mainFrame.validarPermisos(33)){
-            btn_cambiarTipo.setEnabled(true);
-            btn_cambiarTipo.setVisible(true);
-        }else{
+        if(!mainFrame.validarPermisos(33)){
             btn_cambiarTipo.setEnabled(false);
-            btn_cambiarTipo.setVisible(false); 
+            btn_cambiarTipo.setVisible(false);
+        }else{
+            btn_cambiarTipo.setEnabled(true);
+            btn_cambiarTipo.setVisible(true); 
         }
     }
     private List <Usuarios> traerUsuarios(){
@@ -219,7 +219,7 @@ public class UsuariosV extends MenuP {
 
         btn_volver.setBackground(new java.awt.Color(153, 153, 153));
         btn_volver.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        btn_volver.setText("volver");
+        btn_volver.setText("menu");
         btn_volver.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btn_volverActionPerformed(evt);
@@ -238,6 +238,11 @@ public class UsuariosV extends MenuP {
         btn_desactivar.setBackground(new java.awt.Color(153, 153, 153));
         btn_desactivar.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         btn_desactivar.setText("deshabilitar");
+        btn_desactivar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_desactivarActionPerformed(evt);
+            }
+        });
 
         btn_activar.setBackground(new java.awt.Color(153, 153, 153));
         btn_activar.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
@@ -333,6 +338,8 @@ public class UsuariosV extends MenuP {
         // TODO add your handling code here:
         mainFrame.menuPrincipal();
         this.setVisible(false);
+        usuV = null;
+        System.gc();
     }//GEN-LAST:event_btn_volverActionPerformed
 
     private void btn_activarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_activarActionPerformed
@@ -400,6 +407,26 @@ public class UsuariosV extends MenuP {
             JOptionPane.showMessageDialog(mainFrame,"Seleccionar una y solo una fila!", "Error", JOptionPane.ERROR_MESSAGE);
               }
     }//GEN-LAST:event_btn_cambiarTipoActionPerformed
+
+    private void btn_desactivarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_desactivarActionPerformed
+        // TODO add your handling code here:
+        if((jt_usuarios.getSelectedRow() != -1)&&(jt_usuarios.getSelectedRowCount()== 1)){
+            if(JOptionPane.showConfirmDialog(mainFrame, "Seguro desea inhabilitar?") == 0){
+                if(Boolean.valueOf(modelo.getValueAt(jt_usuarios.getSelectedRow(), 6).toString())== true){
+                    if(servicios.deshabilitarUsuario(Integer.parseInt(modelo.getValueAt(jt_usuarios.getSelectedRow(), 0).toString()))== 0){
+                        JOptionPane.showMessageDialog(mainFrame, "Usuario inhabilitado!");
+                        cargarTablaUsuarios();
+                    }else{
+                        JOptionPane.showMessageDialog(mainFrame, "Error al inhabilitar usuario", "Error", JOptionPane.ERROR_MESSAGE);
+                    }
+                }else{
+                    JOptionPane.showMessageDialog(mainFrame,"Este usuario ya se encuentra inhabilitado!", "Error", JOptionPane.ERROR_MESSAGE);
+                }
+            }
+        }else{
+           JOptionPane.showMessageDialog(mainFrame,"Seleccionar una y solo una fila!", "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_btn_desactivarActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

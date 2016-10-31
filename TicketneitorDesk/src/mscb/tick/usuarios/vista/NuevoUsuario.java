@@ -188,6 +188,11 @@ public class NuevoUsuario extends MenuP {
                 txt_buscarActionPerformed(evt);
             }
         });
+        txt_buscar.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txt_buscarKeyTyped(evt);
+            }
+        });
 
         btn_volver.setBackground(new java.awt.Color(153, 153, 153));
         btn_volver.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
@@ -323,6 +328,13 @@ public class NuevoUsuario extends MenuP {
                 JOptionPane.showMessageDialog(estePanel, "Debe ingresar un nombre de usuario!", "Error!", JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_btn_guardarActionPerformed
+
+    private void txt_buscarKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txt_buscarKeyTyped
+        // TODO add your handling code here:
+        if(!txt_buscar.getText().isEmpty()){
+            llenarTabla(buscaE.traerEmpleados(txt_buscar.getText()));
+        }
+    }//GEN-LAST:event_txt_buscarKeyTyped
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

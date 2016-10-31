@@ -41,5 +41,13 @@ public class EmpleadoServ {
         return q.getResultList();
     }
     
-    
+    public boolean nuevo(Empleados nuevo){
+        try {
+            jpa.create(nuevo);
+            return true;
+        } catch (Exception e) {
+            System.out.println(e+" - Error al crear nuevo empleado");
+            return false;
+        }
+    }
 }

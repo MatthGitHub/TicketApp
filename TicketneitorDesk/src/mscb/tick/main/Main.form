@@ -35,6 +35,9 @@
             </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="mi_misTicket">
               <Properties>
+                <Property name="accelerator" type="javax.swing.KeyStroke" editor="org.netbeans.modules.form.editors.KeyStrokeEditor">
+                  <KeyStroke key="WINDOWS"/>
+                </Property>
                 <Property name="text" type="java.lang.String" value="mis tickets"/>
               </Properties>
               <Events>
@@ -43,6 +46,9 @@
             </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="mi_nuevoTicket">
               <Properties>
+                <Property name="accelerator" type="javax.swing.KeyStroke" editor="org.netbeans.modules.form.editors.KeyStrokeEditor">
+                  <KeyStroke key="Ctrl+N"/>
+                </Property>
                 <Property name="text" type="java.lang.String" value="nuevo ticket"/>
               </Properties>
               <Events>
@@ -51,6 +57,9 @@
             </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="mi_conocimiento">
               <Properties>
+                <Property name="accelerator" type="javax.swing.KeyStroke" editor="org.netbeans.modules.form.editors.KeyStrokeEditor">
+                  <KeyStroke key="Ctrl+B"/>
+                </Property>
                 <Property name="text" type="java.lang.String" value="base de conocimiento"/>
               </Properties>
               <Events>
@@ -59,6 +68,9 @@
             </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="mi_salir">
               <Properties>
+                <Property name="accelerator" type="javax.swing.KeyStroke" editor="org.netbeans.modules.form.editors.KeyStrokeEditor">
+                  <KeyStroke key="Ctrl+Q"/>
+                </Property>
                 <Property name="text" type="java.lang.String" value="salir"/>
               </Properties>
               <Events>
@@ -97,6 +109,9 @@
           <SubComponents>
             <MenuItem class="javax.swing.JMenuItem" name="mi_areas">
               <Properties>
+                <Property name="accelerator" type="javax.swing.KeyStroke" editor="org.netbeans.modules.form.editors.KeyStrokeEditor">
+                  <KeyStroke key="Ctrl+A"/>
+                </Property>
                 <Property name="text" type="java.lang.String" value="areas"/>
               </Properties>
               <Events>
@@ -105,6 +120,9 @@
             </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="mi_asunutos">
               <Properties>
+                <Property name="accelerator" type="javax.swing.KeyStroke" editor="org.netbeans.modules.form.editors.KeyStrokeEditor">
+                  <KeyStroke key="Alt+A"/>
+                </Property>
                 <Property name="text" type="java.lang.String" value="asuntos"/>
               </Properties>
               <Events>
@@ -113,6 +131,9 @@
             </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="mi_servicios">
               <Properties>
+                <Property name="accelerator" type="javax.swing.KeyStroke" editor="org.netbeans.modules.form.editors.KeyStrokeEditor">
+                  <KeyStroke key="Ctrl+S"/>
+                </Property>
                 <Property name="text" type="java.lang.String" value="servicios"/>
               </Properties>
               <Events>
@@ -121,6 +142,9 @@
             </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="mi_razones">
               <Properties>
+                <Property name="accelerator" type="javax.swing.KeyStroke" editor="org.netbeans.modules.form.editors.KeyStrokeEditor">
+                  <KeyStroke key="Ctrl+R"/>
+                </Property>
                 <Property name="text" type="java.lang.String" value="razones de transf"/>
               </Properties>
               <Events>
@@ -129,6 +153,9 @@
             </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="mi_usuarios">
               <Properties>
+                <Property name="accelerator" type="javax.swing.KeyStroke" editor="org.netbeans.modules.form.editors.KeyStrokeEditor">
+                  <KeyStroke key="Ctrl+U"/>
+                </Property>
                 <Property name="text" type="java.lang.String" value="usuarios"/>
               </Properties>
               <Events>
@@ -137,6 +164,9 @@
             </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="mi_asignar">
               <Properties>
+                <Property name="accelerator" type="javax.swing.KeyStroke" editor="org.netbeans.modules.form.editors.KeyStrokeEditor">
+                  <KeyStroke key="Alt+U"/>
+                </Property>
                 <Property name="text" type="java.lang.String" value="asignar asuntos a usuarios"/>
               </Properties>
               <Events>
@@ -145,10 +175,24 @@
             </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="mi_roles">
               <Properties>
+                <Property name="accelerator" type="javax.swing.KeyStroke" editor="org.netbeans.modules.form.editors.KeyStrokeEditor">
+                  <KeyStroke key="Alt+R"/>
+                </Property>
                 <Property name="text" type="java.lang.String" value="roles"/>
               </Properties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="mi_rolesActionPerformed"/>
+              </Events>
+            </MenuItem>
+            <MenuItem class="javax.swing.JMenuItem" name="mi_empleados">
+              <Properties>
+                <Property name="accelerator" type="javax.swing.KeyStroke" editor="org.netbeans.modules.form.editors.KeyStrokeEditor">
+                  <KeyStroke key="Ctrl+E"/>
+                </Property>
+                <Property name="text" type="java.lang.String" value="empleados"/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="mi_empleadosActionPerformed"/>
               </Events>
             </MenuItem>
           </SubComponents>

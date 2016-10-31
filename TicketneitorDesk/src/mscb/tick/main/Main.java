@@ -18,6 +18,8 @@ import mscb.tick.asuntos.vista.AsuntosPrin;
 import mscb.tick.asuntos.vista.NuevoAsuntoD;
 import mscb.tick.conocimiento.vista.BaseConocimientoV;
 import mscb.tick.conocimiento.vista.ResolucionVerD;
+import mscb.tick.empelados.vista.EmpleadosV;
+import mscb.tick.empelados.vista.NuevoEmpleado;
 import mscb.tick.encargadoAsuntos.vista.EncargadoAsuntos;
 import mscb.tick.entidades.Asuntos;
 import mscb.tick.entidades.Tickets;
@@ -75,7 +77,8 @@ public class Main extends javax.swing.JFrame {
     private NuevoTicket formTicket;
     private TicketsV tabTick;
     
-    
+    private EmpleadosV empleadosV;
+    private NuevoEmpleado nuevoEmpleado;
     
     private EncargadoAsuntos asignarEncargado;
         
@@ -140,7 +143,7 @@ public class Main extends javax.swing.JFrame {
     public void validarPermisos(){
         serviciosP = new PermisoServ();
         List<Permisos> permisosU = LoginEJB.usuario.getFkRol().getPermisosList();
-        
+        jMB_bar.setVisible(true);
         
         //miTickets
         if(permisosU.contains(serviciosP.traerUno(4))){
@@ -226,6 +229,13 @@ public class Main extends javax.swing.JFrame {
         }else{
             mi_roles.setVisible(false);
         }
+        //roles
+        if(permisosU.contains(serviciosP.traerUno(40))){
+            mi_empleados.setVisible(true);
+        }else{
+            mi_empleados.setVisible(false);
+        }
+        
     }
     
     public boolean validarPermisos(int idPer){
@@ -599,7 +609,9 @@ public class Main extends javax.swing.JFrame {
         }
         revalidate();
     }
-    
+    /**
+     * Ventana para dar de alta nueva area
+     */
     public void nuevaArea(){
         if(nuevaArea == null){
             nuevaArea = new NuevaAreaD(this, true);
@@ -609,7 +621,9 @@ public class Main extends javax.swing.JFrame {
         }
         revalidate();
     } 
-    
+    /**
+     * Ventana de roles
+     */
     public void roles(){
         roles = RolesV.getRolesV(this);
         
@@ -617,6 +631,32 @@ public class Main extends javax.swing.JFrame {
             getContentPane().add(roles);
         }else{
             roles.setVisible(true);
+        }
+        revalidate();
+    }
+    /**
+     * Ventana de empleados
+     */
+    public void empleados(){
+        empleadosV = EmpleadosV.getEmpeladosV(this);
+        
+        if(!empleadosV.isVisible()==false){
+            getContentPane().add(empleadosV);
+        }else{
+            empleadosV.setVisible(true);
+        }
+        revalidate();
+    }
+    /**
+     * Ventana de empleados
+     */
+    public void nuevoEmpleado(){
+        nuevoEmpleado = NuevoEmpleado.getNuevoEmpelado(this);
+
+        if(!nuevoEmpleado.isVisible()==false){
+            getContentPane().add(nuevoEmpleado);
+        }else{
+            nuevoEmpleado.setVisible(true);
         }
         revalidate();
     }
@@ -648,6 +688,7 @@ public class Main extends javax.swing.JFrame {
         mi_usuarios = new javax.swing.JMenuItem();
         mi_asignar = new javax.swing.JMenuItem();
         mi_roles = new javax.swing.JMenuItem();
+        mi_empleados = new javax.swing.JMenuItem();
 
         chkbx_thread.setText("jCheckBox1");
 
@@ -666,6 +707,7 @@ public class Main extends javax.swing.JFrame {
         });
         jM_archivo.add(mi_inicio);
 
+        mi_misTicket.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_WINDOWS, 0));
         mi_misTicket.setText("mis tickets");
         mi_misTicket.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -674,6 +716,7 @@ public class Main extends javax.swing.JFrame {
         });
         jM_archivo.add(mi_misTicket);
 
+        mi_nuevoTicket.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_N, java.awt.event.InputEvent.CTRL_MASK));
         mi_nuevoTicket.setText("nuevo ticket");
         mi_nuevoTicket.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -682,6 +725,7 @@ public class Main extends javax.swing.JFrame {
         });
         jM_archivo.add(mi_nuevoTicket);
 
+        mi_conocimiento.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_B, java.awt.event.InputEvent.CTRL_MASK));
         mi_conocimiento.setText("base de conocimiento");
         mi_conocimiento.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -690,6 +734,7 @@ public class Main extends javax.swing.JFrame {
         });
         jM_archivo.add(mi_conocimiento);
 
+        mi_salir.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_Q, java.awt.event.InputEvent.CTRL_MASK));
         mi_salir.setText("salir");
         mi_salir.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -722,6 +767,7 @@ public class Main extends javax.swing.JFrame {
 
         jM_configuracion.setText("configuracion");
 
+        mi_areas.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_A, java.awt.event.InputEvent.CTRL_MASK));
         mi_areas.setText("areas");
         mi_areas.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -730,6 +776,7 @@ public class Main extends javax.swing.JFrame {
         });
         jM_configuracion.add(mi_areas);
 
+        mi_asunutos.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_A, java.awt.event.InputEvent.ALT_MASK));
         mi_asunutos.setText("asuntos");
         mi_asunutos.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -738,6 +785,7 @@ public class Main extends javax.swing.JFrame {
         });
         jM_configuracion.add(mi_asunutos);
 
+        mi_servicios.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_S, java.awt.event.InputEvent.CTRL_MASK));
         mi_servicios.setText("servicios");
         mi_servicios.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -746,6 +794,7 @@ public class Main extends javax.swing.JFrame {
         });
         jM_configuracion.add(mi_servicios);
 
+        mi_razones.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_R, java.awt.event.InputEvent.CTRL_MASK));
         mi_razones.setText("razones de transf");
         mi_razones.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -754,6 +803,7 @@ public class Main extends javax.swing.JFrame {
         });
         jM_configuracion.add(mi_razones);
 
+        mi_usuarios.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_U, java.awt.event.InputEvent.CTRL_MASK));
         mi_usuarios.setText("usuarios");
         mi_usuarios.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -762,6 +812,7 @@ public class Main extends javax.swing.JFrame {
         });
         jM_configuracion.add(mi_usuarios);
 
+        mi_asignar.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_U, java.awt.event.InputEvent.ALT_MASK));
         mi_asignar.setText("asignar asuntos a usuarios");
         mi_asignar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -770,6 +821,7 @@ public class Main extends javax.swing.JFrame {
         });
         jM_configuracion.add(mi_asignar);
 
+        mi_roles.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_R, java.awt.event.InputEvent.ALT_MASK));
         mi_roles.setText("roles");
         mi_roles.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -777,6 +829,15 @@ public class Main extends javax.swing.JFrame {
             }
         });
         jM_configuracion.add(mi_roles);
+
+        mi_empleados.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_E, java.awt.event.InputEvent.CTRL_MASK));
+        mi_empleados.setText("empleados");
+        mi_empleados.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mi_empleadosActionPerformed(evt);
+            }
+        });
+        jM_configuracion.add(mi_empleados);
 
         jMB_bar.add(jM_configuracion);
 
@@ -881,6 +942,13 @@ public class Main extends javax.swing.JFrame {
         this.repaint();
     }//GEN-LAST:event_mi_rolesActionPerformed
 
+    private void mi_empleadosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mi_empleadosActionPerformed
+        // TODO add your handling code here:
+        this.getContentPane().removeAll();
+        empleados();
+        this.repaint();
+    }//GEN-LAST:event_mi_empleadosActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -927,6 +995,7 @@ public class Main extends javax.swing.JFrame {
     private javax.swing.JMenuItem mi_asignar;
     private javax.swing.JMenuItem mi_asunutos;
     private javax.swing.JMenuItem mi_conocimiento;
+    private javax.swing.JMenuItem mi_empleados;
     private javax.swing.JMenuItem mi_estadoPGM;
     private javax.swing.JMenuItem mi_inicio;
     private javax.swing.JMenuItem mi_misTicket;

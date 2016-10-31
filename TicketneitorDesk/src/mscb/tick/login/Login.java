@@ -37,6 +37,7 @@ public class Login extends MenuP {
         this.mainFrame = mainFrame;
         lbl_mensaje.setVisible(false);
         setSize(320, 220);
+        mainFrame.jMB_bar.setVisible(false);
         setVisible(true);
         mainFrame.setSize(320, 220);
         mainFrame.setTitle("Login");

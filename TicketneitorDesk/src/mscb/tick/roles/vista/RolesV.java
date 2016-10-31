@@ -247,6 +247,11 @@ public class RolesV extends MenuP {
         }
 
         btn_quitar.setText("quitar");
+        btn_quitar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_quitarActionPerformed(evt);
+            }
+        });
 
         btn_agregar.setText("agregar");
         btn_agregar.addActionListener(new java.awt.event.ActionListener() {
@@ -430,12 +435,29 @@ public class RolesV extends MenuP {
                 llenarTablaPermisosActuales(miRol);
                 llenarTablaPermisosFaltantes(miRol);
             }else{
-                JOptionPane.showMessageDialog(this, "Error la agregar permiso", "Error", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(this, "Error al agregar permiso", "Error", JOptionPane.ERROR_MESSAGE);
             }
         }else{
             JOptionPane.showMessageDialog(this, "Debe seleccionar una y solo una fila!", "ERROR", JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_btn_agregarActionPerformed
+
+    private void btn_quitarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_quitarActionPerformed
+        // TODO add your handling code here:
+        if(jt_permisosA.getSelectedRow()!= -1){
+            Permisos permi = serviciosP.traerUno(Integer.parseInt(modeloA.getValueAt(jt_permisosA.getSelectedRow(), 0).toString()));
+            miRol.getPermisosList().remove(permi);
+            if(serviciosR.modificar(miRol)){
+                JOptionPane.showMessageDialog(this, "Permiso quitado", "Exito", JOptionPane.INFORMATION_MESSAGE);
+                llenarTablaPermisosActuales(miRol);
+                llenarTablaPermisosFaltantes(miRol);
+            }else{
+                JOptionPane.showMessageDialog(this, "Error al quitar permiso", "Error", JOptionPane.ERROR_MESSAGE);
+            }
+        }else{
+            JOptionPane.showMessageDialog(this, "Debe seleccionar una y solo una fila!", "ERROR", JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_btn_quitarActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

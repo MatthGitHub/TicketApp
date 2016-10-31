@@ -65,7 +65,7 @@ public class Empleados implements Serializable {
     @Basic(optional = false)
     @NotNull
     @Column(name = "legajo")
-    private int legajo;
+    private Integer legajo;
     @JoinColumn(name = "fk_area", referencedColumnName = "id_area")
     @ManyToOne(optional = false)
     private Areas fkArea;
@@ -119,11 +119,11 @@ public class Empleados implements Serializable {
         this.documento = documento;
     }
 
-    public int getLegajo() {
+    public Integer getLegajo() {
         return legajo;
     }
 
-    public void setLegajo(int legajo) {
+    public void setLegajo(Integer legajo) {
         this.legajo = legajo;
     }
 
