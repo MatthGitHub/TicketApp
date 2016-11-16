@@ -178,7 +178,7 @@ public class Login extends MenuP {
                     }else{
                         mainFrame.miTickets();
                     }
-                    
+                    mainFrame.validarPermisos();
                     ingreso.setVisible(false);
                     ingreso = null;
                     System.gc();

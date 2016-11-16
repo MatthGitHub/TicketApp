@@ -29,7 +29,11 @@ public class MenuPrincipal extends MenuP {
         initComponents();
         this.mainFrame = mainFrame;
         //cargarIconos();
-        lblNombreUsuario.setText(LoginEJB.usuario.getFkEmpleado().getNombre());
+        if(LoginEJB.usuario.getNombreUsuario().equals("administrador")){
+            lblNombreUsuario.setText("ADMINISTRADOR");
+        }else{
+            lblNombreUsuario.setText(LoginEJB.usuario.getFkEmpleado().getNombre());
+        }
         setVisible(true);
     }
     
@@ -38,6 +42,15 @@ public class MenuPrincipal extends MenuP {
             menuP = new MenuPrincipal(mainFrame);
         }
         return menuP;
+    }
+    
+    public void setLblNombreUsuario(){
+        if(LoginEJB.usuario.getNombreUsuario().equals("administrador")){
+            lblNombreUsuario.setText("ADMINISTRADOR");
+        }else{
+            lblNombreUsuario.setText(LoginEJB.usuario.getFkEmpleado().getNombre());
+        }
+        
     }
     
     public Image getIconImage(String path) {
@@ -207,7 +220,7 @@ public class MenuPrincipal extends MenuP {
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenuBar jMenuBar1;
-    private javax.swing.JLabel lblNombreUsuario;
+    public javax.swing.JLabel lblNombreUsuario;
     private javax.swing.JLabel lblNombreUsuario1;
     // End of variables declaration//GEN-END:variables
 }

@@ -80,9 +80,9 @@
                       <Component id="txt_buscar" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
               </Group>
-              <EmptySpace pref="18" max="32767" attributes="0"/>
-              <Component id="jScrollPane1" min="-2" pref="401" max="-2" attributes="0"/>
-              <EmptySpace type="separate" max="32767" attributes="0"/>
+              <EmptySpace min="-2" pref="18" max="-2" attributes="0"/>
+              <Component id="jScrollPane1" pref="401" max="32767" attributes="0"/>
+              <EmptySpace type="separate" min="-2" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="btn_volver" alignment="3" min="-2" pref="42" max="-2" attributes="0"/>
                   <Component id="ver_historial" alignment="3" min="-2" pref="42" max="-2" attributes="0"/>
@@ -90,7 +90,7 @@
                   <Component id="btn_cambiarEstado" alignment="3" min="-2" pref="42" max="-2" attributes="0"/>
                   <Component id="btn_observacion" alignment="3" min="-2" pref="42" max="-2" attributes="0"/>
               </Group>
-              <EmptySpace pref="58" max="32767" attributes="0"/>
+              <EmptySpace min="-2" pref="58" max="-2" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
