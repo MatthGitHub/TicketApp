@@ -22,6 +22,8 @@ public final class RespuestaD extends javax.swing.JDialog {
     public RespuestaD(JFrame parent, boolean modal,Tickets miTick) {
         super(parent, modal);
         initComponents();
+        setDefaultCloseOperation(0);
+        setResizable(false);
         setLocationRelativeTo(null);
         this.mainFrame = (Main) parent;
         setSize(520, 300);

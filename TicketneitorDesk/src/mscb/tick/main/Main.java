@@ -39,6 +39,7 @@ import mscb.tick.login.servicios.LoginEJB;
 import mscb.tick.permisos.servicios.PermisoServ;
 import mscb.tick.razonesTransf.vista.Razones;
 import mscb.tick.roles.vista.RolesV;
+import mscb.tick.tickets.vista.CambiarEstadoTicketD;
 import mscb.tick.tickets.vista.ObservacionD;
 import mscb.tick.tickets.vista.ResolucionD;
 import mscb.tick.tickets.vista.ResponderD;
@@ -93,6 +94,7 @@ public class Main extends javax.swing.JFrame {
     private EstadoPGMD cambiarPgm;
     private ResolucionD resoF;
     private ResolucionVerD resoVerF;
+    private CambiarEstadoTicketD cambiaEstadoTicket;
     
     private AsuntosPrin asuntos;
     private NuevoAsuntoD nuevoAsunto;
@@ -536,6 +538,21 @@ public class Main extends javax.swing.JFrame {
         }
         revalidate();
     }
+    
+    /**
+     * Ventana con asuntos sin encargar a nadie
+     * 
+     */
+    public void cambiarEstadoTicket(Tickets miTick){
+        if(cambiaEstadoTicket == null){
+            cambiaEstadoTicket = new CambiarEstadoTicketD(this,true,miTick);
+        }else{
+            cambiaEstadoTicket.getCambiarEstadoTicketPanel(miTick);
+            cambiaEstadoTicket.setVisible(true);
+        }
+        revalidate();
+    }
+    
     
     /**
      * Ventana de base de conocimiento

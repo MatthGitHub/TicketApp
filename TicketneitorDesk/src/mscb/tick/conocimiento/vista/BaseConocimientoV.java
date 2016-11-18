@@ -54,7 +54,7 @@ public class BaseConocimientoV extends MenuP {
     
     private void llenarTabla(){
         miLista = serviciosC.traerTodos();
-        String v[] = new String[4];
+        String v[] = new String[6];
         DateFormat dateFormatter;
         dateFormatter = DateFormat.getDateInstance(DateFormat.SHORT, Locale.US);
         
@@ -62,7 +62,9 @@ public class BaseConocimientoV extends MenuP {
             v[0] = miLista.get(i).getFkTicket().toString();
             v[1] = miLista.get(i).getIdResolucion().toString();
             v[2] = dateFormatter.format(miLista.get(i).getFkTicket().getFecha()).toString();
-            v[3] = dateFormatter.format(miLista.get(i).getFecha()).toString();
+            v[3] = miLista.get(i).getFkTicket().getFkUsuarioEmisor().getNombreUsuario();
+            v[4] = dateFormatter.format(miLista.get(i).getFecha()).toString();
+            v[5] = miLista.get(i).getFkTicket().getUsuarioReceptor().getNombreUsuario();
             modelo.addRow(v);
         }
         revalidate();
@@ -89,7 +91,7 @@ public class BaseConocimientoV extends MenuP {
 
             },
             new String [] {
-                "Nº ticket", "Nº resolucion", "Fecha entrada", "Fecha resuelto"
+                "Nº ticket", "Nº resolucion", "Emisor", "Fecha entrada", "Receptor", "Fecha resuelto"
             }
         ));
         jScrollPane1.setViewportView(jt_conocimiento);
@@ -117,15 +119,15 @@ public class BaseConocimientoV extends MenuP {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 768, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 768, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(btn_volver, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(btn_verResolucion, javax.swing.GroupLayout.PREFERRED_SIZE, 274, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(0, 0, Short.MAX_VALUE)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)

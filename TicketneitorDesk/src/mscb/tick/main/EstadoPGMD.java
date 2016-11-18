@@ -21,6 +21,7 @@ public class EstadoPGMD extends javax.swing.JDialog {
         super(parent, modal);
         initComponents();
         setDefaultCloseOperation(0);
+        setResizable(false);
         this.mainFrame = (Main) parent;
         setTitle("Cmbiar estado PGM");
         this.setSize(260, 360);

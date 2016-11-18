@@ -444,7 +444,11 @@ public class TicketsV extends MenuP {
 
     private void btn_cambiarEstadoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_cambiarEstadoActionPerformed
         // TODO add your handling code here:
-        
+        if((jt_tickets.getSelectedRowCount() != -1)&&(jt_tickets.getSelectedRowCount() < 2)){
+            mainFrame.cambiarEstadoTicket(serviciosT.buscarUno(Integer.parseInt(modelo.getValueAt(jt_tickets.getSelectedRow(), 0).toString())));
+        }else{
+            JOptionPane.showMessageDialog(this, "Debe seleccionar una y solo una fla!", "Error!", JOptionPane.ERROR_MESSAGE);
+        }
     }//GEN-LAST:event_btn_cambiarEstadoActionPerformed
 
     private void btn_observacionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_observacionActionPerformed

@@ -5,18 +5,46 @@
  */
 package mscb.tick.tickets.vista;
 
+import javax.swing.JFrame;
+import mscb.tick.entidades.Tickets;
+import mscb.tick.main.Main;
+
 /**
  *
  * @author Administrador
  */
 public class CambiarEstadoTicketD extends javax.swing.JDialog {
-
+    private CambiarEstadoTicketP esePanel;
+    Main mainFrame;
     /**
      * Creates new form CambiarEstadoTicketD
      */
-    public CambiarEstadoTicketD(java.awt.Frame parent, boolean modal) {
+    public CambiarEstadoTicketD(java.awt.Frame parent, boolean modal,Tickets miTick) {
         super(parent, modal);
         initComponents();
+        mainFrame = (Main) parent;
+        setTitle("Cambiar estado ticket");
+        setLocationRelativeTo(mainFrame);
+        setSize(230, 300);
+        //setResizable(false);
+        setDefaultCloseOperation(0);
+        getCambiarEstadoTicketPanel(miTick);
+        pack();
+        setVisible(true);
+    }
+
+    private CambiarEstadoTicketD(JFrame jFrame, boolean b) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+    
+    public void getCambiarEstadoTicketPanel(Tickets miTick){
+        esePanel = CambiarEstadoTicketP.getCambiarEstadoTicketP(miTick,this,mainFrame);
+        
+        if(!esePanel.isVisible() == false){
+            getContentPane().add(esePanel);
+        }else{
+            esePanel.setVisible(true);
+        }
     }
 
     /**

@@ -411,7 +411,6 @@ public class MisTickets extends MenuP {
 
     private void btn_observacionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_observacionActionPerformed
         // TODO add your handling code here:
-        // TODO add your handling code here:
         if((jt_tickets.getSelectedRow() != -1)&&(jt_tickets.getSelectedRowCount() == 1)){
             mainFrame.Observaciones(serviciosT.buscarUno(Integer.parseInt(modelo.getValueAt(jt_tickets.getSelectedRow(), 0).toString())));
         }else{
@@ -445,6 +444,7 @@ public class MisTickets extends MenuP {
                 EstadoServ esta = new EstadoServ();
                 Estados estad = esta.traerEstado(3);
                 miTicket.setFkEstado(estad);
+                miTicket.setUsuarioReceptor(LoginEJB.usuario);
                 serviciosT.modificarTicket(miTicket);
                 llenarTabla();
             }else{
