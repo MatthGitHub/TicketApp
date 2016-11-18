@@ -27,9 +27,9 @@
     <DimensionLayout dim="0">
       <Group type="103" groupAlignment="0" attributes="0">
           <Group type="102" alignment="0" attributes="0">
-              <EmptySpace max="32767" attributes="0"/>
+              <EmptySpace min="-2" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Component id="jScrollPane1" max="32767" attributes="0"/>
+                  <Component id="jScrollPane1" pref="819" max="32767" attributes="0"/>
                   <Group type="102" alignment="0" attributes="0">
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Component id="cmbx_usuarios" alignment="0" min="-2" pref="174" max="-2" attributes="0"/>
@@ -41,7 +41,7 @@
                               <Component id="lbl_asuntos" min="-2" pref="121" max="-2" attributes="0"/>
                               <EmptySpace min="-2" pref="119" max="-2" attributes="0"/>
                               <Component id="lbl_servicios" min="-2" pref="121" max="-2" attributes="0"/>
-                              <EmptySpace min="0" pref="145" max="32767" attributes="0"/>
+                              <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                           </Group>
                           <Group type="102" attributes="0">
                               <Component id="cmbx_asuntosP" min="-2" pref="226" max="-2" attributes="0"/>
@@ -49,21 +49,21 @@
                               <Component id="cmbx_asuntosS" max="32767" attributes="0"/>
                           </Group>
                       </Group>
-                      <EmptySpace pref="8" max="32767" attributes="0"/>
+                      <EmptySpace max="32767" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Component id="lbl_asuntos1" min="-2" pref="73" max="-2" attributes="0"/>
                           <Component id="btn_agregar" min="-2" max="-2" attributes="0"/>
                       </Group>
                   </Group>
                   <Group type="102" alignment="0" attributes="0">
-                      <Component id="btn_volver" linkSize="1" min="-2" pref="149" max="-2" attributes="0"/>
+                      <Component id="btn_volver" min="-2" pref="108" max="-2" attributes="0"/>
                       <EmptySpace max="32767" attributes="0"/>
-                      <Component id="btn_quitar" linkSize="1" min="-2" pref="151" max="-2" attributes="0"/>
-                      <EmptySpace max="32767" attributes="0"/>
-                      <Component id="btn_quitar1" min="-2" pref="239" max="-2" attributes="0"/>
+                      <Component id="btn_quitar" min="-2" pref="113" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="158" max="-2" attributes="0"/>
+                      <Component id="btn_quitar1" min="-2" max="-2" attributes="0"/>
                   </Group>
               </Group>
-              <EmptySpace max="32767" attributes="0"/>
+              <EmptySpace min="-2" max="-2" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -76,24 +76,22 @@
                   <Component id="lbl_asuntos1" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="lbl_servicios" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
-              <EmptySpace max="32767" attributes="0"/>
+              <EmptySpace min="-2" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="cmbx_usuarios" linkSize="4" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="cmbx_asuntosP" linkSize="4" alignment="3" min="-2" pref="21" max="-2" attributes="0"/>
                   <Component id="cmbx_asuntosS" linkSize="4" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="btn_agregar" alignment="3" min="-2" pref="35" max="-2" attributes="0"/>
               </Group>
-              <EmptySpace max="-2" attributes="0"/>
-              <Component id="jScrollPane1" min="-2" pref="412" max="-2" attributes="0"/>
-              <EmptySpace pref="34" max="32767" attributes="0"/>
-              <Group type="103" groupAlignment="0" attributes="0">
-                  <Component id="btn_volver" pref="34" max="32767" attributes="0"/>
-                  <Group type="103" alignment="0" groupAlignment="3" attributes="0">
-                      <Component id="btn_quitar1" alignment="3" max="32767" attributes="0"/>
-                      <Component id="btn_quitar" alignment="3" max="32767" attributes="0"/>
-                  </Group>
+              <EmptySpace min="-2" max="-2" attributes="0"/>
+              <Component id="jScrollPane1" pref="426" max="32767" attributes="0"/>
+              <EmptySpace min="-2" max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="1" max="-2" attributes="0">
+                  <Component id="btn_quitar" alignment="0" pref="36" max="32767" attributes="0"/>
+                  <Component id="btn_volver" alignment="0" max="32767" attributes="0"/>
+                  <Component id="btn_quitar1" max="32767" attributes="0"/>
               </Group>
-              <EmptySpace max="32767" attributes="0"/>
+              <EmptySpace pref="23" max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>

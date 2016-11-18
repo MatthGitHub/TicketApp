@@ -61,10 +61,10 @@ public class BaseConocimientoV extends MenuP {
         for(int i = 0; i < miLista.size();i++){
             v[0] = miLista.get(i).getFkTicket().toString();
             v[1] = miLista.get(i).getIdResolucion().toString();
-            v[2] = dateFormatter.format(miLista.get(i).getFkTicket().getFecha()).toString();
-            v[3] = miLista.get(i).getFkTicket().getFkUsuarioEmisor().getNombreUsuario();
-            v[4] = dateFormatter.format(miLista.get(i).getFecha()).toString();
-            v[5] = miLista.get(i).getFkTicket().getUsuarioReceptor().getNombreUsuario();
+            v[2] = miLista.get(i).getFkTicket().getFkUsuarioEmisor().getNombreUsuario();
+            v[3] = dateFormatter.format(miLista.get(i).getFkTicket().getFecha()).toString();
+            v[4] = miLista.get(i).getFkTicket().getUsuarioReceptor().getNombreUsuario();
+            v[5] = dateFormatter.format(miLista.get(i).getFecha()).toString();
             modelo.addRow(v);
         }
         revalidate();
