@@ -31,28 +31,20 @@
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" alignment="0" attributes="0">
                       <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
-                      <Group type="103" groupAlignment="1" attributes="0">
-                          <Group type="102" alignment="1" attributes="0">
-                              <Component id="btn_gud" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace min="-2" pref="56" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="1" max="-2" attributes="0">
+                          <Component id="lbl_javavers1" min="-2" pref="72" max="-2" attributes="0"/>
+                          <Component id="lbl_javavers2" min="-2" pref="50" max="-2" attributes="0"/>
+                          <Component id="lbl_javavers3" alignment="0" pref="86" max="32767" attributes="0"/>
+                          <Component id="lbl_javavers4" alignment="0" max="32767" attributes="0"/>
+                      </Group>
+                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="0" attributes="0">
+                          <Component id="lbl_os" alignment="1" min="-2" pref="100" max="-2" attributes="0"/>
+                          <Group type="103" alignment="0" groupAlignment="1" max="-2" attributes="0">
+                              <Component id="lbl_osvers" alignment="0" max="32767" attributes="0"/>
+                              <Component id="lbl_osarc" alignment="0" max="32767" attributes="0"/>
                           </Group>
-                          <Group type="102" alignment="1" attributes="0">
-                              <Group type="103" groupAlignment="1" attributes="0">
-                                  <Component id="lbl_javavers1" min="-2" pref="72" max="-2" attributes="0"/>
-                                  <Component id="lbl_javavers4" alignment="0" min="-2" pref="72" max="-2" attributes="0"/>
-                                  <Component id="lbl_javavers2" min="-2" pref="50" max="-2" attributes="0"/>
-                                  <Component id="lbl_javavers3" alignment="0" min="-2" pref="86" max="-2" attributes="0"/>
-                              </Group>
-                              <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                              <Group type="103" groupAlignment="0" attributes="0">
-                                  <Component id="lbl_os" alignment="1" min="-2" pref="100" max="-2" attributes="0"/>
-                                  <Group type="103" alignment="0" groupAlignment="1" max="-2" attributes="0">
-                                      <Component id="lbl_osvers" alignment="0" max="32767" attributes="0"/>
-                                      <Component id="lbl_osarc" alignment="0" max="32767" attributes="0"/>
-                                  </Group>
-                                  <Component id="lbl_javavers" alignment="0" min="-2" pref="63" max="-2" attributes="0"/>
-                              </Group>
-                          </Group>
+                          <Component id="lbl_javavers" alignment="0" min="-2" pref="63" max="-2" attributes="0"/>
                       </Group>
                   </Group>
                   <Group type="102" attributes="0">
@@ -69,6 +61,10 @@
                           </Group>
                       </Group>
                       <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+                  </Group>
+                  <Group type="102" alignment="1" attributes="0">
+                      <Component id="btn_gud" max="32767" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
                   </Group>
               </Group>
           </Group>

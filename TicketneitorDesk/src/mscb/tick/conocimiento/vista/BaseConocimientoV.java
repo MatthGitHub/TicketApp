@@ -98,7 +98,7 @@ public class BaseConocimientoV extends MenuP {
 
         btn_volver.setBackground(new java.awt.Color(153, 153, 153));
         btn_volver.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        btn_volver.setText("volver");
+        btn_volver.setText("menu");
         btn_volver.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btn_volverActionPerformed(evt);
@@ -145,11 +145,7 @@ public class BaseConocimientoV extends MenuP {
     private void btn_volverActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_volverActionPerformed
         // TODO add your handling code here:
         this.setVisible(false);
-        if(LoginEJB.usuario.getFkRol().getIdRol() == 1){
-            mainFrame.menuPrincipal();
-        }else{
-            mainFrame.miTickets();
-        }
+        mainFrame.menuPrincipal();
         estePanel = null;
         System.gc();
     }//GEN-LAST:event_btn_volverActionPerformed
