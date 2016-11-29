@@ -135,7 +135,15 @@ public class AsuntosPrin extends MenuP {
             new String [] {
                 "ID", "Nombre"
             }
-        ));
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
         jScrollPane1.setViewportView(jt_asuntos);
 
         btn_volver.setBackground(new java.awt.Color(153, 153, 153));

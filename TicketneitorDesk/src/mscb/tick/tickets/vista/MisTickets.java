@@ -217,7 +217,7 @@ public class MisTickets extends MenuP {
                 java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.Object.class
             };
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false, true
+                false, false, false, false, false, false, false
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -226,6 +226,11 @@ public class MisTickets extends MenuP {
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
                 return canEdit [columnIndex];
+            }
+        });
+        jt_tickets.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jt_ticketsMouseClicked(evt);
             }
         });
         jScrollPane1.setViewportView(jt_tickets);
@@ -557,6 +562,19 @@ public class MisTickets extends MenuP {
        System.gc();
         
     }//GEN-LAST:event_btn_volverActionPerformed
+
+    private void jt_ticketsMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jt_ticketsMouseClicked
+        // TODO add your handling code here:
+        if(evt.getSource() == jt_tickets){
+            if(evt.getClickCount() == 2){
+                if((jt_tickets.getSelectedRow() != -1)&&(jt_tickets.getSelectedRowCount() == 1)){
+                    mainFrame.Observaciones(serviciosT.buscarUno(Integer.parseInt(modelo.getValueAt(jt_tickets.getSelectedRow(), 0).toString())));
+                }else{
+                    JOptionPane.showMessageDialog(mainFrame, "Debe seleccionar una y solo una fila!");
+                }
+            }
+        }
+    }//GEN-LAST:event_jt_ticketsMouseClicked
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

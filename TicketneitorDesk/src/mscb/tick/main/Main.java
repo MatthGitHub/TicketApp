@@ -17,6 +17,7 @@ import mscb.tick.asuntoSecundarios.vista.NuevoAsuntoSecD;
 import mscb.tick.asuntos.vista.AsuntosPrin;
 import mscb.tick.asuntos.vista.NuevoAsuntoD;
 import mscb.tick.conocimiento.vista.BaseConocimientoV;
+import mscb.tick.conocimiento.vista.DetalleTicketDialog;
 import mscb.tick.conocimiento.vista.ResolucionVerD;
 import mscb.tick.empelados.vista.EmpleadosV;
 import mscb.tick.empelados.vista.NuevoEmpleado;
@@ -104,6 +105,7 @@ public class Main extends javax.swing.JFrame {
     public AsuntoSinEncargadoD asuntoSinEnc;
     
     private BaseConocimientoV baseCono;
+    private DetalleTicketDialog detalleTicket;
     private HistorialTicketV hisTick;
     
     private Razones razones;
@@ -567,6 +569,20 @@ public class Main extends javax.swing.JFrame {
         }
         revalidate();
     }
+    
+    /**
+     * Ventanaq con detalle de ticket
+     */
+    public void detalleTicket(BaseConocimiento miBase){
+        if(detalleTicket == null){
+            detalleTicket = new DetalleTicketDialog(this,true,miBase);
+        }else{
+            detalleTicket.setearValoresTicket(miBase);
+            detalleTicket.setVisible(true);
+        }
+        revalidate();
+    }
+    
     
     /**
      *Ventana con el historial de ticket seleccionado 

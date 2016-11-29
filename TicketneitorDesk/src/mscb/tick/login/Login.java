@@ -5,12 +5,7 @@
  */
 package mscb.tick.login;
 
-import java.awt.Graphics;
-import java.awt.Image;
-import java.awt.Toolkit;
-import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
-import javax.swing.JPanel;
 import mscb.tick.login.servicios.LoginEJB;
 import mscb.tick.main.Main;
 import mscb.tick.usuarios.servicios.UsuarioServ;
@@ -39,9 +34,9 @@ public class Login extends MenuP {
         lbl_mensaje.setVisible(false);
         setSize(320, 220);
         mainFrame.jMB_bar.setVisible(false);
-        setVisible(true);
         mainFrame.setSize(320, 220);
         mainFrame.setTitle("Login");
+        setVisible(true);
     }
 
     public static Login getLogin(Main mainFrame) {

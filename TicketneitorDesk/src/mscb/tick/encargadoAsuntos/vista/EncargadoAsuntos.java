@@ -5,6 +5,7 @@
  */
 package mscb.tick.encargadoAsuntos.vista;
 
+import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -124,6 +125,49 @@ public class EncargadoAsuntos extends MenuP {
             JOptionPane.showMessageDialog(null, "Error al limpiar la tabla.");
         }
     }
+    
+    private void quitarAsunto(){
+        if((jt_asuntos.getSelectedRow() != -1)&&(jt_asuntos.getSelectedRowCount() == 1)){
+            if(JOptionPane.showConfirmDialog(mainFrame, "Seguro desea quitar este asunto?") == 0){
+                serviciosU = new UsuarioServ();
+                serviciosA = new AsuntoSecundarioServ();
+                serviciosP = new AsuntoPrincipalServ();
+                
+                Usuarios miUsuario = (Usuarios) cmbx_usuarios.getSelectedItem();
+                
+                List <Servicios> asuntos = serviciosA.traerTodos();
+                List <Asuntos> asuntoP = serviciosP.traerTodos();
+               Servicios miAsu = new Servicios();
+                Asuntos miAsup = new Asuntos();
+                
+                for(int i = 0; i < asuntoP.size(); i ++ ){
+                    if(asuntoP.get(i).getNombre().equals(modelo.getValueAt(jt_asuntos.getSelectedRow(), 0))){
+                        miAsup = asuntoP.get(i);
+                    }
+                }
+                
+                for(int i = 0; i < asuntos.size(); i++){
+                    if((asuntos.get(i).getNombreasuntoS().equals(modelo.getValueAt(jt_asuntos.getSelectedRow(), 1).toString()))
+                        &&(asuntos.get(i).getPertenece().equals(miAsup))){
+                        miAsu = asuntos.get(i);
+                    }
+                }
+                miUsuario.getServiciosList().remove(miAsu);
+                serviciosU = new UsuarioServ();
+                if (serviciosU.modificarUsuario(miUsuario)) {
+                    JOptionPane.showMessageDialog(mainFrame, "Asunto quitado!");
+                    cargarComboBoxAsuntoS();
+                    cargarTabla();
+                    if(mainFrame.asuntoSinEnc != null){
+                        AsuntoSinEncargadosP tablEnc = AsuntoSinEncargadosP.getAsuntoSinEncargadosP(mainFrame.asuntoSinEnc);
+                        tablEnc.llenarTabla();
+                    }
+                } else {
+                    JOptionPane.showMessageDialog(mainFrame, "Error al quitar asunto!");
+                }
+            }
+        }
+    }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -177,11 +221,16 @@ public class EncargadoAsuntos extends MenuP {
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, true
+                false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
                 return canEdit [columnIndex];
+            }
+        });
+        jt_asuntos.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                jt_asuntosKeyPressed(evt);
             }
         });
         jScrollPane1.setViewportView(jt_asuntos);
@@ -371,52 +420,22 @@ public class EncargadoAsuntos extends MenuP {
 
     private void btn_quitarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_quitarActionPerformed
         // TODO add your handling code here:
-        if((jt_asuntos.getSelectedRow() != -1)&&(jt_asuntos.getSelectedRowCount() == 1)){
-            if(JOptionPane.showConfirmDialog(mainFrame, "Seguro desea quitar este asunto?") == 0){
-                serviciosU = new UsuarioServ();
-                serviciosA = new AsuntoSecundarioServ();
-                serviciosP = new AsuntoPrincipalServ();
-                
-                Usuarios miUsuario = (Usuarios) cmbx_usuarios.getSelectedItem();
-                
-                List <Servicios> asuntos = serviciosA.traerTodos();
-                List <Asuntos> asuntoP = serviciosP.traerTodos();
-               Servicios miAsu = new Servicios();
-                Asuntos miAsup = new Asuntos();
-                
-                for(int i = 0; i < asuntoP.size(); i ++ ){
-                    if(asuntoP.get(i).getNombre().equals(modelo.getValueAt(jt_asuntos.getSelectedRow(), 0))){
-                        miAsup = asuntoP.get(i);
-                    }
-                }
-                
-                for(int i = 0; i < asuntos.size(); i++){
-                    if((asuntos.get(i).getNombreasuntoS().equals(modelo.getValueAt(jt_asuntos.getSelectedRow(), 1).toString()))
-                        &&(asuntos.get(i).getPertenece().equals(miAsup))){
-                        miAsu = asuntos.get(i);
-                    }
-                }
-                miUsuario.getServiciosList().remove(miAsu);
-                serviciosU = new UsuarioServ();
-                if (serviciosU.modificarUsuario(miUsuario)) {
-                    JOptionPane.showMessageDialog(mainFrame, "Asunto quitado!");
-                    cargarComboBoxAsuntoS();
-                    cargarTabla();
-                    if(mainFrame.asuntoSinEnc != null){
-                        AsuntoSinEncargadosP tablEnc = AsuntoSinEncargadosP.getAsuntoSinEncargadosP(mainFrame.asuntoSinEnc);
-                        tablEnc.llenarTabla();
-                    }
-                } else {
-                    JOptionPane.showMessageDialog(mainFrame, "Error al quitar asunto!");
-                }
-            }
-        }
+        quitarAsunto();
     }//GEN-LAST:event_btn_quitarActionPerformed
 
     private void btn_quitar1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_quitar1ActionPerformed
         // TODO add your handling code here:
         mainFrame.asuntosSinEncargar();
     }//GEN-LAST:event_btn_quitar1ActionPerformed
+
+    private void jt_asuntosKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jt_asuntosKeyPressed
+        // TODO add your handling code here:
+        if(evt.getSource() == jt_asuntos){
+            if(evt.getKeyCode() == KeyEvent.VK_DELETE){
+                quitarAsunto();
+            }
+        }
+    }//GEN-LAST:event_jt_asuntosKeyPressed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

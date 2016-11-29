@@ -8,14 +8,10 @@ package mscb.tick.conocimiento.vista;
 import java.text.DateFormat;
 import java.util.List;
 import java.util.Locale;
-import java.util.Vector;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import mscb.tick.conocimiento.servicios.ConocimientoServ;
 import mscb.tick.entidades.BaseConocimiento;
-import mscb.tick.entidades.Tickets;
-import mscb.tick.login.Login;
-import mscb.tick.login.servicios.LoginEJB;
 import mscb.tick.main.Main;
 import mscb.tick.tickets.servicios.TicketServ;
 import mscb.tick.util.MenuP;
@@ -39,6 +35,7 @@ public class BaseConocimientoV extends MenuP {
         initComponents();
         serviciosC = new ConocimientoServ();
         modelo = (DefaultTableModel) jt_conocimiento.getModel();
+        serviciosT = new TicketServ();
         this.mainFrame = mainFrame;
         setSize(800, 600);
         setVisible(true);
@@ -93,7 +90,20 @@ public class BaseConocimientoV extends MenuP {
             new String [] {
                 "Nº ticket", "Nº resolucion", "Emisor", "Fecha entrada", "Receptor", "Fecha resuelto"
             }
-        ));
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        jt_conocimiento.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jt_conocimientoMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(jt_conocimiento);
 
         btn_volver.setBackground(new java.awt.Color(153, 153, 153));
@@ -153,7 +163,6 @@ public class BaseConocimientoV extends MenuP {
     private void btn_verResolucionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_verResolucionActionPerformed
         // TODO add your handling code here:
         if(jt_conocimiento.getSelectedRow() != -1){
-            serviciosT = new TicketServ();
             BaseConocimiento miBase = serviciosC.buscarUno(Integer.parseInt(modelo.getValueAt(jt_conocimiento.getSelectedRow(), 1).toString()));
             mainFrame.verResolucionTicket(miBase);
         }else{
@@ -161,6 +170,18 @@ public class BaseConocimientoV extends MenuP {
         }
         
     }//GEN-LAST:event_btn_verResolucionActionPerformed
+
+    private void jt_conocimientoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jt_conocimientoMouseClicked
+        // TODO add your handling code here:
+        if(evt.getSource() == jt_conocimiento){
+            if(evt.getClickCount() == 2){
+                if(jt_conocimiento.getSelectedRow()!= -1){
+                    BaseConocimiento miBase = serviciosC.buscarUno(Integer.parseInt(modelo.getValueAt(jt_conocimiento.getSelectedRow(), 1).toString()));
+                    mainFrame.detalleTicket(miBase);
+                }
+            }
+        }
+    }//GEN-LAST:event_jt_conocimientoMouseClicked
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

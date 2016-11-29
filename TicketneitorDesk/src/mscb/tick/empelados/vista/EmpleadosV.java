@@ -141,7 +141,7 @@ public class EmpleadosV extends MenuP {
                 java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.Integer.class, java.lang.String.class
             };
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, true, true
+                false, false, false, false, false, false
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -161,6 +161,11 @@ public class EmpleadosV extends MenuP {
         btn_modificar.setBackground(new java.awt.Color(153, 153, 153));
         btn_modificar.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         btn_modificar.setText("modificar");
+        btn_modificar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_modificarActionPerformed(evt);
+            }
+        });
 
         btn_nuevo.setBackground(new java.awt.Color(153, 153, 153));
         btn_nuevo.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
@@ -279,6 +284,10 @@ public class EmpleadosV extends MenuP {
         estePanel = null;
         System.gc();
     }//GEN-LAST:event_btn_nuevoActionPerformed
+
+    private void btn_modificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_modificarActionPerformed
+        // TODO add your handling code here: se puede hacer desde la jTable tomando los campos modificados
+    }//GEN-LAST:event_btn_modificarActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

@@ -5,17 +5,11 @@
  */
 package mscb.tick.conocimiento.vista;
 
-import javax.swing.JOptionPane;
 import mscb.tick.conocimiento.servicios.ConocimientoServ;
 import mscb.tick.entidades.BaseConocimiento;
-import mscb.tick.entidades.Estados;
 import mscb.tick.entidades.Tickets;
-import mscb.tick.estados.servicios.EstadoServ;
-import mscb.tick.login.Login;
-import mscb.tick.login.servicios.LoginEJB;
 import mscb.tick.main.Main;
 import mscb.tick.tickets.servicios.TicketServ;
-import mscb.tick.tickets.vista.MisTickets;
 import mscb.tick.util.MenuP;
 
 /**
