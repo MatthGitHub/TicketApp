@@ -51,7 +51,7 @@ public class BaseConocimientoV extends MenuP {
     
     private void llenarTabla(){
         miLista = serviciosC.traerTodos();
-        String v[] = new String[6];
+        String v[] = new String[8];
         DateFormat dateFormatter;
         dateFormatter = DateFormat.getDateInstance(DateFormat.SHORT, Locale.US);
         
@@ -62,6 +62,8 @@ public class BaseConocimientoV extends MenuP {
             v[3] = dateFormatter.format(miLista.get(i).getFkTicket().getFecha()).toString();
             v[4] = miLista.get(i).getFkTicket().getUsuarioReceptor().getNombreUsuario();
             v[5] = dateFormatter.format(miLista.get(i).getFecha()).toString();
+            v[6] = miLista.get(i).getFkTicket().getAsunto().getPertenece().getNombre();
+            v[7] = miLista.get(i).getFkTicket().getAsunto().getNombreasuntoS();
             modelo.addRow(v);
         }
         revalidate();
@@ -88,11 +90,11 @@ public class BaseConocimientoV extends MenuP {
 
             },
             new String [] {
-                "Nº ticket", "Nº resolucion", "Emisor", "Fecha entrada", "Receptor", "Fecha resuelto"
+                "Nº ticket", "Nº resolucion", "Emisor", "Fecha entrada", "Receptor", "Fecha resuelto", "Asunto", "Servicio"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false
+                false, false, false, false, false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -105,6 +107,12 @@ public class BaseConocimientoV extends MenuP {
             }
         });
         jScrollPane1.setViewportView(jt_conocimiento);
+        if (jt_conocimiento.getColumnModel().getColumnCount() > 0) {
+            jt_conocimiento.getColumnModel().getColumn(0).setMinWidth(50);
+            jt_conocimiento.getColumnModel().getColumn(6).setPreferredWidth(100);
+            jt_conocimiento.getColumnModel().getColumn(7).setMinWidth(200);
+            jt_conocimiento.getColumnModel().getColumn(7).setPreferredWidth(200);
+        }
 
         btn_volver.setBackground(new java.awt.Color(153, 153, 153));
         btn_volver.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
