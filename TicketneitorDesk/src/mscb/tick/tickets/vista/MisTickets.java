@@ -22,6 +22,7 @@ import mscb.tick.login.servicios.LoginEJB;
 import mscb.tick.main.Main;
 import mscb.tick.tickets.servicios.TicketServ;
 import mscb.tick.usuarios.servicios.UsuarioServ;
+import mscb.tick.util.reportes.EjecutarReporte;
 import mscb.tick.util.MenuP;
 
 /**
@@ -37,6 +38,7 @@ public class MisTickets extends MenuP {
     private HistorialServ serviciosH;
     private EstadoServ esta;
     private UsuarioServ serviciosU;
+    private EjecutarReporte report;
     
     /**
      * Creates new form MisTickets
@@ -55,6 +57,7 @@ public class MisTickets extends MenuP {
         //setSize(mainFrame.getSize());
         setVisible(true);
         llenarTabla();
+        report = EjecutarReporte.getEjecutarReporte();
     }
     
     public static MisTickets getMisTickets(Main mainFrame){
@@ -174,6 +177,7 @@ public class MisTickets extends MenuP {
         btn_resuelto = new javax.swing.JButton();
         btn_refrescar = new javax.swing.JButton();
         btn_volver = new javax.swing.JButton();
+        btn_responder1 = new javax.swing.JButton();
 
         setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Mis Tickets", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Bradley Hand ITC", 0, 24), java.awt.Color.white)); // NOI18N
 
@@ -325,6 +329,15 @@ public class MisTickets extends MenuP {
             }
         });
 
+        btn_responder1.setBackground(new java.awt.Color(153, 153, 153));
+        btn_responder1.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        btn_responder1.setText("imprimir");
+        btn_responder1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_responder1ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -339,7 +352,8 @@ public class MisTickets extends MenuP {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
-                                .addGap(0, 0, Short.MAX_VALUE)
+                                .addComponent(btn_responder1)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addComponent(btn_observacion, javax.swing.GroupLayout.PREFERRED_SIZE, 149, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(btn_verResp))
@@ -385,7 +399,8 @@ public class MisTickets extends MenuP {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btn_volver, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btn_observacion, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btn_verResp, javax.swing.GroupLayout.DEFAULT_SIZE, 43, Short.MAX_VALUE))
+                    .addComponent(btn_verResp, javax.swing.GroupLayout.DEFAULT_SIZE, 43, Short.MAX_VALUE)
+                    .addComponent(btn_responder1, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap())
         );
     }// </editor-fold>//GEN-END:initComponents
@@ -576,12 +591,22 @@ public class MisTickets extends MenuP {
         }
     }//GEN-LAST:event_jt_ticketsMouseClicked
 
+    private void btn_responder1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_responder1ActionPerformed
+        // TODO add your handling code here:
+         if((jt_tickets.getSelectedRow() != -1)&&(jt_tickets.getSelectedRowCount() == 1)){
+            report.reporteMiTicket(Integer.parseInt(modelo.getValueAt(jt_tickets.getSelectedRow(), 0).toString()));
+        }else{
+            JOptionPane.showMessageDialog(mainFrame, "Debe seleccionar una y solo una fila!");
+        }
+    }//GEN-LAST:event_btn_responder1ActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btn_enEspera;
     private javax.swing.JButton btn_observacion;
     private javax.swing.JButton btn_refrescar;
     private javax.swing.JButton btn_responder;
+    private javax.swing.JButton btn_responder1;
     private javax.swing.JButton btn_resuelto;
     private javax.swing.JButton btn_tomar;
     private javax.swing.JButton btn_transferir;

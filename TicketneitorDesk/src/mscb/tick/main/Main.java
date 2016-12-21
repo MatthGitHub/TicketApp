@@ -59,6 +59,7 @@ import mscb.tick.usuarios.vista.UsuariosV;
 
 
 public class Main extends javax.swing.JFrame {
+    private static Main esteMain;
     
     //Objetos de los paneles.
     private Listener escuchador;
@@ -125,7 +126,7 @@ public class Main extends javax.swing.JFrame {
     /**
      * Creates new form Main
      */
-    public Main() {
+    private Main() {
         initComponents();
         setDefaultCloseOperation(0);
         setResizable(false);
@@ -140,8 +141,11 @@ public class Main extends javax.swing.JFrame {
      * 
      * @return 
      */
-    public Main getMainFrame(){
-        return this;
+    public static Main getMainFrame(){
+        if(esteMain == null){
+            esteMain = new Main();
+        }
+        return esteMain;
     }
     
     public void validarPermisos(){
@@ -1012,7 +1016,7 @@ public class Main extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new Main().setVisible(true);
+                getMainFrame().setVisible(true);
             }
         });
     }

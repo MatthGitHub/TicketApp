@@ -5,7 +5,11 @@
  */
 package mscb.tick.login.servicios;
 
+import java.sql.Connection;
 import java.util.List;
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.Persistence;
 import mscb.tick.entidades.Usuarios;
 import mscb.tick.seguridad.MD5;
 import mscb.tick.usuarios.servicios.UsuarioServ;
@@ -71,4 +75,6 @@ public class LoginEJB {
             }
         }*/
     }
+    
+    
 }
