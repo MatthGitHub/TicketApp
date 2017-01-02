@@ -9,21 +9,10 @@ package mscb.tick.util.reportes;
 import java.sql.*;
 import java.util.Map;
 import java.util.HashMap;
-import java.util.List;
-import javax.naming.InitialContext;
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.Persistence;
-import javax.sql.DataSource;
-import mscb.tick.entidades.Tickets;
-import mscb.tick.login.servicios.LoginEJB;
-import mscb.tick.tickets.servicios.TicketServ;
+import javax.swing.JOptionPane;
 import net.sf.jasperreports.engine.*;
 import net.sf.jasperreports.engine.util.JRLoader;
 import net.sf.jasperreports.view.*;
-import net.sf.jasperreports.view.save.JRPdfSaveContributor.*;
-import net.sf.jasperreports.view.JRViewer.*;
-import net.sf.jasperreports.view.save.JRMultipleSheetsXlsSaveContributor.*;
 
 public class EjecutarReporte {
     
@@ -53,9 +42,9 @@ public class EjecutarReporte {
         try{
             Class.forName(DRIVER);
             CONEXION = DriverManager.getConnection(RUTA,USER,PASSWORD);
-            javax.swing.JOptionPane.showMessageDialog(null,"Conexion establecida");
+            System.out.println("Conexion establecida");
             
-            String template="Reporte.jasper";
+            String template="reportes/Reporte.jasper";
             JasperReport reporte=null;
             reporte=(JasperReport) JRLoader.loadObject(template);
 
@@ -64,7 +53,36 @@ public class EjecutarReporte {
             
             JasperPrint jasperprint= JasperFillManager.fillReport(reporte,param,CONEXION);
             JasperViewer visor=new JasperViewer(jasperprint,false);
-            visor.setTitle("Mi ticket");
+            visor.setTitle("Mi ticket Nº: "+id);
+            visor.setVisible(true);
+
+        }catch(Exception e){
+            JOptionPane.showMessageDialog(null, e);
+            System.out.println(e);
+
+        }
+    }
+    
+    
+    public void reporteTicketPorUsuario(int userId){
+        
+        try{
+            Class.forName(DRIVER);
+            CONEXION = DriverManager.getConnection(RUTA,USER,PASSWORD);
+            javax.swing.JOptionPane.showMessageDialog(null,"Conexion establecida");
+            
+            String template="Reporte.jasper";
+            JasperReport reporte=null;
+            reporte=(JasperReport) JRLoader.loadObject(template);
+
+            Map param=new HashMap();
+            param.put("id", userId);
+            
+            
+            
+            JasperPrint jasperprint= JasperFillManager.fillReport(reporte,param,CONEXION);
+            JasperViewer visor=new JasperViewer(jasperprint,false);
+            visor.setTitle("Tickets de: "+userId);
             visor.setVisible(true);
 
         }catch(Exception e){
@@ -72,6 +90,6 @@ public class EjecutarReporte {
 
         }
     }
-
+    
 
 }

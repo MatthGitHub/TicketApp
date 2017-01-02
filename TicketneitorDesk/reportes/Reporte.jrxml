@@ -2,7 +2,7 @@
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Reporte" language="groovy" pageWidth="612" pageHeight="432" columnWidth="572" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="2c5a3e48-242d-44a1-a78a-d95712ab7794">
 	<property name="ireport.zoom" value="1.0"/>
 	<property name="ireport.x" value="0"/>
-	<property name="ireport.y" value="16"/>
+	<property name="ireport.y" value="9"/>
 	<style name="Title" fontName="Arial" fontSize="26" isBold="true" pdfFontName="Helvetica-Bold"/>
 	<style name="SubTitle" forecolor="#666666" fontName="Arial" fontSize="18"/>
 	<style name="Column header" forecolor="#666666" fontName="Arial" fontSize="12" isBold="true"/>
@@ -10,12 +10,8 @@
 	<subDataset name="New Dataset 1" uuid="4d8a44da-e99a-40ca-8e2a-30c75f5e31cb"/>
 	<parameter name="id" class="java.lang.Integer"/>
 	<queryString>
-		<![CDATA[SELECT id_ticket, em.nombre,em.apellido,a.nombre AS asunto, nombre_asuntoS AS servicio, fecha, SUBSTRING(CAST(hora AS CHAR),12,12) AS hora, e.nombre AS estado, respuesta,observacion
+		<![CDATA[SELECT id_ticket, a.nombre AS asunto, nombre_asuntoS AS servicio, fecha, SUBSTRING(CAST(hora AS CHAR),12,12) AS hora, e.nombre AS estado, respuesta,observacion
 FROM tickets t
-JOIN usuarios u
-ON u.id_usuario = t.usuario_receptor
-JOIN empleados em
-ON em.id_empleado = u.fk_empleado
 JOIN servicios s
 ON t.asunto = s.id_asuntoS
 JOIN asuntos a
@@ -25,12 +21,6 @@ ON e.id_estado = t.fk_estado
 WHERE id_ticket=$P{id}]]>
 	</queryString>
 	<field name="id_ticket" class="java.lang.Integer">
-		<fieldDescription><![CDATA[]]></fieldDescription>
-	</field>
-	<field name="nombre" class="java.lang.String">
-		<fieldDescription><![CDATA[]]></fieldDescription>
-	</field>
-	<field name="apellido" class="java.lang.String">
 		<fieldDescription><![CDATA[]]></fieldDescription>
 	</field>
 	<field name="asunto" class="java.lang.String"/>
@@ -57,16 +47,12 @@ WHERE id_ticket=$P{id}]]>
 					<text><![CDATA[Fecha]]></text>
 				</staticText>
 				<staticText>
-					<reportElement style="Column header" x="59" y="10" width="59" height="15" uuid="faf78183-c418-4a32-b805-e8db07145298"/>
+					<reportElement style="Column header" x="198" y="12" width="59" height="15" uuid="faf78183-c418-4a32-b805-e8db07145298"/>
 					<text><![CDATA[Hora]]></text>
 				</staticText>
 				<staticText>
-					<reportElement style="Column header" x="118" y="10" width="80" height="15" uuid="d8d3a822-c3e3-44c2-bbc5-1342677a551d"/>
+					<reportElement style="Column header" x="350" y="10" width="80" height="15" uuid="d8d3a822-c3e3-44c2-bbc5-1342677a551d"/>
 					<text><![CDATA[Estado]]></text>
-				</staticText>
-				<staticText>
-					<reportElement style="Column header" x="198" y="10" width="259" height="15" uuid="0e3faf29-351b-4c32-8bed-c7c42eb0f980"/>
-					<text><![CDATA[Recibio]]></text>
 				</staticText>
 			</band>
 		</groupHeader>
@@ -79,25 +65,23 @@ WHERE id_ticket=$P{id}]]>
 	</background>
 	<title>
 		<band height="109" splitType="Stretch">
-			<image>
-				<reportElement x="1" y="0" width="356" height="91" uuid="29bbe30d-7a49-4d07-bc70-9eb8d72c7349"/>
-				<imageExpression><![CDATA["C:\\Users\\Administrador\\Documents\\NetBeansProjects\\TicketApp\\TicketneitorDesk\\src\\mscb\\tick\\util\\reportes\\logo.jpg"]]></imageExpression>
-			</image>
 			<staticText>
 				<reportElement style="Title" x="-6" y="76" width="158" height="33" uuid="6e066aa2-101d-4711-b579-8c659845f766"/>
 				<textElement verticalAlignment="Middle"/>
 				<text><![CDATA[Mi ticket Nº:]]></text>
 			</staticText>
 			<textField>
-				<reportElement style="SubTitle" x="233" y="80" width="117" height="24" forecolor="#006600" uuid="f33991b5-ed25-4eb8-b91a-32d80054e52e"/>
+				<reportElement style="SubTitle" x="152" y="85" width="117" height="24" forecolor="#006600" uuid="f33991b5-ed25-4eb8-b91a-32d80054e52e"/>
 				<textElement>
 					<font isBold="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{id_ticket}]]></textFieldExpression>
 			</textField>
-			<rectangle>
-				<reportElement mode="Opaque" x="197" y="80" width="32" height="24" forecolor="#CCCCCC" backcolor="#CCCCCC" uuid="e9dc9c75-c6b6-438e-802e-6ca9f4a8a9f7"/>
-			</rectangle>
+			<staticText>
+				<reportElement style="Title" x="0" y="10" width="572" height="33" uuid="0e89d16d-d0c4-4f76-b706-2afeeafca77c"/>
+				<textElement verticalAlignment="Middle"/>
+				<text><![CDATA[Municipalidad de San Carlos de Bariloche]]></text>
+			</staticText>
 		</band>
 	</title>
 	<pageHeader>
@@ -116,24 +100,16 @@ WHERE id_ticket=$P{id}]]>
 	<detail>
 		<band height="17">
 			<textField>
-				<reportElement style="Detail" x="0" y="0" width="59" height="15" uuid="d702996b-3d1f-47a4-882a-669851fe93c1"/>
+				<reportElement style="Detail" x="1" y="0" width="117" height="15" uuid="d702996b-3d1f-47a4-882a-669851fe93c1"/>
 				<textFieldExpression><![CDATA[$F{fecha}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement style="Detail" x="118" y="0" width="80" height="15" uuid="33d69a3d-09bc-4617-a77d-d2eb1f0b5b08"/>
+				<reportElement style="Detail" x="350" y="0" width="143" height="15" uuid="33d69a3d-09bc-4617-a77d-d2eb1f0b5b08"/>
 				<textFieldExpression><![CDATA[$F{estado}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement style="Detail" x="59" y="0" width="59" height="15" uuid="c276bf37-95a3-4465-afde-87bbb43a8637"/>
+				<reportElement style="Detail" x="198" y="0" width="59" height="15" uuid="c276bf37-95a3-4465-afde-87bbb43a8637"/>
 				<textFieldExpression><![CDATA[$F{hora}]]></textFieldExpression>
-			</textField>
-			<textField>
-				<reportElement style="Detail" x="198" y="0" width="117" height="15" uuid="b94faec6-90f5-4c09-8b4d-f6ae7d03743d"/>
-				<textFieldExpression><![CDATA[$F{nombre}]]></textFieldExpression>
-			</textField>
-			<textField>
-				<reportElement style="Detail" x="315" y="0" width="142" height="15" uuid="23ae5c93-acfc-4fe3-a073-beee802f9f14"/>
-				<textFieldExpression><![CDATA[$F{apellido}]]></textFieldExpression>
 			</textField>
 		</band>
 	</detail>
