@@ -21,8 +21,6 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
@@ -46,8 +44,6 @@ public class Servicios implements Serializable {
     @Column(name = "id_asuntoS")
     private Integer idasuntoS;
     @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 70)
     @Column(name = "nombre_asuntoS")
     private String nombreasuntoS;
     @ManyToMany(mappedBy = "serviciosList")
@@ -134,7 +130,7 @@ public class Servicios implements Serializable {
 
     @Override
     public String toString() {
-        return this.getNombreasuntoS();
+        return this.nombreasuntoS;
     }
     
 }

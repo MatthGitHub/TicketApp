@@ -20,7 +20,6 @@ import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
-import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
@@ -43,7 +42,6 @@ public class HistorialTickets implements Serializable {
     @Column(name = "id_historial")
     private Integer idHistorial;
     @Basic(optional = false)
-    @NotNull
     @Column(name = "fecha")
     @Temporal(TemporalType.DATE)
     private Date fecha;
@@ -142,7 +140,7 @@ public class HistorialTickets implements Serializable {
 
     @Override
     public String toString() {
-        return this.getIdHistorial().toString();
+        return this.idHistorial.toString();
     }
     
 }

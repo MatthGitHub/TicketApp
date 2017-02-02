@@ -22,8 +22,6 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
@@ -50,18 +48,13 @@ public class Usuarios implements Serializable {
     @Column(name = "id_usuario")
     private Integer idUsuario;
     @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 15)
     @Column(name = "nombre_usuario")
     private String nombreUsuario;
-    @Size(max = 36)
     @Column(name = "contrasenia")
     private String contrasenia;
     @Basic(optional = false)
-    @NotNull
     @Column(name = "activo")
     private boolean activo;
-    @Size(max = 180)
     @Column(name = "id_extreme")
     private String idExtreme;
     @JoinTable(name = "encargado_servicios", joinColumns = {
@@ -231,7 +224,7 @@ public class Usuarios implements Serializable {
 
     @Override
     public String toString() {
-        return this.getNombreUsuario();
+        return this.nombreUsuario;
     }
     
 }

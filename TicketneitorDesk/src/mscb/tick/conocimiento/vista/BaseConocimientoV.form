@@ -67,7 +67,7 @@
         <Component class="javax.swing.JTable" name="jt_conocimiento">
           <Properties>
             <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
-              <Table columnCount="8" rowCount="0">
+              <Table columnCount="9" rowCount="0">
                 <Column editable="false" title="N&#xba; ticket" type="java.lang.Object"/>
                 <Column editable="false" title="N&#xba; resolucion" type="java.lang.Object"/>
                 <Column editable="false" title="Emisor" type="java.lang.Object"/>
@@ -76,6 +76,7 @@
                 <Column editable="false" title="Fecha resuelto" type="java.lang.Object"/>
                 <Column editable="false" title="Asunto" type="java.lang.Object"/>
                 <Column editable="false" title="Servicio" type="java.lang.Object"/>
+                <Column editable="false" title="Patrimonio" type="java.lang.Object"/>
               </Table>
             </Property>
             <Property name="columnModel" type="javax.swing.table.TableColumnModel" editor="org.netbeans.modules.form.editors2.TableColumnModelEditor">
@@ -116,6 +117,11 @@
                   <Renderer/>
                 </Column>
                 <Column maxWidth="-1" minWidth="200" prefWidth="200" resizable="true">
+                  <Title/>
+                  <Editor/>
+                  <Renderer/>
+                </Column>
+                <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
                   <Title/>
                   <Editor/>
                   <Renderer/>

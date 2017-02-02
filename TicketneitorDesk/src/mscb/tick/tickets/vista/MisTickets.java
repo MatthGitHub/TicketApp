@@ -72,7 +72,7 @@ public class MisTickets extends MenuP {
         serviciosT = new TicketServ();
         miLista = serviciosT.buscarPorUsuarioAsunto();
         cambiarEstadoDeTickets();
-        String v[] = new String[7];
+        String v[] = new String[8];
         DateFormat dateFormatter;
         dateFormatter = DateFormat.getDateInstance(DateFormat.SHORT, Locale.US);
 
@@ -92,6 +92,11 @@ public class MisTickets extends MenuP {
                 v[6] = "No aun";
             }else{
                 v[6] = miLista.get(i).getUsuarioReceptor().getNombreUsuario();
+            }
+            if((miLista.get(i).getPatrimonio() == null)||(miLista.get(i).getPatrimonio().isEmpty())){
+                v[7] = "Sin";
+            }else{
+                v[7] = miLista.get(i).getPatrimonio();
             }
             modelo.addRow(v);
         }
@@ -178,6 +183,7 @@ public class MisTickets extends MenuP {
         btn_refrescar = new javax.swing.JButton();
         btn_volver = new javax.swing.JButton();
         btn_responder1 = new javax.swing.JButton();
+        btn_trabajando = new javax.swing.JButton();
 
         setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Mis Tickets", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Bradley Hand ITC", 0, 24), java.awt.Color.white)); // NOI18N
 
@@ -214,14 +220,14 @@ public class MisTickets extends MenuP {
 
             },
             new String [] {
-                "Nº Ticket", "Fecha", "Area Emisor", "Usuario Emisor", "Estado", "Asunto", "Usuario receptor"
+                "Nº Ticket", "Fecha", "Area Emisor", "Usuario Emisor", "Estado", "Asunto", "Usuario receptor", "Patrimonio"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.Object.class
+                java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.Object.class, java.lang.Object.class
             };
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false, false
+                false, false, false, false, false, false, false, false
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -338,6 +344,15 @@ public class MisTickets extends MenuP {
             }
         });
 
+        btn_trabajando.setBackground(new java.awt.Color(153, 153, 153));
+        btn_trabajando.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        btn_trabajando.setText("en trabajo");
+        btn_trabajando.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_trabajandoActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -353,6 +368,8 @@ public class MisTickets extends MenuP {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(btn_responder1)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(btn_trabajando)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addComponent(btn_observacion, javax.swing.GroupLayout.PREFERRED_SIZE, 149, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -400,7 +417,8 @@ public class MisTickets extends MenuP {
                     .addComponent(btn_volver, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btn_observacion, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btn_verResp, javax.swing.GroupLayout.DEFAULT_SIZE, 43, Short.MAX_VALUE)
-                    .addComponent(btn_responder1, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(btn_responder1, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btn_trabajando, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap())
         );
     }// </editor-fold>//GEN-END:initComponents
@@ -600,6 +618,25 @@ public class MisTickets extends MenuP {
         }
     }//GEN-LAST:event_btn_responder1ActionPerformed
 
+    private void btn_trabajandoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_trabajandoActionPerformed
+        // TODO add your handling code here:
+        if((jt_tickets.getSelectedRow() != -1)&&(jt_tickets.getSelectedRowCount() == 1)){
+            if(!modelo.getValueAt(jt_tickets.getSelectedRow(), 4).equals("Trabajando")){
+                Tickets miTicket = serviciosT.buscarUno(Integer.parseInt(modelo.getValueAt(jt_tickets.getSelectedRow(),0).toString()));
+                EstadoServ esta = new EstadoServ();
+                Estados estad = esta.traerEstado(6);
+                miTicket.setFkEstado(estad);
+                miTicket.setUsuarioReceptor(LoginEJB.usuario);
+                serviciosT.modificarTicket(miTicket);
+                llenarTabla();
+            }else{
+                JOptionPane.showMessageDialog(mainFrame, "El ticket ya se encuentra trabajando!!");
+            }
+        }else{
+            JOptionPane.showMessageDialog(mainFrame, "Debe seleccionar una y solo una fila!");
+        }
+    }//GEN-LAST:event_btn_trabajandoActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btn_enEspera;
@@ -609,6 +646,7 @@ public class MisTickets extends MenuP {
     private javax.swing.JButton btn_responder1;
     private javax.swing.JButton btn_resuelto;
     private javax.swing.JButton btn_tomar;
+    private javax.swing.JButton btn_trabajando;
     private javax.swing.JButton btn_transferir;
     private javax.swing.JButton btn_verResp;
     private javax.swing.JButton btn_volver;

@@ -25,6 +25,7 @@ import mscb.tick.main.Main;
 import mscb.tick.tickets.servicios.TicketServ;
 import mscb.tick.usuarios.servicios.UsuarioServ;
 import mscb.tick.util.MenuP;
+import com.mxrck.autocompleter.TextAutoCompleter;
 
 /**
  *
@@ -45,6 +46,7 @@ public class NuevoTicket extends MenuP {
     private Time hora;
     private EstadoServ serviciosEst;
     private AreaServ serviciosA;
+    private TextAutoCompleter textAutoAcompleter;
     
     /**
      * Creates new form NuevoTicket
@@ -60,6 +62,9 @@ public class NuevoTicket extends MenuP {
         lblServicio.setVisible(false);
         cmbx_asuntoPrincipal.setVisible(false);
         cmbx_asuntoSecundario.setVisible(false);
+        textAutoAcompleter = new TextAutoCompleter(txt_areaE);
+        textAutoAcompleter.setMode(0);
+        textAutoAcompleter.setCaseSensitive(false);
         llenarAreas();
     }
     
@@ -79,8 +84,13 @@ public class NuevoTicket extends MenuP {
         
         List<Areas> misAreas2 = serviciosA.traerTodas();
         for(int i = 0; i < misAreas2.size(); i++){
-            cmbx_areas1.addItem(misAreas2.get(i));
+            textAutoAcompleter.addItem(misAreas2.get(i));
         }
+        
+    }
+    
+    private void llenearTxtAutocompletar(){
+        
     }
     
     private void llenarAsuntoPrincipal(Areas area){
@@ -168,8 +178,10 @@ public class NuevoTicket extends MenuP {
         cmbx_areas = new javax.swing.JComboBox();
         lblAsunto = new javax.swing.JLabel();
         lblServicio = new javax.swing.JLabel();
-        cmbx_areas1 = new javax.swing.JComboBox();
         jLabel5 = new javax.swing.JLabel();
+        txt_areaE = new javax.swing.JTextField();
+        txt_patrimonio = new javax.swing.JTextField();
+        jLabel6 = new javax.swing.JLabel();
 
         setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Nuevo pedido a sistemas", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Bradley Hand ITC", 0, 24), java.awt.Color.white)); // NOI18N
 
@@ -255,18 +267,21 @@ public class NuevoTicket extends MenuP {
         lblServicio.setForeground(new java.awt.Color(255, 255, 255));
         lblServicio.setText("Servicio:");
 
-        cmbx_areas1.setBackground(new java.awt.Color(153, 153, 153));
-        cmbx_areas1.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        cmbx_areas1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                cmbx_areas1ActionPerformed(evt);
-            }
-        });
-
         jLabel5.setBackground(new java.awt.Color(0, 102, 204));
         jLabel5.setFont(new java.awt.Font("CG Times", 3, 18)); // NOI18N
         jLabel5.setForeground(new java.awt.Color(255, 255, 255));
         jLabel5.setText("Area emisora:");
+
+        txt_areaE.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txt_areaEActionPerformed(evt);
+            }
+        });
+
+        jLabel6.setBackground(new java.awt.Color(0, 102, 204));
+        jLabel6.setFont(new java.awt.Font("CG Times", 3, 18)); // NOI18N
+        jLabel6.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel6.setText("Patrimonio:");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -298,9 +313,15 @@ public class NuevoTicket extends MenuP {
                     .addComponent(cmbx_asuntoPrincipal, javax.swing.GroupLayout.Alignment.LEADING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(cmbx_areas, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel5)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(cmbx_areas1, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLabel5)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(txt_areaE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLabel6)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(txt_patrimonio)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -314,12 +335,14 @@ public class NuevoTicket extends MenuP {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel1)
                             .addComponent(cmbx_areas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(cmbx_areas1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel5))
+                            .addComponent(jLabel5)
+                            .addComponent(txt_areaE, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(6, 6, 6)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(cmbx_asuntoPrincipal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(lblAsunto))
+                            .addComponent(lblAsunto)
+                            .addComponent(txt_patrimonio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel6))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(cmbx_asuntoSecundario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -385,40 +408,45 @@ public class NuevoTicket extends MenuP {
 
     private void btn_guardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_guardarActionPerformed
         // TODO add your handling code here:
-        if(JOptionPane.showConfirmDialog(mainFrame, "Seguro desea enviar?","Confirmar",JOptionPane.YES_NO_OPTION) == 0){
-            serviciosEst = new EstadoServ();
-            serviciosT = new TicketServ();
-            sis = new AreaSistemaServ();
-            miTick = new Tickets();
-            fecha = new Date();
-            miTick.setAsunto((Servicios) cmbx_asuntoSecundario.getSelectedItem());
-            miTick.setFecha(fecha);
-            miTick.setFkAreaEmisor((Areas) cmbx_areas1.getSelectedItem());
-            miTick.setFkUsuarioEmisor(LoginEJB.usuario);
-            miTick.setHora(fecha);
-            miTick.setObservacion(txtA_obs.getText());
-            miTick.setFkEstado(serviciosEst.traerEstado(1));
-            miTick.setUsuarioReceptor(null);
-            miTick.setFkAreaReceptor((Areas) cmbx_areas.getSelectedItem());
-            miTick.setRespuesta(null);
-            if(serviciosT.nuevoTicket(miTick) == 0){
-                JOptionPane.showMessageDialog(mainFrame, "Ticket enviado...");
-            }else{
-                JOptionPane.showMessageDialog(mainFrame, "Error", "No se envio ticket", JOptionPane.ERROR_MESSAGE);
+        if(textAutoAcompleter.itemExists(textAutoAcompleter.getItemSelected())){
+            if(JOptionPane.showConfirmDialog(mainFrame, "Seguro desea enviar?","Confirmar",JOptionPane.YES_NO_OPTION) == 0){
+                serviciosEst = new EstadoServ();
+                serviciosT = new TicketServ();
+                sis = new AreaSistemaServ();
+                miTick = new Tickets();
+                fecha = new Date();
+                miTick.setAsunto((Servicios) cmbx_asuntoSecundario.getSelectedItem());
+                miTick.setFecha(fecha);
+                miTick.setFkAreaEmisor((Areas) textAutoAcompleter.getItemSelected());
+                miTick.setFkUsuarioEmisor(LoginEJB.usuario);
+                miTick.setHora(fecha);
+                miTick.setObservacion(txtA_obs.getText());
+                miTick.setFkEstado(serviciosEst.traerEstado(1));
+                miTick.setUsuarioReceptor(null);
+                miTick.setFkAreaReceptor((Areas) cmbx_areas.getSelectedItem());
+                miTick.setRespuesta(null);
+                miTick.setPatrimonio(txt_patrimonio.getText());
+                if(serviciosT.nuevoTicket(miTick) == 0){
+                    JOptionPane.showMessageDialog(mainFrame, "Ticket enviado...");
+                }else{
+                    JOptionPane.showMessageDialog(mainFrame, "Error", "No se envio ticket", JOptionPane.ERROR_MESSAGE);
+                }
+                HistorialServ serviciosH = new HistorialServ();
+                HistorialTickets miHis = new HistorialTickets();
+                Date fecha = new Date();
+                miHis.setFecha(fecha);
+                miHis.setFkTicket(miTick);
+                miHis.setFkUsuarioEmisor(LoginEJB.usuario);
+                miHis.setFkEstado(miTick.getFkEstado());
+                serviciosH.nuevo(miHis);
+                mainFrame.menuPrincipal();
+                this.setVisible(false);
+                b=0;
+                form = null;
+                System.gc();
             }
-            HistorialServ serviciosH = new HistorialServ();
-            HistorialTickets miHis = new HistorialTickets();
-            Date fecha = new Date();
-            miHis.setFecha(fecha);
-            miHis.setFkTicket(miTick);
-            miHis.setFkUsuarioEmisor(LoginEJB.usuario);
-            miHis.setFkEstado(miTick.getFkEstado());
-            serviciosH.nuevo(miHis);
-            mainFrame.menuPrincipal();
-            this.setVisible(false);
-            b=0;
-            form = null;
-            System.gc();
+        }else{
+            JOptionPane.showMessageDialog(mainFrame, "Error", "Error al seleccionar area emisora", JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_btn_guardarActionPerformed
 
@@ -433,16 +461,15 @@ public class NuevoTicket extends MenuP {
         
     }//GEN-LAST:event_cmbx_areasActionPerformed
 
-    private void cmbx_areas1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbx_areas1ActionPerformed
+    private void txt_areaEActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txt_areaEActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_cmbx_areas1ActionPerformed
+    }//GEN-LAST:event_txt_areaEActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btn_guardar;
     private javax.swing.JButton btn_volver;
     private javax.swing.JComboBox cmbx_areas;
-    private javax.swing.JComboBox cmbx_areas1;
     private javax.swing.JComboBox cmbx_asuntoPrincipal;
     private javax.swing.JComboBox cmbx_asuntoSecundario;
     private javax.swing.JLabel jLabel1;
@@ -450,9 +477,12 @@ public class NuevoTicket extends MenuP {
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel lblAsunto;
     private javax.swing.JLabel lblServicio;
     private javax.swing.JTextArea txtA_obs;
+    private javax.swing.JTextField txt_areaE;
+    private javax.swing.JTextField txt_patrimonio;
     // End of variables declaration//GEN-END:variables
 }

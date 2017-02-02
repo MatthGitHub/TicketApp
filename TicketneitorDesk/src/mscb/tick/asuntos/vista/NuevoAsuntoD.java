@@ -23,6 +23,7 @@ public class NuevoAsuntoD extends javax.swing.JDialog {
         super(parent, modal);
         initComponents();
         this.mainFrame = (Main) parent;
+        setResizable(false);
         setSize(260, 320);
         setTitle("Nuevo asunto");
         setLocationRelativeTo(null);

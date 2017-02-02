@@ -128,14 +128,11 @@ public class TicketServ {
     public boolean eliminarTicket(int id){
         try {
             jpa.destroy(id);
-            return true;
-        } catch (NonexistentEntityException ex) {
-            Logger.getLogger(TicketServ.class.getName()).log(Level.SEVERE, null, ex);
-            System.out.println(ex+" - Error al eliminar ticket (No existe el ID macho)");
-            return false;
         } catch (IllegalOrphanException ex) {
             Logger.getLogger(TicketServ.class.getName()).log(Level.SEVERE, null, ex);
-            return false;
+        } catch (NonexistentEntityException ex) {
+            Logger.getLogger(TicketServ.class.getName()).log(Level.SEVERE, null, ex);
         }
+        return true;
     }
 }

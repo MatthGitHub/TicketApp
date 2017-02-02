@@ -20,8 +20,6 @@ import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
@@ -45,12 +43,9 @@ public class BaseConocimiento implements Serializable {
     @Column(name = "id_resolucion")
     private Integer idResolucion;
     @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 3500)
     @Column(name = "resolucion")
     private String resolucion;
     @Basic(optional = false)
-    @NotNull
     @Column(name = "fecha")
     @Temporal(TemporalType.DATE)
     private Date fecha;
@@ -125,7 +120,7 @@ public class BaseConocimiento implements Serializable {
 
     @Override
     public String toString() {
-        return this.getIdResolucion().toString();
+        return this.idResolucion.toString();
     }
     
 }

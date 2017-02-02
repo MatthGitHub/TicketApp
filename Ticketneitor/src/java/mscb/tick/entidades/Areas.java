@@ -18,8 +18,6 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
@@ -45,14 +43,10 @@ public class Areas implements Serializable {
     @Column(name = "id_area")
     private Integer idArea;
     @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 30)
     @Column(name = "nombre_area")
     private String nombreArea;
-    @Size(max = 30)
     @Column(name = "direccion")
     private String direccion;
-    @Size(max = 45)
     @Column(name = "correo")
     private String correo;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "fkAreaEmisor")
@@ -166,7 +160,7 @@ public class Areas implements Serializable {
 
     @Override
     public String toString() {
-        return this.getNombreArea();
+        return this.nombreArea;
     }
     
 }

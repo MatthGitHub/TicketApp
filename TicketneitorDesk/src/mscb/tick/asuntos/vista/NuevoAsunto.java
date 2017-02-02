@@ -40,7 +40,6 @@ public class NuevoAsunto extends MenuP {
             cmbx_areas.setVisible(false);
             lblArea.setText(miArea.getNombreArea());
         }
-        setSize(260, 320);
         setVisible(true);
     }
     

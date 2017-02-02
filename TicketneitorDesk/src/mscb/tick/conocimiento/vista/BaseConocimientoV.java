@@ -51,7 +51,7 @@ public class BaseConocimientoV extends MenuP {
     
     private void llenarTabla(){
         miLista = serviciosC.traerTodos();
-        String v[] = new String[8];
+        String v[] = new String[9];
         DateFormat dateFormatter;
         dateFormatter = DateFormat.getDateInstance(DateFormat.SHORT, Locale.US);
         
@@ -64,6 +64,11 @@ public class BaseConocimientoV extends MenuP {
             v[5] = dateFormatter.format(miLista.get(i).getFecha()).toString();
             v[6] = miLista.get(i).getFkTicket().getAsunto().getPertenece().getNombre();
             v[7] = miLista.get(i).getFkTicket().getAsunto().getNombreasuntoS();
+            if((miLista.get(i).getFkTicket().getPatrimonio() == null)||(miLista.get(i).getFkTicket().getPatrimonio().isEmpty())){
+                v[8] = "Sin";
+            }else{
+                v[8] = miLista.get(i).getFkTicket().getPatrimonio();
+            }
             modelo.addRow(v);
         }
         revalidate();
@@ -90,11 +95,11 @@ public class BaseConocimientoV extends MenuP {
 
             },
             new String [] {
-                "Nº ticket", "Nº resolucion", "Emisor", "Fecha entrada", "Receptor", "Fecha resuelto", "Asunto", "Servicio"
+                "Nº ticket", "Nº resolucion", "Emisor", "Fecha entrada", "Receptor", "Fecha resuelto", "Asunto", "Servicio", "Patrimonio"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false, false, false
+                false, false, false, false, false, false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {

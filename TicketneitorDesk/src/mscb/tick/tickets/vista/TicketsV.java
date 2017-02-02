@@ -90,7 +90,7 @@ public class TicketsV extends MenuP {
     public void llenarTabla() {
         vaciarTabla(jt_tickets);
         miLista = serviciosT.traerTodos();
-        String v[] = new String[7];
+        String v[] = new String[8];
         DateFormat dateFormatter;
         dateFormatter = DateFormat.getDateInstance(DateFormat.SHORT, Locale.US);
 
@@ -110,6 +110,11 @@ public class TicketsV extends MenuP {
                 v[6] = "No aun";
             }else{
                 v[6] = miLista.get(i).getUsuarioReceptor().getNombreUsuario();
+            }
+            if((miLista.get(i).getPatrimonio() == null)||(miLista.get(i).getPatrimonio().isEmpty())){
+                v[7] = "Sin";
+            }else{
+                v[7] = miLista.get(i).getPatrimonio();
             }
             modelo.addRow(v);
 
@@ -207,14 +212,14 @@ public class TicketsV extends MenuP {
 
             },
             new String [] {
-                "Nº Ticket", "Fecha", "Area Emisor", "Usuario Emisor", "Estado", "Asunto", "Usuario receptor"
+                "Nº Ticket", "Fecha", "Area Emisor", "Usuario Emisor", "Estado", "Asunto", "Usuario receptor", "Patrimonio"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.Object.class
+                java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.Object.class, java.lang.Object.class
             };
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false, false
+                false, false, false, false, false, false, false, false
             };
 
             public Class getColumnClass(int columnIndex) {

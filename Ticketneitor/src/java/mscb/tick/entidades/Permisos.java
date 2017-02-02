@@ -17,8 +17,6 @@ import javax.persistence.ManyToMany;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
@@ -42,8 +40,6 @@ public class Permisos implements Serializable {
     @Column(name = "id_permiso")
     private Integer idPermiso;
     @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 30)
     @Column(name = "nombre_permiso")
     private String nombrePermiso;
     @ManyToMany(mappedBy = "permisosList")

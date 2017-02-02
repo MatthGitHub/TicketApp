@@ -16,8 +16,6 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
@@ -36,10 +34,8 @@ public class Respuestas implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)
-    @NotNull
     @Column(name = "id_ticket")
     private Integer idTicket;
-    @Size(max = 1000)
     @Column(name = "respuesta")
     private String respuesta;
     @JoinColumn(name = "id_ticket", referencedColumnName = "id_ticket", insertable = false, updatable = false)
@@ -110,7 +106,7 @@ public class Respuestas implements Serializable {
 
     @Override
     public String toString() {
-        return this.getIdTicket()+" - "+this.getIdUsuario().getNombreUsuario();
+        return this.respuesta;
     }
     
 }

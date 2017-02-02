@@ -24,8 +24,6 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
@@ -42,7 +40,9 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Tickets.findByFecha", query = "SELECT t FROM Tickets t WHERE t.fecha = :fecha"),
     @NamedQuery(name = "Tickets.findByHora", query = "SELECT t FROM Tickets t WHERE t.hora = :hora"),
     @NamedQuery(name = "Tickets.findByObservacion", query = "SELECT t FROM Tickets t WHERE t.observacion = :observacion"),
-    @NamedQuery(name = "Tickets.findByRespuesta", query = "SELECT t FROM Tickets t WHERE t.respuesta = :respuesta")})
+    @NamedQuery(name = "Tickets.findByRespuesta", query = "SELECT t FROM Tickets t WHERE t.respuesta = :respuesta"),
+    @NamedQuery(name = "Tickets.findByPatrimonio", query = "SELECT t FROM Tickets t WHERE t.patrimonio = :patrimonio"),
+    @NamedQuery(name = "Tickets.findByTiempoResolucion", query = "SELECT t FROM Tickets t WHERE t.tiempoResolucion = :tiempoResolucion")})
 public class Tickets implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -52,21 +52,22 @@ public class Tickets implements Serializable {
     @Column(name = "id_ticket")
     private Integer idTicket;
     @Basic(optional = false)
-    @NotNull
     @Column(name = "fecha")
     @Temporal(TemporalType.DATE)
     private Date fecha;
     @Basic(optional = false)
-    @NotNull
     @Column(name = "hora")
     @Temporal(TemporalType.TIMESTAMP)
     private Date hora;
-    @Size(max = 1500)
     @Column(name = "observacion")
     private String observacion;
-    @Size(max = 1500)
     @Column(name = "respuesta")
     private String respuesta;
+    @Column(name = "patrimonio")
+    private String patrimonio;
+    @Column(name = "tiempoResolucion")
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date tiempoResolucion;
     @JoinColumn(name = "fk_area_emisor", referencedColumnName = "id_area")
     @ManyToOne(optional = false)
     private Areas fkAreaEmisor;
@@ -146,6 +147,22 @@ public class Tickets implements Serializable {
 
     public void setRespuesta(String respuesta) {
         this.respuesta = respuesta;
+    }
+
+    public String getPatrimonio() {
+        return patrimonio;
+    }
+
+    public void setPatrimonio(String patrimonio) {
+        this.patrimonio = patrimonio;
+    }
+
+    public Date getTiempoResolucion() {
+        return tiempoResolucion;
+    }
+
+    public void setTiempoResolucion(Date tiempoResolucion) {
+        this.tiempoResolucion = tiempoResolucion;
     }
 
     public Areas getFkAreaEmisor() {
@@ -252,7 +269,7 @@ public class Tickets implements Serializable {
 
     @Override
     public String toString() {
-        return this.getIdTicket().toString();
+        return idTicket.toString();
     }
     
 }
