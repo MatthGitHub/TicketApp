@@ -12,6 +12,7 @@ import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import mscb.tick.conocimiento.servicios.ConocimientoServ;
 import mscb.tick.entidades.BaseConocimiento;
+import mscb.tick.login.servicios.LoginEJB;
 import mscb.tick.main.Main;
 import mscb.tick.tickets.servicios.TicketServ;
 import mscb.tick.util.MenuP;
@@ -50,7 +51,7 @@ public class BaseConocimientoV extends MenuP {
     }
     
     private void llenarTabla(){
-        miLista = serviciosC.traerTodos();
+        miLista = serviciosC.traerPorArea(LoginEJB.usuario.getFkEmpleado().getFkArea());
         String v[] = new String[9];
         DateFormat dateFormatter;
         dateFormatter = DateFormat.getDateInstance(DateFormat.SHORT, Locale.US);

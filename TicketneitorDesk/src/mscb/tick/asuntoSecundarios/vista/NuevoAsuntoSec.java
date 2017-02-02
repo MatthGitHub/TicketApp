@@ -35,7 +35,6 @@ public class NuevoAsuntoSec extends MenuP {
         this.mainFrameO = mainFrameO;
         this.mainFrame = mainFrame;
         this.miAsuntoPP = miAsuntoPP;
-        setSize(260, 320);
         setVisible(true);
         lbl_asuntoPP.setText(miAsuntoPP.getNombre());
         txt_nombreAsunto.requestFocus();

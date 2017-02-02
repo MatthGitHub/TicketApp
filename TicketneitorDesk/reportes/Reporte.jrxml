@@ -2,7 +2,7 @@
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Reporte" language="groovy" pageWidth="612" pageHeight="432" columnWidth="572" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="2c5a3e48-242d-44a1-a78a-d95712ab7794">
 	<property name="ireport.zoom" value="1.0"/>
 	<property name="ireport.x" value="0"/>
-	<property name="ireport.y" value="9"/>
+	<property name="ireport.y" value="0"/>
 	<style name="Title" fontName="Arial" fontSize="26" isBold="true" pdfFontName="Helvetica-Bold"/>
 	<style name="SubTitle" forecolor="#666666" fontName="Arial" fontSize="18"/>
 	<style name="Column header" forecolor="#666666" fontName="Arial" fontSize="12" isBold="true"/>
@@ -10,7 +10,7 @@
 	<subDataset name="New Dataset 1" uuid="4d8a44da-e99a-40ca-8e2a-30c75f5e31cb"/>
 	<parameter name="id" class="java.lang.Integer"/>
 	<queryString>
-		<![CDATA[SELECT id_ticket, a.nombre AS asunto, nombre_asuntoS AS servicio, fecha, SUBSTRING(CAST(hora AS CHAR),12,12) AS hora, e.nombre AS estado, respuesta,observacion
+		<![CDATA[SELECT id_ticket, a.nombre AS asunto, nombre_asuntoS AS servicio, fecha, SUBSTRING(CAST(hora AS CHAR),12,12) AS hora, e.nombre AS estado, respuesta,observacion,patrimonio
 FROM tickets t
 JOIN servicios s
 ON t.asunto = s.id_asuntoS
@@ -38,6 +38,9 @@ WHERE id_ticket=$P{id}]]>
 	<field name="observacion" class="java.lang.String">
 		<fieldDescription><![CDATA[]]></fieldDescription>
 	</field>
+	<field name="patrimonio" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
 	<group name="id">
 		<groupExpression><![CDATA[$F{id_ticket}]]></groupExpression>
 		<groupHeader>
@@ -53,6 +56,10 @@ WHERE id_ticket=$P{id}]]>
 				<staticText>
 					<reportElement style="Column header" x="350" y="10" width="80" height="15" uuid="d8d3a822-c3e3-44c2-bbc5-1342677a551d"/>
 					<text><![CDATA[Estado]]></text>
+				</staticText>
+				<staticText>
+					<reportElement style="Column header" x="492" y="10" width="80" height="15" uuid="c7cbd2dd-cac4-4b02-aa86-5594bc82332f"/>
+					<text><![CDATA[Patrimonio]]></text>
 				</staticText>
 			</band>
 		</groupHeader>
@@ -104,12 +111,16 @@ WHERE id_ticket=$P{id}]]>
 				<textFieldExpression><![CDATA[$F{fecha}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement style="Detail" x="350" y="0" width="143" height="15" uuid="33d69a3d-09bc-4617-a77d-d2eb1f0b5b08"/>
+				<reportElement style="Detail" x="350" y="2" width="107" height="15" uuid="33d69a3d-09bc-4617-a77d-d2eb1f0b5b08"/>
 				<textFieldExpression><![CDATA[$F{estado}]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement style="Detail" x="198" y="0" width="59" height="15" uuid="c276bf37-95a3-4465-afde-87bbb43a8637"/>
 				<textFieldExpression><![CDATA[$F{hora}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="Detail" x="480" y="2" width="92" height="15" uuid="26cee404-743e-4a50-84e7-19dc6165a836"/>
+				<textFieldExpression><![CDATA[$F{patrimonio}]]></textFieldExpression>
 			</textField>
 		</band>
 	</detail>
