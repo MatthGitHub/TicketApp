@@ -18,6 +18,19 @@
     <class>mscb.tick.entidades.Servicios</class>
     <class>mscb.tick.entidades.Tickets</class>
     <class>mscb.tick.entidades.Usuarios</class>
+    <class>mscb.tick.negocio.entidades.RazonesTransferencias</class>
+    <class>mscb.tick.negocio.entidades.Usuarios</class>
+    <class>mscb.tick.negocio.entidades.Servicios</class>
+    <class>mscb.tick.negocio.entidades.Permisos</class>
+    <class>mscb.tick.negocio.entidades.EstadosPgm</class>
+    <class>mscb.tick.negocio.entidades.HistorialTickets</class>
+    <class>mscb.tick.negocio.entidades.Roles</class>
+    <class>mscb.tick.negocio.entidades.Asuntos</class>
+    <class>mscb.tick.negocio.entidades.EstadoActualPgm</class>
+    <class>mscb.tick.negocio.entidades.Tickets</class>
+    <class>mscb.tick.negocio.entidades.Areas</class>
+    <class>mscb.tick.negocio.entidades.Estados</class>
+    <class>mscb.tick.negocio.entidades.Empleados</class>
     <properties>
       <property name="javax.persistence.jdbc.url" value="jdbc:mysql://10.20.130.242:3306/ticket?zeroDateTimeBehavior=convertToNull"/>
       <property name="javax.persistence.jdbc.user" value="administrador"/>

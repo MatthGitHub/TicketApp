@@ -24,6 +24,7 @@ $estadoPGM = $estadoPGM['estado'];
   <div class="navbar-collapse collapse">
   <ul class="nav navbar-nav">
     <li class="active"><a href="inicio.php">Inicio</a></li>
+    <li><a href="fichadas/mis_fichadas.php">Mis fichadas</a></li>
   <?php
   if($_SESSION["permiso"] == 1) {
   ?> <li class="dropdown">

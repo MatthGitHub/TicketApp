@@ -9,7 +9,13 @@ $id_usuario =  $_SESSION["id_usuario"];
 // Conectar a la base de datos
 $link = mysqli_connect ($dbhost, $dbusername, $dbuserpass);
 mysqli_select_db($link,$dbname) or die('No se puede seleccionar la base de datos');
-$query = mysqli_query($link,"SELECT id_ticket,fecha,hora,respuesta,nombre,observacion FROM tickets t JOIN estados e ON t.fk_estado = e.id_estado WHERE t.fk_usuario_emisor = $id_usuario AND t.fk_estado NOT IN (5,7)") or die(mysql_error());
+$query = mysqli_query($link," SELECT id_ticket,ht.fecha,hora,nombre,observacion, resolucion
+                              FROM tickets t
+                              JOIN historial_tickets ht ON ht.fk_ticket = t.id_ticket
+                              JOIN estados e ON ht.fk_estado = e.id_estado
+                              WHERE t.creador = $id_usuario
+                              AND ht.fk_estado NOT IN (7,5)
+                              AND ht.id_historial IN (SELECT MAX(id_historial) FROM historial_tickets WHERE fk_ticket = t.id_ticket)") or die(mysql_error());
 
 ?>
 
@@ -22,17 +28,13 @@ $query = mysqli_query($link,"SELECT id_ticket,fecha,hora,respuesta,nombre,observ
     <meta http-equiv="refresh" content="60" />
     <title>Mis Tickets</title>
 
-    <!-- Bootstrap -->
-    <link href="css/bootstrap.min.css" rel="stylesheet">
-    <link href="css/bootstrap.css" rel="stylesheet">
-
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
     <script language='javascript' src="js/jquery-1.12.3.js"></script>
     <script language='javascript' src="js/jquery.dataTables.min.js"></script>
 
-
-    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <!-- Bootstrap -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/bootstrap.css" rel="stylesheet">
     <script src="js/bootstrap.min.js"></script>
     <link href="css/jquery.dataTables.min.css" rel="stylesheet">
 
@@ -45,7 +47,7 @@ $query = mysqli_query($link,"SELECT id_ticket,fecha,hora,respuesta,nombre,observ
     <script type="text/javascript">
     $(document).ready(function() {
       $('#example').DataTable({
-          "scrollY":        "200px",
+          "scrollY":        "400px",
           "scrollCollapse": true,
           "paging":         true
       });
@@ -111,9 +113,10 @@ $query = mysqli_query($link,"SELECT id_ticket,fecha,hora,respuesta,nombre,observ
                       	<th> Numero de ticket </th>
                         <th> Fecha </th>
               					<th> Hora </th>
-              					<th> Respuesta </th>
+              					<th> Resolucion </th>
                         <th> Estado </th>
                         <th> Observacion </th>
+                        <th> Responder </th>
                       </tr>
                   </thead>
                     <tbody>
@@ -122,9 +125,10 @@ $query = mysqli_query($link,"SELECT id_ticket,fecha,hora,respuesta,nombre,observ
                             <td> <?php echo $tickets['id_ticket']; ?> </td>
                             <td> <?php echo $tickets['fecha']; ?> </td>
                             <td> <?php echo $tickets['hora']; ?> </td>
-                            <td> <?php echo $tickets['respuesta']; ?> </td>
+                            <td> <?php echo $tickets['resolucion']; ?> </td>
                             <td> <?php echo $tickets['nombre']; ?> </td>
-                            <td><<?php echo $tickets['observacion'];?></td>
+                            <td> <?php echo $tickets['observacion'];?></td>
+                            <td> </td>
                         </tr>
                         <?php } ?>
                     </tbody>

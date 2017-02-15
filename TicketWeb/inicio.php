@@ -42,7 +42,7 @@ if($_SESSION["logeado"] != "SI"){
 			<a class="btn btn-lg btn-primary" href="ticket_nuevo.php" role="button">Nuevo ticket &raquo;</a>
         </p>
 				<p>
-					<a class="btn btn-lg btn-primary" href="tickets_recientes.php" role="button">Tickets recientes &raquo;</a>
+					<a class="btn btn-lg btn-primary" href="tickets_recientes.php" role="button">Tickets no resueltos &raquo;</a>
 				</p>
 			<p>
 				<a class="btn btn-lg btn-primary" href="tickets.php" role="button">Mis tickets &raquo;</a>

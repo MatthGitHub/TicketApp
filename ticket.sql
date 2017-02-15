@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 21-10-2016 a las 17:31:31
+-- Tiempo de generación: 15-02-2017 a las 14:27:33
 -- Versión del servidor: 5.7.11
 -- Versión de PHP: 5.6.19
 
@@ -164,25 +164,6 @@ INSERT INTO `areas` (`id_area`, `nombre_area`, `direccion`, `correo`) VALUES
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `area_sistemas`
---
-
-CREATE TABLE `area_sistemas` (
-  `id_area_sistemas` int(11) NOT NULL,
-  `nombre_area` varchar(30) COLLATE utf8_spanish2_ci NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish2_ci;
-
---
--- Volcado de datos para la tabla `area_sistemas`
---
-
-INSERT INTO `area_sistemas` (`id_area_sistemas`, `nombre_area`) VALUES
-(1, 'Programacion'),
-(2, 'Tecnica');
-
--- --------------------------------------------------------
-
---
 -- Estructura de tabla para la tabla `asuntos`
 --
 
@@ -205,27 +186,8 @@ INSERT INTO `asuntos` (`id_asuntoP`, `nombre`, `fk_area`) VALUES
 (16, 'Correo', 38),
 (17, 'Servicio tecnico', 38),
 (19, 'Tickets', 38),
-(20, 'Informe de pedidos', 38);
-
--- --------------------------------------------------------
-
---
--- Estructura de tabla para la tabla `base_conocimiento`
---
-
-CREATE TABLE `base_conocimiento` (
-  `id_resolucion` int(11) NOT NULL,
-  `resolucion` varchar(3500) NOT NULL,
-  `fk_ticket` int(11) NOT NULL,
-  `fecha` date NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
---
--- Volcado de datos para la tabla `base_conocimiento`
---
-
-INSERT INTO `base_conocimiento` (`id_resolucion`, `resolucion`, `fk_ticket`, `fecha`) VALUES
-(3, 'no se le creo correo\n', 13, '2016-10-07');
+(20, 'Informe de pedidos', 38),
+(21, 'PGM nuevo', 38);
 
 -- --------------------------------------------------------
 
@@ -2674,10 +2636,6 @@ INSERT INTO `encargado_servicios` (`usuario`, `asunto`) VALUES
 (3, 28),
 (3, 29),
 (3, 30),
-(3, 31),
-(3, 32),
-(3, 37),
-(3, 48),
 (3, 49),
 (3, 50),
 (3, 51),
@@ -2688,7 +2646,6 @@ INSERT INTO `encargado_servicios` (`usuario`, `asunto`) VALUES
 (3, 56),
 (3, 57),
 (3, 58),
-(3, 65),
 (3, 66),
 (3, 67),
 (3, 68),
@@ -2711,13 +2668,20 @@ INSERT INTO `encargado_servicios` (`usuario`, `asunto`) VALUES
 (3, 87),
 (3, 88),
 (3, 89),
+(3, 102),
+(3, 104),
+(3, 105),
+(3, 106),
+(3, 107),
+(3, 108),
+(3, 109),
+(3, 110),
+(3, 111),
 (15, 27),
 (15, 28),
 (15, 29),
-(15, 31),
-(15, 37),
 (15, 48),
-(15, 65),
+(15, 102),
 (16, 59),
 (16, 60),
 (16, 62),
@@ -2730,7 +2694,6 @@ INSERT INTO `encargado_servicios` (`usuario`, `asunto`) VALUES
 (16, 96),
 (17, 29),
 (17, 30),
-(17, 32),
 (17, 49),
 (17, 50),
 (17, 66),
@@ -2754,17 +2717,8 @@ INSERT INTO `encargado_servicios` (`usuario`, `asunto`) VALUES
 (17, 86),
 (17, 87),
 (17, 88),
-(18, 33),
-(18, 34),
-(18, 35),
-(18, 36),
-(18, 38),
-(18, 41),
-(18, 42),
-(18, 43),
-(18, 44),
-(18, 45),
-(18, 47),
+(17, 102),
+(18, 102),
 (19, 59),
 (19, 62),
 (19, 91),
@@ -2777,10 +2731,42 @@ INSERT INTO `encargado_servicios` (`usuario`, `asunto`) VALUES
 (23, 99),
 (23, 100),
 (23, 101),
-(24, 39),
-(24, 40),
+(24, 27),
+(24, 28),
+(24, 29),
+(24, 30),
+(24, 45),
 (24, 46),
+(24, 47),
 (24, 48),
+(24, 51),
+(24, 52),
+(24, 53),
+(24, 54),
+(24, 55),
+(24, 56),
+(24, 57),
+(24, 58),
+(24, 59),
+(24, 60),
+(24, 62),
+(24, 89),
+(24, 90),
+(24, 91),
+(24, 92),
+(24, 93),
+(24, 94),
+(24, 95),
+(24, 96),
+(24, 97),
+(24, 98),
+(24, 99),
+(24, 100),
+(24, 101),
+(24, 102),
+(24, 103),
+(25, 90),
+(27, 102),
 (29, 59),
 (29, 60),
 (29, 96);
@@ -2806,7 +2792,7 @@ INSERT INTO `estados` (`id_estado`, `nombre`) VALUES
 (3, 'En espera'),
 (4, 'Respondido'),
 (5, 'Resuelto'),
-(6, 'En trabajo'),
+(6, 'Trabajando'),
 (7, 'Eliminado');
 
 -- --------------------------------------------------------
@@ -2848,7 +2834,7 @@ CREATE TABLE `estado_actual_pgm` (
 --
 
 INSERT INTO `estado_actual_pgm` (`id`, `fk_estado_pgm`, `fecha`) VALUES
-(1, 2, '2016-09-13 18:53:17');
+(1, 1, '2016-11-18 14:01:04');
 
 -- --------------------------------------------------------
 
@@ -2859,22 +2845,67 @@ INSERT INTO `estado_actual_pgm` (`id`, `fk_estado_pgm`, `fecha`) VALUES
 CREATE TABLE `historial_tickets` (
   `id_historial` int(11) NOT NULL,
   `fk_ticket` int(11) NOT NULL,
-  `fk_usuario_emisor` int(11) NOT NULL,
-  `fk_usuario_receptor` int(11) DEFAULT NULL,
+  `fk_usuario` int(11) NOT NULL COMMENT 'Usuario actual',
   `fecha` date NOT NULL,
-  `fk_estado` int(11) DEFAULT NULL
+  `fk_estado` int(11) DEFAULT NULL,
+  `resolucion` varchar(3000) DEFAULT NULL COMMENT AS `Mensajes,respuestas y como se resolvio`,
+  `fk_razon` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Volcado de datos para la tabla `historial_tickets`
 --
 
-INSERT INTO `historial_tickets` (`id_historial`, `fk_ticket`, `fk_usuario_emisor`, `fk_usuario_receptor`, `fecha`, `fk_estado`) VALUES
-(22, 12, 25, NULL, '2016-10-07', 1),
-(23, 13, 25, 19, '2016-10-07', 1),
-(24, 13, 25, 19, '2016-10-07', 5),
-(25, 14, 28, NULL, '2016-10-07', 1),
-(26, 15, 3, 3, '2016-10-19', 1);
+INSERT INTO `historial_tickets` (`id_historial`, `fk_ticket`, `fk_usuario`, `fecha`, `fk_estado`, `resolucion`, `fk_razon`) VALUES
+(28, 16, 24, '2016-11-16', 1, NULL, NULL),
+(29, 17, 24, '2016-11-16', 1, NULL, NULL),
+(32, 20, 24, '2016-11-16', 1, NULL, NULL),
+(33, 21, 24, '2016-11-16', 1, NULL, NULL),
+(34, 22, 24, '2016-11-16', 1, NULL, NULL),
+(35, 16, 24, '2016-11-16', 5, 'RESUELTO', NULL),
+(36, 23, 24, '2016-11-16', 1, NULL, NULL),
+(37, 24, 24, '2016-11-16', 1, NULL, NULL),
+(38, 25, 24, '2016-11-16', 1, NULL, NULL),
+(39, 26, 24, '2016-11-16', 1, NULL, NULL),
+(40, 27, 24, '2016-11-16', 1, NULL, NULL),
+(41, 28, 24, '2016-11-16', 1, NULL, NULL),
+(42, 29, 24, '2016-11-16', 1, NULL, NULL),
+(43, 30, 24, '2016-11-16', 1, NULL, NULL),
+(44, 31, 24, '2016-11-16', 1, NULL, NULL),
+(45, 32, 24, '2016-11-16', 1, NULL, NULL),
+(46, 33, 24, '2016-11-16', 1, NULL, NULL),
+(47, 34, 24, '2016-11-16', 1, NULL, NULL),
+(48, 35, 24, '2016-11-16', 1, NULL, NULL),
+(49, 36, 24, '2016-11-16', 1, NULL, NULL),
+(50, 37, 24, '2016-11-16', 1, NULL, NULL),
+(51, 38, 24, '2016-11-16', 1, NULL, NULL),
+(52, 34, 24, '2016-11-16', 5, NULL, NULL),
+(53, 39, 24, '2016-11-16', 1, NULL, NULL),
+(54, 31, 24, '2016-11-16', 5, 'atendido por castro solucionado', NULL),
+(55, 20, 24, '2016-11-16', 5, NULL, NULL),
+(56, 40, 24, '2016-11-16', 1, NULL, NULL),
+(57, 40, 24, '2016-11-16', 5, NULL, NULL),
+(58, 17, 24, '2016-11-16', 5, 'Tenia acceso directo del cajero viejo', NULL),
+(60, 22, 24, '2016-11-16', 5, 'Fue a tesoreria\n', NULL),
+(61, 24, 24, '2016-11-16', 5, 'Cambio la clave y se olvido.', NULL),
+(62, 41, 24, '2016-11-18', 1, NULL, NULL),
+(63, 39, 24, '2016-11-18', 5, 'resuelto', NULL),
+(64, 42, 24, '2016-11-18', 1, NULL, NULL),
+(65, 25, 24, '2016-11-18', 5, 'resuelto', NULL),
+(66, 26, 24, '2016-11-18', 5, 'resuelto', NULL),
+(67, 42, 24, '2016-11-18', 5, 'resuelto', NULL),
+(68, 41, 24, '2016-11-18', 5, 'resuelto', NULL),
+(69, 43, 24, '2016-11-18', 1, NULL, NULL),
+(70, 38, 24, '2016-11-18', 5, 'resuelto', NULL),
+(71, 43, 24, '2016-11-18', 5, 'resuelto', NULL),
+(72, 44, 24, '2016-11-18', 1, NULL, NULL),
+(73, 37, 24, '2016-11-18', 5, NULL, NULL),
+(79, 39, 24, '2016-11-29', 1, NULL, NULL),
+(80, 41, 24, '2016-11-29', 1, NULL, NULL),
+(82, 39, 24, '2016-11-29', 5, 'resuelto', NULL),
+(83, 27, 24, '2016-11-29', 5, 'Problema del servidor cuando se desconecta remotamente alguien bloquea las conexiones.', NULL),
+(84, 33, 24, '2016-11-29', 5, 'Contraseña reinicializada.', NULL),
+(85, 44, 24, '2016-11-29', 5, 'Permisos otorgados\n', NULL);
 
 -- --------------------------------------------------------
 
@@ -2927,7 +2958,11 @@ INSERT INTO `permisos` (`id_permiso`, `nombre_permiso`) VALUES
 (36, 'eliminarRolB'),
 (37, 'nuevoRolB'),
 (38, 'agregarPermisoB'),
-(39, 'quitarPermisoB');
+(39, 'quitarPermisoB'),
+(40, 'EmpleadosV'),
+(41, 'eliminarEmpleadoB'),
+(42, 'nuevoEmpleadoB'),
+(43, 'modificarEmpeladoB');
 
 -- --------------------------------------------------------
 
@@ -2956,9 +2991,9 @@ INSERT INTO `razones_transferencias` (`id_razon`, `nombre_razon`) VALUES
 
 CREATE TABLE `respuestas` (
   `id_ticket` int(11) NOT NULL,
-  `id_usuario` int(11) NOT NULL,
-  `respuesta` varchar(1000) COLLATE utf8_spanish2_ci DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish2_ci;
+  `respuesta` varchar(255) COLLATE utf8_spanish2_ci DEFAULT NULL,
+  `id_usuario` int(11) DEFAULT NULL
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_spanish2_ci;
 
 -- --------------------------------------------------------
 
@@ -3004,42 +3039,73 @@ INSERT INTO `roles_permisos` (`fk_rol`, `fk_permiso`) VALUES
 (1, 5),
 (2, 5),
 (3, 5),
+(4, 5),
 (1, 6),
 (2, 6),
+(3, 6),
+(4, 6),
 (1, 7),
-(2, 7),
+(3, 7),
+(4, 7),
 (1, 8),
 (1, 9),
+(4, 9),
 (1, 10),
 (1, 11),
+(4, 11),
 (1, 12),
+(3, 12),
+(4, 12),
 (1, 13),
+(3, 13),
+(4, 13),
 (1, 14),
+(4, 14),
 (1, 15),
 (1, 16),
 (1, 17),
+(4, 17),
 (1, 18),
+(4, 18),
 (1, 19),
 (1, 20),
+(4, 20),
 (1, 21),
+(4, 21),
 (1, 22),
 (1, 23),
+(4, 23),
 (1, 24),
+(4, 24),
 (1, 25),
 (1, 26),
+(4, 26),
 (1, 27),
+(3, 27),
 (1, 28),
 (1, 29),
+(3, 29),
 (1, 30),
+(3, 30),
 (1, 31),
+(3, 31),
 (1, 32),
+(3, 32),
 (1, 33),
 (1, 34),
+(4, 34),
 (1, 35),
 (1, 36),
 (1, 37),
 (1, 38),
-(1, 39);
+(1, 39),
+(1, 40),
+(4, 40),
+(1, 41),
+(1, 42),
+(4, 42),
+(1, 43),
+(4, 43);
 
 -- --------------------------------------------------------
 
@@ -3062,20 +3128,6 @@ INSERT INTO `servicios` (`id_asuntoS`, `nombre_asuntoS`, `pertenece`) VALUES
 (28, 'Baja usuario (Legajo y Documento)', 11),
 (29, 'Modificar permisos (Legajo y Documento)', 11),
 (30, 'Pedido auditoria', 11),
-(31, 'Anular habilitacion comercial', 11),
-(32, 'Anular declaracion jurada', 11),
-(33, 'Modificacion de vencimientos', 11),
-(34, 'Generacion de boletas de deuda', 11),
-(35, 'Modificaciones en las boletas', 11),
-(36, 'Bajas padrones', 11),
-(37, 'Anular cedulon', 11),
-(38, 'Modificar titular padron tribunal de faltas', 11),
-(39, 'Alta de calles', 11),
-(40, 'Alta de barrios', 11),
-(41, 'Alta de tipos de talonarios', 11),
-(42, 'Elaboracion de formularios (LD - Cert Legal - Cert esc.)', 11),
-(43, 'Modificacion de formularios  (LD - Cert Legal - Cert esc.)', 11),
-(44, 'Creacion de reportes', 11),
 (45, 'Estadisticas', 11),
 (46, 'Unificacion de personas', 11),
 (47, 'No funciona el crystal', 11),
@@ -3093,7 +3145,6 @@ INSERT INTO `servicios` (`id_asuntoS`, `nombre_asuntoS`, `pertenece`) VALUES
 (59, 'Pedido de nuevo correo electronico', 16),
 (60, 'Baja de correo electronico', 16),
 (62, 'Problemas con el turnero', 17),
-(65, 'Cambio de area del usuario', 11),
 (66, 'Generacion de informes de sueldos', 12),
 (67, 'Programacion de liquidacion', 12),
 (68, 'Alta novedades', 12),
@@ -3127,7 +3178,17 @@ INSERT INTO `servicios` (`id_asuntoS`, `nombre_asuntoS`, `pertenece`) VALUES
 (98, 'Saber en que secretaria se encuentra', 20),
 (99, 'Como realizar un pedido de abastecimiento', 20),
 (100, 'Da error al cargar el pedido', 20),
-(101, 'A que cuenta lo tengo que imputar', 20);
+(101, 'A que cuenta lo tengo que imputar', 20),
+(102, 'No funciona', 21),
+(103, 'No puede ingresar', 15),
+(104, 'Alta usuario(Legajo y Documento)', 21),
+(105, 'Baja usuario(Legajo y Documento)', 21),
+(106, 'Modificar usuario(Legajo y Documento)', 21),
+(107, 'Alta de calles', 21),
+(108, 'Alta de barrios', 21),
+(109, 'Creacion de reportes', 21),
+(110, 'Otro problemas', 21),
+(111, 'Error de migracion', 21);
 
 -- --------------------------------------------------------
 
@@ -3139,26 +3200,45 @@ CREATE TABLE `tickets` (
   `id_ticket` int(11) NOT NULL,
   `fecha` date NOT NULL,
   `hora` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  `fk_area_emisor` int(11) NOT NULL,
-  `fk_usuario_emisor` int(11) NOT NULL,
-  `fk_area_receptor` int(11) DEFAULT NULL,
-  `asunto` int(11) NOT NULL,
+  `creador` int(11) NOT NULL,
+  `servicio` int(11) NOT NULL,
   `observacion` varchar(1500) COLLATE utf8_spanish2_ci DEFAULT NULL,
-  `usuario_receptor` int(11) DEFAULT NULL,
-  `respuesta` varchar(1500) COLLATE utf8_spanish2_ci DEFAULT NULL,
-  `fk_estado` int(11) DEFAULT NULL,
-  `fk_razon` int(11) DEFAULT NULL
+  `patrimonio` varchar(15) COLLATE utf8_spanish2_ci DEFAULT NULL,
+  `tiempoResolucion` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish2_ci;
 
 --
 -- Volcado de datos para la tabla `tickets`
 --
 
-INSERT INTO `tickets` (`id_ticket`, `fecha`, `hora`, `fk_area_emisor`, `fk_usuario_emisor`, `fk_area_receptor`, `asunto`, `observacion`, `usuario_receptor`, `respuesta`, `fk_estado`, `fk_razon`) VALUES
-(12, '2016-10-07', '2016-10-07 13:53:24', 38, 25, 38, 90, 'no me anda - Numero de interno: 146', NULL, NULL, 1, NULL),
-(13, '2016-10-07', '2016-10-07 13:57:48', 38, 25, 38, 59, 'quiero correo\r\n - Numero de interno: 145', 19, 'no tenes correo', 5, NULL),
-(14, '2016-10-07', '2016-10-07 14:06:27', 38, 28, 38, 96, 'no funca nada', NULL, NULL, 2, NULL),
-(15, '2016-10-19', '2016-10-20 16:30:51', 38, 3, 38, 51, ' - Numero de interno: 145', 3, NULL, 2, NULL);
+INSERT INTO `tickets` (`id_ticket`, `fecha`, `hora`, `creador`, `servicio`, `observacion`, `patrimonio`, `tiempoResolucion`) VALUES
+(16, '2016-11-16', '2016-11-16 15:12:29', 24, 54, '16/11/2016 terminal de omnubus o puede ingresar al cajero daniel solucionado', NULL, NULL),
+(17, '2016-11-16', '2016-11-16 18:11:05', 24, 54, 'diaz jorge no puede ingresar a cajero', NULL, NULL),
+(20, '2016-11-16', '2016-11-16 17:34:55', 24, 103, 'USUARIO JORGE DIAZ', NULL, NULL),
+(21, '2016-11-16', '2016-11-16 15:39:38', 24, 103, 'RAQUELINA TRIBUBAL DE FALTAS 2', NULL, NULL),
+(22, '2016-11-16', '2016-11-16 18:12:04', 24, 55, 'TRANSITO PLAYON 16/11/16', NULL, NULL),
+(23, '2016-11-16', '2016-11-18 16:10:57', 24, 102, 'LEGALES SANDRA NO PUEDE IMPRIMIR DEUDA', NULL, NULL),
+(24, '2016-11-16', '2016-11-16 18:13:00', 24, 102, 'ana sangoy problemas con contraseña', NULL, NULL),
+(25, '2016-11-16', '2016-11-18 12:20:29', 24, 27, 'norma trib.faltas 2 problema con archivar textos', NULL, NULL),
+(26, '2016-11-16', '2016-11-18 12:21:46', 24, 102, 'maria de politicas tributarias usuario caducado 14/10/16', NULL, NULL),
+(27, '2016-11-16', '2016-11-29 15:05:19', 24, 102, 'hacienda error de servidor 500', NULL, NULL),
+(28, '2016-11-16', '2016-11-16 16:00:00', 24, 48, 'bety de catastro dice que no fue informada como se va implementar el nuevo PGM', NULL, NULL),
+(29, '2016-11-16', '2016-11-16 16:02:30', 24, 48, 'marta de fiszcalicacion no puede cargar la calle al nuevo proseso', NULL, NULL),
+(30, '2016-11-16', '2016-11-16 16:07:31', 24, 48, 'susana  urrutia de mesa entradas de morerno y moreno dice que se mudan otra vez solicita tecnico para configurar impresoras\n', NULL, NULL),
+(31, '2016-11-16', '2016-11-16 17:32:29', 24, 48, 'transito y tte. tiene problemas con tiket de taxis y remises', NULL, NULL),
+(32, '2016-11-16', '2016-11-16 16:14:31', 24, 103, 'chofa mesa entrada civico', NULL, NULL),
+(33, '2016-11-16', '2016-11-29 15:06:11', 24, 102, 'graciela de cultura no puede ingresar con contraseña', NULL, NULL),
+(34, '2016-11-16', '2016-11-16 16:47:04', 24, 48, 'lago moreno nora no puede hacer recibo de libre deudas', NULL, NULL),
+(35, '2016-11-16', '2016-11-16 16:24:01', 24, 48, 'idalinda de transito y tte. pregunta sobre montos de la tarifaria ', NULL, NULL),
+(36, '2016-11-16', '2016-11-16 16:28:01', 24, 48, 'delegacion moreno beatriz el cajero no reconoce libre de dudas', NULL, NULL),
+(37, '2016-11-16', '2016-11-18 12:38:31', 24, 48, 'susana davies transito problemas con modificacion personal', NULL, NULL),
+(38, '2016-11-16', '2016-11-18 12:26:05', 24, 48, 'playon dudas con recibo digital', NULL, NULL),
+(39, '2016-11-16', '2016-11-29 14:56:12', 24, 107, 'erika conribuciones pide cargar la calle GUTERO EN PGM N UEVO', NULL, NULL),
+(40, '2016-11-16', '2016-11-16 17:44:42', 24, 48, 'mabel de inspeccion gral pregunta si hoy a la tarde pueden trabajar en webdoc la repuesta es si\n', NULL, NULL),
+(41, '2016-11-18', '2016-11-29 14:55:49', 24, 107, 'Erika cargar la calle Guttero', NULL, NULL),
+(42, '2016-11-18', '2016-11-18 12:22:31', 24, 51, 'Mabel de Inspeccion pregunta y a la tarde pueden trabajar con Webdoc', NULL, NULL),
+(43, '2016-11-18', '2016-11-18 12:27:13', 24, 56, 'delegacion otto gabriela no puede imprimir cedulon', NULL, NULL),
+(44, '2016-11-18', '2016-11-29 15:06:55', 24, 102, 'gaby delegacion otto menu de fito/impresora/cambio de domicilio/cierre temporario/', NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -3181,20 +3261,21 @@ CREATE TABLE `usuarios` (
 --
 
 INSERT INTO `usuarios` (`id_usuario`, `nombre_usuario`, `contrasenia`, `fk_empleado`, `activo`, `fk_rol`, `id_extreme`) VALUES
-(3, 'mbenditti', '992f1570e7d76ebd5239bd5d83ca025b', 1, 1, 2, NULL),
+(3, 'mbenditti', '090c36e3bb39377468363197afb3e91b', 1, 1, 1, NULL),
 (15, 'ekayser', '6b5b0dd03c9c85725032ce5f3a0918ae', 1637, 1, 2, NULL),
 (16, 'gdinardo', '4c96f8324e3ba54a99e78249b95daa30', 146, 1, 2, NULL),
-(17, 'gcastro', '4c96f8324e3ba54a99e78249b95daa30', 2023, 1, 2, NULL),
-(18, 'avarano', 'e94ef563867e9c9df3fcc999bdb045f5', 113, 1, 2, NULL),
+(17, 'gcastro', '4c96f8324e3ba54a99e78249b95daa30', 2023, 1, 3, NULL),
+(18, 'avarano', 'e94ef563867e9c9df3fcc999bdb045f5', 113, 1, 3, NULL),
 (19, 'etomatis', '6d6354ece40846bf7fca65dfabd5d9d4', 1177, 1, 2, NULL),
 (21, 'eklein', '0dad057ace699c95af66875078362cf4', 2851, 1, 2, NULL),
-(22, 'hacuña', '3ab9071536d62f29aa8b3fd39141f6ad', 199, 1, 2, NULL),
+(22, 'hacuña', '3ab9071536d62f29aa8b3fd39141f6ad', 199, 1, 4, NULL),
 (23, 'bmarin', 'e4f7614a887a8cc07a2eea93a1e31122', 983, 1, 2, NULL),
 (24, 'gibanez', '05fe03b494c0f1a7d6cb49f0bf3fd70d', 395, 1, 2, NULL),
 (25, 'dalvarez', 'aa47f8215c6f30a0dcdb2a36a9f4168e', 2555, 1, 2, NULL),
 (27, 'bovando', 'e3928a3bc4be46516aa33a79bbdfdb08', 2852, 1, 2, NULL),
 (28, 'administrador', '6f8725703f6dcc6bf2a329d2fe77fb39', 1, 1, 1, NULL),
-(29, 'clorusso', '2b9ff3efc4a999ecfacd18c4bbc57a2e', 2853, 1, 2, NULL);
+(29, 'clorusso', '2b9ff3efc4a999ecfacd18c4bbc57a2e', 2853, 1, 2, NULL),
+(30, 'jcramos', 'db3b992995b36a9d2ac616ea2867b14a', 1685, 1, 1, NULL);
 
 --
 -- Índices para tablas volcadas
@@ -3207,24 +3288,11 @@ ALTER TABLE `areas`
   ADD PRIMARY KEY (`id_area`);
 
 --
--- Indices de la tabla `area_sistemas`
---
-ALTER TABLE `area_sistemas`
-  ADD PRIMARY KEY (`id_area_sistemas`);
-
---
 -- Indices de la tabla `asuntos`
 --
 ALTER TABLE `asuntos`
   ADD PRIMARY KEY (`id_asuntoP`),
   ADD KEY `fk_area` (`fk_area`);
-
---
--- Indices de la tabla `base_conocimiento`
---
-ALTER TABLE `base_conocimiento`
-  ADD PRIMARY KEY (`id_resolucion`),
-  ADD KEY `fk_ticket` (`fk_ticket`);
 
 --
 -- Indices de la tabla `empleados`
@@ -3265,11 +3333,11 @@ ALTER TABLE `estado_actual_pgm`
 --
 ALTER TABLE `historial_tickets`
   ADD PRIMARY KEY (`id_historial`),
-  ADD KEY `fk_ticket` (`fk_ticket`,`fk_usuario_emisor`,`fk_usuario_receptor`),
-  ADD KEY `fk_usuario_receptor` (`fk_usuario_receptor`),
-  ADD KEY `fk_usuario_emisor` (`fk_usuario_emisor`),
+  ADD KEY `fk_ticket` (`fk_ticket`,`fk_usuario`),
+  ADD KEY `fk_usuario_emisor` (`fk_usuario`),
   ADD KEY `fecha` (`fecha`),
-  ADD KEY `fk_estado` (`fk_estado`);
+  ADD KEY `fk_estado` (`fk_estado`),
+  ADD KEY `fk_razon` (`fk_razon`);
 
 --
 -- Indices de la tabla `permisos`
@@ -3287,8 +3355,7 @@ ALTER TABLE `razones_transferencias`
 -- Indices de la tabla `respuestas`
 --
 ALTER TABLE `respuestas`
-  ADD PRIMARY KEY (`id_ticket`),
-  ADD KEY `id_usuario` (`id_usuario`);
+  ADD PRIMARY KEY (`id_ticket`);
 
 --
 -- Indices de la tabla `roles`
@@ -3315,13 +3382,9 @@ ALTER TABLE `servicios`
 --
 ALTER TABLE `tickets`
   ADD PRIMARY KEY (`id_ticket`),
-  ADD KEY `fk_area_emisor` (`fk_area_emisor`,`fk_usuario_emisor`,`fk_area_receptor`,`usuario_receptor`),
-  ADD KEY `fk_usuario_emisor` (`fk_usuario_emisor`,`fk_area_receptor`,`usuario_receptor`),
-  ADD KEY `fk_area_sistemas` (`fk_area_receptor`),
-  ADD KEY `usuario_receptor` (`usuario_receptor`),
-  ADD KEY `asunto` (`asunto`),
-  ADD KEY `fk_estado` (`fk_estado`),
-  ADD KEY `fk_razon` (`fk_razon`);
+  ADD KEY `fk_area_emisor` (`creador`),
+  ADD KEY `fk_usuario_emisor` (`creador`),
+  ADD KEY `asunto` (`servicio`);
 
 --
 -- Indices de la tabla `usuarios`
@@ -3341,20 +3404,10 @@ ALTER TABLE `usuarios`
 ALTER TABLE `areas`
   MODIFY `id_area` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9183;
 --
--- AUTO_INCREMENT de la tabla `area_sistemas`
---
-ALTER TABLE `area_sistemas`
-  MODIFY `id_area_sistemas` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
---
 -- AUTO_INCREMENT de la tabla `asuntos`
 --
 ALTER TABLE `asuntos`
-  MODIFY `id_asuntoP` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
---
--- AUTO_INCREMENT de la tabla `base_conocimiento`
---
-ALTER TABLE `base_conocimiento`
-  MODIFY `id_resolucion` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id_asuntoP` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
 --
 -- AUTO_INCREMENT de la tabla `empleados`
 --
@@ -3374,12 +3427,12 @@ ALTER TABLE `estados_pgm`
 -- AUTO_INCREMENT de la tabla `historial_tickets`
 --
 ALTER TABLE `historial_tickets`
-  MODIFY `id_historial` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
+  MODIFY `id_historial` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=118;
 --
 -- AUTO_INCREMENT de la tabla `permisos`
 --
 ALTER TABLE `permisos`
-  MODIFY `id_permiso` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=40;
+  MODIFY `id_permiso` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=44;
 --
 -- AUTO_INCREMENT de la tabla `razones_transferencias`
 --
@@ -3394,17 +3447,17 @@ ALTER TABLE `roles`
 -- AUTO_INCREMENT de la tabla `servicios`
 --
 ALTER TABLE `servicios`
-  MODIFY `id_asuntoS` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=102;
+  MODIFY `id_asuntoS` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=112;
 --
 -- AUTO_INCREMENT de la tabla `tickets`
 --
 ALTER TABLE `tickets`
-  MODIFY `id_ticket` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+  MODIFY `id_ticket` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=60;
 --
 -- AUTO_INCREMENT de la tabla `usuarios`
 --
 ALTER TABLE `usuarios`
-  MODIFY `id_usuario` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=30;
+  MODIFY `id_usuario` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
 --
 -- Restricciones para tablas volcadas
 --
@@ -3414,12 +3467,6 @@ ALTER TABLE `usuarios`
 --
 ALTER TABLE `asuntos`
   ADD CONSTRAINT `asuntos_ibfk_1` FOREIGN KEY (`fk_area`) REFERENCES `areas` (`id_area`) ON UPDATE CASCADE;
-
---
--- Filtros para la tabla `base_conocimiento`
---
-ALTER TABLE `base_conocimiento`
-  ADD CONSTRAINT `base_conocimiento_ibfk_1` FOREIGN KEY (`fk_ticket`) REFERENCES `tickets` (`id_ticket`);
 
 --
 -- Filtros para la tabla `empleados`
@@ -3445,16 +3492,9 @@ ALTER TABLE `estado_actual_pgm`
 --
 ALTER TABLE `historial_tickets`
   ADD CONSTRAINT `historial_tickets_ibfk_1` FOREIGN KEY (`fk_ticket`) REFERENCES `tickets` (`id_ticket`),
-  ADD CONSTRAINT `historial_tickets_ibfk_2` FOREIGN KEY (`fk_usuario_emisor`) REFERENCES `usuarios` (`id_usuario`),
-  ADD CONSTRAINT `historial_tickets_ibfk_3` FOREIGN KEY (`fk_usuario_receptor`) REFERENCES `usuarios` (`id_usuario`),
-  ADD CONSTRAINT `historial_tickets_ibfk_4` FOREIGN KEY (`fk_estado`) REFERENCES `estados` (`id_estado`);
-
---
--- Filtros para la tabla `respuestas`
---
-ALTER TABLE `respuestas`
-  ADD CONSTRAINT `respuestas_ibfk_1` FOREIGN KEY (`id_ticket`) REFERENCES `tickets` (`id_ticket`),
-  ADD CONSTRAINT `respuestas_ibfk_2` FOREIGN KEY (`id_usuario`) REFERENCES `usuarios` (`id_usuario`);
+  ADD CONSTRAINT `historial_tickets_ibfk_2` FOREIGN KEY (`fk_usuario`) REFERENCES `usuarios` (`id_usuario`),
+  ADD CONSTRAINT `historial_tickets_ibfk_4` FOREIGN KEY (`fk_estado`) REFERENCES `estados` (`id_estado`),
+  ADD CONSTRAINT `historial_tickets_ibfk_5` FOREIGN KEY (`fk_razon`) REFERENCES `razones_transferencias` (`id_razon`);
 
 --
 -- Filtros para la tabla `roles_permisos`
@@ -3473,13 +3513,8 @@ ALTER TABLE `servicios`
 -- Filtros para la tabla `tickets`
 --
 ALTER TABLE `tickets`
-  ADD CONSTRAINT `tickets_ibfk_1` FOREIGN KEY (`fk_area_emisor`) REFERENCES `areas` (`id_area`),
-  ADD CONSTRAINT `tickets_ibfk_10` FOREIGN KEY (`fk_estado`) REFERENCES `estados` (`id_estado`),
-  ADD CONSTRAINT `tickets_ibfk_11` FOREIGN KEY (`fk_razon`) REFERENCES `razones_transferencias` (`id_razon`),
-  ADD CONSTRAINT `tickets_ibfk_2` FOREIGN KEY (`fk_usuario_emisor`) REFERENCES `usuarios` (`id_usuario`),
-  ADD CONSTRAINT `tickets_ibfk_4` FOREIGN KEY (`usuario_receptor`) REFERENCES `usuarios` (`id_usuario`),
-  ADD CONSTRAINT `tickets_ibfk_5` FOREIGN KEY (`fk_area_receptor`) REFERENCES `areas` (`id_area`),
-  ADD CONSTRAINT `tickets_ibfk_8` FOREIGN KEY (`asunto`) REFERENCES `servicios` (`id_asuntoS`);
+  ADD CONSTRAINT `tickets_ibfk_2` FOREIGN KEY (`creador`) REFERENCES `usuarios` (`id_usuario`),
+  ADD CONSTRAINT `tickets_ibfk_8` FOREIGN KEY (`servicio`) REFERENCES `servicios` (`id_asuntoS`) ON DELETE NO ACTION ON UPDATE CASCADE;
 
 --
 -- Filtros para la tabla `usuarios`

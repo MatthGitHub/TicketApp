@@ -75,20 +75,17 @@ if($tipo == 'ticket'){
       $time = time();
       $hora = date('Y-m-d H:i:s');
       $usuario = $_SESSION['id_usuario'];
-      $area = $_SESSION['area'];
-      $areaR = $_POST['area'];
-
 
       $link = mysqli_connect ($dbhost, $dbusername, $dbuserpass);
       mysqli_select_db($link,$dbname);
 
       // Con esta sentencia SQL insertaremos los datos en la base de datos
-      mysqli_query($link,"INSERT INTO tickets (fecha,hora,fk_area_emisor,fk_usuario_emisor,fk_area_receptor,asunto,observacion,fk_estado)
-      VALUES ('{$fecha}','{$hora}','{$area}','{$usuario}','{$areaR}','{$servicio}','{$obs}','1')");
+      mysqli_query($link,"INSERT INTO tickets (fecha,hora,creador,servicio,observacion)
+      VALUES ('{$fecha}','{$hora}','{$usuario}','{$servicio}','{$obs}')");
       // Ahora comprobaremos que todo ha ido correctamente
       $my_error = mysql_error();
       $idTicket = mysqli_insert_id($link);
-      mysqli_query($link,"INSERT INTO historial_tickets (fk_ticket,fk_usuario_emisor,fecha,fk_estado) VALUES ({$idTicket},'{$usuario}','{$fecha}',1)");
+      mysqli_query($link,"INSERT INTO historial_tickets (fk_ticket,fk_usuario,fecha,fk_estado) VALUES ({$idTicket},'{$usuario}','{$fecha}',1)");
 
       if(!empty($my_error)) {
 
@@ -96,7 +93,7 @@ if($tipo == 'ticket'){
 
       } else {
 
-           header ("Location: tickets.php");
+           header ("Location: tickets_recientes.php");
 
       }
 
