@@ -5,6 +5,7 @@
  */
 package mscb.tick.gui.login;
 
+import java.awt.event.KeyEvent;
 import javax.swing.JOptionPane;
 import mscb.tick.negocio.LoginEJB;
 import mscb.tick.gui.main.Main;
@@ -73,7 +74,7 @@ public class Login extends MenuP {
         });
 
         btn_salir.setBackground(new java.awt.Color(153, 153, 153));
-        btn_salir.setFont(new java.awt.Font("Comic Sans MS", 1, 14)); // NOI18N
+        btn_salir.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         btn_salir.setText("salir");
         btn_salir.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -90,7 +91,7 @@ public class Login extends MenuP {
         });
 
         btn_entrar.setBackground(new java.awt.Color(153, 153, 153));
-        btn_entrar.setFont(new java.awt.Font("Comic Sans MS", 1, 14)); // NOI18N
+        btn_entrar.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         btn_entrar.setText("entrar");
         btn_entrar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -131,7 +132,7 @@ public class Login extends MenuP {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(txt_nombre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 19, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 20, Short.MAX_VALUE)
                 .addComponent(pswr_clave, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, Short.MAX_VALUE)
                 .addComponent(lbl_mensaje, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -199,7 +200,10 @@ public class Login extends MenuP {
     }//GEN-LAST:event_pswr_claveActionPerformed
 
     private void btn_entrarKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_btn_entrarKeyPressed
-        // TODO add your handling code here
+        // TODO add your handling code here:
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+              btn_entrarActionPerformed(null);
+          }
     }//GEN-LAST:event_btn_entrarKeyPressed
 
 
