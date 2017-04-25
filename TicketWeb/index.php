@@ -18,7 +18,8 @@ $estadoPGM = $estadoPGM['estado'];
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>Acceso</title>
+	<link rel="icon" type="image/png" href="images/icons/ticket.png" sizes="16x16">
+    <title>Sistema Tickets MSCB</title>
 
     <!-- Bootstrap core CSS -->
     <script src="js/jquery-1.12.3.js"></script>
@@ -35,39 +36,22 @@ $estadoPGM = $estadoPGM['estado'];
       <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
       <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
-    <style type="text/css">
-body
-{
-    background: #000;
-    padding-top: 200px;
-}
-
-
-.input-group-addon
-{
-    background-color: rgb(50, 118, 177);
-    border-color: rgb(40, 94, 142);
-    color: rgb(255, 255, 255);
-}
-.form-control:focus
-{
-    background-color: rgb(50, 118, 177);
-    border-color: rgb(40, 94, 142);
-    color: rgb(255, 255, 255);
-}
-.form-signup input[type="text"],.form-signup input[type="password"] { border: 1px solid rgb(50, 118, 177); }
-.alert-danger-alt { border-color: #B63E5A;background: #E26868;color: #fff; }
+	<style type="text/css">
+		body
+		{
+			padding-top: 200px;
+		}
     </style>
-  </head>
+</head>
 
-  <body>
+<body>
 <div class="container">
     <div class="row">
         <div class="col-md-4 col-md-offset-4">
             <div class="panel panel-default">
                 <div class="panel-body">
-                    <h5 class="text-center">
-                        Ingreso al sistema</h5>
+					<img src="images/icons/ticket.png" alt="Municipalidad Bariloche" align="middle" style="margin:0px 0px 0px 140px" height="52" width="52">
+                    <h4 class="text-center bg-info">Sistema de Tickets</h4>
                     <form class="form form-signup" role="form" method="post" action="inc/entrar.php">
                     <div class="form-group">
                         <div class="input-group">
@@ -82,7 +66,7 @@ body
                         </div>
                     </div>
                 </div>
-                <input type="submit" name="Submit" value="Iniciar Sesion"  class="btn btn-sm btn-primary btn-block">
+                <input type="submit" name="Submit" value="INICIAR SESION"  class="btn btn-sm btn-primary btn-block">
                <br>
                </form>
               </div>
@@ -90,7 +74,7 @@ body
 if(isset($_GET['errorpass'])){
 echo "
 <div class='alert alert-danger-alt alert-dismissable'>
-                <span class='glyphicon glyphicon-certificate'></span>
+                <span class='glyphicon glyphicon-exclamation-sign'></span>
                 <button type='button' class='close' data-dismiss='alert' aria-hidden='true'>
                     ×</button>Datos Incorrectos, Vuelva a intentarlo.</div>
 ";
@@ -102,9 +86,9 @@ echo "";
 if(isset($_GET['erroractiv'])){
 echo "
 <div class='alert alert-danger-alt alert-dismissable'>
-                <span class='glyphicon glyphicon-certificate'></span>
+                <span class='glyphicon glyphicon-exclamation-sign'></span>
                 <button type='button' class='close' data-dismiss='alert' aria-hidden='true'>
-                    ×</button> Usuario del sistema no activo.</div>
+                    ×</button> Usuario del sistema INACTIVO.</div>
 ";
 }else{
 echo "";
@@ -115,21 +99,9 @@ echo "";
 if(isset($_GET['nopass'])){
 echo "
 <div class='alert alert-danger-alt alert-dismissable'>
-                <span class='glyphicon glyphicon-certificate'></span>
+                <span class='glyphicon glyphicon-exclamation-sign'></span>
                 <button type='button' class='close' data-dismiss='alert' aria-hidden='true'>
                     ×</button>No ha introducido una contraseña.</div>
-";
-}else{
-echo "";
-}
-?>
-<?php
-if(isset($_GET['logout'])){
-echo "
-<div class='alert alert-danger-alt alert-dismissable'>
-                <span class='glyphicon glyphicon-certificate'></span>
-                <button type='button' class='close' data-dismiss='alert' aria-hidden='true'>
-                    ×</button>Ha cerrado sesion correctamente.</div>
 ";
 }else{
 echo "";
@@ -139,14 +111,14 @@ echo "";
 if(isset($_GET['sucess'])){
 echo "
 <div class='alert alert-success-alt alert-dismissable'>
-                <span class='glyphicon glyphicon-certificate'></span>
+                <span class='glyphicon glyphicon-ok'></span>
                 <button type='button' class='close' data-dismiss='alert' aria-hidden='true'>
-                    ×</button>Listo! Tu registro fue hecho satisfactoriamente.</div>
+                    ×</button>Su registro ha sido satisfactorio.</div>
 ";
 }else{
 echo "";
 }
-
+/*
 switch ($estadoPGM) {
 case "Excelente":
     ?> <li><a href="#"><h3> Estado PGM: </h3><h4><span class="green">.</span><?php echo $estadoPGM; ?></h4></a></li> <?php
@@ -163,10 +135,13 @@ case "Bloqueado":
 case "Reiniciando":
     ?> <li><a href="#"><h3> Estado PGM: </h3><h4><span class="grey">.</span><?php echo $estadoPGM; ?></h4></a></li> <?php
     break;
-  }
+  }*/
 ?>
         </div>
     </div>
+<div class="panel-footer">
+			<p class="text-center">Direccion de Sistemas - Municipalidad de Bariloche</p>
+	</div>
 </div>
 </div>
 

@@ -24,7 +24,7 @@ public class InformacionSistema extends MenuP {
         initComponents();
         this.mainFrame = mainFrame;
          mxbean = (OperatingSystemMXBean) ManagementFactory.getOperatingSystemMXBean();
-        setSize(230, 260);
+        setSize(230, 290);
         setVisible(true);
         lbl_os.setText(System.getProperty("os.name"));
         lbl_osarc.setText(System.getProperty("os.arch"));
@@ -64,46 +64,52 @@ public class InformacionSistema extends MenuP {
         lbl_ramT = new javax.swing.JLabel();
         lbl_ramD = new javax.swing.JLabel();
 
-        setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Informacion del Sistema", javax.swing.border.TitledBorder.RIGHT, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 14), new java.awt.Color(255, 255, 255))); // NOI18N
+        setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Informacion del Sistema", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("SansSerif", 1, 14), new java.awt.Color(255, 255, 255))); // NOI18N
 
         btn_gud.setBackground(new java.awt.Color(153, 153, 153));
-        btn_gud.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        btn_gud.setText("gud");
+        btn_gud.setFont(new java.awt.Font("SansSerif", 1, 14)); // NOI18N
+        btn_gud.setForeground(new java.awt.Color(0, 108, 118));
+        btn_gud.setText("OK");
         btn_gud.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btn_gudActionPerformed(evt);
             }
         });
 
-        lbl_os.setForeground(new java.awt.Color(255, 255, 255));
+        lbl_os.setForeground(new java.awt.Color(0, 108, 118));
 
-        lbl_osarc.setForeground(new java.awt.Color(255, 255, 255));
+        lbl_osarc.setFont(new java.awt.Font("SansSerif", 0, 11)); // NOI18N
+        lbl_osarc.setForeground(new java.awt.Color(0, 108, 118));
 
-        lbl_osvers.setForeground(new java.awt.Color(255, 255, 255));
+        lbl_osvers.setFont(new java.awt.Font("SansSerif", 0, 11)); // NOI18N
+        lbl_osvers.setForeground(new java.awt.Color(0, 108, 118));
 
-        lbl_javavers.setForeground(new java.awt.Color(255, 255, 255));
+        lbl_javavers.setFont(new java.awt.Font("SansSerif", 0, 11)); // NOI18N
+        lbl_javavers.setForeground(new java.awt.Color(0, 108, 118));
 
-        lbl_javavers1.setForeground(new java.awt.Color(255, 255, 255));
+        lbl_javavers1.setForeground(new java.awt.Color(0, 108, 118));
         lbl_javavers1.setText("Arquitectura:");
 
-        lbl_javavers2.setForeground(new java.awt.Color(255, 255, 255));
+        lbl_javavers2.setForeground(new java.awt.Color(0, 108, 118));
         lbl_javavers2.setText("SO:");
 
-        lbl_javavers3.setForeground(new java.awt.Color(255, 255, 255));
+        lbl_javavers3.setForeground(new java.awt.Color(0, 108, 118));
         lbl_javavers3.setText("Version de SO:");
 
-        lbl_javavers4.setForeground(new java.awt.Color(255, 255, 255));
+        lbl_javavers4.setForeground(new java.awt.Color(0, 108, 118));
         lbl_javavers4.setText("Version Java:");
 
-        lbl_javavers5.setForeground(new java.awt.Color(255, 255, 255));
+        lbl_javavers5.setForeground(new java.awt.Color(0, 108, 118));
         lbl_javavers5.setText("RAM Total:");
 
-        lbl_javavers6.setForeground(new java.awt.Color(255, 255, 255));
+        lbl_javavers6.setForeground(new java.awt.Color(0, 108, 118));
         lbl_javavers6.setText("RAM Disponible:");
 
-        lbl_ramT.setForeground(new java.awt.Color(255, 255, 255));
+        lbl_ramT.setFont(new java.awt.Font("SansSerif", 0, 11)); // NOI18N
+        lbl_ramT.setForeground(new java.awt.Color(0, 108, 118));
 
-        lbl_ramD.setForeground(new java.awt.Color(255, 255, 255));
+        lbl_ramD.setFont(new java.awt.Font("SansSerif", 0, 11)); // NOI18N
+        lbl_ramD.setForeground(new java.awt.Color(0, 108, 118));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -113,12 +119,17 @@ public class InformacionSistema extends MenuP {
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                            .addComponent(lbl_javavers1, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(lbl_javavers2, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(lbl_javavers3, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 86, Short.MAX_VALUE)
-                            .addComponent(lbl_javavers4, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(0, 0, Short.MAX_VALUE)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                    .addComponent(lbl_javavers3, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 86, Short.MAX_VALUE)
+                                    .addComponent(lbl_javavers4, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(lbl_javavers2, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(lbl_javavers1, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(0, 0, Short.MAX_VALUE)))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(lbl_os, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -170,7 +181,7 @@ public class InformacionSistema extends MenuP {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(lbl_javavers6, javax.swing.GroupLayout.PREFERRED_SIZE, 16, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(lbl_ramD, javax.swing.GroupLayout.PREFERRED_SIZE, 16, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 60, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 87, Short.MAX_VALUE)
                 .addComponent(btn_gud)
                 .addContainerGap())
         );

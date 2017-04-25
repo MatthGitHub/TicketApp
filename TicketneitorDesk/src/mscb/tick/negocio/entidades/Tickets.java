@@ -43,7 +43,7 @@ import mscb.tick.negocio.UsuarioServ;
     @NamedQuery(name = "Tickets.findByObservacion", query = "SELECT t FROM Tickets t WHERE t.observacion = :observacion"),
     @NamedQuery(name = "Tickets.findByPatrimonio", query = "SELECT t FROM Tickets t WHERE t.patrimonio = :patrimonio"),
     @NamedQuery(name = "Tickets.findByTiempoResolucion", query = "SELECT t FROM Tickets t WHERE t.tiempoResolucion = :tiempoResolucion")})
-public class Tickets implements Serializable {
+public class Tickets implements Serializable,Comparable<Tickets> {
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -199,6 +199,17 @@ public class Tickets implements Serializable {
     @Override
     public String toString() {
         return this.idTicket.toString();
+    }
+
+    @Override
+    public int compareTo(Tickets t) {
+        if(idTicket < t.idTicket){
+            return -1;
+        }
+        if(idTicket > t.idTicket){
+            return 1;
+        }
+        return 0;
     }
     
 }

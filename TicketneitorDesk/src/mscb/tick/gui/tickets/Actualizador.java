@@ -17,7 +17,7 @@ import mscb.tick.gui.main.Main;
 public class Actualizador extends Thread {
 
     private Listener diferencia;
-    private MisTickets misTi;
+    private BandejaTickets misTi;
     private TicketsV tickets;
     private Main mainFrame;
     private int ran = 1;
@@ -33,7 +33,7 @@ public class Actualizador extends Thread {
             System.out.println("Corriendo Actualizador - " + System.currentTimeMillis() / 100000);
             if (diferencia.diferencias == true) {
                 System.out.println("Hay diferencias en BD");
-                misTi = MisTickets.getMisTickets(mainFrame);
+                misTi = BandejaTickets.getBandejaTickets(mainFrame);
                 tickets = TicketsV.getTickets(mainFrame);
                 misTi.llenarTabla();
                 tickets.llenarTabla();

@@ -93,11 +93,13 @@ public class MenuPrincipal extends MenuP {
         jMenu2.setText("Edit");
         jMenuBar1.add(jMenu2);
 
-        setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Centro de Control de Tickets", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Bradley Hand ITC", 0, 24), java.awt.Color.white)); // NOI18N
+        setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Centro de Control de Tickets", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("SansSerif", 2, 24), java.awt.Color.white)); // NOI18N
         setAutoscrolls(true);
+        setFont(new java.awt.Font("SansSerif", 0, 11)); // NOI18N
 
         btn_info.setBackground(new java.awt.Color(204, 204, 204));
-        btn_info.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        btn_info.setFont(new java.awt.Font("SansSerif", 1, 14)); // NOI18N
+        btn_info.setForeground(new java.awt.Color(255, 102, 102));
         btn_info.setText("?");
         btn_info.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -106,13 +108,14 @@ public class MenuPrincipal extends MenuP {
         });
 
         lblNombreUsuario.setBackground(new java.awt.Color(0, 102, 204));
-        lblNombreUsuario.setFont(new java.awt.Font("Bradley Hand ITC", 3, 36)); // NOI18N
-        lblNombreUsuario.setForeground(new java.awt.Color(255, 255, 255));
+        lblNombreUsuario.setFont(new java.awt.Font("Tekton Pro", 2, 36)); // NOI18N
+        lblNombreUsuario.setForeground(new java.awt.Color(0, 137, 124));
         lblNombreUsuario.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
 
         btn_salir.setBackground(new java.awt.Color(153, 153, 153));
         btn_salir.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        btn_salir.setText("salir");
+        btn_salir.setForeground(new java.awt.Color(0, 89, 97));
+        btn_salir.setText("SALIR");
         btn_salir.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btn_salirActionPerformed(evt);
@@ -121,7 +124,8 @@ public class MenuPrincipal extends MenuP {
 
         btn_logout.setBackground(new java.awt.Color(153, 153, 153));
         btn_logout.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        btn_logout.setText("cerrar sesion");
+        btn_logout.setForeground(new java.awt.Color(0, 108, 118));
+        btn_logout.setText("Cerrar Sesion");
         btn_logout.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btn_logoutActionPerformed(evt);
@@ -130,7 +134,8 @@ public class MenuPrincipal extends MenuP {
 
         btn_cambiarClave.setBackground(new java.awt.Color(153, 153, 153));
         btn_cambiarClave.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        btn_cambiarClave.setText("cambiar mi clave");
+        btn_cambiarClave.setForeground(new java.awt.Color(0, 108, 118));
+        btn_cambiarClave.setText("Cambiar Clave");
         btn_cambiarClave.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btn_cambiarClaveActionPerformed(evt);
@@ -138,8 +143,8 @@ public class MenuPrincipal extends MenuP {
         });
 
         lblNombreUsuario1.setBackground(new java.awt.Color(0, 102, 204));
-        lblNombreUsuario1.setFont(new java.awt.Font("Bradley Hand ITC", 3, 36)); // NOI18N
-        lblNombreUsuario1.setForeground(new java.awt.Color(255, 255, 255));
+        lblNombreUsuario1.setFont(new java.awt.Font("SansSerif", 1, 36)); // NOI18N
+        lblNombreUsuario1.setForeground(new java.awt.Color(0, 102, 102));
         lblNombreUsuario1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lblNombreUsuario1.setText("Bienvenido");
 
@@ -148,13 +153,13 @@ public class MenuPrincipal extends MenuP {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap(126, Short.MAX_VALUE)
+                .addContainerGap(129, Short.MAX_VALUE)
                 .addComponent(btn_salir, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 64, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 67, Short.MAX_VALUE)
                 .addComponent(btn_logout, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 64, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 69, Short.MAX_VALUE)
                 .addComponent(btn_cambiarClave)
-                .addContainerGap(127, Short.MAX_VALUE))
+                .addContainerGap(130, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addGap(0, 0, Short.MAX_VALUE)
                 .addComponent(btn_info))
@@ -174,7 +179,7 @@ public class MenuPrincipal extends MenuP {
                 .addComponent(lblNombreUsuario1, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 67, Short.MAX_VALUE)
                 .addComponent(lblNombreUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 228, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 227, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btn_salir, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btn_logout, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)

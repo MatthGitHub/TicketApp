@@ -19,6 +19,8 @@ import mscb.tick.negocio.controladores.exceptions.NonexistentEntityException;
 import mscb.tick.negocio.entidades.Tickets;
 import mscb.tick.negocio.EstadoServ;
 import mscb.tick.negocio.LoginEJB;
+import mscb.tick.negocio.entidades.Servicios;
+import mscb.tick.negocio.entidades.Usuarios;
 
 //import mscb.tick.login.Login;
 
@@ -55,11 +57,14 @@ public class TicketServ {
                 + "JOIN t.servicio s "
                 + "JOIN s.pertenece a2 "
                 + "JOIN t.creador c "
-                + "WHERE s.nombreasuntoS LIKE :patron "
+                + "JOIN t.historialTicketsList ht "
+                + "JOIN ht.fkEstado e "
+                + "WHERE e.idEstado NOT IN (5,7) AND ("
+                + "s.nombreasuntoS LIKE :patron "
                 + "OR a2.nombre LIKE :patron "
                 + "OR c.nombreUsuario LIKE :patron "
                 + "OR t.patrimonio LIKE :patron "
-                + "AND c.nombreUsuario LIKE :patron ");
+                + "OR c.nombreUsuario LIKE :patron )");
         q.setParameter("patron", "%"+ busca+"%");
         return q.getResultList();
     }
@@ -75,7 +80,7 @@ public class TicketServ {
     public List <Tickets> buscarNoResueltos(int id){
         EntityManager em = emf.createEntityManager();
         
-        q = em.createQuery("SELECT t FROM Tickets t WHERE t.idTicket LIKE :patron AND t.fkEstado != 5 AND t.fkEstado != 7");
+        q = em.createQuery("SELECT t FROM Tickets t JOIN t.historialTicketsList ht JOIN ht.fkEstado e WHERE t.idTicket LIKE :patron  AND e.idEstado NOT IN (5,7)");
         q.setParameter("patron",id);
         return q.getResultList();
     }
@@ -89,11 +94,27 @@ public class TicketServ {
         estad = new EstadoServ();
         
         for(int i = 0; i < miLista.size(); i ++){
+            System.out.println(miLista.get(i).getIdTicket().toString());
             if((LoginEJB.usuario.getServiciosList().contains(miLista.get(i).getServicio()))&&(!miLista.get(i).getUltimoEstado().equals(estad.traerEstado(5)))&&(!miLista.get(i).getUltimoEstado().equals(estad.traerEstado(7)))){
                 aux.add(miLista.get(i));
+                
             }
         }
         return aux;
+        /*
+        EntityManager em = emf.createEntityManager();
+        Usuarios usuario = LoginEJB.usuario;
+        
+        q = em.createQuery("SELECT DISTINCT t "
+                + "FROM Tickets t "
+                + "LEFT JOIN t.servicio s "
+                + "LEFT JOIN t.historialTicketsList ht "
+                + "LEFT JOIN ht.fkEstado e "
+                + "WHERE t.servicio IN (SELECT s FROM Usuarios u JOIN u.serviciosList s WHERE s.usuariosList = :patron)"
+                + " AND e.idEstado NOT IN (5,7)");
+        q.setParameter("patron",usuario );
+        return q.getResultList();*/
+        
     }
     
     public List <Tickets> buscarPorUsuarioAsuntoNoResueltos(){
@@ -132,4 +153,20 @@ public class TicketServ {
         }
         return true;
     }
+    
+    public List<Tickets> buscarPorUsuarioEmisor(){
+        List<Tickets> miLista = jpa.findTicketsEntities();
+        List<Tickets> aux = new ArrayList<>();
+        estad = new EstadoServ();
+        
+        for(int i = 0; i < miLista.size(); i ++){
+            System.out.println(miLista.get(i).getIdTicket().toString());
+            if((miLista.get(i).getCreador().equals(LoginEJB.usuario))&&(!miLista.get(i).getUltimoEstado().equals(estad.traerEstado(7)))){
+                aux.add(miLista.get(i));
+            }
+        }
+        return aux;
+    }
+    
+    
 }

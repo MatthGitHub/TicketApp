@@ -1,9 +1,6 @@
 <?php
 include('inc/config.php');
-if($_SESSION["logeado"] != "SI"){
-header ("Location: index.php");
-exit;
-}
+include('inc/validar.php');
 
 $id_usuario =  $_SESSION["id_usuario"];
 // Conectar a la base de datos
@@ -27,17 +24,17 @@ $query = mysqli_query($link," SELECT id_ticket,ht.fecha,hora,nombre,observacion,
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta http-equiv="refresh" content="60" />
-    <title>Mis Tickets</title>
+	<link rel="icon" type="image/png" href="images/icons/ticket.png" sizes="16x16">
+    <title>Tickets Resueltos</title>
+
+     <!-- Bootstrap -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/bootstrap.css" rel="stylesheet">
+		<link href="css/jquery.dataTables.min.css" rel="stylesheet">
 
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
     <script language='javascript' src="js/jquery-1.12.3.js"></script>
     <script language='javascript' src="js/jquery.dataTables.min.js"></script>
-
-    <!-- Bootstrap -->
-    <link href="css/bootstrap.min.css" rel="stylesheet">
-    <link href="css/bootstrap.css" rel="stylesheet">
-    <script src="js/bootstrap.min.js"></script>
-    <link href="css/jquery.dataTables.min.css" rel="stylesheet">
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -47,66 +44,38 @@ $query = mysqli_query($link," SELECT id_ticket,ht.fecha,hora,nombre,observacion,
     <![endif]-->
     <script type="text/javascript">
     $(document).ready(function() {
-    $('#example').DataTable( {
-        "scrollY":        "400px",
-        "scrollCollapse": true,
-        "paging":         true
-    } );
+      $('#example').DataTable( {
+        "language": {
+              "lengthMenu": "Mostrar _MENU_ registros por pagina",
+              "zeroRecords": "No se encontraron registros",
+              "info": "Pagina _PAGE_ de _PAGES_",
+              "infoEmpty": "No hay registros",
+              "infoFiltered": "(filtrado de _MAX_ registros)",
+              "sSearch":       	"Buscar",
+            	"oPaginate": {
+            		"sFirst":    	"Primero",
+            		"sPrevious": 	"Anterior",
+            		"sNext":     	"Siguiente",
+            		"sLast":     	"Ultimo"
+            	}
+          },
+          "scrollY":        "500px",
+          "scrollCollapse": true,
+          "columnDefs": [{ type: 'date-uk', targets: 0 }],
+          "order":[[0,"desc"],[1,"desc"]]
+            } );
 } );
 </script>
   </head>
-  <style type="text/css">
-  body{background: #000;}
-
-       .media
-    {
-        /*box-shadow:0px 0px 4px -2px #000;*/
-        margin: 20px 0;
-        padding:30px;
-    }
-    .dp
-    {
-        border:10px solid #eee;
-        transition: all 0.2s ease-in-out;
-    }
-    .dp:hover
-    {
-        border:2px solid #eee;
-        transform:rotate(360deg);
-        -ms-transform:rotate(360deg);
-        -webkit-transform:rotate(360deg);
-        /*-webkit-font-smoothing:antialiased;*/
-    }
-  </style>
   <body>
 
-<!-- Modal -->
-<div id="myModal" class="modal fade" role="dialog">
-  <div class="modal-dialog">
-
-    <!-- Modal content-->
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal">&times;</button>
-        <h4 class="modal-title">Ticket: </h4>
-      </div>
-      <div class="modal-body">
-        <p> Observacion </p>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal">cerrar</button>
-      </div>
-    </div>
-
-  </div>
-</div>
-      <br>
         <div class="container">
-
+		<br>
       <!-- Static navbar -->
       <?php include('inc/menu.php'); ?>
       <!-- Main component for a primary marketing message or call to action -->
       <div class="jumbotron">
+	  		<h4 class="text-center bg-info">Listado Tickets Resueltos</h4>
         <div class="row">
               <table id="example" class="display" cellspacing="0" width="100%">
                 	<thead>
@@ -133,7 +102,9 @@ $query = mysqli_query($link," SELECT id_ticket,ht.fecha,hora,nombre,observacion,
 
 </div>
       </div>
-
+      <div class="panel-footer">
+			<p class="text-center">Direccion de Sistemas - Municipalidad de Bariloche</p>
+		</div>
     </div> <!-- /container -->
   </body>
 </html>

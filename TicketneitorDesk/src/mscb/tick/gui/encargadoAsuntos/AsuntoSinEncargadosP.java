@@ -82,17 +82,20 @@ public class AsuntoSinEncargadosP extends MenuP {
         jScrollPane1 = new javax.swing.JScrollPane();
         jt_asuntos = new javax.swing.JTable();
 
-        setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Asuntos sin encargados", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Bradley Hand ITC", 0, 24), new java.awt.Color(255, 255, 255))); // NOI18N
+        setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Asuntos sin encargados", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("SansSerif", 0, 18), new java.awt.Color(255, 255, 255))); // NOI18N
 
         btn_cerrar.setBackground(new java.awt.Color(153, 153, 153));
-        btn_cerrar.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        btn_cerrar.setText("cerrar");
+        btn_cerrar.setFont(new java.awt.Font("SansSerif", 1, 12)); // NOI18N
+        btn_cerrar.setForeground(new java.awt.Color(0, 108, 118));
+        btn_cerrar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/mscb/tick/resources/imagenes/icons/back-arrow.png"))); // NOI18N
+        btn_cerrar.setText("Volver");
         btn_cerrar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btn_cerrarActionPerformed(evt);
             }
         });
 
+        jt_asuntos.setFont(new java.awt.Font("SansSerif", 0, 11)); // NOI18N
         jt_asuntos.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
@@ -116,6 +119,7 @@ public class AsuntoSinEncargadosP extends MenuP {
                 return canEdit [columnIndex];
             }
         });
+        jt_asuntos.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         jScrollPane1.setViewportView(jt_asuntos);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
@@ -124,12 +128,12 @@ public class AsuntoSinEncargadosP extends MenuP {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 325, Short.MAX_VALUE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(btn_cerrar)
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
-            .addGroup(layout.createSequentialGroup()
-                .addGap(124, 124, 124)
-                .addComponent(btn_cerrar)
-                .addContainerGap(148, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)

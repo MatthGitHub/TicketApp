@@ -82,11 +82,13 @@ public class CambiarTipoP extends MenuP {
         lbl_tipoU1 = new javax.swing.JLabel();
         cmbx_permisos = new javax.swing.JComboBox();
 
-        setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Cambiar tipo usuario", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Bradley Hand ITC", 0, 24), new java.awt.Color(255, 255, 255))); // NOI18N
+        setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Cambiar tipo usuario", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("SansSerif", 0, 18), new java.awt.Color(255, 255, 255))); // NOI18N
         setForeground(new java.awt.Color(255, 255, 255));
 
         btn_volver.setBackground(new java.awt.Color(153, 153, 153));
-        btn_volver.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        btn_volver.setFont(new java.awt.Font("SansSerif", 1, 12)); // NOI18N
+        btn_volver.setForeground(new java.awt.Color(0, 108, 118));
+        btn_volver.setIcon(new javax.swing.ImageIcon(getClass().getResource("/mscb/tick/resources/imagenes/icons/back-arrow.png"))); // NOI18N
         btn_volver.setText("Volver");
         btn_volver.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -95,7 +97,9 @@ public class CambiarTipoP extends MenuP {
         });
 
         btn_guardar.setBackground(new java.awt.Color(153, 153, 153));
-        btn_guardar.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        btn_guardar.setFont(new java.awt.Font("SansSerif", 1, 10)); // NOI18N
+        btn_guardar.setForeground(new java.awt.Color(0, 108, 118));
+        btn_guardar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/mscb/tick/resources/imagenes/icons/save.png"))); // NOI18N
         btn_guardar.setText("Guardar");
         btn_guardar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -103,40 +107,35 @@ public class CambiarTipoP extends MenuP {
             }
         });
 
-        lbl_tipoU.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        lbl_tipoU.setForeground(new java.awt.Color(255, 255, 255));
+        lbl_tipoU.setFont(new java.awt.Font("SansSerif", 1, 11)); // NOI18N
+        lbl_tipoU.setForeground(new java.awt.Color(0, 108, 118));
 
-        lbl_nombre.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        lbl_nombre.setForeground(new java.awt.Color(255, 255, 255));
+        lbl_nombre.setFont(new java.awt.Font("SansSerif", 1, 11)); // NOI18N
+        lbl_nombre.setForeground(new java.awt.Color(0, 108, 118));
 
-        lbl_tipoU1.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        lbl_tipoU1.setForeground(new java.awt.Color(255, 255, 255));
+        lbl_tipoU1.setFont(new java.awt.Font("SansSerif", 3, 14)); // NOI18N
+        lbl_tipoU1.setForeground(new java.awt.Color(0, 108, 118));
         lbl_tipoU1.setText("Nuevo tipo:");
 
         cmbx_permisos.setBackground(new java.awt.Color(153, 153, 153));
-        cmbx_permisos.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        cmbx_permisos.setForeground(new java.awt.Color(255, 255, 255));
+        cmbx_permisos.setFont(new java.awt.Font("SansSerif", 0, 11)); // NOI18N
+        cmbx_permisos.setForeground(new java.awt.Color(0, 108, 118));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addComponent(btn_volver)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 67, Short.MAX_VALUE)
-                .addComponent(btn_guardar)
-                .addContainerGap())
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGap(0, 0, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(lbl_tipoU1, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(lbl_tipoU, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(lbl_nombre, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(40, 40, 40))
-            .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(cmbx_permisos, javax.swing.GroupLayout.PREFERRED_SIZE, 202, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(cmbx_permisos, javax.swing.GroupLayout.PREFERRED_SIZE, 202, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lbl_nombre, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lbl_tipoU, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lbl_tipoU1, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE)))
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(btn_volver)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(btn_guardar))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -148,11 +147,11 @@ public class CambiarTipoP extends MenuP {
                 .addComponent(lbl_tipoU1, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(cmbx_permisos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 127, Short.MAX_VALUE)
+                .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btn_volver)
                     .addComponent(btn_guardar))
-                .addContainerGap())
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 

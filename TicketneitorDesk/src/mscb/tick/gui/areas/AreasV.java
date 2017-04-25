@@ -150,17 +150,20 @@ public class AreasV extends MenuP {
         txt_busca = new javax.swing.JTextField();
         btn_modificar = new javax.swing.JButton();
 
-        setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Areas", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Bradley Hand ITC", 0, 24), new java.awt.Color(255, 255, 255))); // NOI18N
+        setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Areas", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("SansSerif", 0, 18), new java.awt.Color(255, 255, 255))); // NOI18N
 
         btn_volver.setBackground(new java.awt.Color(153, 153, 153));
-        btn_volver.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        btn_volver.setText("volver");
+        btn_volver.setFont(new java.awt.Font("SansSerif", 1, 12)); // NOI18N
+        btn_volver.setForeground(new java.awt.Color(0, 108, 118));
+        btn_volver.setIcon(new javax.swing.ImageIcon(getClass().getResource("/mscb/tick/resources/imagenes/icons/back-arrow.png"))); // NOI18N
+        btn_volver.setText("Volver");
         btn_volver.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btn_volverActionPerformed(evt);
             }
         });
 
+        jt_areas.setFont(new java.awt.Font("SansSerif", 0, 11)); // NOI18N
         jt_areas.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
@@ -184,6 +187,7 @@ public class AreasV extends MenuP {
                 return canEdit [columnIndex];
             }
         });
+        jt_areas.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         jt_areas.getTableHeader().setReorderingAllowed(false);
         jScrollPane1.setViewportView(jt_areas);
         if (jt_areas.getColumnModel().getColumnCount() > 0) {
@@ -193,8 +197,10 @@ public class AreasV extends MenuP {
         }
 
         btn_eliminar.setBackground(new java.awt.Color(153, 153, 153));
-        btn_eliminar.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        btn_eliminar.setText("eliminar");
+        btn_eliminar.setFont(new java.awt.Font("SansSerif", 1, 10)); // NOI18N
+        btn_eliminar.setForeground(new java.awt.Color(0, 108, 118));
+        btn_eliminar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/mscb/tick/resources/imagenes/icons/delete.png"))); // NOI18N
+        btn_eliminar.setText("Eliminar");
         btn_eliminar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btn_eliminarActionPerformed(evt);
@@ -202,18 +208,22 @@ public class AreasV extends MenuP {
         });
 
         btn_nueva.setBackground(new java.awt.Color(153, 153, 153));
-        btn_nueva.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        btn_nueva.setText("nueva");
+        btn_nueva.setFont(new java.awt.Font("SansSerif", 1, 10)); // NOI18N
+        btn_nueva.setForeground(new java.awt.Color(0, 108, 118));
+        btn_nueva.setIcon(new javax.swing.ImageIcon(getClass().getResource("/mscb/tick/resources/imagenes/icons/add.png"))); // NOI18N
+        btn_nueva.setText("Nueva");
         btn_nueva.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btn_nuevaActionPerformed(evt);
             }
         });
 
-        jLabel1.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        jLabel1.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel1.setFont(new java.awt.Font("SansSerif", 3, 14)); // NOI18N
+        jLabel1.setForeground(new java.awt.Color(0, 108, 118));
         jLabel1.setText("Buscar:");
 
+        txt_busca.setFont(new java.awt.Font("SansSerif", 0, 11)); // NOI18N
+        txt_busca.setForeground(new java.awt.Color(0, 108, 118));
         txt_busca.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txt_buscaActionPerformed(evt);
@@ -221,8 +231,10 @@ public class AreasV extends MenuP {
         });
 
         btn_modificar.setBackground(new java.awt.Color(153, 153, 153));
-        btn_modificar.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        btn_modificar.setText("modificar");
+        btn_modificar.setFont(new java.awt.Font("SansSerif", 1, 10)); // NOI18N
+        btn_modificar.setForeground(new java.awt.Color(0, 108, 118));
+        btn_modificar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/mscb/tick/resources/imagenes/icons/edit.png"))); // NOI18N
+        btn_modificar.setText("Modificar");
         btn_modificar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btn_modificarActionPerformed(evt);
@@ -234,25 +246,22 @@ public class AreasV extends MenuP {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(32, 32, 32)
                         .addComponent(jLabel1)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(txt_busca, javax.swing.GroupLayout.PREFERRED_SIZE, 155, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(0, 0, Short.MAX_VALUE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jScrollPane1))
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 760, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(0, 5, Short.MAX_VALUE)
                         .addComponent(btn_volver)
-                        .addGap(142, 142, 142)
-                        .addComponent(btn_eliminar)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 177, Short.MAX_VALUE)
-                        .addComponent(btn_modificar)
-                        .addGap(116, 116, 116)
-                        .addComponent(btn_nueva)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btn_nueva)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btn_modificar, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btn_eliminar, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -262,7 +271,7 @@ public class AreasV extends MenuP {
                     .addComponent(jLabel1)
                     .addComponent(txt_busca, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 479, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 476, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btn_volver)

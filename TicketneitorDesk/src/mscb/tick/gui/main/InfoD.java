@@ -15,11 +15,13 @@ public class InfoD extends javax.swing.JDialog {
     Main mainFrame;
     private InfoP miPanel;
     private InformacionSistema suPanel;
+    private Versiones vers;
     /**
      * Creates new form InfoD
      */
     public InfoD(JFrame parent, boolean modal) {
         super(parent, modal);
+        mainFrame = (Main) parent;
         initComponents();
         setDefaultCloseOperation(0);
         setResizable(false);
@@ -35,8 +37,22 @@ public class InfoD extends javax.swing.JDialog {
         
         if(!miPanel.isVisible() == false){
             getContentPane().add(miPanel);
+            setSize(230, 300);
         }else{
             miPanel.setVisible(true);
+            setSize(230, 300);
+        }
+    }
+    
+    public void versiones(){
+        vers = Versiones.getVersiones(this);
+        
+        if(!vers.isVisible() == false){
+            getContentPane().add(vers);
+            this.setSize(485, 320);
+        }else{
+            vers.setVisible(true);
+            this.setSize(485, 320);
         }
     }
     
@@ -45,8 +61,10 @@ public class InfoD extends javax.swing.JDialog {
         
         if(!suPanel.isVisible() == false){
             getContentPane().add(suPanel);
+            setSize(230, 300);
         }else{
             suPanel.setVisible(true);
+            setSize(230, 300);
         }
     }
     /**

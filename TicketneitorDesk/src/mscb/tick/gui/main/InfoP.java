@@ -12,7 +12,7 @@ import mscb.tick.util.MenuP;
  * @author Administrador
  */
 public class InfoP extends MenuP {
-    Main mainFrameO;
+    
     InfoD mainFrame;
     private static InfoP estePanel;
     
@@ -22,8 +22,13 @@ public class InfoP extends MenuP {
     private InfoP(InfoD mainFrame) {
         initComponents();
         this.mainFrame = mainFrame;
-        setSize(230, 260);
+        setSize(230, 300);
         setVisible(true);
+        if(mainFrame.mainFrame.validarPermisos(44)){
+            btn_sys1.setVisible(true);
+        }else{
+            btn_sys1.setVisible(false);
+        }
     }
     
     public static InfoP getInfoP(InfoD mainFrame){
@@ -51,12 +56,14 @@ public class InfoP extends MenuP {
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
+        btn_sys1 = new javax.swing.JButton();
 
-        setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(255, 255, 255)), "Acerca de ...", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Bradley Hand ITC", 0, 24), new java.awt.Color(255, 255, 255))); // NOI18N
+        setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(255, 255, 255)), "Acerca de ...", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("SansSerif", 2, 18), new java.awt.Color(255, 255, 255))); // NOI18N
 
         btn_gud.setBackground(new java.awt.Color(153, 153, 153));
-        btn_gud.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        btn_gud.setText("Gud");
+        btn_gud.setFont(new java.awt.Font("SansSerif", 0, 14)); // NOI18N
+        btn_gud.setForeground(new java.awt.Color(0, 108, 118));
+        btn_gud.setText("Cerrar");
         btn_gud.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btn_gudActionPerformed(evt);
@@ -64,8 +71,9 @@ public class InfoP extends MenuP {
         });
 
         btn_sys.setBackground(new java.awt.Color(153, 153, 153));
-        btn_sys.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        btn_sys.setText("Info");
+        btn_sys.setFont(new java.awt.Font("SansSerif", 1, 14)); // NOI18N
+        btn_sys.setForeground(new java.awt.Color(0, 108, 118));
+        btn_sys.setText("Mas informacion");
         btn_sys.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btn_sysActionPerformed(evt);
@@ -73,24 +81,34 @@ public class InfoP extends MenuP {
         });
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        jLabel1.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel1.setForeground(new java.awt.Color(0, 108, 118));
         jLabel1.setText("Ticketneitor V 5.0");
 
         jLabel2.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-        jLabel2.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel2.setForeground(new java.awt.Color(0, 108, 118));
         jLabel2.setText("Sistema de control de pedidos");
 
         jLabel3.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-        jLabel3.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel3.setForeground(new java.awt.Color(0, 108, 118));
         jLabel3.setText("por tickets para Desk Service.");
 
         jLabel4.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-        jLabel4.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel4.setForeground(new java.awt.Color(0, 108, 118));
         jLabel4.setText("Municipalidad de San Carlos de");
 
         jLabel5.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-        jLabel5.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel5.setForeground(new java.awt.Color(0, 108, 118));
         jLabel5.setText("Bariloche");
+
+        btn_sys1.setBackground(new java.awt.Color(153, 153, 153));
+        btn_sys1.setFont(new java.awt.Font("SansSerif", 1, 14)); // NOI18N
+        btn_sys1.setForeground(new java.awt.Color(0, 108, 118));
+        btn_sys1.setText("Versiones");
+        btn_sys1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_sys1ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -105,9 +123,10 @@ public class InfoP extends MenuP {
                         .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 143, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(0, 0, Short.MAX_VALUE))
                     .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, 200, Short.MAX_VALUE)
-                    .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, 200, Short.MAX_VALUE)
-                    .addComponent(jLabel5, javax.swing.GroupLayout.DEFAULT_SIZE, 200, Short.MAX_VALUE))
+                    .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, 199, Short.MAX_VALUE)
+                    .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jLabel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(btn_sys1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -118,15 +137,17 @@ public class InfoP extends MenuP {
                 .addComponent(jLabel2)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel3)
-                .addGap(24, 24, 24)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel4)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel5)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 34, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(btn_sys1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btn_sys)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btn_gud)
-                .addGap(4, 4, 4))
+                .addContainerGap(48, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -146,10 +167,17 @@ public class InfoP extends MenuP {
         System.gc();
     }//GEN-LAST:event_btn_gudActionPerformed
 
+    private void btn_sys1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_sys1ActionPerformed
+        // TODO add your handling code here:
+        mainFrame.versiones();
+        this.setVisible(false);
+    }//GEN-LAST:event_btn_sys1ActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btn_gud;
     private javax.swing.JButton btn_sys;
+    private javax.swing.JButton btn_sys1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;

@@ -1,9 +1,6 @@
 <?php
 include("inc/config.php");
-if($_SESSION["logeado"] != "SI"){
-header ("Location: index.php");
-exit;
-}
+include('inc/validar.php');
 if(isset($_POST["idAsunto"]))
 	{
 		$asunto = $_POST['idAsunto'];

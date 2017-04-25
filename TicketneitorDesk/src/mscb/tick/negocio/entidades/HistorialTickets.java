@@ -34,7 +34,7 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "HistorialTickets.findByIdHistorial", query = "SELECT h FROM HistorialTickets h WHERE h.idHistorial = :idHistorial"),
     @NamedQuery(name = "HistorialTickets.findByFecha", query = "SELECT h FROM HistorialTickets h WHERE h.fecha = :fecha"),
     @NamedQuery(name = "HistorialTickets.findByResolucion", query = "SELECT h FROM HistorialTickets h WHERE h.resolucion = :resolucion")})
-public class HistorialTickets implements Serializable {
+public class HistorialTickets implements Serializable, Comparable<HistorialTickets>{
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -152,6 +152,17 @@ public class HistorialTickets implements Serializable {
     @Override
     public String toString() {
         return this.idHistorial.toString();
+    }
+
+    @Override
+    public int compareTo(HistorialTickets t) {
+        if(fkTicket.getIdTicket() < t.fkTicket.getIdTicket()){
+            return -1;
+        }
+        if(fkTicket.getIdTicket() > t.fkTicket.getIdTicket()){
+            return 1;
+        }
+        return 0;
     }
     
 }

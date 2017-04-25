@@ -61,37 +61,39 @@ public class ObservacionP extends MenuP {
         txtA_obser = new javax.swing.JTextArea();
         btn_cerrar = new javax.swing.JButton();
 
-        setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Observacion", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Bradley Hand ITC", 0, 24), java.awt.Color.white)); // NOI18N
+        setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Observacion", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("SansSerif", 0, 18), java.awt.Color.white)); // NOI18N
 
-        lbl_numero.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        lbl_numero.setForeground(new java.awt.Color(255, 255, 255));
+        lbl_numero.setFont(new java.awt.Font("SansSerif", 0, 11)); // NOI18N
+        lbl_numero.setForeground(new java.awt.Color(0, 108, 118));
 
-        lbl_usuarioE.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        lbl_usuarioE.setForeground(new java.awt.Color(255, 255, 255));
+        lbl_usuarioE.setFont(new java.awt.Font("SansSerif", 0, 11)); // NOI18N
+        lbl_usuarioE.setForeground(new java.awt.Color(0, 108, 118));
 
-        jLabel1.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        jLabel1.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel1.setFont(new java.awt.Font("SansSerif", 3, 14)); // NOI18N
+        jLabel1.setForeground(new java.awt.Color(0, 108, 118));
         jLabel1.setText("de:");
 
-        jLabel2.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        jLabel2.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel2.setFont(new java.awt.Font("SansSerif", 3, 14)); // NOI18N
+        jLabel2.setForeground(new java.awt.Color(0, 108, 118));
         jLabel2.setText("Ticket Nº:");
 
-        jLabel3.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        jLabel3.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel3.setFont(new java.awt.Font("SansSerif", 3, 14)); // NOI18N
+        jLabel3.setForeground(new java.awt.Color(0, 108, 118));
         jLabel3.setText("de:");
 
-        lbl_areaE.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        lbl_areaE.setForeground(new java.awt.Color(255, 255, 255));
+        lbl_areaE.setFont(new java.awt.Font("SansSerif", 0, 11)); // NOI18N
+        lbl_areaE.setForeground(new java.awt.Color(0, 108, 118));
 
-        txtA_obser.setBackground(new java.awt.Color(204, 204, 204));
         txtA_obser.setColumns(20);
-        txtA_obser.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        txtA_obser.setFont(new java.awt.Font("SansSerif", 0, 11)); // NOI18N
+        txtA_obser.setForeground(new java.awt.Color(0, 108, 118));
         txtA_obser.setRows(5);
         jScrollPane1.setViewportView(txtA_obser);
 
         btn_cerrar.setBackground(new java.awt.Color(153, 153, 153));
-        btn_cerrar.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        btn_cerrar.setFont(new java.awt.Font("SansSerif", 1, 12)); // NOI18N
+        btn_cerrar.setForeground(new java.awt.Color(0, 108, 118));
+        btn_cerrar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/mscb/tick/resources/imagenes/icons/close.png"))); // NOI18N
         btn_cerrar.setText("Cerrar");
         btn_cerrar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -121,12 +123,11 @@ public class ObservacionP extends MenuP {
                         .addComponent(jLabel3)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(lbl_areaE, javax.swing.GroupLayout.PREFERRED_SIZE, 219, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE)))
+                        .addGap(0, 244, Short.MAX_VALUE)))
                 .addGap(10, 10, 10))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGap(0, 195, Short.MAX_VALUE)
-                .addComponent(btn_cerrar, javax.swing.GroupLayout.PREFERRED_SIZE, 128, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(187, 187, 187))
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(btn_cerrar)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -145,7 +146,7 @@ public class ObservacionP extends MenuP {
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 146, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(btn_cerrar)
-                .addGap(0, 49, Short.MAX_VALUE))
+                .addGap(0, 44, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 

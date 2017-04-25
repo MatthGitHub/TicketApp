@@ -17,6 +17,7 @@ import mscb.tick.negocio.controladores.exceptions.IllegalOrphanException;
 import mscb.tick.negocio.controladores.exceptions.NonexistentEntityException;
 import mscb.tick.negocio.entidades.Usuarios;
 import mscb.tick.negocio.MD5;
+import mscb.tick.negocio.entidades.Servicios;
 
 /**
  *
@@ -204,4 +205,16 @@ public class UsuarioServ {
     public Usuarios buscarUnUsuario(int id){
         return jpa.findUsuarios(id);
     }
+    
+    public List<Usuarios> traerPorServicios(Servicios servicio){
+        List<Usuarios> aux = new ArrayList<>();
+        List<Usuarios> miListaU = jpa.findUsuariosEntities();
+        for(int i = 0; i < miListaU.size(); i++){
+            if(miListaU.get(i).getServiciosList().contains(servicio)){
+                aux.add(miListaU.get(i));
+            }
+        }
+        return aux;
+    }
+    
 }

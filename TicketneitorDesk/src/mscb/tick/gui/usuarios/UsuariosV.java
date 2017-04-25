@@ -35,7 +35,6 @@ public class UsuariosV extends MenuP {
         listaUsuarios = new ArrayList<>();
         cacheUsuarios = new ArrayList<>();
         this.mainFrame = mainFrame;
-        this.setSize(800, 600);
         this.setVisible(true);
         validarPermisos();
         cargarTablaUsuarios();
@@ -179,8 +178,9 @@ public class UsuariosV extends MenuP {
 
         chkbx_activo.setText("jCheckBox1");
 
-        setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Usuarios", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Bradley Hand ITC", 0, 24), java.awt.Color.white)); // NOI18N
+        setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Usuarios", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("SansSerif", 0, 18), java.awt.Color.white)); // NOI18N
 
+        jt_usuarios.setFont(new java.awt.Font("SansSerif", 0, 11)); // NOI18N
         jt_usuarios.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
@@ -204,6 +204,7 @@ public class UsuariosV extends MenuP {
                 return canEdit [columnIndex];
             }
         });
+        jt_usuarios.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         jt_usuarios.getTableHeader().setReorderingAllowed(false);
         jScrollPane1.setViewportView(jt_usuarios);
         if (jt_usuarios.getColumnModel().getColumnCount() > 0) {
@@ -217,8 +218,10 @@ public class UsuariosV extends MenuP {
         }
 
         btn_volver.setBackground(new java.awt.Color(153, 153, 153));
-        btn_volver.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        btn_volver.setText("menu");
+        btn_volver.setFont(new java.awt.Font("SansSerif", 1, 12)); // NOI18N
+        btn_volver.setForeground(new java.awt.Color(0, 108, 118));
+        btn_volver.setIcon(new javax.swing.ImageIcon(getClass().getResource("/mscb/tick/resources/imagenes/icons/back-arrow.png"))); // NOI18N
+        btn_volver.setText("Volver");
         btn_volver.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btn_volverActionPerformed(evt);
@@ -226,8 +229,10 @@ public class UsuariosV extends MenuP {
         });
 
         btn_eliminar.setBackground(new java.awt.Color(153, 153, 153));
-        btn_eliminar.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        btn_eliminar.setText("eliminar");
+        btn_eliminar.setFont(new java.awt.Font("SansSerif", 1, 10)); // NOI18N
+        btn_eliminar.setForeground(new java.awt.Color(0, 108, 118));
+        btn_eliminar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/mscb/tick/resources/imagenes/icons/delete.png"))); // NOI18N
+        btn_eliminar.setText("Eliminar");
         btn_eliminar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btn_eliminarActionPerformed(evt);
@@ -235,8 +240,10 @@ public class UsuariosV extends MenuP {
         });
 
         btn_desactivar.setBackground(new java.awt.Color(153, 153, 153));
-        btn_desactivar.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        btn_desactivar.setText("deshabilitar");
+        btn_desactivar.setFont(new java.awt.Font("SansSerif", 1, 10)); // NOI18N
+        btn_desactivar.setForeground(new java.awt.Color(0, 108, 118));
+        btn_desactivar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/mscb/tick/resources/imagenes/icons/disable_user.png"))); // NOI18N
+        btn_desactivar.setText("Deshabilitar");
         btn_desactivar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btn_desactivarActionPerformed(evt);
@@ -244,8 +251,10 @@ public class UsuariosV extends MenuP {
         });
 
         btn_activar.setBackground(new java.awt.Color(153, 153, 153));
-        btn_activar.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        btn_activar.setText("habilitar");
+        btn_activar.setFont(new java.awt.Font("SansSerif", 1, 10)); // NOI18N
+        btn_activar.setForeground(new java.awt.Color(0, 108, 118));
+        btn_activar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/mscb/tick/resources/imagenes/icons/enable_user.png"))); // NOI18N
+        btn_activar.setText("Habilitar");
         btn_activar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btn_activarActionPerformed(evt);
@@ -253,7 +262,9 @@ public class UsuariosV extends MenuP {
         });
 
         btn_resetClave.setBackground(new java.awt.Color(153, 153, 153));
-        btn_resetClave.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        btn_resetClave.setFont(new java.awt.Font("SansSerif", 1, 10)); // NOI18N
+        btn_resetClave.setForeground(new java.awt.Color(0, 108, 118));
+        btn_resetClave.setIcon(new javax.swing.ImageIcon(getClass().getResource("/mscb/tick/resources/imagenes/icons/reset_pass.png"))); // NOI18N
         btn_resetClave.setText("resetear clave");
         btn_resetClave.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -262,8 +273,10 @@ public class UsuariosV extends MenuP {
         });
 
         btn_nuevo.setBackground(new java.awt.Color(153, 153, 153));
-        btn_nuevo.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        btn_nuevo.setText("nuevo");
+        btn_nuevo.setFont(new java.awt.Font("SansSerif", 1, 10)); // NOI18N
+        btn_nuevo.setForeground(new java.awt.Color(0, 108, 118));
+        btn_nuevo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/mscb/tick/resources/imagenes/icons/add.png"))); // NOI18N
+        btn_nuevo.setText("Nuevo");
         btn_nuevo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btn_nuevoActionPerformed(evt);
@@ -271,8 +284,10 @@ public class UsuariosV extends MenuP {
         });
 
         btn_cambiarTipo.setBackground(new java.awt.Color(153, 153, 153));
-        btn_cambiarTipo.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        btn_cambiarTipo.setText("cambiar tipo");
+        btn_cambiarTipo.setFont(new java.awt.Font("SansSerif", 1, 10)); // NOI18N
+        btn_cambiarTipo.setForeground(new java.awt.Color(0, 108, 118));
+        btn_cambiarTipo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/mscb/tick/resources/imagenes/icons/user_type.png"))); // NOI18N
+        btn_cambiarTipo.setText("Cambiar tipo");
         btn_cambiarTipo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btn_cambiarTipoActionPerformed(evt);
@@ -283,47 +298,39 @@ public class UsuariosV extends MenuP {
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 795, Short.MAX_VALUE)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(btn_volver, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jScrollPane1)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(btn_volver, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(btn_eliminar, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(btn_cambiarTipo, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(btn_resetClave, javax.swing.GroupLayout.PREFERRED_SIZE, 136, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                .addComponent(btn_desactivar, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(btn_activar, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(btn_nuevo, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addContainerGap())
+                        .addComponent(btn_cambiarTipo)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btn_resetClave)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btn_activar)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btn_desactivar)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btn_eliminar)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btn_nuevo))))
         );
-
-        layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {btn_desactivar, btn_eliminar});
-
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 477, Short.MAX_VALUE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btn_desactivar, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btn_eliminar)
-                    .addComponent(btn_activar, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 481, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btn_volver, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btn_cambiarTipo, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btn_resetClave, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btn_nuevo, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap())
+                    .addComponent(btn_activar, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btn_desactivar, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btn_nuevo, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btn_eliminar))
+                .addGap(48, 48, 48))
         );
 
         layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {btn_desactivar, btn_eliminar});

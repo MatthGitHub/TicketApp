@@ -135,8 +135,9 @@ public class AsuntoSec extends MenuP {
         btn_eliminar = new javax.swing.JButton();
         btn_nuevo = new javax.swing.JButton();
 
-        setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Servicios", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Bradley Hand ITC", 0, 24), java.awt.Color.white)); // NOI18N
+        setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Servicios", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("SansSerif", 0, 18), java.awt.Color.white)); // NOI18N
 
+        jt_asuntoSec.setFont(new java.awt.Font("SansSerif", 0, 11)); // NOI18N
         jt_asuntoSec.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
@@ -166,7 +167,8 @@ public class AsuntoSec extends MenuP {
         }
 
         cmbx_asuntos.setBackground(new java.awt.Color(153, 153, 153));
-        cmbx_asuntos.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        cmbx_asuntos.setFont(new java.awt.Font("SansSerif", 0, 11)); // NOI18N
+        cmbx_asuntos.setForeground(new java.awt.Color(0, 108, 118));
         cmbx_asuntos.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "-", "Todos" }));
         cmbx_asuntos.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -175,13 +177,15 @@ public class AsuntoSec extends MenuP {
         });
 
         jLabel1.setBackground(new java.awt.Color(0, 102, 204));
-        jLabel1.setFont(new java.awt.Font("CG Times", 3, 18)); // NOI18N
-        jLabel1.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel1.setFont(new java.awt.Font("SansSerif", 3, 14)); // NOI18N
+        jLabel1.setForeground(new java.awt.Color(0, 108, 118));
         jLabel1.setText("Eliga un asunto principal:");
 
         btn_volver.setBackground(new java.awt.Color(153, 153, 153));
-        btn_volver.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        btn_volver.setText("volver");
+        btn_volver.setFont(new java.awt.Font("SansSerif", 1, 12)); // NOI18N
+        btn_volver.setForeground(new java.awt.Color(0, 108, 118));
+        btn_volver.setIcon(new javax.swing.ImageIcon(getClass().getResource("/mscb/tick/resources/imagenes/icons/back-arrow.png"))); // NOI18N
+        btn_volver.setText("Volver");
         btn_volver.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btn_volverActionPerformed(evt);
@@ -189,8 +193,10 @@ public class AsuntoSec extends MenuP {
         });
 
         btn_eliminar.setBackground(new java.awt.Color(153, 153, 153));
-        btn_eliminar.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        btn_eliminar.setText("eliminar");
+        btn_eliminar.setFont(new java.awt.Font("SansSerif", 1, 10)); // NOI18N
+        btn_eliminar.setForeground(new java.awt.Color(0, 108, 118));
+        btn_eliminar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/mscb/tick/resources/imagenes/icons/delete.png"))); // NOI18N
+        btn_eliminar.setText("Eliminar");
         btn_eliminar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btn_eliminarActionPerformed(evt);
@@ -198,8 +204,10 @@ public class AsuntoSec extends MenuP {
         });
 
         btn_nuevo.setBackground(new java.awt.Color(153, 153, 153));
-        btn_nuevo.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        btn_nuevo.setText("nuevo");
+        btn_nuevo.setFont(new java.awt.Font("SansSerif", 1, 10)); // NOI18N
+        btn_nuevo.setForeground(new java.awt.Color(0, 108, 118));
+        btn_nuevo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/mscb/tick/resources/imagenes/icons/add.png"))); // NOI18N
+        btn_nuevo.setText("Nuevo");
         btn_nuevo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btn_nuevoActionPerformed(evt);
@@ -215,16 +223,16 @@ public class AsuntoSec extends MenuP {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 768, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 276, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 212, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(cmbx_asuntos, javax.swing.GroupLayout.PREFERRED_SIZE, 336, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(btn_volver, javax.swing.GroupLayout.PREFERRED_SIZE, 113, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(192, 192, 192)
-                        .addComponent(btn_eliminar, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(btn_volver)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(btn_nuevo, javax.swing.GroupLayout.PREFERRED_SIZE, 149, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(btn_nuevo)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(btn_eliminar)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -235,7 +243,7 @@ public class AsuntoSec extends MenuP {
                     .addComponent(jLabel1)
                     .addComponent(cmbx_asuntos))
                 .addGap(9, 9, 9)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 458, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 467, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btn_eliminar, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)

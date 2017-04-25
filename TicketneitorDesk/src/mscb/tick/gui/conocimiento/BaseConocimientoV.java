@@ -6,6 +6,8 @@
 package mscb.tick.gui.conocimiento;
 
 import java.text.DateFormat;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Locale;
 import javax.swing.JOptionPane;
@@ -51,10 +53,13 @@ public class BaseConocimientoV extends MenuP {
     }
     
     private void llenarTabla(){
-        miLista = servH.traerTodosResueltos();
+        miLista = servH.traerTodosResueltosPorArea(LoginEJB.usuario.getFkEmpleado().getFkArea());
         String v[] = new String[9];
         DateFormat dateFormatter;
-        dateFormatter = DateFormat.getDateInstance(DateFormat.SHORT, Locale.US);
+        dateFormatter = DateFormat.getDateInstance(DateFormat.SHORT, Locale.UK);
+        
+        Comparator<HistorialTickets> compara = Collections.reverseOrder();
+        Collections.sort(miLista,compara);
         
         for(int i = 0; i < miLista.size();i++){
             v[0] = miLista.get(i).getFkTicket().toString();
@@ -88,8 +93,9 @@ public class BaseConocimientoV extends MenuP {
         jt_conocimiento = new javax.swing.JTable();
         btn_volver = new javax.swing.JButton();
 
-        setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Base de conocimiento", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Bradley Hand ITC", 0, 24), new java.awt.Color(255, 255, 255))); // NOI18N
+        setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Base de conocimiento", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("SansSerif", 0, 18), new java.awt.Color(255, 255, 255))); // NOI18N
 
+        jt_conocimiento.setFont(new java.awt.Font("SansSerif", 0, 11)); // NOI18N
         jt_conocimiento.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
@@ -106,6 +112,7 @@ public class BaseConocimientoV extends MenuP {
                 return canEdit [columnIndex];
             }
         });
+        jt_conocimiento.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         jt_conocimiento.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 jt_conocimientoMouseClicked(evt);
@@ -120,8 +127,10 @@ public class BaseConocimientoV extends MenuP {
         }
 
         btn_volver.setBackground(new java.awt.Color(153, 153, 153));
-        btn_volver.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        btn_volver.setText("menu");
+        btn_volver.setFont(new java.awt.Font("SansSerif", 1, 12)); // NOI18N
+        btn_volver.setForeground(new java.awt.Color(0, 108, 118));
+        btn_volver.setIcon(new javax.swing.ImageIcon(getClass().getResource("/mscb/tick/resources/imagenes/icons/back-arrow.png"))); // NOI18N
+        btn_volver.setText("Volver");
         btn_volver.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btn_volverActionPerformed(evt);
@@ -137,7 +146,7 @@ public class BaseConocimientoV extends MenuP {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 768, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(btn_volver, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(btn_volver)
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
@@ -145,7 +154,7 @@ public class BaseConocimientoV extends MenuP {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 471, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 477, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btn_volver, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(23, 23, 23))

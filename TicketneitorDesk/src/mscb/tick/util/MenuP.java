@@ -53,7 +53,7 @@ public class MenuP extends javax.swing.JPanel {
     
     public Image getIconImage() {
         Image retValue = Toolkit.getDefaultToolkit().
-                getImage(ClassLoader.getSystemResource("mscb/tick/resources/imagenes/MenuPrincipal.jpg"));
+                getImage(ClassLoader.getSystemResource("mscb/tick/resources/imagenes/fondo_tickets.jpg"));
 
 
         return retValue;

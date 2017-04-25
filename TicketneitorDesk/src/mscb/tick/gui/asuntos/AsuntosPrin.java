@@ -126,8 +126,10 @@ public class AsuntosPrin extends MenuP {
         cmbx_areas = new javax.swing.JComboBox();
         jLabel1 = new javax.swing.JLabel();
 
-        setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Asuntos", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Bradley Hand ITC", 0, 24), java.awt.Color.white)); // NOI18N
+        setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Asuntos", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("SansSerif", 0, 18), java.awt.Color.white)); // NOI18N
 
+        jt_asuntos.setFont(new java.awt.Font("SansSerif", 0, 11)); // NOI18N
+        jt_asuntos.setForeground(new java.awt.Color(0, 108, 118));
         jt_asuntos.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
@@ -144,11 +146,14 @@ public class AsuntosPrin extends MenuP {
                 return canEdit [columnIndex];
             }
         });
+        jt_asuntos.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         jScrollPane1.setViewportView(jt_asuntos);
 
         btn_volver.setBackground(new java.awt.Color(153, 153, 153));
-        btn_volver.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        btn_volver.setText("volver");
+        btn_volver.setFont(new java.awt.Font("SansSerif", 1, 12)); // NOI18N
+        btn_volver.setForeground(new java.awt.Color(0, 108, 118));
+        btn_volver.setIcon(new javax.swing.ImageIcon(getClass().getResource("/mscb/tick/resources/imagenes/icons/back-arrow.png"))); // NOI18N
+        btn_volver.setText("Volver");
         btn_volver.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btn_volverActionPerformed(evt);
@@ -156,8 +161,10 @@ public class AsuntosPrin extends MenuP {
         });
 
         btn_eliminar.setBackground(new java.awt.Color(153, 153, 153));
-        btn_eliminar.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        btn_eliminar.setText("eliminar");
+        btn_eliminar.setFont(new java.awt.Font("SansSerif", 1, 10)); // NOI18N
+        btn_eliminar.setForeground(new java.awt.Color(0, 108, 118));
+        btn_eliminar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/mscb/tick/resources/imagenes/icons/delete.png"))); // NOI18N
+        btn_eliminar.setText("Eliminar");
         btn_eliminar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btn_eliminarActionPerformed(evt);
@@ -165,8 +172,10 @@ public class AsuntosPrin extends MenuP {
         });
 
         btn_nuevo.setBackground(new java.awt.Color(153, 153, 153));
-        btn_nuevo.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        btn_nuevo.setText("nuevo");
+        btn_nuevo.setFont(new java.awt.Font("SansSerif", 1, 10)); // NOI18N
+        btn_nuevo.setForeground(new java.awt.Color(0, 108, 118));
+        btn_nuevo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/mscb/tick/resources/imagenes/icons/add.png"))); // NOI18N
+        btn_nuevo.setText("Nuevo");
         btn_nuevo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btn_nuevoActionPerformed(evt);
@@ -174,7 +183,8 @@ public class AsuntosPrin extends MenuP {
         });
 
         cmbx_areas.setBackground(new java.awt.Color(153, 153, 153));
-        cmbx_areas.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        cmbx_areas.setFont(new java.awt.Font("SansSerif", 1, 11)); // NOI18N
+        cmbx_areas.setForeground(new java.awt.Color(0, 108, 118));
         cmbx_areas.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "-" }));
         cmbx_areas.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -183,8 +193,8 @@ public class AsuntosPrin extends MenuP {
         });
 
         jLabel1.setBackground(new java.awt.Color(0, 102, 204));
-        jLabel1.setFont(new java.awt.Font("CG Times", 3, 18)); // NOI18N
-        jLabel1.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel1.setFont(new java.awt.Font("SansSerif", 3, 14)); // NOI18N
+        jLabel1.setForeground(new java.awt.Color(0, 108, 118));
         jLabel1.setText("Eliga un area:");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
@@ -196,11 +206,11 @@ public class AsuntosPrin extends MenuP {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 764, Short.MAX_VALUE)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(btn_volver, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(btn_volver)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(btn_eliminar, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(191, 191, 191)
-                        .addComponent(btn_nuevo, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(btn_nuevo)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(btn_eliminar))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel1)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)

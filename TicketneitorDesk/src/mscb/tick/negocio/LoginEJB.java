@@ -21,7 +21,7 @@ import mscb.tick.negocio.UsuarioServ;
 public class LoginEJB {
 
     public static Usuarios usuario;
-    private UsuarioServ serviciosU;
+    private static UsuarioServ serviciosU;
     private List<Usuarios> miLista;
     public static String mensaje;
     private MD5 md5;
@@ -54,26 +54,11 @@ public class LoginEJB {
              mensaje = "Usuario inexistente";
              return false;
         }
-        /*for (int i = 0; i < miLista.size(); i++) {
-            if (miLista.get(i).getNombreUsuario().equalsIgnoreCase(nombre)) {
-                if (miLista.get(i).getContrasenia().equals(clave)) {
-                    if (miLista.get(i).getActivo()) {
-                        usuario = miLista.get(i);
-                        return true;
-                    } else {
-                        mensaje = "Usuario Inactivo";
-                        break;
-                    }
-                } else {
-                    mensaje = "Clave incorrecta";
-                    break;
-                }
-            } else {
-                mensaje = "Usuario inexistente";
-                break;
-            }
-        }*/
+      
     }
     
-    
+    public static void refrescarPermisos(){
+        serviciosU = new UsuarioServ();
+        usuario = serviciosU.buscarUnUsuario(usuario.getIdUsuario());
+    }
 }

@@ -33,7 +33,7 @@ public class TransferenciaP extends MenuP {
     Main mainFrameO;
     private Tickets miTick;
     private TicketServ serviciosT;
-    private MisTickets panelMisti;
+    private BandejaTickets panelMisti;
     int b;
     private AsuntoPrincipalServ serviciosPrincipal;
     private List <Asuntos> miListaAP;
@@ -46,7 +46,7 @@ public class TransferenciaP extends MenuP {
      */
     private TransferenciaP(Tickets miTick, TransferenciaD mainFrame) {
         initComponents();
-        panelMisti = MisTickets.getMisTickets(mainFrameO);
+        panelMisti = BandejaTickets.getBandejaTickets(mainFrameO);
         this.mainFrame = mainFrame;
         serviciosR = new RazoneServ();
         serviciosT = new TicketServ();
@@ -108,22 +108,23 @@ public class TransferenciaP extends MenuP {
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
 
-        setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Transferir ticket", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Bradley Hand ITC", 0, 24), new java.awt.Color(255, 255, 255))); // NOI18N
+        setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Transferir ticket", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("SansSerif", 0, 18), new java.awt.Color(255, 255, 255))); // NOI18N
 
-        lbl_ticket.setFont(new java.awt.Font("Candara", 0, 18)); // NOI18N
-        lbl_ticket.setForeground(new java.awt.Color(255, 255, 255));
+        lbl_ticket.setFont(new java.awt.Font("SansSerif", 0, 11)); // NOI18N
+        lbl_ticket.setForeground(new java.awt.Color(0, 108, 118));
         lbl_ticket.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
 
-        lbl_asunto.setFont(new java.awt.Font("Candara", 0, 14)); // NOI18N
-        lbl_asunto.setForeground(new java.awt.Color(255, 255, 255));
+        lbl_asunto.setFont(new java.awt.Font("SansSerif", 0, 11)); // NOI18N
+        lbl_asunto.setForeground(new java.awt.Color(0, 108, 118));
         lbl_asunto.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
 
-        lbl_usuarioE.setFont(new java.awt.Font("Candara", 0, 18)); // NOI18N
-        lbl_usuarioE.setForeground(new java.awt.Color(255, 255, 255));
+        lbl_usuarioE.setFont(new java.awt.Font("SansSerif", 0, 11)); // NOI18N
+        lbl_usuarioE.setForeground(new java.awt.Color(0, 108, 118));
         lbl_usuarioE.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
 
         cmbx_asuntoPrincipal.setBackground(new java.awt.Color(153, 153, 153));
-        cmbx_asuntoPrincipal.setForeground(new java.awt.Color(255, 255, 255));
+        cmbx_asuntoPrincipal.setFont(new java.awt.Font("SansSerif", 0, 11)); // NOI18N
+        cmbx_asuntoPrincipal.setForeground(new java.awt.Color(0, 108, 118));
         cmbx_asuntoPrincipal.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 cmbx_asuntoPrincipalActionPerformed(evt);
@@ -131,7 +132,8 @@ public class TransferenciaP extends MenuP {
         });
 
         cmbx_asuntoSecundario.setBackground(new java.awt.Color(153, 153, 153));
-        cmbx_asuntoSecundario.setForeground(new java.awt.Color(255, 255, 255));
+        cmbx_asuntoSecundario.setFont(new java.awt.Font("SansSerif", 0, 11)); // NOI18N
+        cmbx_asuntoSecundario.setForeground(new java.awt.Color(0, 108, 118));
         cmbx_asuntoSecundario.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 cmbx_asuntoSecundarioActionPerformed(evt);
@@ -139,7 +141,8 @@ public class TransferenciaP extends MenuP {
         });
 
         cmbx_razones.setBackground(new java.awt.Color(153, 153, 153));
-        cmbx_razones.setForeground(new java.awt.Color(255, 255, 255));
+        cmbx_razones.setFont(new java.awt.Font("SansSerif", 0, 11)); // NOI18N
+        cmbx_razones.setForeground(new java.awt.Color(0, 108, 118));
         cmbx_razones.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 cmbx_razonesActionPerformed(evt);
@@ -147,7 +150,9 @@ public class TransferenciaP extends MenuP {
         });
 
         btn_guardar.setBackground(new java.awt.Color(153, 153, 153));
-        btn_guardar.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        btn_guardar.setFont(new java.awt.Font("SansSerif", 1, 10)); // NOI18N
+        btn_guardar.setForeground(new java.awt.Color(0, 108, 118));
+        btn_guardar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/mscb/tick/resources/imagenes/icons/transfer.png"))); // NOI18N
         btn_guardar.setText("Transferir");
         btn_guardar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -156,7 +161,9 @@ public class TransferenciaP extends MenuP {
         });
 
         btn_volver1.setBackground(new java.awt.Color(153, 153, 153));
-        btn_volver1.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        btn_volver1.setFont(new java.awt.Font("SansSerif", 1, 12)); // NOI18N
+        btn_volver1.setForeground(new java.awt.Color(0, 108, 118));
+        btn_volver1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/mscb/tick/resources/imagenes/icons/back-arrow.png"))); // NOI18N
         btn_volver1.setText("Volver");
         btn_volver1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -165,23 +172,23 @@ public class TransferenciaP extends MenuP {
         });
 
         jLabel1.setBackground(new java.awt.Color(0, 102, 204));
-        jLabel1.setFont(new java.awt.Font("CG Times", 3, 18)); // NOI18N
-        jLabel1.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel1.setFont(new java.awt.Font("SansSerif", 3, 14)); // NOI18N
+        jLabel1.setForeground(new java.awt.Color(0, 108, 118));
         jLabel1.setText("Eliga un asunto nuevo:");
 
         jLabel2.setBackground(new java.awt.Color(0, 102, 204));
-        jLabel2.setFont(new java.awt.Font("CG Times", 3, 18)); // NOI18N
-        jLabel2.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel2.setFont(new java.awt.Font("SansSerif", 3, 14)); // NOI18N
+        jLabel2.setForeground(new java.awt.Color(0, 108, 118));
         jLabel2.setText("Asunto Actual:");
 
         jLabel3.setBackground(new java.awt.Color(0, 102, 204));
-        jLabel3.setFont(new java.awt.Font("CG Times", 3, 18)); // NOI18N
-        jLabel3.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel3.setFont(new java.awt.Font("SansSerif", 3, 14)); // NOI18N
+        jLabel3.setForeground(new java.awt.Color(0, 108, 118));
         jLabel3.setText("N º Ticket:");
 
         jLabel4.setBackground(new java.awt.Color(0, 102, 204));
-        jLabel4.setFont(new java.awt.Font("CG Times", 3, 18)); // NOI18N
-        jLabel4.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel4.setFont(new java.awt.Font("SansSerif", 3, 14)); // NOI18N
+        jLabel4.setForeground(new java.awt.Color(0, 108, 118));
         jLabel4.setText("Usuario Emisor:");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
@@ -189,59 +196,53 @@ public class TransferenciaP extends MenuP {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addContainerGap()
+                        .addComponent(jLabel2)
+                        .addGap(48, 48, 48)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(lbl_asunto, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 205, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(0, 0, Short.MAX_VALUE))
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 143, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addComponent(lbl_usuarioE, javax.swing.GroupLayout.PREFERRED_SIZE, 227, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addGap(0, 0, Short.MAX_VALUE))
-                                    .addComponent(lbl_asunto, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(btn_volver1, javax.swing.GroupLayout.PREFERRED_SIZE, 123, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 261, Short.MAX_VALUE)
-                        .addComponent(btn_guardar, javax.swing.GroupLayout.PREFERRED_SIZE, 123, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
+                                    .addComponent(lbl_ticket, javax.swing.GroupLayout.PREFERRED_SIZE, 227, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(lbl_usuarioE, javax.swing.GroupLayout.PREFERRED_SIZE, 227, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(0, 0, Short.MAX_VALUE))))
+                    .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(cmbx_asuntoSecundario, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 388, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(cmbx_asuntoPrincipal, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 388, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(cmbx_razones, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 388, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                            .addComponent(jLabel1)
+                            .addComponent(cmbx_asuntoPrincipal, javax.swing.GroupLayout.PREFERRED_SIZE, 388, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(cmbx_asuntoSecundario, javax.swing.GroupLayout.PREFERRED_SIZE, 388, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(cmbx_razones, javax.swing.GroupLayout.PREFERRED_SIZE, 388, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(btn_volver1)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(btn_guardar)))
+                        .addGap(0, 109, Short.MAX_VALUE)))
                 .addContainerGap())
-            .addGroup(layout.createSequentialGroup()
-                .addGap(118, 118, 118)
-                .addComponent(lbl_ticket, javax.swing.GroupLayout.PREFERRED_SIZE, 227, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(layout.createSequentialGroup()
                     .addContainerGap()
-                    .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 205, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addContainerGap(302, Short.MAX_VALUE)))
+                    .addComponent(jLabel3)
+                    .addContainerGap(438, Short.MAX_VALUE)))
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(layout.createSequentialGroup()
                     .addContainerGap()
-                    .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 148, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addContainerGap(359, Short.MAX_VALUE)))
+                    .addComponent(jLabel4)
+                    .addContainerGap(401, Short.MAX_VALUE)))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(8, 8, 8)
-                .addComponent(lbl_ticket, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(lbl_usuarioE, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(lbl_asunto, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel2))
-                .addGap(3, 3, 3)
+                .addComponent(lbl_ticket, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(lbl_usuarioE, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(lbl_asunto, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(16, 16, 16)
                 .addComponent(jLabel1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(cmbx_asuntoPrincipal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -249,21 +250,21 @@ public class TransferenciaP extends MenuP {
                 .addComponent(cmbx_asuntoSecundario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(cmbx_razones, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(35, 35, 35)
+                .addGap(55, 55, 55)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btn_volver1, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btn_guardar, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(0, 40, Short.MAX_VALUE))
+                .addContainerGap(33, Short.MAX_VALUE))
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(layout.createSequentialGroup()
                     .addGap(10, 10, 10)
                     .addComponent(jLabel3)
-                    .addContainerGap(309, Short.MAX_VALUE)))
+                    .addContainerGap(320, Short.MAX_VALUE)))
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(layout.createSequentialGroup()
                     .addGap(48, 48, 48)
                     .addComponent(jLabel4)
-                    .addContainerGap(271, Short.MAX_VALUE)))
+                    .addContainerGap(282, Short.MAX_VALUE)))
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -309,7 +310,7 @@ public class TransferenciaP extends MenuP {
                 his.setFkEstado(estad.traerEstado(1));
                 his.setFecha(fecha);
                 servH.nuevo(his);
-                MisTickets.getMisTickets(mainFrameO).llenarTabla();
+                BandejaTickets.getBandejaTickets(mainFrameO).llenarTabla();
                 setVisible(false);
                 mainFrame.setVisible(false);
                 estePanel = null;

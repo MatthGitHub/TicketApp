@@ -54,12 +54,16 @@ public class HistorialTicketV extends MenuP {
         miLista = miTick.getHistorialTicketsList();
         String v[] = new String[5];
         DateFormat dateFormatter;
-        dateFormatter = DateFormat.getDateInstance(DateFormat.SHORT, Locale.US);
+        dateFormatter = DateFormat.getDateInstance(DateFormat.SHORT, Locale.UK);
 
         for (int i = 0; i < miLista.size(); i++) {
             v[0] = miLista.get(i).getIdHistorial().toString();
             v[1] = miLista.get(i).getFkTicket().getIdTicket().toString();
+            if(miLista.get(i).getFkUsuario() == null){
+                v[2] = miLista.get(i).getFkTicket().getCreador().getNombreUsuario();
+            }else{
             v[2] = miLista.get(i).getFkUsuario().getNombreUsuario();
+            }
             v[3] = dateFormatter.format(miLista.get(i).getFecha()).toString();
             if(miLista.get(i).getFkEstado() == null){
                 v[4] = "No tiene aun";
@@ -100,8 +104,9 @@ public class HistorialTicketV extends MenuP {
         lbl_numeroTicket = new javax.swing.JLabel();
         btn_volver1 = new javax.swing.JButton();
 
-        setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Historial de Ticket", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Bradley Hand ITC", 0, 24), new java.awt.Color(255, 255, 255))); // NOI18N
+        setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Historial de Ticket", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("SansSerif", 0, 18), new java.awt.Color(255, 255, 255))); // NOI18N
 
+        jt_tickets.setFont(new java.awt.Font("SansSerif", 0, 11)); // NOI18N
         jt_tickets.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
@@ -125,28 +130,33 @@ public class HistorialTicketV extends MenuP {
                 return canEdit [columnIndex];
             }
         });
+        jt_tickets.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         jScrollPane1.setViewportView(jt_tickets);
 
         btn_volver.setBackground(new java.awt.Color(153, 153, 153));
-        btn_volver.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        btn_volver.setText("volver");
+        btn_volver.setFont(new java.awt.Font("SansSerif", 1, 12)); // NOI18N
+        btn_volver.setForeground(new java.awt.Color(0, 108, 118));
+        btn_volver.setIcon(new javax.swing.ImageIcon(getClass().getResource("/mscb/tick/resources/imagenes/icons/back-arrow.png"))); // NOI18N
+        btn_volver.setText("Volver");
         btn_volver.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btn_volverActionPerformed(evt);
             }
         });
 
-        jLabel1.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        jLabel1.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel1.setFont(new java.awt.Font("SansSerif", 3, 14)); // NOI18N
+        jLabel1.setForeground(new java.awt.Color(0, 108, 118));
         jLabel1.setText("Nº Ticket:");
 
-        lbl_numeroTicket.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        lbl_numeroTicket.setForeground(new java.awt.Color(255, 255, 255));
+        lbl_numeroTicket.setFont(new java.awt.Font("SansSerif", 0, 11)); // NOI18N
+        lbl_numeroTicket.setForeground(new java.awt.Color(0, 108, 118));
         lbl_numeroTicket.setText("##########");
 
         btn_volver1.setBackground(new java.awt.Color(153, 153, 153));
-        btn_volver1.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        btn_volver1.setText("refrescar tabla");
+        btn_volver1.setFont(new java.awt.Font("SansSerif", 1, 10)); // NOI18N
+        btn_volver1.setForeground(new java.awt.Color(0, 108, 118));
+        btn_volver1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/mscb/tick/resources/imagenes/icons/refresh.png"))); // NOI18N
+        btn_volver1.setText("Refrescar");
         btn_volver1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btn_volver1ActionPerformed(evt);
@@ -161,13 +171,12 @@ public class HistorialTicketV extends MenuP {
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
                         .addComponent(jLabel1)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGap(18, 18, 18)
                         .addComponent(lbl_numeroTicket, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 503, Short.MAX_VALUE))
+                        .addGap(0, 495, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(btn_volver, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(btn_volver)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(btn_volver1)))
                 .addContainerGap())
@@ -183,7 +192,7 @@ public class HistorialTicketV extends MenuP {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(lbl_numeroTicket, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 474, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 479, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btn_volver, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btn_volver1, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -191,7 +200,7 @@ public class HistorialTicketV extends MenuP {
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(layout.createSequentialGroup()
                     .addGap(39, 39, 39)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 455, Short.MAX_VALUE)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 462, Short.MAX_VALUE)
                     .addGap(67, 67, 67)))
         );
     }// </editor-fold>//GEN-END:initComponents

@@ -16,7 +16,7 @@ include('inc/config.php');
 
 
         // Ahora comprobaremos que todo ha ido correctamente
-        $my_error = mysql_error($link);
+        $my_error = mysqli_error($link);
 
         if(!empty($my_error)) {
 

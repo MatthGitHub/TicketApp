@@ -65,11 +65,17 @@ public class NuevoEmpleado extends MenuP {
         btn_menu = new javax.swing.JButton();
         btn_guardar = new javax.swing.JButton();
         cmbx_areas = new javax.swing.JComboBox();
+        jLabel1 = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
+        jLabel4 = new javax.swing.JLabel();
+        jLabel5 = new javax.swing.JLabel();
 
-        setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Nuevo empleado", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Bradley Hand ITC", 0, 24), new java.awt.Color(255, 255, 255))); // NOI18N
+        setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Nuevo empleado", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("SansSerif", 0, 18), new java.awt.Color(255, 255, 255))); // NOI18N
 
         txt_nombre.setBackground(new java.awt.Color(204, 204, 204));
-        txt_nombre.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        txt_nombre.setFont(new java.awt.Font("SansSerif", 0, 11)); // NOI18N
+        txt_nombre.setForeground(new java.awt.Color(0, 108, 118));
         txt_nombre.setText("Escriba el nombre aqui...");
         txt_nombre.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -83,7 +89,8 @@ public class NuevoEmpleado extends MenuP {
         });
 
         txt_apellido.setBackground(new java.awt.Color(204, 204, 204));
-        txt_apellido.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        txt_apellido.setFont(new java.awt.Font("SansSerif", 0, 11)); // NOI18N
+        txt_apellido.setForeground(new java.awt.Color(0, 108, 118));
         txt_apellido.setText("Escriba el apellido aqui...");
         txt_apellido.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -97,7 +104,8 @@ public class NuevoEmpleado extends MenuP {
         });
 
         txt_documento.setBackground(new java.awt.Color(204, 204, 204));
-        txt_documento.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        txt_documento.setFont(new java.awt.Font("SansSerif", 0, 11)); // NOI18N
+        txt_documento.setForeground(new java.awt.Color(0, 108, 118));
         txt_documento.setText("Escriba el documento aqui...");
         txt_documento.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -111,7 +119,8 @@ public class NuevoEmpleado extends MenuP {
         });
 
         txt_legajo.setBackground(new java.awt.Color(204, 204, 204));
-        txt_legajo.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        txt_legajo.setFont(new java.awt.Font("SansSerif", 0, 11)); // NOI18N
+        txt_legajo.setForeground(new java.awt.Color(0, 108, 118));
         txt_legajo.setText("Escriba el legajo aqui...");
         txt_legajo.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -125,8 +134,10 @@ public class NuevoEmpleado extends MenuP {
         });
 
         btn_menu.setBackground(new java.awt.Color(153, 153, 153));
-        btn_menu.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        btn_menu.setText("empleados");
+        btn_menu.setFont(new java.awt.Font("SansSerif", 1, 12)); // NOI18N
+        btn_menu.setForeground(new java.awt.Color(0, 108, 118));
+        btn_menu.setIcon(new javax.swing.ImageIcon(getClass().getResource("/mscb/tick/resources/imagenes/icons/back-arrow.png"))); // NOI18N
+        btn_menu.setText("Volver");
         btn_menu.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btn_menuActionPerformed(evt);
@@ -134,8 +145,10 @@ public class NuevoEmpleado extends MenuP {
         });
 
         btn_guardar.setBackground(new java.awt.Color(153, 153, 153));
-        btn_guardar.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        btn_guardar.setText("guardar");
+        btn_guardar.setFont(new java.awt.Font("SansSerif", 1, 10)); // NOI18N
+        btn_guardar.setForeground(new java.awt.Color(0, 108, 118));
+        btn_guardar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/mscb/tick/resources/imagenes/icons/save.png"))); // NOI18N
+        btn_guardar.setText("Guardar");
         btn_guardar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btn_guardarActionPerformed(evt);
@@ -143,8 +156,8 @@ public class NuevoEmpleado extends MenuP {
         });
 
         cmbx_areas.setBackground(new java.awt.Color(204, 204, 204));
-        cmbx_areas.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        cmbx_areas.setForeground(new java.awt.Color(255, 255, 255));
+        cmbx_areas.setFont(new java.awt.Font("SansSerif", 0, 11)); // NOI18N
+        cmbx_areas.setForeground(new java.awt.Color(0, 108, 118));
         cmbx_areas.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Eliga un area" }));
         cmbx_areas.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -152,44 +165,82 @@ public class NuevoEmpleado extends MenuP {
             }
         });
 
+        jLabel1.setFont(new java.awt.Font("SansSerif", 3, 14)); // NOI18N
+        jLabel1.setForeground(new java.awt.Color(0, 108, 118));
+        jLabel1.setText("Nombre:");
+
+        jLabel2.setFont(new java.awt.Font("SansSerif", 3, 14)); // NOI18N
+        jLabel2.setForeground(new java.awt.Color(0, 108, 118));
+        jLabel2.setText("Apellido:");
+
+        jLabel3.setFont(new java.awt.Font("SansSerif", 3, 14)); // NOI18N
+        jLabel3.setForeground(new java.awt.Color(0, 108, 118));
+        jLabel3.setText("Documento:");
+
+        jLabel4.setFont(new java.awt.Font("SansSerif", 3, 14)); // NOI18N
+        jLabel4.setForeground(new java.awt.Color(0, 108, 118));
+        jLabel4.setText("Legajo:");
+
+        jLabel5.setFont(new java.awt.Font("SansSerif", 3, 14)); // NOI18N
+        jLabel5.setForeground(new java.awt.Color(0, 108, 118));
+        jLabel5.setText("Area:");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(btn_menu)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(btn_guardar)
-                .addContainerGap())
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(287, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                    .addComponent(txt_nombre)
-                    .addComponent(txt_apellido, javax.swing.GroupLayout.DEFAULT_SIZE, 236, Short.MAX_VALUE)
-                    .addComponent(txt_documento, javax.swing.GroupLayout.DEFAULT_SIZE, 236, Short.MAX_VALUE)
-                    .addComponent(txt_legajo, javax.swing.GroupLayout.DEFAULT_SIZE, 236, Short.MAX_VALUE)
-                    .addComponent(cmbx_areas, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addGap(265, 265, 265))
+                .addContainerGap(228, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(btn_menu, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btn_guardar))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(jLabel3, javax.swing.GroupLayout.Alignment.LEADING))
+                            .addComponent(jLabel4)
+                            .addComponent(jLabel5))
+                        .addGap(18, 18, 18)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(cmbx_areas, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(txt_legajo)
+                            .addComponent(txt_apellido)
+                            .addComponent(txt_nombre)
+                            .addComponent(txt_documento, javax.swing.GroupLayout.PREFERRED_SIZE, 236, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addGap(224, 224, 224))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(21, 21, 21)
-                .addComponent(txt_nombre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(51, 51, 51)
-                .addComponent(txt_apellido, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(47, 47, 47)
-                .addComponent(txt_documento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(47, 47, 47)
-                .addComponent(txt_legajo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(56, 56, 56)
-                .addComponent(cmbx_areas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(93, 93, 93)
+                .addGap(130, 130, 130)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel1)
+                    .addComponent(txt_nombre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel2)
+                    .addComponent(txt_apellido, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel3)
+                    .addComponent(txt_documento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel4)
+                    .addComponent(txt_legajo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel5)
+                    .addComponent(cmbx_areas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btn_menu)
-                    .addComponent(btn_guardar))
-                .addContainerGap(102, Short.MAX_VALUE))
+                    .addComponent(btn_guardar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(235, 235, 235))
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -282,6 +333,11 @@ public class NuevoEmpleado extends MenuP {
     private javax.swing.JButton btn_guardar;
     private javax.swing.JButton btn_menu;
     private javax.swing.JComboBox cmbx_areas;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
     private javax.swing.JTextField txt_apellido;
     private javax.swing.JTextField txt_documento;
     private javax.swing.JTextField txt_legajo;

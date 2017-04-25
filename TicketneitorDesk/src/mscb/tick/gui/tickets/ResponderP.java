@@ -29,14 +29,14 @@ public class ResponderP extends MenuP {
     private static ResponderP estePanel;
     private Tickets miTick;
     private TicketServ serviciosT;
-    private MisTickets panelMisti;
+    private BandejaTickets panelMisti;
     private EmpleadoServ serviciosE;
     /**
      * Creates new form ResponderP
      */
     private ResponderP(Tickets miTick, ResponderD mainFrame) {
         initComponents();
-        panelMisti = MisTickets.getMisTickets(mainFrameO);
+        panelMisti = BandejaTickets.getBandejaTickets(mainFrameO);
         this.mainFrame = mainFrame;
         this.miTick = miTick;
         serviciosE = new EmpleadoServ();
@@ -75,11 +75,13 @@ public class ResponderP extends MenuP {
         jScrollPane1 = new javax.swing.JScrollPane();
         txtA_respuesta = new javax.swing.JTextArea();
 
-        setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Responder", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Bradley Hand ITC", 0, 36), java.awt.Color.white)); // NOI18N
+        setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Responder", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("SansSerif", 0, 18), java.awt.Color.white)); // NOI18N
 
         btn_cerrar.setBackground(new java.awt.Color(153, 153, 153));
-        btn_cerrar.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        btn_cerrar.setText("cerrar");
+        btn_cerrar.setFont(new java.awt.Font("SansSerif", 1, 12)); // NOI18N
+        btn_cerrar.setForeground(new java.awt.Color(0, 108, 118));
+        btn_cerrar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/mscb/tick/resources/imagenes/icons/close.png"))); // NOI18N
+        btn_cerrar.setText("Cerrar");
         btn_cerrar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btn_cerrarActionPerformed(evt);
@@ -87,38 +89,40 @@ public class ResponderP extends MenuP {
         });
 
         btn_enviar.setBackground(new java.awt.Color(153, 153, 153));
-        btn_enviar.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        btn_enviar.setText("enviar");
+        btn_enviar.setFont(new java.awt.Font("SansSerif", 1, 12)); // NOI18N
+        btn_enviar.setForeground(new java.awt.Color(0, 108, 118));
+        btn_enviar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/mscb/tick/resources/imagenes/icons/send-button.png"))); // NOI18N
+        btn_enviar.setText("Enviar");
         btn_enviar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btn_enviarActionPerformed(evt);
             }
         });
 
-        jLabel1.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        jLabel1.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel1.setFont(new java.awt.Font("SansSerif", 3, 14)); // NOI18N
+        jLabel1.setForeground(new java.awt.Color(0, 108, 118));
         jLabel1.setText("Ticket Nº:");
 
-        lbl_ticket.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        lbl_ticket.setForeground(new java.awt.Color(255, 255, 255));
+        lbl_ticket.setFont(new java.awt.Font("SansSerif", 0, 11)); // NOI18N
+        lbl_ticket.setForeground(new java.awt.Color(0, 108, 118));
 
-        jLabel3.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        jLabel3.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel3.setFont(new java.awt.Font("SansSerif", 3, 14)); // NOI18N
+        jLabel3.setForeground(new java.awt.Color(0, 108, 118));
         jLabel3.setText("de:");
 
-        lbl_usuarioE.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        lbl_usuarioE.setForeground(new java.awt.Color(255, 255, 255));
+        lbl_usuarioE.setFont(new java.awt.Font("SansSerif", 0, 11)); // NOI18N
+        lbl_usuarioE.setForeground(new java.awt.Color(0, 108, 118));
 
-        jLabel5.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        jLabel5.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel5.setFont(new java.awt.Font("SansSerif", 3, 14)); // NOI18N
+        jLabel5.setForeground(new java.awt.Color(0, 108, 118));
         jLabel5.setText("de:");
 
-        lbl_areaE.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        lbl_areaE.setForeground(new java.awt.Color(255, 255, 255));
+        lbl_areaE.setFont(new java.awt.Font("SansSerif", 0, 11)); // NOI18N
+        lbl_areaE.setForeground(new java.awt.Color(0, 108, 118));
 
-        txtA_respuesta.setBackground(new java.awt.Color(204, 204, 204));
         txtA_respuesta.setColumns(20);
-        txtA_respuesta.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        txtA_respuesta.setFont(new java.awt.Font("SansSerif", 0, 11)); // NOI18N
+        txtA_respuesta.setForeground(new java.awt.Color(0, 108, 118));
         txtA_respuesta.setRows(5);
         jScrollPane1.setViewportView(txtA_respuesta);
 
@@ -127,20 +131,9 @@ public class ResponderP extends MenuP {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(38, 38, 38)
-                .addComponent(btn_cerrar)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(btn_enviar)
-                .addGap(31, 31, 31))
-            .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 486, Short.MAX_VALUE)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel5)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(lbl_areaE, javax.swing.GroupLayout.PREFERRED_SIZE, 186, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel1)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -148,7 +141,18 @@ public class ResponderP extends MenuP {
                         .addGap(70, 70, 70)
                         .addComponent(jLabel3)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(lbl_usuarioE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                        .addComponent(lbl_usuarioE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(btn_cerrar, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(btn_enviar))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jLabel5)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(lbl_areaE, javax.swing.GroupLayout.PREFERRED_SIZE, 186, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -193,17 +197,24 @@ public class ResponderP extends MenuP {
         // TODO add your handling code here:
         if(JOptionPane.showConfirmDialog(mainFrame,"Seguro desea enviar?","Confirmar", JOptionPane.YES_NO_OPTION) == 0){
             Estados estado = new Estados();
+            serviciosT = new TicketServ();
             EstadoServ serviciosE = new EstadoServ();
             HistorialServ servH = new HistorialServ();
             Date fecha = new Date();
             estado = serviciosE.traerEstado(4);
             HistorialTickets his = new HistorialTickets();
-            String reso = his.getResolucion();
-            his.setResolucion(reso+"Mensaje de "+LoginEJB.usuario.getNombreUsuario()+": "+txtA_respuesta.getText());
+            String obs = miTick.getObservacion();
+                       
+            if((obs == null)||(obs.isEmpty())){
+                miTick.setObservacion(" Mensaje de "+LoginEJB.usuario.getNombreUsuario()+": "+txtA_respuesta.getText());
+            }else{
+                miTick.setObservacion(obs+"\n Mensaje de "+LoginEJB.usuario.getNombreUsuario()+": "+txtA_respuesta.getText());
+            }
             his.setFkEstado(estado);
             his.setFkUsuario(LoginEJB.usuario);
             his.setFkTicket(miTick);
             his.setFecha(fecha);
+            serviciosT.modificarTicket(miTick);
             servH.nuevo(his);
             panelMisti.llenarTabla();
             setVisible(false);

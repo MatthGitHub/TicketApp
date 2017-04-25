@@ -1,9 +1,6 @@
 <?php
 include('inc/config.php');
-if($_SESSION["logeado"] != "SI"){
-header ("Location: index.php");
-exit;
-}
+include('inc/validar.php');
 $tipo = $_GET['tipo'];
 
 //Comprobamos si vamos a insertar un usuario o un ticket
@@ -83,7 +80,7 @@ if($tipo == 'ticket'){
       mysqli_query($link,"INSERT INTO tickets (fecha,hora,creador,servicio,observacion)
       VALUES ('{$fecha}','{$hora}','{$usuario}','{$servicio}','{$obs}')");
       // Ahora comprobaremos que todo ha ido correctamente
-      $my_error = mysql_error();
+      $my_error = mysqli_error();
       $idTicket = mysqli_insert_id($link);
       mysqli_query($link,"INSERT INTO historial_tickets (fk_ticket,fk_usuario,fecha,fk_estado) VALUES ({$idTicket},'{$usuario}','{$fecha}',1)");
 

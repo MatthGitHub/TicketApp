@@ -6,6 +6,7 @@
 package mscb.tick.negocio;
 
 import java.sql.Time;
+import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
@@ -43,7 +44,6 @@ public class Listener extends Thread {
         while(ran == 1){
             int f;
             dif = DiferenciasBD.getDiferenciasBD();
-            System.out.println("Corriendo listener - "+System.currentTimeMillis()/100000);
             f = dif.buscarDiferencias();
             
             if(f != 0){

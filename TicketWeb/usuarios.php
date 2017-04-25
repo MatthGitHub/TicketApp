@@ -1,14 +1,11 @@
 <?php
 include('inc/config.php');
-if($_SESSION["logeado"] != "SI"){
-header ("Location: index.php");
-exit;
-}
+include('inc/validar.php');
 
 // Conectar a la base de datos
 $link = mysqli_connect ($dbhost, $dbusername, $dbuserpass);
 mysqli_select_db($link,$dbname) or die('No se puede seleccionar la base de datos');
-$query = mysqli_query($link,"SELECT id_usuario,nombre_usuario, contrasenia, activo, fk_permiso, CONCAT( nombre,  ' ', apellido ) AS empleado FROM usuarios u JOIN empleados e ON u.fk_empleado = e.id_empleado") or die(mysql_error());
+$query = mysqli_query($link,"SELECT id_usuario,nombre_usuario, activo, fk_rol, CONCAT( nombre,  ' ', apellido ) AS empleado FROM usuarios u JOIN empleados e ON u.fk_empleado = e.id_empleado") or die(mysql_error());
 
 
 ?>
@@ -19,10 +16,19 @@ $query = mysqli_query($link,"SELECT id_usuario,nombre_usuario, contrasenia, acti
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Usuarios</title>
+	<link rel="icon" type="image/png" href="images/icons/ticket.png" sizes="16x16">
+    <title>Listado Usuarios</title>
 
-    <!-- Bootstrap -->
+
+	 <!-- Bootstrap -->
     <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/bootstrap.css" rel="stylesheet">
+		<link href="css/jquery.dataTables.min.css" rel="stylesheet">
+
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script language='javascript' src="js/jquery-1.12.3.js"></script>
+    <script language='javascript' src="js/jquery.dataTables.min.js"></script>
+
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -30,44 +36,44 @@ $query = mysqli_query($link,"SELECT id_usuario,nombre_usuario, contrasenia, acti
       <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
       <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
+	<script type="text/javascript">
+    $(document).ready(function() {
+      $('#example').DataTable( {
+          "language": {
+                "lengthMenu": "Mostrar _MENU_ registros por pagina",
+                "zeroRecords": "No se encontraron registros",
+                "info": "Pagina _PAGE_ de _PAGES_",
+                "infoEmpty": "No hay registros",
+                "infoFiltered": "(filtrado de _MAX_ registros)",
+                "sSearch":       	"Buscar",
+              	"oPaginate": {
+              		"sFirst":    	"Primero",
+              		"sPrevious": 	"Anterior",
+              		"sNext":     	"Siguiente",
+              		"sLast":     	"Ultimo"
+              	}
+            },
+            "scrollY":        "500px",
+            "scrollCollapse": true,
+            "columnDefs": [{ type: 'date-uk', targets: 0 }],
+            "order":[[0,"desc"],[1,"desc"]]
+              } );
+} );
+</script>
   </head>
-  <style type="text/css">
-  body{background: #000;}
-
-     .media
-    {
-        /*box-shadow:0px 0px 4px -2px #000;*/
-        margin: 20px 0;
-        padding:30px;
-    }
-    .dp
-    {
-        border:10px solid #eee;
-        transition: all 0.2s ease-in-out;
-    }
-    .dp:hover
-    {
-        border:2px solid #eee;
-        transform:rotate(360deg);
-        -ms-transform:rotate(360deg);
-        -webkit-transform:rotate(360deg);
-        /*-webkit-font-smoothing:antialiased;*/
-    }
-  </style>
   <body>
-    <br>
-        <div class="container">
 
-      <!-- Static navbar -->
+    <div class="container">
+    <br>
      <!-- Static navbar -->
       <?php include('inc/menu.php'); ?>
       <!-- Main component for a primary marketing message or call to action -->
       <div class="jumbotron">
-<div class="row">
-              <table class="table table-hover">
+			<h4 class="text-center bg-info">Listado Usuarios</h4>
+		<div class="row">
+              <table id ="example" class="display" cellspacing="0" width="100%">
                 	<thead>
                     	<th> Nombre Usuario </th>
-                      <th> Clave </th>
                       <th> Empleado </th>
                       <th> Activo </th>
                       <th> Permisos </th>
@@ -75,42 +81,34 @@ $query = mysqli_query($link,"SELECT id_usuario,nombre_usuario, contrasenia, acti
                     </thead>
                     <tbody>
                     	<?php while($usuario = mysqli_fetch_array($query)){ ?>
-                        <?php if($usuario['fk_permiso'] == 1){ ?>
-                        <tr class="danger">
-                            <td> <?php echo $usuario['nombre_usuario']; ?> </td>
-                            <td> <?php if ($usuario['contrasenia'] != ''){ echo $usuario['contrasenia'];}else{ echo "Sin pass";} ?> </td>
-                            <td> <?php echo $usuario['empleado']; ?> </td>
-                              <td> <?php echo $usuario['activo']; ?> </td>
-                            <td> <?php if($usuario['fk_permiso'] == 1){ echo "Administrador";}else{ echo "Normal";} ?> </td>
-                             <?php if($_SESSION["permiso"] == 1){?>
-                            <td>  <a href="eliminar.php?id=<?php echo $usuario['id_usuario'];?>&tipo=usuario " role="button"  class="btn btn-danger btn-primary btn-block"> Eliminar </a></td>
-							<?php }?>
-                        </tr>
-                        <?php }else{ ?>
-                        <tr class="info">
-                          <td> <?php echo $usuario['nombre_usuario']; ?> </td>
-                          <td> <?php if ($usuario['contrasenia'] != ''){ echo $usuario['contrasenia'];}else{ echo "Sin pass";} ?> </td>
-                          <td> <?php echo $usuario['empleado']; ?> </td>
-                            <td> <?php echo $usuario['activo']; ?> </td>
-                          <td> <?php if($usuario['fk_permiso'] == 1){ echo "Administrador";}else{ echo "Normal";} ?> </td>
-                           <?php if($_SESSION["permiso"] == 1){?>
-                          <td>  <a href="eliminar.php?id=<?php echo $usuario['id_usuario'];?>&tipo=usuario " role="button"  class="btn btn-danger btn-primary btn-block"> Eliminar </a></td>
-							<?php }?>
-                        </tr>
-                        <?php } ?>
+							<?php if($usuario['fk_rol'] == 1){ ?>
+							<tr class="success">
+								<td> <?php echo $usuario['nombre_usuario']; ?> </td>
+								<td> <?php echo $usuario['empleado']; ?> </td>
+								<td> <?php echo $usuario['activo']; ?> </td>
+								<td> <?php if($usuario['fk_rol'] == 1){ echo "Administrador";}else{ echo "Normal";} ?> </td>
+								 <?php if($_SESSION["permiso"] == 1){?>
+								<td>  <a href="eliminar.php?id=<?php echo $usuario['id_usuario'];?>&tipo=usuario " role="button"  class="btn btn-primary btn-danger"> Eliminar </a></td>
+								<?php }?>
+							</tr>
+							<?php }else{ ?>
+							<tr class="info">
+							  <td> <?php echo $usuario['nombre_usuario']; ?> </td>
+							  <td> <?php echo $usuario['empleado']; ?> </td>
+								<td> <?php echo $usuario['activo']; ?> </td>
+							  <td> <?php if($usuario['fk_rol'] == 1){ echo "Administrador";}else{ echo "Normal";} ?> </td>
+							   <?php if($_SESSION["permiso"] == 1){?>
+							  <td>  <a href="eliminar.php?id=<?php echo $usuario['id_usuario'];?>&tipo=usuario " role="button"  class="btn btn-primary btn-danger"> Eliminar </a></td>
+								<?php }?>
+							</tr>
+							<?php } ?>
                         <?php } ?>
                     </tbody>
 				</table>
-
-
-</div>
-      </div>
-
+		</div>
+  </div><!-- /jumbotron -->
+      <div class="panel-footer">
+			<p class="text-center">Direccion de Sistemas - Municipalidad de Bariloche</p>
+		</div>
     </div> <!-- /container -->
-
-    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
-    <!-- Include all compiled plugins (below), or include individual files as needed -->
-    <script src="js/bootstrap.min.js"></script>
-  </body>
 </html>

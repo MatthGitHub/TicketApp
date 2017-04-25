@@ -62,11 +62,13 @@ public class Login extends MenuP {
         btn_entrar = new javax.swing.JButton();
         lbl_mensaje = new javax.swing.JLabel();
 
-        setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Ingresar", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Bradley Hand ITC", 0, 24), java.awt.Color.white)); // NOI18N
+        setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Sistema de Tickets", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("SansSerif", 0, 18), new java.awt.Color(0, 89, 97))); // NOI18N
         setForeground(new java.awt.Color(255, 0, 0));
+        setFont(new java.awt.Font("SansSerif", 0, 11)); // NOI18N
 
         txt_nombre.setBackground(new java.awt.Color(204, 204, 204));
-        txt_nombre.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        txt_nombre.setFont(new java.awt.Font("SansSerif", 1, 14)); // NOI18N
+        txt_nombre.setForeground(new java.awt.Color(0, 89, 97));
         txt_nombre.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txt_nombreActionPerformed(evt);
@@ -74,8 +76,9 @@ public class Login extends MenuP {
         });
 
         btn_salir.setBackground(new java.awt.Color(153, 153, 153));
-        btn_salir.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
-        btn_salir.setText("salir");
+        btn_salir.setFont(new java.awt.Font("SansSerif", 1, 14)); // NOI18N
+        btn_salir.setForeground(new java.awt.Color(0, 89, 97));
+        btn_salir.setText("SALIR");
         btn_salir.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btn_salirActionPerformed(evt);
@@ -83,7 +86,8 @@ public class Login extends MenuP {
         });
 
         pswr_clave.setBackground(new java.awt.Color(204, 204, 204));
-        pswr_clave.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        pswr_clave.setFont(new java.awt.Font("SansSerif", 1, 14)); // NOI18N
+        pswr_clave.setForeground(new java.awt.Color(0, 89, 97));
         pswr_clave.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 pswr_claveActionPerformed(evt);
@@ -91,8 +95,9 @@ public class Login extends MenuP {
         });
 
         btn_entrar.setBackground(new java.awt.Color(153, 153, 153));
-        btn_entrar.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
-        btn_entrar.setText("entrar");
+        btn_entrar.setFont(new java.awt.Font("SansSerif", 1, 14)); // NOI18N
+        btn_entrar.setForeground(new java.awt.Color(0, 89, 97));
+        btn_entrar.setText("Entrar");
         btn_entrar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btn_entrarActionPerformed(evt);
@@ -104,8 +109,9 @@ public class Login extends MenuP {
             }
         });
 
-        lbl_mensaje.setFont(new java.awt.Font("Lucida Grande", 1, 14)); // NOI18N
-        lbl_mensaje.setForeground(new java.awt.Color(255, 51, 51));
+        lbl_mensaje.setBackground(new java.awt.Color(242, 116, 116));
+        lbl_mensaje.setFont(new java.awt.Font("SansSerif", 1, 12)); // NOI18N
+        lbl_mensaje.setForeground(new java.awt.Color(239, 239, 239));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -132,7 +138,7 @@ public class Login extends MenuP {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(txt_nombre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 20, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 15, Short.MAX_VALUE)
                 .addComponent(pswr_clave, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, Short.MAX_VALUE)
                 .addComponent(lbl_mensaje, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -173,7 +179,7 @@ public class Login extends MenuP {
                     if(LoginEJB.usuario.getFkRol().getIdRol() == 1){
                         mainFrame.menuPrincipal();
                     }else{
-                        mainFrame.miTickets();
+                        mainFrame.bandejaEntrada();
                     }
                     mainFrame.validarPermisos();
                     ingreso.setVisible(false);

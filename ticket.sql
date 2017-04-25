@@ -3,9 +3,9 @@
 -- http://www.phpmyadmin.net
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 15-02-2017 a las 14:27:33
+-- Tiempo de generación: 25-04-2017 a las 15:23:17
 -- Versión del servidor: 5.7.11
--- Versión de PHP: 5.6.19
+-- Versión de PHP: 7.0.4
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
@@ -159,7 +159,20 @@ INSERT INTO `areas` (`id_area`, `nombre_area`, `direccion`, `correo`) VALUES
 (9179, 'direccion de salud laboral', NULL, NULL),
 (9180, 'guarderia 8 de noviembre', NULL, NULL),
 (9181, 'vertedero', NULL, NULL),
-(9182, 'cdi san francisco 3', NULL, NULL);
+(9182, 'cdi san francisco 3', NULL, NULL),
+(9183, 'PGM-CORDOBA', 'CORDOBA', 'soporte@pgmtools.com.ar'),
+(9184, 'Politicas Tributarias', 'No tiene', 'No tiene');
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `area_sistemas`
+--
+
+CREATE TABLE `area_sistemas` (
+  `id_area_sistemas` int(11) NOT NULL,
+  `nombre_area` varchar(255) COLLATE utf8_spanish2_ci DEFAULT NULL
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_spanish2_ci;
 
 -- --------------------------------------------------------
 
@@ -187,7 +200,23 @@ INSERT INTO `asuntos` (`id_asuntoP`, `nombre`, `fk_area`) VALUES
 (17, 'Servicio tecnico', 38),
 (19, 'Tickets', 38),
 (20, 'Informe de pedidos', 38),
-(21, 'PGM nuevo', 38);
+(21, 'PGM nuevo', 38),
+(22, 'Servidores', 38),
+(23, 'Fichadas', 38),
+(24, 'Pedidos a Córdoba', 38);
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `base_conocimiento`
+--
+
+CREATE TABLE `base_conocimiento` (
+  `id_resolucion` int(11) NOT NULL,
+  `fecha` date DEFAULT NULL,
+  `resolucion` varchar(255) COLLATE utf8_spanish2_ci DEFAULT NULL,
+  `fk_ticket` int(11) DEFAULT NULL
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_spanish2_ci;
 
 -- --------------------------------------------------------
 
@@ -2677,11 +2706,18 @@ INSERT INTO `encargado_servicios` (`usuario`, `asunto`) VALUES
 (3, 109),
 (3, 110),
 (3, 111),
+(3, 113),
+(3, 114),
+(3, 115),
+(3, 120),
+(3, 130),
 (15, 27),
 (15, 28),
 (15, 29),
 (15, 48),
+(15, 51),
 (15, 102),
+(15, 130),
 (16, 59),
 (16, 60),
 (16, 62),
@@ -2696,6 +2732,7 @@ INSERT INTO `encargado_servicios` (`usuario`, `asunto`) VALUES
 (17, 30),
 (17, 49),
 (17, 50),
+(17, 51),
 (17, 66),
 (17, 67),
 (17, 68),
@@ -2718,14 +2755,34 @@ INSERT INTO `encargado_servicios` (`usuario`, `asunto`) VALUES
 (17, 87),
 (17, 88),
 (17, 102),
+(17, 130),
 (18, 102),
+(18, 109),
+(18, 110),
+(18, 115),
+(18, 116),
+(18, 117),
+(18, 118),
+(18, 119),
+(18, 120),
+(18, 121),
+(18, 122),
+(18, 123),
+(18, 124),
+(18, 125),
+(18, 126),
+(18, 127),
+(18, 128),
 (19, 59),
 (19, 62),
+(19, 90),
 (19, 91),
+(19, 92),
 (19, 93),
 (19, 94),
 (19, 95),
 (19, 96),
+(21, 48),
 (23, 97),
 (23, 98),
 (23, 99),
@@ -2765,11 +2822,28 @@ INSERT INTO `encargado_servicios` (`usuario`, `asunto`) VALUES
 (24, 101),
 (24, 102),
 (24, 103),
+(25, 62),
 (25, 90),
+(25, 91),
+(25, 92),
+(25, 93),
+(25, 94),
+(25, 95),
 (27, 102),
+(27, 112),
+(27, 129),
+(27, 130),
 (29, 59),
 (29, 60),
-(29, 96);
+(29, 96),
+(29, 102),
+(29, 104),
+(29, 105),
+(29, 106),
+(29, 107),
+(29, 108),
+(29, 109),
+(29, 110);
 
 -- --------------------------------------------------------
 
@@ -2845,7 +2919,7 @@ INSERT INTO `estado_actual_pgm` (`id`, `fk_estado_pgm`, `fecha`) VALUES
 CREATE TABLE `historial_tickets` (
   `id_historial` int(11) NOT NULL,
   `fk_ticket` int(11) NOT NULL,
-  `fk_usuario` int(11) NOT NULL COMMENT 'Usuario actual',
+  `fk_usuario` int(11) DEFAULT NULL COMMENT AS `Usuario actual`,
   `fecha` date NOT NULL,
   `fk_estado` int(11) DEFAULT NULL,
   `resolucion` varchar(3000) DEFAULT NULL COMMENT AS `Mensajes,respuestas y como se resolvio`,
@@ -2905,7 +2979,89 @@ INSERT INTO `historial_tickets` (`id_historial`, `fk_ticket`, `fk_usuario`, `fec
 (82, 39, 24, '2016-11-29', 5, 'resuelto', NULL),
 (83, 27, 24, '2016-11-29', 5, 'Problema del servidor cuando se desconecta remotamente alguien bloquea las conexiones.', NULL),
 (84, 33, 24, '2016-11-29', 5, 'Contraseña reinicializada.', NULL),
-(85, 44, 24, '2016-11-29', 5, 'Permisos otorgados\n', NULL);
+(85, 44, 24, '2016-11-29', 5, 'Permisos otorgados\n', NULL),
+(118, 23, 3, '2017-02-15', 2, NULL, NULL),
+(119, 41, 3, '2017-02-15', 2, NULL, NULL),
+(120, 23, 3, '2017-02-15', 5, 'null - - - Resolucion: se hizo', NULL),
+(121, 41, 3, '2017-02-15', 5, 'Resolucion: se hizo', NULL),
+(147, 76, 30, '2017-04-18', 1, NULL, NULL),
+(149, 76, 27, '2017-04-18', 2, NULL, NULL),
+(150, 28, 15, '2017-04-19', 2, NULL, NULL),
+(151, 29, 15, '2017-04-19', 2, NULL, NULL),
+(152, 30, 15, '2017-04-19', 2, NULL, NULL),
+(153, 35, 15, '2017-04-19', 2, NULL, NULL),
+(154, 36, 15, '2017-04-19', 2, NULL, NULL),
+(161, 76, 3, '2017-04-19', 7, NULL, NULL),
+(172, 77, 3, '2017-04-19', 1, NULL, NULL),
+(173, 77, 3, '2017-04-19', 2, NULL, NULL),
+(174, 77, 3, '2017-04-19', 5, 'Resolucion: Se agregaron los accesos a consulta generarl de fichadas', NULL),
+(175, 78, 3, '2017-04-19', 1, NULL, NULL),
+(176, 78, 3, '2017-04-19', 2, NULL, NULL),
+(177, 78, 3, '2017-04-19', 5, 'Resolucion: Se agregaron permisos solicitados\n', NULL),
+(178, 79, 3, '2017-04-19', 1, NULL, NULL),
+(179, 79, 3, '2017-04-19', 2, NULL, NULL),
+(180, 80, 3, '2017-04-19', 1, NULL, NULL),
+(181, 81, 3, '2017-04-19', 1, NULL, NULL),
+(182, 80, 3, '2017-04-19', 2, NULL, NULL),
+(183, 81, 3, '2017-04-19', 2, NULL, NULL),
+(184, 82, 3, '2017-04-19', 1, NULL, NULL),
+(185, 82, 3, '2017-04-19', 2, NULL, NULL),
+(186, 80, 3, '2017-04-19', 5, 'Resolucion: ', NULL),
+(187, 81, 3, '2017-04-19', 5, 'Resolucion: ', NULL),
+(188, 82, 3, '2017-04-19', 5, 'Resolucion: Se crea usuario en PGM nuevo con permisos de Mercado Comunitario S1', NULL),
+(189, 83, 3, '2017-04-19', 1, NULL, NULL),
+(190, 83, 3, '2017-04-19', 2, NULL, NULL),
+(195, 79, 18, '2017-04-20', 2, NULL, NULL),
+(202, 79, 18, '2017-04-20', 4, 'nullMensaje de avarano: hola', NULL),
+(203, 79, 3, '2017-04-20', 4, 'Mensaje de mbenditti: Hola', NULL),
+(213, 90, 18, '2017-04-21', 1, NULL, NULL),
+(217, 94, 18, '2017-04-21', 1, NULL, NULL),
+(218, 94, 18, '2017-04-21', 4, ' Mensaje de avarano: Se modifico estado a Adeudado.\nPosteriormente se verifico que la anulacion correspondia a una dj rectificativa posterior.\n\nSe creo reporte para consultar boletas adeudadas/prescriptas.', NULL),
+(219, 94, 18, '2017-04-21', 5, ' Mensaje de avarano: Se modifico estado a Adeudado.\nPosteriormente se verifico que la anulacion correspondia a una dj rectificativa posterior.\n\nSe creo reporte para consultar boletas adeudadas/prescriptas.\n - - - - - Resolucion por avarano : Se modifico estado a Adeudado.\nPosteriormente se verifico que la anulacion correspondia a una dj rectificativa posterior.\n\nSe creo reporte para consultar boletas adeudadas/prescriptas.', NULL),
+(223, 90, 18, '2017-04-21', 7, NULL, NULL),
+(225, 95, 18, '2017-04-21', 1, NULL, NULL),
+(226, 95, 18, '2017-04-21', 5, 'Resolucion por avarano : Verificamos el caso y el item estaba transferido exactamente igual a los datos existentes en la base de datos original de la transferencia. Posiblemente esa boleta haya sido modificada posterior a la transferencia. Verificamos además todos los talonarios y no existen cuotas de los mismos sin ítems.\n\n', NULL),
+(230, 98, 18, '2017-04-21', 1, NULL, NULL),
+(231, 98, 18, '2017-04-21', 3, NULL, NULL),
+(234, 98, 18, '2017-04-21', 4, ' Mensaje de avarano: Respondieron que no encontraron nada mal.\n\nLos procesas eran 8000958357 y 8031989232. Hector encontro que se ambos tienen igual id_proceso\nl', NULL),
+(241, 104, 18, '2017-04-21', 1, NULL, NULL),
+(242, 105, 18, '2017-04-21', 1, NULL, NULL),
+(244, 106, 18, '2017-04-21', 1, NULL, NULL),
+(245, 107, 18, '2017-04-21', 1, NULL, NULL),
+(246, 108, 18, '2017-04-21', 1, NULL, NULL),
+(247, 109, 18, '2017-04-21', 1, NULL, NULL),
+(248, 109, 18, '2017-04-21', 3, NULL, NULL),
+(249, 109, 18, '2017-04-21', 4, NULL, NULL),
+(250, 110, 18, '2017-04-21', 1, NULL, NULL),
+(251, 111, NULL, '2017-04-21', 1, NULL, NULL),
+(252, 111, 18, '2017-04-21', 4, NULL, NULL),
+(253, 112, NULL, '2017-04-21', 1, NULL, NULL),
+(254, 79, 18, '2017-04-21', 4, NULL, NULL),
+(255, 79, 18, '2017-04-21', 5, 'Resolucion por avarano : ', NULL),
+(256, 113, 18, '2017-04-21', 1, NULL, NULL),
+(257, 113, 18, '2017-04-21', 4, NULL, NULL),
+(258, 113, 18, '2017-04-21', 5, 'Resolucion por avarano : lo anulo ccartes.', NULL),
+(259, 114, 18, '2017-04-21', 1, NULL, NULL),
+(260, 83, 3, '2017-04-21', 5, 'Resolucion por mbenditti : Se envio excel con los datos solicitados', NULL),
+(261, 115, NULL, '2017-04-21', 1, NULL, NULL),
+(262, 116, NULL, '2017-04-21', 1, NULL, NULL),
+(263, 117, 3, '2017-04-21', 1, NULL, NULL),
+(264, 118, NULL, '2017-04-24', 1, NULL, NULL),
+(265, 119, 3, '2017-04-24', 1, NULL, NULL),
+(266, 120, NULL, '2017-04-24', 1, NULL, NULL),
+(267, 121, NULL, '2017-04-24', 1, NULL, NULL),
+(268, 122, 21, '2017-04-24', 1, NULL, NULL),
+(269, 122, 21, '2017-04-24', 5, 'Resolucion por eklein : 3 minutos', NULL),
+(270, 119, 3, '2017-04-24', 5, 'Resolucion por mbenditti : Porque tenia un plan de pago anulado y 3 cuotas pagas, se generaron las notas de credito\n', NULL),
+(271, 120, 3, '2017-04-24', 5, 'Resolucion por mbenditti : Resetio clave bruno', NULL),
+(272, 117, 3, '2017-04-24', 5, 'Resolucion por mbenditti : (Y)', NULL),
+(273, 123, NULL, '2017-04-24', 1, NULL, NULL),
+(274, 116, 27, '2017-04-24', 5, 'Resolucion por bovando : servidor listo para sitio comunicar, tiempo: 2 hs', NULL),
+(275, 115, 27, '2017-04-24', 5, 'Resolucion por bovando : ', NULL),
+(276, 124, NULL, '2017-04-24', 1, NULL, NULL),
+(277, 125, NULL, '2017-04-24', 1, NULL, NULL),
+(278, 123, 3, '2017-04-25', 5, 'Resolucion por mbenditti : Se les dio permiso para el fichas de proveedores en listados especiales.', NULL),
+(279, 118, 18, '2017-04-25', 4, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -2962,7 +3118,8 @@ INSERT INTO `permisos` (`id_permiso`, `nombre_permiso`) VALUES
 (40, 'EmpleadosV'),
 (41, 'eliminarEmpleadoB'),
 (42, 'nuevoEmpleadoB'),
-(43, 'modificarEmpeladoB');
+(43, 'modificarEmpeladoB'),
+(44, 'versiones');
 
 -- --------------------------------------------------------
 
@@ -3105,7 +3262,8 @@ INSERT INTO `roles_permisos` (`fk_rol`, `fk_permiso`) VALUES
 (1, 42),
 (4, 42),
 (1, 43),
-(4, 43);
+(4, 43),
+(1, 44);
 
 -- --------------------------------------------------------
 
@@ -3188,7 +3346,26 @@ INSERT INTO `servicios` (`id_asuntoS`, `nombre_asuntoS`, `pertenece`) VALUES
 (108, 'Alta de barrios', 21),
 (109, 'Creacion de reportes', 21),
 (110, 'Otro problemas', 21),
-(111, 'Error de migracion', 21);
+(111, 'Error de migracion', 21),
+(112, 'Instalacion servidor web', 22),
+(113, 'Nuevo usuario', 23),
+(114, 'Permisos para consulta general', 23),
+(115, 'talonarios', 24),
+(116, 'tsm', 24),
+(117, 'tish', 24),
+(118, 'pagos electronicos', 24),
+(119, 'obras contribuciones', 24),
+(120, 'listados', 24),
+(121, 'sueldos', 24),
+(122, 'compras', 24),
+(123, 'obras privadas', 24),
+(124, 'trib.faltas', 24),
+(125, 'contaduria', 24),
+(126, 'tesoreria', 24),
+(127, 'otros', 24),
+(128, 'Auditoria', 21),
+(129, 'Agregar Entidad de cobro de multas', 13),
+(130, 'Resetear Clave', 13);
 
 -- --------------------------------------------------------
 
@@ -3238,7 +3415,41 @@ INSERT INTO `tickets` (`id_ticket`, `fecha`, `hora`, `creador`, `servicio`, `obs
 (41, '2016-11-18', '2016-11-29 14:55:49', 24, 107, 'Erika cargar la calle Guttero', NULL, NULL),
 (42, '2016-11-18', '2016-11-18 12:22:31', 24, 51, 'Mabel de Inspeccion pregunta y a la tarde pueden trabajar con Webdoc', NULL, NULL),
 (43, '2016-11-18', '2016-11-18 12:27:13', 24, 56, 'delegacion otto gabriela no puede imprimir cedulon', NULL, NULL),
-(44, '2016-11-18', '2016-11-29 15:06:55', 24, 102, 'gaby delegacion otto menu de fito/impresora/cambio de domicilio/cierre temporario/', NULL, NULL);
+(44, '2016-11-18', '2016-11-29 15:06:55', 24, 102, 'gaby delegacion otto menu de fito/impresora/cambio de domicilio/cierre temporario/', NULL, NULL),
+(76, '2017-04-18', '2017-04-18 14:38:03', 30, 112, 'Solicita: Juan ramos\n Area Emisora: direccion de sistemas\n Observacion: Crear servidor web para la instalacion del comunicar luego de estar instalado se encarga Castro.', '', NULL),
+(77, '2017-04-19', '2017-04-19 14:30:02', 3, 114, 'Solicita: Susana Urrutia\n Area Emisora: secretaria de turismo\n Observacion: Buen dia:\n\nSolicito se agregue al Permiso PGM, consulta general de fichada, a los agentes que a continuaciòn se detallan, que forman parte del personal de la Direccòn de Trabajo:\n\n- Gabriela Anteanao - Legajo 12912\n\n- Gabriela Torres - Legajo 14836\n\n- Gonzalo Jaquis - Legajo 14833\n\n\nUsuarios: rabarzua - surrutia\n\n\nMuchas gracias.\n\n\nSusana', '', NULL),
+(78, '2017-04-19', '2017-04-19 14:39:43', 3, 114, 'Solicita: Lucas Perez\n Area Emisora: terminal omnibus\n Observacion: buenos días les solicito por este medio tengan a bien poder agregar dentro de mi permiso para ver fichadas a la agente Contreras María Alicia LEG N º 11330  y DÍAZ JORGE EDELIO LEG N º 1181  ya q no puedo visualizar sus ingresos y Salidas\n\ndesde ya muchas gracias los saludo\nATENTAMENTE\n \nLUCAS PEREZ', '', NULL),
+(79, '2017-04-19', '2017-04-21 15:09:49', 3, 110, 'Solicita: Politicas tributarias\n Area Emisora: secretaria de hacienda\n Observacion: Hola ali me podrías decir por favor quien genero estas notas de débito, gracias!!!!!!!!!!!!!! María.\n \n0939313870 \n0939313846 \n0940292465 \n Mensaje de avarano: Las notas de débito las hizo Martín de Tesoreria. Las 1eras dos el 10/01/17 y la 3era el 13/2.\nY si mirás en la ficha de cada factura en la descripción te dice la causa.\nTodas las notas de débito/crédito que hacen referencia a diferencia de importes , por lo general, se hacen en Tesorería , por los pagos electrónicos.\n', '', NULL),
+(80, '2017-04-19', '2017-04-19 14:43:57', 3, 104, 'Solicita: Mercado Comunitario\n Area Emisora: secretaria de hacienda\n Observacion: Buen día,\nsolicitamos tengan a bien dar permisos para entrar al PGM nuevo al usuario\nlanton leg.12350 para poder ver deudas, ordenes de pago, tasa personal y\ncon el PGM viejo poder hacer pedidos de abastecimiento, proyectos de\nresolución y ver resoluciones.\nGracias!\n\n', '', NULL),
+(81, '2017-04-19', '2017-04-19 14:44:30', 3, 27, 'Solicita: Mercado Comunitario\n Area Emisora: secretaria de hacienda\n Observacion: Buen día,\nsolicitamos tengan a bien dar permisos para entrar al PGM nuevo al usuario\nlanton leg.12350 para poder ver deudas, ordenes de pago, tasa personal y\ncon el PGM viejo poder hacer pedidos de abastecimiento, proyectos de\nresolución y ver resoluciones.\nGracias!\n\n', '', NULL),
+(82, '2017-04-19', '2017-04-19 14:46:03', 3, 106, 'Solicita: Ivana Calo\n Area Emisora: secretaria\n Observacion: Hola buen día solicito poder terner acceso al PGM nuevo mi nombre es Ivana Caló Legajo 11713\nactualmente tengo acceso a aprobacion de pedidos de abastecimiento de la Secretaría de Desarrollo Social Cultural y Deportivo que incluye todos los pedids generados en Sociales, Cultura y Deportes\naceesoa  padrón de personas, acceso a realizacion de proyectos de todos los tipos, pase por sistema de todos los proyectos generados en sociales, deportes y cultura. realizacion de pedidos de abastecimiento. y solicito acceso para poder ver las ordenes de pago.\n \natte Ivana. ', '', NULL),
+(83, '2017-04-19', '2017-04-19 16:36:24', 3, 54, 'Solicita: Lucas Perez\n Area Emisora: terminal omnibus\n Observacion: por otra parte vuelvo a solicitarles  enviarme en carácter de URGENTE los movimientos de micros en terminal desde enero de 2016 a la fecha para elevar informe a la SUBSECRETARIA DE TTO. Y TTE. \ndesde ya muchas gracias los saludo\nATENTAMENTE\n \nLUCAS PEREZ', '', NULL),
+(90, '2017-04-21', '2017-04-21 12:11:37', 18, 110, 'Solicita: yo\n Area Emisora: dpto. tributario\n Observacion: esta es la observacion', '', NULL),
+(94, '2017-04-21', '2017-04-21 12:26:54', 18, 110, 'Solicita: Cecilia Cartes\n Area Emisora: dpto. tributario\n Observacion: Solicita modificar estado boleta 0940481666 de Anulado a Adeudado ya que se debe abonar. \nTambien quiere saber quien lo anulo.', '', NULL),
+(95, '2017-04-21', '2017-04-21 12:45:11', 18, 115, 'Solicita: Alicia\n Area Emisora: direccion de sistemas\n Observacion: El talonario 38604 es al que no se le había migrado el item "Serv.Urbano y\nVialidad Rural"  en su cuota nro 4 por $ 709.08 .\nPara solucionarlo en el momento se agregó el item por el "administrador de\ndeuda".\n\nPara estar seguros de que no existan otras diferencias como\nesta,necesitamos que realicen un control de la migración.', '', NULL),
+(98, '2017-04-21', '2017-04-21 12:54:41', 18, 127, 'Solicita: alicia\n Area Emisora: direccion de sistemas\n Observacion:  al realizar un procesa deuda a un bien de tasa por serv.a la\npropiedad , apareció relacionado otro procesa deuda que no tiene nada que\nver, inclusive esta pagado hace años.\n\nAdjunto captura de pantalla de lo sucedido.\n\nSi bien esto no ocasionó mayores problemas, ya que se cobró lo que\ncorrespondía, será conveniente ver que es lo que pasó.', '', NULL),
+(104, '2017-04-21', '2017-04-21 13:31:13', 18, 115, 'Solicita: Erica\n Area Emisora: depto de contribuciones\n Observacion: desde el área de contribuciones solicitan el siguiente\nrequerimiento sobre las notificaciones por planes de pago.\nActualmente la notificación tiene los datos del titular del bien y no del\nencargado del plan de pago. Es necesario que la notificacion este a nombre\nde quien sea firmante del plan de pago. Este requerimiento obedece a la\nnecesidad de notificar correctamente a quien tramito el plan de pago.\n', '', NULL),
+(105, '2017-04-21', '2017-04-21 13:34:49', 18, 127, 'Solicita: Lilian Baroni\n Area Emisora: direccion de sistemas\n Observacion: Tenemos reiteradas solicitudes de que se pueda volver a estado "Adeudado" \ncuotas que estén en cualquier estado excepto "Cobrado" y "Financiado".', '', NULL),
+(106, '2017-04-21', '2017-04-21 13:43:34', 18, 127, 'Solicita: alicia\n Area Emisora: direccion de sistemas\n Observacion: En el padrón de residuos urbanos, que se liquidan las cuotas considerando\nlos adicionales facturados, aunque la cuota esté pagada, el adicional se\npuede pasar a adicional pendiente y después borrarlo.\nDe esta forma, se pierde el dato de los m3 recolectados.\nSerá posible que, cuando la boleta relacionada al adicional esté pagada,\nel sistema no deja pasar el adicional facturado a pendiente?', '', NULL),
+(107, '2017-04-21', '2017-04-21 13:48:10', 18, 115, 'Solicita: alicia\n Area Emisora: direccion de sistemas\n Observacion: Al hacer un tipo de talonario con tasa de interés 0, y financiar una deuda\nde 31800$ dan 12 cuotas de 2649.99 en lugar de 2650.\nHaciendo lo mismo con el usuario prueba da bien.\nHay alguna configuración que tenga que cambiar?', '', NULL),
+(108, '2017-04-21', '2017-04-21 13:52:26', 18, 120, 'Solicita: Erica\n Area Emisora: depto de contribuciones\n Observacion: Necesitamos que la ayuda de "Listado de tipos de conexiones por obra"\ndisponible para la realización de reportes muestre el concepto y no solo\nel tipo de conexión, para poder identificar la obra buscada.\nSe utiliza esta ayuda en el reporte "Contr-Listado datos por Obra".', '', NULL),
+(109, '2017-04-21', '2017-04-21 13:57:46', 18, 127, 'Solicita: alicia\n Area Emisora: direccion de sistemas\n Observacion: Una consulta sobre la unificación de personas. En el sistema anterior\ncuando se unificaba, la persona original se borraba de la tabla de\npersonas. Ahora no es asi?\nPorque encontramos unos 450 que suponiamos se debían haber borrado, pero\nsiguen estando.\nAdjunto reporte con los registros encontrados, que saque con el siguiente\nselect:\n\nselect a.tipo_documento,a.documento,\nb.tipo_documento_original,b.documento_original,\nb.tipo_documento_nuevo,b.documento_nuevo,estado,fecha_proceso\nfrom personas a join cambio_clave b on a.tipo_documento =\nb.tipo_documento_original and a.documento = b.documento_original\nwhere  b.documento_original <> b.documento_nuevo\nand estado <> \'P\'\n\n Mensaje de avarano: Ejecutamos el proceso de unificacion a las 15:00 hs, verifique varios \ncasos de las personas cargadas para unificar y no se registraron \nproblemas. No obstante, sigan ejecutando el proceso fuera del horario de \natención al público y sin otro proceso masivo ejecutándose en paralelo, \ntal como me informaron que lo vienen haciendo.\n\n\n', '', NULL),
+(110, '2017-04-21', '2017-04-21 14:00:41', 18, 126, 'Solicita: alicia\n Area Emisora: direccion de tesoreria\n Observacion: En el día de ayer el cajero "garanda" recaudo en una operación una boleta\nde talonario y una cuota de convenio de pago y no se imprimió el duplicado\ndel ticket correspondiente  al convenio. Tampoco salió cuando se hizo la\nreimpresión.\nFaltará alguna configuración?', '', NULL),
+(111, '2017-04-21', '2017-04-21 14:03:51', 18, 115, 'Solicita: alicia\n Area Emisora: depto de contribuciones\n Observacion: Se puede hacer una carátula de talonario, distinta de la estandar, que no\ndetalle los períodos incluído en el plan  y tampoco muestre los importes\noriginal, total financiado anticipo y descuento?\nEsto es porque para cumplir (o casi) con una forma de financiación\nestablecida por resolucion, para obra de cloaca , se hicieron condiciones\nparticulares de financiacion , que incluyen descuentos en el monto a\nfinanciar. De esta manera se llega a montos  similares a los que pagarían\ncon las 12 primeras cuotas sin interés y luego 12, 24 o mas cuotas.(ver\ncorreo del 15/2 asunto nueva obra donde se adjunta resolución).\n Mensaje de avarano: dice Fernando que no se puede, pero hay que resolverlo.', '', NULL),
+(112, '2017-04-21', '2017-04-21 14:37:30', 18, 127, 'Solicita: Lilian\n Area Emisora: hacienda\n Observacion: Se puede hacer un seguimiento de las notificaciones enviadas por el\n"Listado/Notificación de deuda"? Es para saber quienes pagaron la boleta\nde deuda generada en la notificación.', '', NULL),
+(113, '2017-04-21', '2017-04-21 16:15:18', 18, 128, 'Solicita: Martin Velazquez\n Area Emisora: direccion de tesoreria\n Observacion: Verificar si corresponde nota debito 0940390001 de padron TSM 22945 , con item Seg.e Higiene.\n Mensaje de avarano: Se hizo por error, correspondia al padron de comercio 22945 del Banco Patagonia.\nEl usuario que lo hizo fue lbaroni, el 15/03/17.\n', '', NULL),
+(114, '2017-04-21', '2017-04-21 17:32:22', 18, 117, 'Solicita: todos\n Area Emisora: sistemasEn el padrón de comercio, cuando se busca una cuenta hay que completar con los ceros. Podrá ser que se autocompleten , como en el padrón de tasa por servicios municipales?\n Observacion: En el padrón de comercio, cuando se busca una cuenta hay que completar con los ceros.\nPodrá ser que se autocompleten , como en el padrón de tasa por servicios municipales?', '', NULL),
+(115, '2017-04-21', '2017-04-21 17:46:45', 27, 129, 'Solicita: Raquelina\n Area Emisora: tribunal faltas 2\n Observacion: Agregar comisaria 42 como entidad de cobro de multas en el webdoc.', '', NULL),
+(116, '2017-04-21', '2017-04-21 17:50:13', 27, 112, 'Solicita: Juan Carlos\n Area Emisora: direccion de sistemas\n Observacion: Configurar maquina virtual con servidor web para el sistema de COMUNICAR', '', NULL),
+(117, '2017-04-21', '2017-04-21 17:55:29', 21, 89, 'Solicita: Estefania Klein\n Area Emisora: direccion de sistemas\n Observacion: Mostrar ultima interfaz de ticketneitor', '', NULL),
+(118, '2017-04-24', '2017-04-25 14:47:29', 18, 109, 'Solicita: Lilian- Marta\n Area Emisora: Politicas tributarias\n Observacion: Listado por obra cloaca san francisco contado y por plan , cantidad ,pagado ,consolidado.\ncuenta,nomenclatura,talonario,deuda original,cuotas cobradas, cuotas adeudadas.\n Mensaje de avarano: Genere listado en pgm  Contr-Padron Financiacion Cloacas San Francisco. ', '', NULL),
+(119, '2017-04-24', '2017-04-24 12:56:09', 3, 110, 'Solicita: Marta Montenegro\n Area Emisora: dpto. fiscalizacion\n Observacion: La cuenta de tasa inmueble 19542 tiene una nota de credito por año. ¿Porque?', '', NULL),
+(120, '2017-04-24', '2017-04-24 13:28:57', 21, 130, 'Solicita: JCURIQUEO\n Area Emisora: direccion obras particulares\n Observacion: Pidieron que le reseteemos la clave porque ya hace varios dias que le falla.', '', NULL),
+(121, '2017-04-24', '2017-04-24 13:32:16', 18, 109, 'Solicita: Alejandra Galvan\n Area Emisora: Politicas Tributarias\n Observacion: Notas de credito/debito entre fechas con padron,descripcion y monto', '', NULL),
+(122, '2017-04-24', '2017-04-24 13:57:13', 21, 48, 'Solicita: Viviana Soto\n Area Emisora: mesa entrada corralon\n Observacion: Le desapareció el permiso para dar de alta personas a MESACORRALON-S1', '', NULL),
+(123, '2017-04-24', '2017-04-24 15:05:30', 3, 106, 'Solicita: Marcos Pavonº\n Area Emisora: deportes\n Observacion: Buen dia Matias, por favor necesito que puedas habilitar en el pegm para ver el registro de proveedores no solo la op. Buscar los pagos por proveedor para ver los pendientes y lo pagado. Hoy solo puedo visualizar por op.\n \nTe pido también que habilites de igual forma a los usuarios: Soledadr, fperez, cgonzalez, jcorrillo\n \nMuchas gracias.\n \n \nMarcos Pavon \n', '', NULL),
+(124, '2017-04-24', '2017-04-24 17:47:18', 29, 48, 'Solicita: Seguimiento cuenta\n Area Emisora: Tesoreria\n Observacion: Se necesita que el listado de Seguimiento de Cuenta, tenga los importes individuales de cada dia, ademas de los acumulados.', '', NULL),
+(125, '2017-04-24', '2017-04-24 17:53:59', 3, 92, 'Solicita: Daniela\n Area Emisora: recursos humanos\n Observacion: Por medio del presente, solicito servicio técnico en el área de Medicina Laboral para verificar conexión de impresora en el área administrativa (HP1212), e impresora HP Deskjet F380 (oficina del Dr.) por fallas en el funcionamiento.\n \nMuchas gracias!!!!\n \nDaniela', '', NULL);
 
 -- --------------------------------------------------------
 
@@ -3265,17 +3476,17 @@ INSERT INTO `usuarios` (`id_usuario`, `nombre_usuario`, `contrasenia`, `fk_emple
 (15, 'ekayser', '6b5b0dd03c9c85725032ce5f3a0918ae', 1637, 1, 2, NULL),
 (16, 'gdinardo', '4c96f8324e3ba54a99e78249b95daa30', 146, 1, 2, NULL),
 (17, 'gcastro', '4c96f8324e3ba54a99e78249b95daa30', 2023, 1, 3, NULL),
-(18, 'avarano', 'e94ef563867e9c9df3fcc999bdb045f5', 113, 1, 3, NULL),
+(18, 'avarano', 'e94ef563867e9c9df3fcc999bdb045f5', 113, 1, 1, NULL),
 (19, 'etomatis', '6d6354ece40846bf7fca65dfabd5d9d4', 1177, 1, 2, NULL),
-(21, 'eklein', '0dad057ace699c95af66875078362cf4', 2851, 1, 2, NULL),
+(21, 'eklein', '57610aba222b92a23e65f51a88492579', 2851, 1, 1, NULL),
 (22, 'hacuña', '3ab9071536d62f29aa8b3fd39141f6ad', 199, 1, 4, NULL),
 (23, 'bmarin', 'e4f7614a887a8cc07a2eea93a1e31122', 983, 1, 2, NULL),
 (24, 'gibanez', '05fe03b494c0f1a7d6cb49f0bf3fd70d', 395, 1, 2, NULL),
 (25, 'dalvarez', 'aa47f8215c6f30a0dcdb2a36a9f4168e', 2555, 1, 2, NULL),
-(27, 'bovando', 'e3928a3bc4be46516aa33a79bbdfdb08', 2852, 1, 2, NULL),
+(27, 'bovando', 'e3928a3bc4be46516aa33a79bbdfdb08', 2852, 1, 1, NULL),
 (28, 'administrador', '6f8725703f6dcc6bf2a329d2fe77fb39', 1, 1, 1, NULL),
-(29, 'clorusso', '2b9ff3efc4a999ecfacd18c4bbc57a2e', 2853, 1, 2, NULL),
-(30, 'jcramos', 'db3b992995b36a9d2ac616ea2867b14a', 1685, 1, 1, NULL);
+(29, 'clorusso', '2b9ff3efc4a999ecfacd18c4bbc57a2e', 2853, 1, 1, NULL),
+(30, 'jcramos', 'a94652aa97c7211ba8954dd15a3cf838', 1685, 1, 1, NULL);
 
 --
 -- Índices para tablas volcadas
@@ -3288,11 +3499,23 @@ ALTER TABLE `areas`
   ADD PRIMARY KEY (`id_area`);
 
 --
+-- Indices de la tabla `area_sistemas`
+--
+ALTER TABLE `area_sistemas`
+  ADD PRIMARY KEY (`id_area_sistemas`);
+
+--
 -- Indices de la tabla `asuntos`
 --
 ALTER TABLE `asuntos`
   ADD PRIMARY KEY (`id_asuntoP`),
   ADD KEY `fk_area` (`fk_area`);
+
+--
+-- Indices de la tabla `base_conocimiento`
+--
+ALTER TABLE `base_conocimiento`
+  ADD PRIMARY KEY (`id_resolucion`);
 
 --
 -- Indices de la tabla `empleados`
@@ -3402,12 +3625,22 @@ ALTER TABLE `usuarios`
 -- AUTO_INCREMENT de la tabla `areas`
 --
 ALTER TABLE `areas`
-  MODIFY `id_area` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9183;
+  MODIFY `id_area` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9185;
+--
+-- AUTO_INCREMENT de la tabla `area_sistemas`
+--
+ALTER TABLE `area_sistemas`
+  MODIFY `id_area_sistemas` int(11) NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT de la tabla `asuntos`
 --
 ALTER TABLE `asuntos`
-  MODIFY `id_asuntoP` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
+  MODIFY `id_asuntoP` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
+--
+-- AUTO_INCREMENT de la tabla `base_conocimiento`
+--
+ALTER TABLE `base_conocimiento`
+  MODIFY `id_resolucion` int(11) NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT de la tabla `empleados`
 --
@@ -3427,12 +3660,12 @@ ALTER TABLE `estados_pgm`
 -- AUTO_INCREMENT de la tabla `historial_tickets`
 --
 ALTER TABLE `historial_tickets`
-  MODIFY `id_historial` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=118;
+  MODIFY `id_historial` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=281;
 --
 -- AUTO_INCREMENT de la tabla `permisos`
 --
 ALTER TABLE `permisos`
-  MODIFY `id_permiso` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=44;
+  MODIFY `id_permiso` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=45;
 --
 -- AUTO_INCREMENT de la tabla `razones_transferencias`
 --
@@ -3447,12 +3680,12 @@ ALTER TABLE `roles`
 -- AUTO_INCREMENT de la tabla `servicios`
 --
 ALTER TABLE `servicios`
-  MODIFY `id_asuntoS` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=112;
+  MODIFY `id_asuntoS` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=131;
 --
 -- AUTO_INCREMENT de la tabla `tickets`
 --
 ALTER TABLE `tickets`
-  MODIFY `id_ticket` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=60;
+  MODIFY `id_ticket` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=127;
 --
 -- AUTO_INCREMENT de la tabla `usuarios`
 --

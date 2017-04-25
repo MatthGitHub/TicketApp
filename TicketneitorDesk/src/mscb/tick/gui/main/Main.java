@@ -27,7 +27,7 @@ import mscb.tick.negocio.Listener;
 import mscb.tick.gui.login.Login;
 import mscb.tick.gui.login.MenuPrincipal;
 import mscb.tick.gui.tickets.Actualizador;
-import mscb.tick.gui.tickets.MisTickets;
+import mscb.tick.gui.tickets.BandejaTickets;
 import mscb.tick.gui.tickets.NuevoTicket;
 import mscb.tick.gui.encargadoAsuntos.AsuntoSinEncargadoD;
 import mscb.tick.negocio.entidades.Areas;
@@ -39,6 +39,7 @@ import mscb.tick.negocio.LoginEJB;
 import mscb.tick.negocio.PermisoServ;
 import mscb.tick.gui.razonesTransf.Razones;
 import mscb.tick.gui.roles.RolesV;
+import mscb.tick.gui.tickets.BandejaEnviados;
 import mscb.tick.gui.tickets.CambiarEstadoTicketD;
 import mscb.tick.gui.tickets.ObservacionD;
 import mscb.tick.gui.tickets.ResolucionD;
@@ -85,7 +86,8 @@ public class Main extends javax.swing.JFrame {
     
     private EncargadoAsuntos asignarEncargado;
         
-    private MisTickets misTickets;
+    private BandejaTickets bandejaEntrada;
+    private BandejaEnviados bandejaSalida;
     
     private ObservacionD observacion;
     private Tickets miTick;
@@ -154,9 +156,9 @@ public class Main extends javax.swing.JFrame {
         
         //miTickets
         if(permisosU.contains(serviciosP.traerUno(4))){
-            mi_misTicket.setVisible(true);
+            mi_bandejaEntrada.setVisible(true);
         }else{
-            mi_misTicket.setVisible(false);
+            mi_bandejaEntrada.setVisible(false);
         }
         //nuevo Ticket
         if(permisosU.contains(serviciosP.traerUno(5))){
@@ -236,7 +238,7 @@ public class Main extends javax.swing.JFrame {
         }else{
             mi_roles.setVisible(false);
         }
-        //roles
+        //empleados
         if(permisosU.contains(serviciosP.traerUno(40))){
             mi_empleados.setVisible(true);
         }else{
@@ -387,13 +389,27 @@ public class Main extends javax.swing.JFrame {
     /**
      * Formulario para usuarios
      */
-    public void miTickets(){
-        misTickets = MisTickets.getMisTickets(this);
+    public void bandejaEntrada(){
+        bandejaEntrada = BandejaTickets.getBandejaTickets(this);
         
-        if(!misTickets.isVisible() == false){
-            getContentPane().add(misTickets);
+        if(!bandejaEntrada.isVisible() == false){
+            getContentPane().add(bandejaEntrada);
         }else{
-            misTickets.setVisible(true);
+            bandejaEntrada.setVisible(true);
+        }
+        revalidate();
+    }
+    
+    /**
+     * Formulario para usuarios
+     */
+    public void bandejaSalida(){
+        bandejaSalida = BandejaEnviados.getBandejaEnviados(this);
+        
+        if(!bandejaSalida.isVisible() == false){
+            getContentPane().add(bandejaSalida);
+        }else{
+            bandejaSalida.setVisible(true);
         }
         revalidate();
     }
@@ -641,7 +657,6 @@ public class Main extends javax.swing.JFrame {
         if(nuevaArea == null){
             nuevaArea = new NuevaAreaD(this, true);
         }else{
-            nuevaArea.nuevaAreaM();
             nuevaArea.setVisible(true);
         }
         revalidate();
@@ -698,7 +713,8 @@ public class Main extends javax.swing.JFrame {
         jMB_bar = new javax.swing.JMenuBar();
         jM_archivo = new javax.swing.JMenu();
         mi_inicio = new javax.swing.JMenuItem();
-        mi_misTicket = new javax.swing.JMenuItem();
+        mi_bandejaEntrada = new javax.swing.JMenuItem();
+        mi_bandejaSalida = new javax.swing.JMenuItem();
         mi_nuevoTicket = new javax.swing.JMenuItem();
         mi_conocimiento = new javax.swing.JMenuItem();
         mi_salir = new javax.swing.JMenuItem();
@@ -722,9 +738,11 @@ public class Main extends javax.swing.JFrame {
 
         jMB_bar.setBackground(new java.awt.Color(153, 153, 153));
 
-        jM_archivo.setText("archivo");
+        jM_archivo.setText("Archivo");
+        jM_archivo.setFont(new java.awt.Font("SansSerif", 0, 11)); // NOI18N
 
-        mi_inicio.setText("inicio");
+        mi_inicio.setFont(new java.awt.Font("SansSerif", 0, 11)); // NOI18N
+        mi_inicio.setText("Inicio");
         mi_inicio.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 mi_inicioActionPerformed(evt);
@@ -732,17 +750,29 @@ public class Main extends javax.swing.JFrame {
         });
         jM_archivo.add(mi_inicio);
 
-        mi_misTicket.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_WINDOWS, 0));
-        mi_misTicket.setText("mis tickets");
-        mi_misTicket.addActionListener(new java.awt.event.ActionListener() {
+        mi_bandejaEntrada.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_I, java.awt.event.InputEvent.CTRL_MASK));
+        mi_bandejaEntrada.setFont(new java.awt.Font("SansSerif", 0, 11)); // NOI18N
+        mi_bandejaEntrada.setText("Bandeja entrada");
+        mi_bandejaEntrada.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                mi_misTicketActionPerformed(evt);
+                mi_bandejaEntradaActionPerformed(evt);
             }
         });
-        jM_archivo.add(mi_misTicket);
+        jM_archivo.add(mi_bandejaEntrada);
+
+        mi_bandejaSalida.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_O, java.awt.event.InputEvent.CTRL_MASK));
+        mi_bandejaSalida.setFont(new java.awt.Font("SansSerif", 0, 11)); // NOI18N
+        mi_bandejaSalida.setText("Bandeja enviados");
+        mi_bandejaSalida.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mi_bandejaSalidaActionPerformed(evt);
+            }
+        });
+        jM_archivo.add(mi_bandejaSalida);
 
         mi_nuevoTicket.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_N, java.awt.event.InputEvent.CTRL_MASK));
-        mi_nuevoTicket.setText("nuevo ticket");
+        mi_nuevoTicket.setFont(new java.awt.Font("SansSerif", 0, 11)); // NOI18N
+        mi_nuevoTicket.setText("Nuevo ticket");
         mi_nuevoTicket.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 mi_nuevoTicketActionPerformed(evt);
@@ -751,7 +781,8 @@ public class Main extends javax.swing.JFrame {
         jM_archivo.add(mi_nuevoTicket);
 
         mi_conocimiento.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_B, java.awt.event.InputEvent.CTRL_MASK));
-        mi_conocimiento.setText("tickets resueltos");
+        mi_conocimiento.setFont(new java.awt.Font("SansSerif", 0, 11)); // NOI18N
+        mi_conocimiento.setText("Tickets resueltos");
         mi_conocimiento.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 mi_conocimientoActionPerformed(evt);
@@ -760,7 +791,8 @@ public class Main extends javax.swing.JFrame {
         jM_archivo.add(mi_conocimiento);
 
         mi_salir.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_Q, java.awt.event.InputEvent.CTRL_MASK));
-        mi_salir.setText("salir");
+        mi_salir.setFont(new java.awt.Font("SansSerif", 0, 11)); // NOI18N
+        mi_salir.setText("Salir");
         mi_salir.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 mi_salirActionPerformed(evt);
@@ -770,9 +802,11 @@ public class Main extends javax.swing.JFrame {
 
         jMB_bar.add(jM_archivo);
 
-        jm_administracion.setText("administracion");
+        jm_administracion.setText("Administracion");
+        jm_administracion.setFont(new java.awt.Font("SansSerif", 0, 11)); // NOI18N
 
-        mi_administrar.setText("administrar tickets");
+        mi_administrar.setFont(new java.awt.Font("SansSerif", 0, 11)); // NOI18N
+        mi_administrar.setText("Administrar tickets");
         mi_administrar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 mi_administrarActionPerformed(evt);
@@ -780,7 +814,8 @@ public class Main extends javax.swing.JFrame {
         });
         jm_administracion.add(mi_administrar);
 
-        mi_estadoPGM.setText("estado del pgm");
+        mi_estadoPGM.setFont(new java.awt.Font("SansSerif", 0, 11)); // NOI18N
+        mi_estadoPGM.setText("Estado del PGM");
         mi_estadoPGM.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 mi_estadoPGMActionPerformed(evt);
@@ -790,10 +825,12 @@ public class Main extends javax.swing.JFrame {
 
         jMB_bar.add(jm_administracion);
 
-        jM_configuracion.setText("configuracion");
+        jM_configuracion.setText("Configuracion");
+        jM_configuracion.setFont(new java.awt.Font("SansSerif", 0, 11)); // NOI18N
 
         mi_areas.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_A, java.awt.event.InputEvent.CTRL_MASK));
-        mi_areas.setText("areas");
+        mi_areas.setFont(new java.awt.Font("SansSerif", 0, 11)); // NOI18N
+        mi_areas.setText("Areas");
         mi_areas.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 mi_areasActionPerformed(evt);
@@ -802,7 +839,8 @@ public class Main extends javax.swing.JFrame {
         jM_configuracion.add(mi_areas);
 
         mi_asunutos.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_A, java.awt.event.InputEvent.ALT_MASK));
-        mi_asunutos.setText("asuntos");
+        mi_asunutos.setFont(new java.awt.Font("SansSerif", 0, 11)); // NOI18N
+        mi_asunutos.setText("Asuntos");
         mi_asunutos.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 mi_asunutosActionPerformed(evt);
@@ -811,7 +849,8 @@ public class Main extends javax.swing.JFrame {
         jM_configuracion.add(mi_asunutos);
 
         mi_servicios.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_S, java.awt.event.InputEvent.CTRL_MASK));
-        mi_servicios.setText("servicios");
+        mi_servicios.setFont(new java.awt.Font("SansSerif", 0, 11)); // NOI18N
+        mi_servicios.setText("Servicios");
         mi_servicios.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 mi_serviciosActionPerformed(evt);
@@ -820,7 +859,8 @@ public class Main extends javax.swing.JFrame {
         jM_configuracion.add(mi_servicios);
 
         mi_razones.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_R, java.awt.event.InputEvent.CTRL_MASK));
-        mi_razones.setText("razones de transf");
+        mi_razones.setFont(new java.awt.Font("SansSerif", 0, 11)); // NOI18N
+        mi_razones.setText("Razones de transferencia");
         mi_razones.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 mi_razonesActionPerformed(evt);
@@ -829,7 +869,8 @@ public class Main extends javax.swing.JFrame {
         jM_configuracion.add(mi_razones);
 
         mi_usuarios.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_U, java.awt.event.InputEvent.CTRL_MASK));
-        mi_usuarios.setText("usuarios");
+        mi_usuarios.setFont(new java.awt.Font("SansSerif", 0, 11)); // NOI18N
+        mi_usuarios.setText("Usuarios");
         mi_usuarios.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 mi_usuariosActionPerformed(evt);
@@ -838,7 +879,8 @@ public class Main extends javax.swing.JFrame {
         jM_configuracion.add(mi_usuarios);
 
         mi_asignar.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_U, java.awt.event.InputEvent.ALT_MASK));
-        mi_asignar.setText("asignar asuntos a usuarios");
+        mi_asignar.setFont(new java.awt.Font("SansSerif", 0, 11)); // NOI18N
+        mi_asignar.setText("Asignar asuntos a usuarios");
         mi_asignar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 mi_asignarActionPerformed(evt);
@@ -847,7 +889,8 @@ public class Main extends javax.swing.JFrame {
         jM_configuracion.add(mi_asignar);
 
         mi_roles.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_R, java.awt.event.InputEvent.ALT_MASK));
-        mi_roles.setText("roles");
+        mi_roles.setFont(new java.awt.Font("SansSerif", 0, 11)); // NOI18N
+        mi_roles.setText("Roles");
         mi_roles.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 mi_rolesActionPerformed(evt);
@@ -856,7 +899,8 @@ public class Main extends javax.swing.JFrame {
         jM_configuracion.add(mi_roles);
 
         mi_empleados.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_E, java.awt.event.InputEvent.CTRL_MASK));
-        mi_empleados.setText("empleados");
+        mi_empleados.setFont(new java.awt.Font("SansSerif", 0, 11)); // NOI18N
+        mi_empleados.setText("Empleados");
         mi_empleados.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 mi_empleadosActionPerformed(evt);
@@ -871,12 +915,12 @@ public class Main extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void mi_misTicketActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mi_misTicketActionPerformed
+    private void mi_bandejaEntradaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mi_bandejaEntradaActionPerformed
         // TODO add your handling code here:
         this.getContentPane().removeAll();
-        miTickets();
+        bandejaEntrada();
         this.repaint();
-    }//GEN-LAST:event_mi_misTicketActionPerformed
+    }//GEN-LAST:event_mi_bandejaEntradaActionPerformed
 
     private void mi_areasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mi_areasActionPerformed
         // TODO add your handling code here:
@@ -974,6 +1018,13 @@ public class Main extends javax.swing.JFrame {
         this.repaint();
     }//GEN-LAST:event_mi_empleadosActionPerformed
 
+    private void mi_bandejaSalidaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mi_bandejaSalidaActionPerformed
+        // TODO add your handling code here:
+        this.getContentPane().removeAll();
+        bandejaSalida();
+        this.repaint();
+    }//GEN-LAST:event_mi_bandejaSalidaActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -1016,11 +1067,12 @@ public class Main extends javax.swing.JFrame {
     private javax.swing.JMenuItem mi_areas;
     private javax.swing.JMenuItem mi_asignar;
     private javax.swing.JMenuItem mi_asunutos;
+    private javax.swing.JMenuItem mi_bandejaEntrada;
+    private javax.swing.JMenuItem mi_bandejaSalida;
     private javax.swing.JMenuItem mi_conocimiento;
     private javax.swing.JMenuItem mi_empleados;
     private javax.swing.JMenuItem mi_estadoPGM;
     private javax.swing.JMenuItem mi_inicio;
-    private javax.swing.JMenuItem mi_misTicket;
     private javax.swing.JMenuItem mi_nuevoTicket;
     private javax.swing.JMenuItem mi_razones;
     private javax.swing.JMenuItem mi_roles;

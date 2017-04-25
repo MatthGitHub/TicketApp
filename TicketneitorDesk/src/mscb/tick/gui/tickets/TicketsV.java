@@ -7,6 +7,9 @@ package mscb.tick.gui.tickets;
 
 import java.text.DateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
@@ -90,9 +93,12 @@ public class TicketsV extends MenuP {
     public void llenarTabla() {
         vaciarTabla(jt_tickets);
         miLista = serviciosT.traerTodos();
+        Comparator<Tickets> comparador = Collections.reverseOrder();
+        Collections.sort(miLista,comparador);
+            
         String v[] = new String[8];
         DateFormat dateFormatter;
-        dateFormatter = DateFormat.getDateInstance(DateFormat.SHORT, Locale.US);
+        dateFormatter = DateFormat.getDateInstance(DateFormat.SHORT, Locale.UK);
 
         for (int i = 0; i < miLista.size(); i++) {
             v[0] = miLista.get(i).getIdTicket().toString();
@@ -146,7 +152,7 @@ public class TicketsV extends MenuP {
     }
    /**
      *Cambia el estado de los tickets enviados a recibidos 
-     */
+     *//*
     private void cambiarEstadoDeTicketsRecibidos(){
         EstadoServ esta = new EstadoServ();
         Estados estado = esta.traerEstado(2);
@@ -162,7 +168,7 @@ public class TicketsV extends MenuP {
             }
         }
     }
-    
+    */
 
     private void vaciarTabla(JTable tabla) {
         try {
@@ -207,6 +213,7 @@ public class TicketsV extends MenuP {
 
         setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Tickets", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Bradley Hand ITC", 0, 24), java.awt.Color.white)); // NOI18N
 
+        jt_tickets.setFont(new java.awt.Font("SansSerif", 0, 11)); // NOI18N
         jt_tickets.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
@@ -231,6 +238,7 @@ public class TicketsV extends MenuP {
             }
         });
         jt_tickets.setToolTipText("");
+        jt_tickets.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         jScrollPane1.setViewportView(jt_tickets);
         if (jt_tickets.getColumnModel().getColumnCount() > 0) {
             jt_tickets.getColumnModel().getColumn(0).setMinWidth(15);
@@ -240,12 +248,12 @@ public class TicketsV extends MenuP {
             jt_tickets.getColumnModel().getColumn(5).setPreferredWidth(150);
         }
 
-        jLabel1.setFont(new java.awt.Font("Bradley Hand ITC", 0, 18)); // NOI18N
-        jLabel1.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel1.setFont(new java.awt.Font("SansSerif", 3, 14)); // NOI18N
+        jLabel1.setForeground(new java.awt.Color(0, 108, 118));
         jLabel1.setText("Buscar:");
 
-        txt_buscar.setBackground(new java.awt.Color(204, 204, 204));
-        txt_buscar.setFont(new java.awt.Font("Candara", 0, 14)); // NOI18N
+        txt_buscar.setFont(new java.awt.Font("SansSerif", 0, 14)); // NOI18N
+        txt_buscar.setForeground(new java.awt.Color(0, 108, 118));
         txt_buscar.setText("Usuario, asunto, area...");
         txt_buscar.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -258,12 +266,12 @@ public class TicketsV extends MenuP {
             }
         });
 
-        jLabel2.setFont(new java.awt.Font("Bradley Hand ITC", 0, 18)); // NOI18N
-        jLabel2.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel2.setFont(new java.awt.Font("SansSerif", 3, 14)); // NOI18N
+        jLabel2.setForeground(new java.awt.Color(0, 108, 118));
         jLabel2.setText("Buscar:");
 
-        txt_id.setBackground(new java.awt.Color(204, 204, 204));
-        txt_id.setFont(new java.awt.Font("Candara", 0, 14)); // NOI18N
+        txt_id.setFont(new java.awt.Font("SansSerif", 0, 14)); // NOI18N
+        txt_id.setForeground(new java.awt.Color(0, 108, 118));
         txt_id.setText("Nº de ticket....");
         txt_id.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -277,8 +285,10 @@ public class TicketsV extends MenuP {
         });
 
         btn_volver.setBackground(new java.awt.Color(153, 153, 153));
-        btn_volver.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        btn_volver.setText("volver");
+        btn_volver.setFont(new java.awt.Font("SansSerif", 1, 12)); // NOI18N
+        btn_volver.setForeground(new java.awt.Color(0, 108, 118));
+        btn_volver.setIcon(new javax.swing.ImageIcon(getClass().getResource("/mscb/tick/resources/imagenes/icons/back-arrow.png"))); // NOI18N
+        btn_volver.setText("Volver");
         btn_volver.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btn_volverActionPerformed(evt);
@@ -286,8 +296,10 @@ public class TicketsV extends MenuP {
         });
 
         ver_historial.setBackground(new java.awt.Color(153, 153, 153));
-        ver_historial.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        ver_historial.setText("ver historial");
+        ver_historial.setFont(new java.awt.Font("SansSerif", 1, 10)); // NOI18N
+        ver_historial.setForeground(new java.awt.Color(0, 108, 118));
+        ver_historial.setIcon(new javax.swing.ImageIcon(getClass().getResource("/mscb/tick/resources/imagenes/icons/folder.png"))); // NOI18N
+        ver_historial.setText("Ver historial");
         ver_historial.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 ver_historialActionPerformed(evt);
@@ -295,8 +307,10 @@ public class TicketsV extends MenuP {
         });
 
         btn_eliminar.setBackground(new java.awt.Color(153, 153, 153));
-        btn_eliminar.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        btn_eliminar.setText("eliminar registro");
+        btn_eliminar.setFont(new java.awt.Font("SansSerif", 1, 10)); // NOI18N
+        btn_eliminar.setForeground(new java.awt.Color(0, 108, 118));
+        btn_eliminar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/mscb/tick/resources/imagenes/icons/delete.png"))); // NOI18N
+        btn_eliminar.setText("Eliminar registro");
         btn_eliminar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btn_eliminarActionPerformed(evt);
@@ -304,8 +318,10 @@ public class TicketsV extends MenuP {
         });
 
         btn_cambiarEstado.setBackground(new java.awt.Color(153, 153, 153));
-        btn_cambiarEstado.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        btn_cambiarEstado.setText("cambiar estado");
+        btn_cambiarEstado.setFont(new java.awt.Font("SansSerif", 1, 10)); // NOI18N
+        btn_cambiarEstado.setForeground(new java.awt.Color(0, 108, 118));
+        btn_cambiarEstado.setIcon(new javax.swing.ImageIcon(getClass().getResource("/mscb/tick/resources/imagenes/icons/edit.png"))); // NOI18N
+        btn_cambiarEstado.setText("Cambiar estado");
         btn_cambiarEstado.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btn_cambiarEstadoActionPerformed(evt);
@@ -313,8 +329,10 @@ public class TicketsV extends MenuP {
         });
 
         btn_observacion.setBackground(new java.awt.Color(153, 153, 153));
-        btn_observacion.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        btn_observacion.setText("ver observacion");
+        btn_observacion.setFont(new java.awt.Font("SansSerif", 1, 10)); // NOI18N
+        btn_observacion.setForeground(new java.awt.Color(0, 108, 118));
+        btn_observacion.setIcon(new javax.swing.ImageIcon(getClass().getResource("/mscb/tick/resources/imagenes/icons/observation.png"))); // NOI18N
+        btn_observacion.setText("Ver observacion");
         btn_observacion.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btn_observacionActionPerformed(evt);
@@ -329,26 +347,24 @@ public class TicketsV extends MenuP {
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
                         .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 66, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGap(18, 18, 18)
                         .addComponent(txt_buscar, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 66, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(txt_id, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE))
+                        .addGap(18, 18, 18)
+                        .addComponent(txt_id, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(jScrollPane1)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(btn_volver)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 81, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 278, Short.MAX_VALUE)
+                        .addComponent(btn_cambiarEstado)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(btn_eliminar)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(ver_historial)
-                        .addGap(18, 18, 18)
-                        .addComponent(btn_eliminar, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(btn_observacion)
-                        .addGap(18, 18, 18)
-                        .addComponent(btn_cambiarEstado)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(btn_observacion)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -362,7 +378,7 @@ public class TicketsV extends MenuP {
                         .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(txt_buscar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(18, 18, 18)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 466, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 465, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btn_volver, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)

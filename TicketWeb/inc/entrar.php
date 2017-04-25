@@ -29,6 +29,7 @@ if ($_POST['nombre_usuario']) {
 
 		$_SESSION["area"] = $row['id_area'];
 		$_SESSION["logeado"] = "SI";
+		$_SESSION["origen"] = "tickets";
 		$_SESSION["permiso"] = $row['fk_rol'];
 		$_SESSION["id_usuario"] = $row['id_usuario'];
 		/* Si aceptamos recordar los datos */
