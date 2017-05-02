@@ -86,6 +86,7 @@ public class MenuPrincipal extends MenuP {
         btn_logout = new javax.swing.JButton();
         btn_cambiarClave = new javax.swing.JButton();
         lblNombreUsuario1 = new javax.swing.JLabel();
+        btn_help = new javax.swing.JToggleButton();
 
         jMenu1.setText("File");
         jMenuBar1.add(jMenu1);
@@ -100,7 +101,7 @@ public class MenuPrincipal extends MenuP {
         btn_info.setBackground(new java.awt.Color(204, 204, 204));
         btn_info.setFont(new java.awt.Font("SansSerif", 1, 14)); // NOI18N
         btn_info.setForeground(new java.awt.Color(255, 102, 102));
-        btn_info.setText("?");
+        btn_info.setIcon(new javax.swing.ImageIcon(getClass().getResource("/mscb/tick/resources/imagenes/icons/info.png"))); // NOI18N
         btn_info.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btn_infoActionPerformed(evt);
@@ -113,9 +114,10 @@ public class MenuPrincipal extends MenuP {
         lblNombreUsuario.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
 
         btn_salir.setBackground(new java.awt.Color(153, 153, 153));
-        btn_salir.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        btn_salir.setFont(new java.awt.Font("SansSerif", 1, 14)); // NOI18N
         btn_salir.setForeground(new java.awt.Color(0, 89, 97));
-        btn_salir.setText("SALIR");
+        btn_salir.setIcon(new javax.swing.ImageIcon(getClass().getResource("/mscb/tick/resources/imagenes/icons/exit.png"))); // NOI18N
+        btn_salir.setText("Salir");
         btn_salir.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btn_salirActionPerformed(evt);
@@ -123,8 +125,9 @@ public class MenuPrincipal extends MenuP {
         });
 
         btn_logout.setBackground(new java.awt.Color(153, 153, 153));
-        btn_logout.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        btn_logout.setFont(new java.awt.Font("SansSerif", 1, 12)); // NOI18N
         btn_logout.setForeground(new java.awt.Color(0, 108, 118));
+        btn_logout.setIcon(new javax.swing.ImageIcon(getClass().getResource("/mscb/tick/resources/imagenes/icons/session.png"))); // NOI18N
         btn_logout.setText("Cerrar Sesion");
         btn_logout.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -133,8 +136,9 @@ public class MenuPrincipal extends MenuP {
         });
 
         btn_cambiarClave.setBackground(new java.awt.Color(153, 153, 153));
-        btn_cambiarClave.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        btn_cambiarClave.setFont(new java.awt.Font("SansSerif", 1, 12)); // NOI18N
         btn_cambiarClave.setForeground(new java.awt.Color(0, 108, 118));
+        btn_cambiarClave.setIcon(new javax.swing.ImageIcon(getClass().getResource("/mscb/tick/resources/imagenes/icons/reset_pass.png"))); // NOI18N
         btn_cambiarClave.setText("Cambiar Clave");
         btn_cambiarClave.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -148,18 +152,28 @@ public class MenuPrincipal extends MenuP {
         lblNombreUsuario1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lblNombreUsuario1.setText("Bienvenido");
 
+        btn_help.setBackground(new java.awt.Color(204, 204, 204));
+        btn_help.setFont(new java.awt.Font("SansSerif", 1, 14)); // NOI18N
+        btn_help.setForeground(new java.awt.Color(255, 102, 102));
+        btn_help.setIcon(new javax.swing.ImageIcon(getClass().getResource("/mscb/tick/resources/imagenes/icons/help-cursor.png"))); // NOI18N
+        btn_help.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_helpActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap(129, Short.MAX_VALUE)
+                .addContainerGap(126, Short.MAX_VALUE)
                 .addComponent(btn_salir, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 67, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 66, Short.MAX_VALUE)
                 .addComponent(btn_logout, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 69, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 66, Short.MAX_VALUE)
                 .addComponent(btn_cambiarClave)
-                .addContainerGap(130, Short.MAX_VALUE))
+                .addContainerGap(125, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addGap(0, 0, Short.MAX_VALUE)
                 .addComponent(btn_info))
@@ -168,18 +182,21 @@ public class MenuPrincipal extends MenuP {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(lblNombreUsuario1, javax.swing.GroupLayout.PREFERRED_SIZE, 340, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(lblNombreUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 340, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(btn_help))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(btn_info, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(49, 49, 49)
-                .addComponent(lblNombreUsuario1, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 67, Short.MAX_VALUE)
+                .addComponent(btn_info, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(31, 31, 31)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(lblNombreUsuario1, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btn_help, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(65, 65, 65)
                 .addComponent(lblNombreUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 227, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 228, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btn_salir, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btn_logout, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -216,9 +233,15 @@ public class MenuPrincipal extends MenuP {
         mainFrame.cambiarClave();
     }//GEN-LAST:event_btn_cambiarClaveActionPerformed
 
+    private void btn_helpActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_helpActionPerformed
+        // TODO add your handling code here:
+        mainFrame.ventanaAyuda();
+    }//GEN-LAST:event_btn_helpActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btn_cambiarClave;
+    private javax.swing.JToggleButton btn_help;
     private javax.swing.JToggleButton btn_info;
     private javax.swing.JButton btn_logout;
     private javax.swing.JButton btn_salir;

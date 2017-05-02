@@ -60,6 +60,7 @@ public class BaseConocimientoV extends MenuP {
         
         Comparator<HistorialTickets> compara = Collections.reverseOrder();
         Collections.sort(miLista,compara);
+        Integer cant =0;
         
         for(int i = 0; i < miLista.size();i++){
             v[0] = miLista.get(i).getFkTicket().toString();
@@ -76,7 +77,9 @@ public class BaseConocimientoV extends MenuP {
                 v[8] = miLista.get(i).getFkTicket().getPatrimonio();
             }
             modelo.addRow(v);
+            cant++;
         }
+        lblCant.setText(Integer.toString(cant)+" Tickets resueltos de: "+serviciosT.traerTodos().size());
         revalidate();
     }
 
@@ -92,6 +95,7 @@ public class BaseConocimientoV extends MenuP {
         jScrollPane1 = new javax.swing.JScrollPane();
         jt_conocimiento = new javax.swing.JTable();
         btn_volver = new javax.swing.JButton();
+        lblCant = new javax.swing.JLabel();
 
         setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Base de conocimiento", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("SansSerif", 0, 18), new java.awt.Color(255, 255, 255))); // NOI18N
 
@@ -137,6 +141,9 @@ public class BaseConocimientoV extends MenuP {
             }
         });
 
+        lblCant.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        lblCant.setForeground(new java.awt.Color(255, 255, 255));
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -147,16 +154,19 @@ public class BaseConocimientoV extends MenuP {
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 768, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(btn_volver)
-                        .addGap(0, 0, Short.MAX_VALUE)))
+                        .addGap(188, 188, 188)
+                        .addComponent(lblCant, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 477, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 476, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(btn_volver, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btn_volver, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lblCant, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(23, 23, 23))
         );
     }// </editor-fold>//GEN-END:initComponents
@@ -186,5 +196,6 @@ public class BaseConocimientoV extends MenuP {
     private javax.swing.JButton btn_volver;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jt_conocimiento;
+    private javax.swing.JLabel lblCant;
     // End of variables declaration//GEN-END:variables
 }

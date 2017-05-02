@@ -67,7 +67,7 @@ public class Versiones extends MenuP {
 
         jTextArea1.setColumns(20);
         jTextArea1.setRows(5);
-        jTextArea1.setText("A partir de version 5...\n**Version 5.1.0:\n- Se actualiza la lista de asuntos agregados sin\ntener que cerrar la aplicacion.\n- Orden descendente de Administracion de Tickets y\nTickets resueltos.\n- Single selection de las filas en las tablas.\n- Cambio de nombre de Mis Tickets a BandejaEntrada.\n- Se agrega ventana para BandejaSalida para tickets\nenviados.\n- Se quita la auto recepcion de tickets cuando inicia\nla aplicacion.\n- Orden filtro por area de usuario los tickets \nresuletos.\n");
+        jTextArea1.setText("A partir de version 5...\n**Version 5.1.0:  ************************************\n- Se actualiza la lista de asuntos agregados sin\ntener que cerrar la aplicacion.\n- Orden descendente de Administracion de Tickets y\nTickets resueltos.\n- Single selection de las filas en las tablas.\n- Cambio de nombre de Mis Tickets a BandejaEntrada.\n- Se agrega ventana para BandejaSalida para tickets\nenviados.\n- Se quita la auto recepcion de tickets cuando inicia\nla aplicacion.\n- Orden filtro por area de usuario los tickets \nresuletos.\n**Version 5.3.0:   ***********************************\n- Se cambia la vista del Login y se le agregan iconos.\n- Se agregan iconos al Menu Principal.\n- Se agrega boton de ayuda en Menu Principal.\n- Se agrega tab con ayudas segun tipo.\n- Se agregan manuales de ayuda en PDF.\n- Se agrega Ayuda a la barra de menu y acceso rapido con F11.\n**Version 5.3.1:   ***********************************\n- Se agrega ventana Mis servicios para consulta de los servicios del \n  usuario logueado.\n- Se auto selecciona el area del usuario en Nuevo ticket.\n- Se arregla continuidad de resolucion luego de cambiar el estado del\n  ticket desde administrador de deuda.\n- Si se carga una resolucion por transferencia, el ticket no se marca\n  como resuelto.\n- Se arregla continuidad de resolucion luego de enviar respuesta.");
         jScrollPane1.setViewportView(jTextArea1);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
@@ -81,7 +81,7 @@ public class Versiones extends MenuP {
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 143, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(0, 0, Short.MAX_VALUE))
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 455, Short.MAX_VALUE))
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 622, Short.MAX_VALUE))
                 .addContainerGap())
         );
         layout.setVerticalGroup(

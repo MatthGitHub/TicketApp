@@ -272,6 +272,8 @@ public class AsuntosPrin extends MenuP {
         // TODO add your handling code here:
         if((cmbx_areas.getSelectedIndex() != -1)&&(!cmbx_areas.getSelectedItem().equals("-"))){
             llenarTabla();
+        }else{
+            vaciarTabla(jt_asuntos);
         }
     }//GEN-LAST:event_cmbx_areasActionPerformed
 

@@ -51,7 +51,7 @@ public class AsuntoSinEncargadosP extends MenuP {
         String v[] = new String[1];
         
         for(int i = 0; i < miLista.size(); i++){
-            v[0] = miLista.get(i).getNombreasuntoS();
+            v[0] = miLista.get(i).getPertenece().getNombre()+" - "+miLista.get(i).getNombreasuntoS();
             modelo.addRow(v);
         }
         revalidate();

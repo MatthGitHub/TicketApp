@@ -10,7 +10,7 @@ import mscb.tick.negocio.entidades.Roles;
 import mscb.tick.negocio.entidades.Servicios;
 import mscb.tick.negocio.entidades.Tickets;
 
-@Generated(value="EclipseLink-2.5.2.v20140319-rNA", date="2017-04-25T11:49:45")
+@Generated(value="EclipseLink-2.5.2.v20140319-rNA", date="2017-05-02T10:41:27")
 @StaticMetamodel(Usuarios.class)
 public class Usuarios_ { 
 

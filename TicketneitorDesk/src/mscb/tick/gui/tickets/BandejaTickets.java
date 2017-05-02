@@ -267,7 +267,7 @@ public class BandejaTickets extends MenuP {
         btn_observacion.setFont(new java.awt.Font("SansSerif", 1, 10)); // NOI18N
         btn_observacion.setForeground(new java.awt.Color(0, 108, 118));
         btn_observacion.setIcon(new javax.swing.ImageIcon(getClass().getResource("/mscb/tick/resources/imagenes/icons/observation.png"))); // NOI18N
-        btn_observacion.setText("Ver observacion");
+        btn_observacion.setText("Ver observacion / Respuestas");
         btn_observacion.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btn_observacionActionPerformed(evt);
@@ -278,7 +278,7 @@ public class BandejaTickets extends MenuP {
         btn_verResp.setFont(new java.awt.Font("SansSerif", 1, 10)); // NOI18N
         btn_verResp.setForeground(new java.awt.Color(0, 108, 118));
         btn_verResp.setIcon(new javax.swing.ImageIcon(getClass().getResource("/mscb/tick/resources/imagenes/icons/email.png"))); // NOI18N
-        btn_verResp.setText("Ver respuestas");
+        btn_verResp.setText("Ver resolucion");
         btn_verResp.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btn_verRespActionPerformed(evt);
@@ -619,7 +619,7 @@ public class BandejaTickets extends MenuP {
             if(JOptionPane.showConfirmDialog(this, "Desea cargar una resolucion para el ticket?", "Base de conocimiento", JOptionPane.YES_NO_OPTION) == 0){
                 int ide = Integer.parseInt(modelo.getValueAt(jt_tickets.getSelectedRow(), 0).toString());
                 mainFrame.transferirTicket(serviciosT.buscarUno(ide));
-                mainFrame.resolucionTicket(serviciosT.buscarUno(ide));
+                mainFrame.resolucionTicketSinMarcar(serviciosT.buscarUno(ide));
                 llenarTabla();
             }else{
                 mainFrame.transferirTicket(serviciosT.buscarUno(Integer.parseInt(modelo.getValueAt(jt_tickets.getSelectedRow(), 0).toString())));

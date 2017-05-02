@@ -5,6 +5,7 @@
  */
 package mscb.tick.gui.tickets;
 
+import javax.swing.JFileChooser;
 import java.sql.Time;
 import java.util.Date;
 import java.util.List;
@@ -24,6 +25,12 @@ import mscb.tick.gui.main.Main;
 import mscb.tick.negocio.TicketServ;
 import mscb.tick.util.MenuP;
 import com.mxrck.autocompleter.TextAutoCompleter;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
+import javax.swing.filechooser.FileNameExtensionFilter;
 import mscb.tick.negocio.UsuarioServ;
 import mscb.tick.negocio.entidades.Usuarios;
 
@@ -48,7 +55,11 @@ public class NuevoTicket extends MenuP {
     private EstadoServ serviciosEst;
     private AreaServ serviciosA;
     private TextAutoCompleter textAutoAcompleter;
+    //Crear un objeto FileChooser
+    private JFileChooser fc;
     
+    private File archivoElegido;
+            
     /**
      * Creates new form NuevoTicket
      */
@@ -58,6 +69,7 @@ public class NuevoTicket extends MenuP {
         b = 0;
         this.mainFrame = mainFrame;
         setVisible(true);
+        txtArchivo.setVisible(false);
         lblAsunto.setVisible(false);
         lblServicio.setVisible(false);
         asteriscoAsunto.setVisible(false);
@@ -69,7 +81,14 @@ public class NuevoTicket extends MenuP {
         textAutoAcompleter.setMode(0);
         textAutoAcompleter.setCaseSensitive(false);
         llenarAreas();
-    }
+        cmbx_areas.setSelectedItem(LoginEJB.usuario.getFkEmpleado().getFkArea());
+        //Instanciamos
+        fc = new JFileChooser();
+        //Creamos el filtro
+        FileNameExtensionFilter filtro = new FileNameExtensionFilter("Textos", "txt","pdf","doc","docx");
+        //Le indicamos el filtro
+        fc.setFileFilter(filtro);
+        }
     
     public static NuevoTicket getNuevoTicket(Main mainFrame){
         if(form == null){
@@ -110,6 +129,43 @@ public class NuevoTicket extends MenuP {
             cmbx_usuarios.addItem(miListaU.get(i));
         }
     }
+    
+    
+    public static boolean copyFile(File source, File destination){
+		
+		try{
+		// Declares new buffer to read line by line
+		BufferedReader bufferR = new BufferedReader(
+				new FileReader(source));
+		// Declares new fileWriter to write the content of the
+		// file
+		FileWriter writer = new FileWriter(destination
+				.getAbsoluteFile());
+		// Uses bufferedWriter to allow string buffer and copy
+		BufferedWriter bufferW = new BufferedWriter(writer);
+		
+		String linea;
+			// While there are lines in the source file, it writes
+			// them to the destination file
+		while ((linea = bufferR.readLine()) != null) {
+			bufferW.write(linea);
+			bufferW.write(System.getProperty("line.separator"));
+			// adds line separator
+		}
+
+		// Close buffers to liberate memory
+		bufferR.close();
+		bufferW.close();
+
+		return true;
+		
+		}
+		catch(Exception e){
+			return false;
+		}
+	}
+
+
    
     /**
      * This method is called from within the constructor to initialize the form.
@@ -144,6 +200,8 @@ public class NuevoTicket extends MenuP {
         jLabel4 = new javax.swing.JLabel();
         lblusuario = new javax.swing.JLabel();
         cmbx_usuarios = new javax.swing.JComboBox();
+        btn_volver1 = new javax.swing.JButton();
+        txtArchivo = new javax.swing.JLabel();
 
         setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Nuevo pedido a sistemas", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("SansSerif", 0, 18), java.awt.Color.white)); // NOI18N
 
@@ -293,6 +351,21 @@ public class NuevoTicket extends MenuP {
             }
         });
 
+        btn_volver1.setBackground(new java.awt.Color(153, 153, 153));
+        btn_volver1.setFont(new java.awt.Font("SansSerif", 1, 12)); // NOI18N
+        btn_volver1.setForeground(new java.awt.Color(0, 108, 118));
+        btn_volver1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/mscb/tick/resources/imagenes/icons/back-arrow.png"))); // NOI18N
+        btn_volver1.setText("Adjuntar");
+        btn_volver1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_volver1ActionPerformed(evt);
+            }
+        });
+
+        txtArchivo.setFont(new java.awt.Font("Tahoma", 2, 18)); // NOI18N
+        txtArchivo.setForeground(new java.awt.Color(255, 255, 255));
+        txtArchivo.setText("Adjunto: ");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -302,25 +375,28 @@ public class NuevoTicket extends MenuP {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel7)
+                            .addComponent(jLabel5)
+                            .addComponent(jLabel6))
+                        .addGap(57, 57, 57)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(txt_areaE)
+                            .addComponent(txt_solicita)
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel4)
-                                .addGap(608, 608, 608))
-                            .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel7)
-                                    .addComponent(jLabel5)
-                                    .addComponent(jLabel6))
-                                .addGap(57, 57, 57)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(txt_areaE)
-                                    .addComponent(txt_solicita)
-                                    .addComponent(txt_patrimonio))))
+                                .addComponent(txt_patrimonio)
+                                .addGap(271, 271, 271)))
                         .addGap(21, 21, 21))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel4)
                             .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 454, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 185, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                                    .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 185, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                    .addComponent(txtArchivo, javax.swing.GroupLayout.PREFERRED_SIZE, 402, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(btn_volver1))
                                 .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
                                     .addComponent(btn_volver)
                                     .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -347,7 +423,7 @@ public class NuevoTicket extends MenuP {
                                         .addComponent(cmbx_areas, 0, 590, Short.MAX_VALUE)
                                         .addComponent(cmbx_asuntoSecundario, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                         .addComponent(cmbx_usuarios, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))))
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                        .addContainerGap(21, Short.MAX_VALUE))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -378,7 +454,7 @@ public class NuevoTicket extends MenuP {
                     .addComponent(cmbx_usuarios, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(8, 8, 8)
                 .addComponent(jLabel4)
-                .addGap(14, 14, 14)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 12, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel7)
                     .addComponent(txt_solicita, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -392,8 +468,12 @@ public class NuevoTicket extends MenuP {
                     .addComponent(jLabel6))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel3)
-                .addGap(18, 18, 18)
-                .addComponent(jLabel2)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jLabel2)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(btn_volver1, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(txtArchivo, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
@@ -415,6 +495,7 @@ public class NuevoTicket extends MenuP {
             for(int i = 0; i < miListaAS.size();i++){
                 cmbx_asuntoSecundario.addItem(miListaAS.get(i));
             }
+            cmbx_asuntoSecundario.setSelectedIndex(0);
             cmbx_asuntoSecundario.setVisible(true);
             lblServicio.setVisible(true);
             asteriscoServicio.setVisible(true);
@@ -527,6 +608,7 @@ public class NuevoTicket extends MenuP {
             b =0;
             cmbx_asuntoPrincipal.removeAllItems();
             llenarAsuntoPrincipal((Areas) cmbx_areas.getSelectedItem());
+            cmbx_asuntoPrincipal.setSelectedIndex(0);
             cmbx_asuntoPrincipal.setVisible(true);
             lblAsunto.setVisible(true);
             asteriscoAsunto.setVisible(true);
@@ -542,6 +624,24 @@ public class NuevoTicket extends MenuP {
         // TODO add your handling code here:
     }//GEN-LAST:event_cmbx_usuariosActionPerformed
 
+    private void btn_volver1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_volver1ActionPerformed
+        // TODO add your handling code here:
+        txtArchivo.setVisible(true);
+        //Mostrar la ventana para abrir archivo y recoger la respuesta
+        //En el parámetro del showOpenDialog se indica la ventana
+        //  al que estará asociado. Con el valor this se asocia a la
+        //  ventana que la abre.
+        int respuesta = fc.showSaveDialog(this);
+        //Comprobar si se ha pulsado Aceptar
+        if (respuesta == JFileChooser.APPROVE_OPTION)
+        {
+            //Crear un objeto File con el archivo elegido
+            archivoElegido = fc.getSelectedFile();
+            //Mostrar el nombre del archivo en un campo de texto
+            txtArchivo.setText(txtArchivo.getText()+archivoElegido.getName());
+        }
+    }//GEN-LAST:event_btn_volver1ActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel asteriscoArea;
@@ -549,6 +649,7 @@ public class NuevoTicket extends MenuP {
     private javax.swing.JLabel asteriscoServicio;
     private javax.swing.JButton btn_guardar;
     private javax.swing.JButton btn_volver;
+    private javax.swing.JButton btn_volver1;
     private javax.swing.JComboBox cmbx_areas;
     private javax.swing.JComboBox cmbx_asuntoPrincipal;
     private javax.swing.JComboBox cmbx_asuntoSecundario;
@@ -565,6 +666,7 @@ public class NuevoTicket extends MenuP {
     private javax.swing.JLabel lblServicio;
     private javax.swing.JLabel lblusuario;
     private javax.swing.JTextArea txtA_obs;
+    private javax.swing.JLabel txtArchivo;
     private javax.swing.JTextField txt_areaE;
     private javax.swing.JTextField txt_patrimonio;
     private javax.swing.JTextField txt_solicita;

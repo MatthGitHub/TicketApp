@@ -29,14 +29,17 @@ public class ResolucionP extends MenuP {
     private TicketServ serviciosT;
     private BandejaTickets panelMisti;
     private HistorialServ servH;
+    private String marcar;
     /**
      * Creates new form ResponderP
      */
-    private ResolucionP(Tickets miTick, ResolucionD mainFrame) {
+    private ResolucionP(Tickets miTick, ResolucionD mainFrame,String marcar) {
         initComponents();
         panelMisti = BandejaTickets.getBandejaTickets(mainFrameO);
         this.mainFrame = mainFrame;
         this.miTick = miTick;
+        this.marcar = marcar;
+        jLabel6.setVisible(false);
         lbl_ticket.setText(miTick.getIdTicket().toString());
         lbl_usuarioE.setText(miTick.getCreador().getNombreUsuario());
         lbl_areaE.setText(miTick.getCreador().getFkEmpleado().getFkArea().getNombreArea());
@@ -44,9 +47,9 @@ public class ResolucionP extends MenuP {
         setVisible(true);
     }
     
-    public static ResolucionP getResolucion(Tickets miTick, ResolucionD mainFrame){
+    public static ResolucionP getResolucion(Tickets miTick, ResolucionD mainFrame,String marcar){
         if(estePanel == null ){
-            estePanel = new ResolucionP(miTick, mainFrame);
+            estePanel = new ResolucionP(miTick, mainFrame,marcar);
         }
         return estePanel;
     }
@@ -73,6 +76,7 @@ public class ResolucionP extends MenuP {
         txtA_respuesta = new javax.swing.JTextArea();
         jLabel6 = new javax.swing.JLabel();
         txtTiempo = new javax.swing.JLabel();
+        jLabel7 = new javax.swing.JLabel();
 
         setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Resolucion", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("SansSerif", 0, 18), java.awt.Color.white)); // NOI18N
 
@@ -132,6 +136,10 @@ public class ResolucionP extends MenuP {
         txtTiempo.setFont(new java.awt.Font("SansSerif", 0, 11)); // NOI18N
         txtTiempo.setForeground(new java.awt.Color(0, 108, 118));
 
+        jLabel7.setFont(new java.awt.Font("SansSerif", 3, 14)); // NOI18N
+        jLabel7.setForeground(new java.awt.Color(0, 108, 118));
+        jLabel7.setText("Resolucion:");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -161,7 +169,8 @@ public class ResolucionP extends MenuP {
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(jLabel6)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(txtTiempo, javax.swing.GroupLayout.PREFERRED_SIZE, 186, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addComponent(txtTiempo, javax.swing.GroupLayout.PREFERRED_SIZE, 186, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jLabel7))
                         .addGap(0, 145, Short.MAX_VALUE)))
                 .addContainerGap())
         );
@@ -187,8 +196,10 @@ public class ResolucionP extends MenuP {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel6)
                     .addComponent(txtTiempo, javax.swing.GroupLayout.PREFERRED_SIZE, 17, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(15, 15, 15)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(11, 11, 11)
+                .addComponent(jLabel7)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 139, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btn_enviar)
@@ -212,7 +223,13 @@ public class ResolucionP extends MenuP {
         if(JOptionPane.showConfirmDialog(mainFrame, "Confirmar", "Seguro desea enviar?", JOptionPane.YES_NO_OPTION) == 0){
             servH = new HistorialServ();
             EstadoServ esta = new EstadoServ();
-            Estados estado = esta.traerEstado(5);
+            Estados estado;
+            if(marcar.equals("si")){
+                estado = esta.traerEstado(5);
+            }else{
+                estado = esta.traerEstado(1);
+            }
+            
             HistorialTickets his = new HistorialTickets();
             Date fecha = new Date();
             his.setFkTicket(miTick);
@@ -221,7 +238,7 @@ public class ResolucionP extends MenuP {
             if((reso == null)||(reso.isEmpty())){
                 his.setResolucion("Resolucion por "+LoginEJB.usuario+" : "+txtA_respuesta.getText());
             }else{
-                his.setResolucion(reso+"\n - - - - - Resolucion por "+LoginEJB.usuario+" : "+txtA_respuesta.getText());
+                his.setResolucion(reso+"\nResolucion por "+LoginEJB.usuario+" : "+txtA_respuesta.getText());
             }
             his.setFecha(fecha);
             his.setFkUsuario(LoginEJB.usuario);
@@ -244,6 +261,7 @@ public class ResolucionP extends MenuP {
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel lbl_areaE;
     private javax.swing.JLabel lbl_ticket;

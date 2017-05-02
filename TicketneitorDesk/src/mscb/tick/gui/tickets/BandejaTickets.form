@@ -254,7 +254,7 @@
         <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
           <Image iconType="3" name="/mscb/tick/resources/imagenes/icons/observation.png"/>
         </Property>
-        <Property name="text" type="java.lang.String" value="Ver observacion"/>
+        <Property name="text" type="java.lang.String" value="Ver observacion / Respuestas"/>
       </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btn_observacionActionPerformed"/>
@@ -274,7 +274,7 @@
         <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
           <Image iconType="3" name="/mscb/tick/resources/imagenes/icons/email.png"/>
         </Property>
-        <Property name="text" type="java.lang.String" value="Ver respuestas"/>
+        <Property name="text" type="java.lang.String" value="Ver resolucion"/>
       </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btn_verRespActionPerformed"/>

@@ -30,6 +30,7 @@ import mscb.tick.gui.tickets.Actualizador;
 import mscb.tick.gui.tickets.BandejaTickets;
 import mscb.tick.gui.tickets.NuevoTicket;
 import mscb.tick.gui.encargadoAsuntos.AsuntoSinEncargadoD;
+import mscb.tick.gui.encargadoAsuntos.MiServicios;
 import mscb.tick.negocio.entidades.Areas;
 //import mscb.tick.negocio.entidades.BaseConocimiento;
 import mscb.tick.negocio.entidades.Permisos;
@@ -69,6 +70,8 @@ public class Main extends javax.swing.JFrame {
     private Login ingreso;
     private MenuPrincipal mppal;
     private InfoD inf;
+    private AyudaD aiuda;
+    private MiServicios miser;
     private PermisoServ serviciosP;
     
     private UsuariosV usu;
@@ -296,6 +299,34 @@ public class Main extends javax.swing.JFrame {
         }
         revalidate();
     }
+    
+    
+    /**
+     * Ventana de ayuda de la app. Es un Frame
+     */
+    public void ventanaAyuda(){
+        if(aiuda == null){
+            aiuda = new AyudaD(this,true);
+        }else{
+            //aiuda.panelInfoP();
+            aiuda.setVisible(true);
+        }
+        revalidate();
+    }
+    
+    /**
+     * Ventana de ayuda de la app. Es un Frame
+     */
+    public void misServicios(){
+        if(miser == null){
+            miser = new MiServicios(this,true);
+        }else{
+            //miser.panelInfoP();
+            miser.setVisible(true);
+        }
+        revalidate();
+    }
+    
     /**
      * Llama a la ventana con la tabla de usuarios y sus menus.
      */
@@ -472,9 +503,23 @@ public class Main extends javax.swing.JFrame {
      */
     public void resolucionTicket(Tickets miTick){
         if(resoF == null){
-            resoF = new ResolucionD(this,true,miTick);
+            resoF = new ResolucionD(this,true,miTick,"si");
         }else{
-            resoF.ResolucionM(miTick);
+            resoF.ResolucionM(miTick,"si");
+            resoF.setVisible(true);
+        }
+        revalidate();
+    }
+    
+    /**
+     * Abre ventana para escribir la resolucion del ticket sin marcarlo resuelto
+     * @param miTick 
+     */
+    public void resolucionTicketSinMarcar(Tickets miTick){
+        if(resoF == null){
+            resoF = new ResolucionD(this,true,miTick,"no");
+        }else{
+            resoF.ResolucionM(miTick,"no");
             resoF.setVisible(true);
         }
         revalidate();
@@ -717,6 +762,7 @@ public class Main extends javax.swing.JFrame {
         mi_bandejaSalida = new javax.swing.JMenuItem();
         mi_nuevoTicket = new javax.swing.JMenuItem();
         mi_conocimiento = new javax.swing.JMenuItem();
+        mi_conocimiento1 = new javax.swing.JMenuItem();
         mi_salir = new javax.swing.JMenuItem();
         jm_administracion = new javax.swing.JMenu();
         mi_administrar = new javax.swing.JMenuItem();
@@ -730,6 +776,7 @@ public class Main extends javax.swing.JFrame {
         mi_asignar = new javax.swing.JMenuItem();
         mi_roles = new javax.swing.JMenuItem();
         mi_empleados = new javax.swing.JMenuItem();
+        mi_empleados1 = new javax.swing.JMenuItem();
 
         chkbx_thread.setText("jCheckBox1");
 
@@ -789,6 +836,16 @@ public class Main extends javax.swing.JFrame {
             }
         });
         jM_archivo.add(mi_conocimiento);
+
+        mi_conocimiento1.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_M, java.awt.event.InputEvent.CTRL_MASK));
+        mi_conocimiento1.setFont(new java.awt.Font("SansSerif", 0, 11)); // NOI18N
+        mi_conocimiento1.setText("Mis servicios");
+        mi_conocimiento1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mi_conocimiento1ActionPerformed(evt);
+            }
+        });
+        jM_archivo.add(mi_conocimiento1);
 
         mi_salir.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_Q, java.awt.event.InputEvent.CTRL_MASK));
         mi_salir.setFont(new java.awt.Font("SansSerif", 0, 11)); // NOI18N
@@ -880,7 +937,7 @@ public class Main extends javax.swing.JFrame {
 
         mi_asignar.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_U, java.awt.event.InputEvent.ALT_MASK));
         mi_asignar.setFont(new java.awt.Font("SansSerif", 0, 11)); // NOI18N
-        mi_asignar.setText("Asignar asuntos a usuarios");
+        mi_asignar.setText("Asignar servicios a usuario");
         mi_asignar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 mi_asignarActionPerformed(evt);
@@ -907,6 +964,16 @@ public class Main extends javax.swing.JFrame {
             }
         });
         jM_configuracion.add(mi_empleados);
+
+        mi_empleados1.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F11, 0));
+        mi_empleados1.setFont(new java.awt.Font("SansSerif", 0, 11)); // NOI18N
+        mi_empleados1.setText("Ayuda");
+        mi_empleados1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mi_empleados1ActionPerformed(evt);
+            }
+        });
+        jM_configuracion.add(mi_empleados1);
 
         jMB_bar.add(jM_configuracion);
 
@@ -1025,6 +1092,18 @@ public class Main extends javax.swing.JFrame {
         this.repaint();
     }//GEN-LAST:event_mi_bandejaSalidaActionPerformed
 
+    private void mi_empleados1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mi_empleados1ActionPerformed
+        // TODO add your handling code here:
+        //this.getContentPane().removeAll();
+        ventanaAyuda();
+        //this.repaint();
+    }//GEN-LAST:event_mi_empleados1ActionPerformed
+
+    private void mi_conocimiento1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mi_conocimiento1ActionPerformed
+        // TODO add your handling code here:
+        misServicios();
+    }//GEN-LAST:event_mi_conocimiento1ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -1070,7 +1149,9 @@ public class Main extends javax.swing.JFrame {
     private javax.swing.JMenuItem mi_bandejaEntrada;
     private javax.swing.JMenuItem mi_bandejaSalida;
     private javax.swing.JMenuItem mi_conocimiento;
+    private javax.swing.JMenuItem mi_conocimiento1;
     private javax.swing.JMenuItem mi_empleados;
+    private javax.swing.JMenuItem mi_empleados1;
     private javax.swing.JMenuItem mi_estadoPGM;
     private javax.swing.JMenuItem mi_inicio;
     private javax.swing.JMenuItem mi_nuevoTicket;

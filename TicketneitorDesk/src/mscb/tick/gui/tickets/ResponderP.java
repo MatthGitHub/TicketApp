@@ -214,6 +214,7 @@ public class ResponderP extends MenuP {
             his.setFkUsuario(LoginEJB.usuario);
             his.setFkTicket(miTick);
             his.setFecha(fecha);
+            his.setResolucion(miTick.getResolucion());
             serviciosT.modificarTicket(miTick);
             servH.nuevo(his);
             panelMisti.llenarTabla();

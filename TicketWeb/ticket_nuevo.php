@@ -78,7 +78,7 @@ while( $fila = $result->fetch_array() )
 		<h4 class="text-center bg-info">Nuevo Ticket</h4>
 
 	<div class="container">
-		<form name="form1" method="post" action="insertar.php?tipo=ticket">
+		<form name="form1" enctype="multipart/form-data" method="post" action="insertar.php?tipo=ticket">
 		<div class="row">
 			<div class="col-md-4 col-md-offset-4">
 				<div class="panel panel-default">
@@ -117,6 +117,13 @@ while( $fila = $result->fetch_array() )
 								<input type="text" class="form-control"  name="interno" id="interno" value="" />
 							</div>
 						</div>
+
+            <div class="form-group">
+ 							<div class="input-group">
+                <input type="hidden" name="MAX_FILE_SIZE" value="5000000" />
+ 								<input name="archivo" type="file" />
+ 							</div>
+ 						</div>
 
 					   <div class="form-group">
 						   <span class="input-group-addon"><i class="fa fa-commenting-o fw" aria-hidden="true"></i> Observaciones</span>

@@ -73,6 +73,7 @@ if($tipo == 'ticket'){
       $hora = date('Y-m-d H:i:s');
       $usuario = $_SESSION['id_usuario'];
 
+
       $link = mysqli_connect ($dbhost, $dbusername, $dbuserpass);
       mysqli_select_db($link,$dbname);
 
@@ -89,8 +90,35 @@ if($tipo == 'ticket'){
           header ("Location: ticket_nuevo.php?errordat");
 
       } else {
+        //--------------------------------------------------- Subo adjunto al servidor, dentro de la carpeta de archivos -----------------------------------------------------
+        $uploadedfileload="true";
+        $uploadedfile_size=$_FILES["archivo"]['size'];
+        $tipo_archivo = $_FILES["archivo"]['type'];
 
-           header ("Location: tickets_recientes.php");
+/*        echo $_FILES['uploadedfile'][name];
+
+        if ($_FILES[uploadedfile][size]>5000000){
+          $msg=$msg."El archivo es mayor que 5000KB, debes reduzcirlo antes de subirlo<BR>";
+          $uploadedfileload="false";
+        }
+
+       if (!(strpos($tipo_archivo, "pdf") || strpos($tipo_archivo, "jpeg") || strpos($tipo_archivo, "png")|| strpos($tipo_archivo, "txt"))){
+          $msg=$msg." Tu archivo tiene que ser PDF o DOC. Otros archivos no son permitidos<BR>";
+          $uploadedfileload="false";
+        }*/
+
+        $file_name=$_FILES["archivo"]['name'];
+        $add="archivos/$file_name";
+        if($uploadedfileload=="true"){
+          if(copy ($_FILES["archivo"]['tmp_name'], $add)){
+            echo " Ha sido subido satisfactoriamente";
+          }else{
+              echo "Error al subir el archivo";
+          }
+        }else{
+          echo $msg;
+        }
+        header ("Location: tickets_recientes.php");
 
       }
 

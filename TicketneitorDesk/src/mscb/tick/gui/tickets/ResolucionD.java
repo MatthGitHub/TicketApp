@@ -20,7 +20,7 @@ public class ResolucionD extends javax.swing.JDialog {
     /**
      * Creates new form ResolucionD
      */
-    public ResolucionD(JFrame parent, boolean modal, Tickets miTick) {
+    public ResolucionD(JFrame parent, boolean modal, Tickets miTick,String marcar) {
         super(parent, modal);
         initComponents();
         setDefaultCloseOperation(0);
@@ -30,7 +30,7 @@ public class ResolucionD extends javax.swing.JDialog {
         this.miTick = miTick;
         setTitle("Resolucion");
         this.setSize(520, 380);
-        ResolucionM(miTick);
+        ResolucionM(miTick,marcar);
         pack();
         setVisible(true);
     }
@@ -39,8 +39,8 @@ public class ResolucionD extends javax.swing.JDialog {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     
-     public void ResolucionM(Tickets miTick){
-        miPanel = ResolucionP.getResolucion(miTick, this);
+     public void ResolucionM(Tickets miTick,String marcar){
+        miPanel = ResolucionP.getResolucion(miTick, this,marcar);
         
         if(!miPanel.isVisible() == false){
             getContentPane().add(miPanel);

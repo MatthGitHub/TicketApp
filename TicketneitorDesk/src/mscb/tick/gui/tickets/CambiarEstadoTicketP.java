@@ -202,6 +202,7 @@ public class CambiarEstadoTicketP extends MenuP {
             his.setFecha(fecha);
             his.setFkTicket(miTick);
             his.setFkUsuario(LoginEJB.usuario);
+            his.setResolucion(miTick.getResolucion());
             servH.nuevo(his);
             TicketsV tickete = TicketsV.getTickets(mainFrameO);
             tickete.llenarTabla();
