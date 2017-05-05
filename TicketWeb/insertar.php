@@ -58,7 +58,9 @@ if($tipo == 'usuario'){
 
     }
 }
-
+//---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+//*********************************************************************************************************************************************************************************
+//---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 if($tipo == 'ticket'){
     // Si es ticket comprobamos que ning�n campo est� vac�o y que todos los campos existan.
     if(isset($_POST['asunto']) && isset($_POST['servicios']) && isset($_POST['area'])
@@ -72,18 +74,41 @@ if($tipo == 'ticket'){
       $time = time();
       $hora = date('Y-m-d H:i:s');
       $usuario = $_SESSION['id_usuario'];
-
+      $adjunto = $_FILES["archivo"]['name'];
+      $tipo_archivo = $_FILES["archivo"]['type'];
 
       $link = mysqli_connect ($dbhost, $dbusername, $dbuserpass);
       mysqli_select_db($link,$dbname);
 
-      // Con esta sentencia SQL insertaremos los datos en la base de datos
-      mysqli_query($link,"INSERT INTO tickets (fecha,hora,creador,servicio,observacion)
-      VALUES ('{$fecha}','{$hora}','{$usuario}','{$servicio}','{$obs}')");
-      // Ahora comprobaremos que todo ha ido correctamente
-      $my_error = mysqli_error();
-      $idTicket = mysqli_insert_id($link);
-      mysqli_query($link,"INSERT INTO historial_tickets (fk_ticket,fk_usuario,fecha,fk_estado) VALUES ({$idTicket},'{$usuario}','{$fecha}',1)");
+      if ((strpos($tipo_archivo, "pdf") || strpos($tipo_archivo, "jpeg") || strpos($tipo_archivo, "doc") || strpos($tipo_archivo, "txt") || strpos($tipo_archivo, "docx"))){
+        // Con esta sentencia SQL insertaremos los datos en la base de datos
+        mysqli_query($link,"INSERT INTO tickets (fecha,hora,creador,servicio,observacion)
+        VALUES ('{$fecha}','{$hora}','{$usuario}','{$servicio}','{$obs}')");
+        // Ahora comprobaremos que todo ha ido correctamente
+        $my_error = mysqli_error();
+        $idTicket = mysqli_insert_id($link);
+        mysqli_query($link,"INSERT INTO historial_tickets (fk_ticket,fk_usuario,fecha,fk_estado) VALUES ({$idTicket},'{$usuario}','{$fecha}',1)");
+
+        switch($tipo_archivo){
+          case 'application/pdf':
+              $adjunto = $idTicket.'.pdf';
+              break;
+          case 'text/plain':
+            $adjunto = $idTicket.'.txt';
+            break;
+          case 'application/vnd.openxmlformats-officedocument.wordprocessingml.document':
+            $adjunto = $idTicket.'.docx';
+            break;
+          case 'application/msword':
+            $adjunto = $idTicket.'.doc';
+            break;
+          case 'image/jpeg':
+            $adjunto = $idTicket.'.jpg';
+            break;
+        }
+        mysqli_query($link,"UPDATE tickets SET adjunto = '$adjunto' WHERE id_ticket = $idTicket");
+
+      }
 
       if(!empty($my_error)) {
 
@@ -93,22 +118,22 @@ if($tipo == 'ticket'){
         //--------------------------------------------------- Subo adjunto al servidor, dentro de la carpeta de archivos -----------------------------------------------------
         $uploadedfileload="true";
         $uploadedfile_size=$_FILES["archivo"]['size'];
-        $tipo_archivo = $_FILES["archivo"]['type'];
 
-/*        echo $_FILES['uploadedfile'][name];
 
-        if ($_FILES[uploadedfile][size]>5000000){
+        echo $_FILES["archivo"]['name'];
+
+        if ($_FILES["archivo"]['size']>5000000){
           $msg=$msg."El archivo es mayor que 5000KB, debes reduzcirlo antes de subirlo<BR>";
           $uploadedfileload="false";
         }
 
-       if (!(strpos($tipo_archivo, "pdf") || strpos($tipo_archivo, "jpeg") || strpos($tipo_archivo, "png")|| strpos($tipo_archivo, "txt"))){
+       if (!(strpos($tipo_archivo, "pdf") || strpos($tipo_archivo, "jpeg") || strpos($tipo_archivo, "doc")|| strpos($tipo_archivo, "txt"))){
           $msg=$msg." Tu archivo tiene que ser PDF o DOC. Otros archivos no son permitidos<BR>";
           $uploadedfileload="false";
-        }*/
+        }
 
         $file_name=$_FILES["archivo"]['name'];
-        $add="archivos/$file_name";
+        $add="archivos/$adjunto";
         if($uploadedfileload=="true"){
           if(copy ($_FILES["archivo"]['tmp_name'], $add)){
             echo " Ha sido subido satisfactoriamente";

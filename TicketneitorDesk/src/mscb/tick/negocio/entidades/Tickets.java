@@ -45,6 +45,9 @@ import mscb.tick.negocio.UsuarioServ;
     @NamedQuery(name = "Tickets.findByTiempoResolucion", query = "SELECT t FROM Tickets t WHERE t.tiempoResolucion = :tiempoResolucion")})
 public class Tickets implements Serializable,Comparable<Tickets> {
 
+    @Column(name = "adjunto")
+    private String adjunto;
+
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -210,6 +213,14 @@ public class Tickets implements Serializable,Comparable<Tickets> {
             return 1;
         }
         return 0;
+    }
+
+    public String getAdjunto() {
+        return adjunto;
+    }
+
+    public void setAdjunto(String adjunto) {
+        this.adjunto = adjunto;
     }
     
 }

@@ -2,23 +2,27 @@
 include('inc/config.php');
 include('inc/validar.php');
 
+
+
+
 $id_usuario =  $_SESSION["id_usuario"];
 // Conectar a la base de datos
 $link = mysqli_connect ($dbhost, $dbusername, $dbuserpass);
+mysqli_set_charset($link,'utf8');
 mysqli_select_db($link,$dbname) or die('No se puede seleccionar la base de datos');
-$query = mysqli_query($link," SELECT id_ticket,ht.fecha,hora,nombre,observacion, resolucion
+$query = mysqli_query($link,"SELECT id_ticket,ht.fecha,SUBSTRING(CAST(hora AS CHAR),11,24) AS hora,nombre,observacion, resolucion
                               FROM tickets t
                               JOIN historial_tickets ht ON ht.fk_ticket = t.id_ticket
                               JOIN estados e ON ht.fk_estado = e.id_estado
                               WHERE t.creador = $id_usuario
                               AND ht.fk_estado NOT IN (7,5)
-                              AND ht.id_historial IN (SELECT MAX(id_historial) FROM historial_tickets WHERE fk_ticket = t.id_ticket)") or die(mysql_error());
-
+                              AND ht.id_historial IN (SELECT MAX(id_historial) FROM historial_tickets WHERE fk_ticket = t.id_ticket)
+                              ORDER by id_ticket DESC") or die(mysql_error());
 ?>
 
 <!DOCTYPE html>
 <html lang="en">
-  <head>
+  <head >
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -61,8 +65,7 @@ $query = mysqli_query($link," SELECT id_ticket,ht.fecha,hora,nombre,observacion,
         },
         "scrollY":        "500px",
         "scrollCollapse": true,
-        "columnDefs": [{ type: 'date-uk', targets: 0 }],
-        "order":[[0,"desc"],[1,"desc"]]
+        "order":[[0,"desc"]]
           } );
     } );
 	</script>
@@ -82,9 +85,8 @@ $query = mysqli_query($link," SELECT id_ticket,ht.fecha,hora,nombre,observacion,
 				<thead>
 					  <tr>
 						<th> Numero de ticket </th>
-						<th> Fecha </th>
-								<th> Hora </th>
-								<th> Resolucion </th>
+						<th width="10%"> Fecha </th>
+						<th> Hora </th>
 						<th> Estado </th>
 						<th> Observacion </th>
 						<th> Responder </th>
@@ -96,10 +98,9 @@ $query = mysqli_query($link," SELECT id_ticket,ht.fecha,hora,nombre,observacion,
 							<td> <?php echo $tickets['id_ticket']; ?> </td>
 							<td> <?php echo $tickets['fecha']; ?> </td>
 							<td> <?php echo $tickets['hora']; ?> </td>
-							<td> <?php echo $tickets['resolucion']; ?> </td>
 							<td> <?php echo $tickets['nombre']; ?> </td>
 							<td> <?php echo $tickets['observacion'];?></td>
-							<td> </td>
+              <td> <button type="submit" id="idTicket" name="idTicket" class="btn btn-sm btn-primary"  onclick="location.href='detalle_ticket_responder.php?idTicket=<?php echo $tickets['id_ticket']; ?>';"><i class="fa fa-address-book-o fa-fw"></i></button> </td>
 						</tr>
 						<?php } ?>
 					</tbody>

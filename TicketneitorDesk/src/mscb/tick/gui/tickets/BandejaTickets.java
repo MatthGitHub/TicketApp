@@ -5,6 +5,9 @@
  */
 package mscb.tick.gui.tickets;
 
+import java.awt.Desktop;
+import java.io.File;
+import java.io.IOException;
 import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -74,7 +77,7 @@ public class BandejaTickets extends MenuP {
         miLista = serviciosT.buscarPorUsuarioAsunto();
         //cambiarEstadoDeTicketsRecibidos(); esta funcion cambia el estado del ticket a recibido porquien abre la app
         
-        String v[] = new String[8];
+        String v[] = new String[9];
         DateFormat dateFormatter;
         dateFormatter = DateFormat.getDateInstance(DateFormat.SHORT, Locale.UK);
 
@@ -95,6 +98,11 @@ public class BandejaTickets extends MenuP {
             }else{
                 v[7] = miLista.get(i).getPatrimonio();
             }
+            if((miLista.get(i).getAdjunto() == null)||(miLista.get(i).getAdjunto().isEmpty())){
+                v[8] = "Sin";
+            }else{
+                v[8] = miLista.get(i).getAdjunto();
+            }
             modelo.addRow(v);
         }
         revalidate();
@@ -103,7 +111,7 @@ public class BandejaTickets extends MenuP {
     
     private void llenarTablaBuscador(List <Tickets> busca) {
         vaciarTabla(jt_tickets);
-        String v[] = new String[8];
+        String v[] = new String[9];
         DateFormat dateFormatter;
         dateFormatter = DateFormat.getDateInstance(DateFormat.SHORT, Locale.US);
 
@@ -125,6 +133,11 @@ public class BandejaTickets extends MenuP {
             }else{
                 v[7] = miLista.get(i).getPatrimonio();
             }
+            if((miLista.get(i).getAdjunto() == null)||(miLista.get(i).getAdjunto().isEmpty())){
+                v[8] = "Sin";
+            }else{
+                v[8] = miLista.get(i).getAdjunto();
+            }
             modelo.addRow(v);
 
         }
@@ -145,6 +158,25 @@ public class BandejaTickets extends MenuP {
             JOptionPane.showMessageDialog(null, "Error al limpiar la tabla.");
         }
     }
+    
+    /**
+     * Abrir archivo externo
+     * @param archivo 
+     */
+    public void abrirArchivo(String archivo){
+
+     try {
+
+            File objetofile = new File (archivo);
+            Desktop.getDesktop().open(objetofile);
+
+     }catch (IOException ex) {
+
+            System.out.println(ex);
+
+     }
+
+}        
     
     /**
      *Cambia el estado de los tickets enviados a recibidos 
@@ -190,6 +222,7 @@ public class BandejaTickets extends MenuP {
         btn_volver = new javax.swing.JButton();
         btn_responder1 = new javax.swing.JButton();
         btn_trabajando = new javax.swing.JButton();
+        btn_ver_adjunto = new javax.swing.JButton();
 
         setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Mis Tickets", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("SansSerif", 0, 18), java.awt.Color.white)); // NOI18N
         setMinimumSize(new java.awt.Dimension(827, 569));
@@ -228,14 +261,14 @@ public class BandejaTickets extends MenuP {
 
             },
             new String [] {
-                "Nº Ticket", "Fecha", "Area Emisor", "Usuario Emisor", "Estado", "Asunto", "Usuario receptor", "Patrimonio"
+                "Nº Ticket", "Fecha", "Area Emisor", "Usuario Emisor", "Estado", "Asunto", "Usuario receptor", "Patrimonio", "Adjunto"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.Object.class, java.lang.Object.class
+                java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class
             };
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false, false, false
+                false, false, false, false, false, false, false, false, false
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -383,6 +416,17 @@ public class BandejaTickets extends MenuP {
             }
         });
 
+        btn_ver_adjunto.setBackground(new java.awt.Color(153, 153, 153));
+        btn_ver_adjunto.setFont(new java.awt.Font("SansSerif", 1, 10)); // NOI18N
+        btn_ver_adjunto.setForeground(new java.awt.Color(0, 108, 118));
+        btn_ver_adjunto.setIcon(new javax.swing.ImageIcon(getClass().getResource("/mscb/tick/resources/imagenes/icons/attachment.png"))); // NOI18N
+        btn_ver_adjunto.setText("Ver adjunto");
+        btn_ver_adjunto.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_ver_adjuntoActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -394,18 +438,11 @@ public class BandejaTickets extends MenuP {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(btn_tomar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(btn_volver, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btn_transferir)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                .addGap(0, 0, Short.MAX_VALUE)
-                                .addComponent(btn_responder1, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addGroup(layout.createSequentialGroup()
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(btn_observacion)
+                                .addComponent(btn_transferir)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(btn_verResp))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                                 .addComponent(btn_responder)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(btn_enEspera)
@@ -414,7 +451,16 @@ public class BandejaTickets extends MenuP {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(btn_trabajando)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(btn_refrescar))))
+                                .addComponent(btn_refrescar))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(168, 168, 168)
+                                .addComponent(btn_responder1, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(btn_ver_adjunto, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(btn_observacion)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(btn_verResp))))
                     .addComponent(jScrollPane1)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addComponent(txt_buscar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -451,7 +497,8 @@ public class BandejaTickets extends MenuP {
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(btn_volver, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(btn_observacion, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(btn_verResp, javax.swing.GroupLayout.DEFAULT_SIZE, 43, Short.MAX_VALUE)))
+                        .addComponent(btn_verResp, javax.swing.GroupLayout.DEFAULT_SIZE, 43, Short.MAX_VALUE)
+                        .addComponent(btn_ver_adjunto, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
     }// </editor-fold>//GEN-END:initComponents
@@ -663,6 +710,17 @@ public class BandejaTickets extends MenuP {
         }
     }//GEN-LAST:event_btn_enEsperaActionPerformed
 
+    private void btn_ver_adjuntoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_ver_adjuntoActionPerformed
+        // TODO add your handling code here:
+        if(serviciosT.buscarUno(Integer.parseInt(modelo.getValueAt(jt_tickets.getSelectedRow(), 0).toString())).getAdjunto() != null){
+            String arch = "\\\\10.20.130.242\\www\\TicketWeb\\archivos\\"+serviciosT.buscarUno(Integer.parseInt(modelo.getValueAt(jt_tickets.getSelectedRow(), 0).toString())).getAdjunto();
+        abrirArchivo(arch);
+        }else{
+            JOptionPane.showMessageDialog(this, "Este ticket no posse adjunto");
+        }
+        
+    }//GEN-LAST:event_btn_ver_adjuntoActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btn_enEspera;
@@ -675,6 +733,7 @@ public class BandejaTickets extends MenuP {
     private javax.swing.JButton btn_trabajando;
     private javax.swing.JButton btn_transferir;
     private javax.swing.JButton btn_verResp;
+    private javax.swing.JButton btn_ver_adjunto;
     private javax.swing.JButton btn_volver;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jt_tickets;

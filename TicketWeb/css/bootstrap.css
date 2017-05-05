@@ -3553,6 +3553,34 @@ input[type="reset"].btn-block,
 input[type="button"].btn-block {
   width: 100%;
 }
+.btn-file {
+    position: absolute;
+    overflow: hidden;
+  padding: 9px 16px;
+  font-size: 14px;
+  font-weight: normal;
+  line-height: 1;
+  text-align: center;
+  border-radius: 4px;
+  background-color: #006c76;
+  border-color: #006c76;
+  color: #fff;
+}
+.btn-file input[type=file] {
+    position: absolute;
+    top: 0;
+    right: 0;
+    min-width: 100%;
+    min-height: 100%;
+    font-size: 100px;
+    text-align: right;
+    filter: alpha(opacity=0);
+    opacity: 0;
+    outline: none;
+    background: white;
+    cursor: inherit;
+    display: block;
+}
 .fade {
   opacity: 0;
   -webkit-transition: opacity .15s linear;

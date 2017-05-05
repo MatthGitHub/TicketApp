@@ -5,6 +5,7 @@ include('inc/validar.php');
 // Conectar a la base de datos
 $link = mysqli_connect ($dbhost, $dbusername, $dbuserpass);
 mysqli_select_db($link,$dbname) or die('No se puede seleccionar la base de datos');
+mysqli_set_charset($link,'utf8');
 $query = mysqli_query($link,"SELECT DISTINCT id_area,nombre_area FROM asuntos JOIN areas ON fk_area = id_area") or die(mysql_error());
 $query2 = mysqli_query($link,"SELECT * FROM servicios") or die(mysql_error());
 
@@ -118,12 +119,14 @@ while( $fila = $result->fetch_array() )
 							</div>
 						</div>
 
-            <div class="form-group">
- 							<div class="input-group">
-                <input type="hidden" name="MAX_FILE_SIZE" value="5000000" />
- 								<input name="archivo" type="file" />
- 							</div>
- 						</div>
+						<div class="form-group">
+							<div class="input-group">
+								<div class='input-group'>
+									<span class="btn btn-default btn-file"><i class="fa fa-paperclip fa-fw"></i><input name="archivo" type="file" hidden>Seleccione un archivo...</span>
+								</div>
+							</div>
+						</div>
+						<br><br>
 
 					   <div class="form-group">
 						   <span class="input-group-addon"><i class="fa fa-commenting-o fw" aria-hidden="true"></i> Observaciones</span>

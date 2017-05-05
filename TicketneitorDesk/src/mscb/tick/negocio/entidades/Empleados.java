@@ -39,6 +39,10 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Empleados.findByLegajo", query = "SELECT e FROM Empleados e WHERE e.legajo = :legajo")})
 public class Empleados implements Serializable {
 
+    @Basic(optional = false)
+    @Column(name = "legajo")
+    private Integer legajo;
+
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -54,9 +58,6 @@ public class Empleados implements Serializable {
     @Basic(optional = false)
     @Column(name = "documento")
     private String documento;
-    @Basic(optional = false)
-    @Column(name = "legajo")
-    private Integer legajo;
     @JoinColumn(name = "fk_area", referencedColumnName = "id_area")
     @ManyToOne(optional = false)
     private Areas fkArea;
@@ -110,13 +111,6 @@ public class Empleados implements Serializable {
         this.documento = documento;
     }
 
-    public Integer getLegajo() {
-        return legajo;
-    }
-
-    public void setLegajo(Integer legajo) {
-        this.legajo = legajo;
-    }
 
     public Areas getFkArea() {
         return fkArea;
@@ -158,6 +152,14 @@ public class Empleados implements Serializable {
     @Override
     public String toString() {
         return this.nombre+" "+this.apellido;
+    }
+
+    public Integer getLegajo() {
+        return legajo;
+    }
+
+    public void setLegajo(Integer legajo) {
+        this.legajo = legajo;
     }
     
 }

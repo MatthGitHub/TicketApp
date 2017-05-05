@@ -9,7 +9,7 @@ import mscb.tick.negocio.entidades.RazonesTransferencias;
 import mscb.tick.negocio.entidades.Tickets;
 import mscb.tick.negocio.entidades.Usuarios;
 
-@Generated(value="EclipseLink-2.5.2.v20140319-rNA", date="2017-05-02T10:41:27")
+@Generated(value="EclipseLink-2.5.2.v20140319-rNA", date="2017-05-04T14:49:38")
 @StaticMetamodel(HistorialTickets.class)
 public class HistorialTickets_ { 
 
