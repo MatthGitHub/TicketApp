@@ -16,8 +16,20 @@ import mscb.tick.negocio.entidades.RazonesTransferencias;
  * @author Administrador
  */
 public class RazoneServ {
-    EntityManagerFactory emf = Persistence.createEntityManagerFactory("TicketneitorPU");
-    RazonesTransferenciasJpaController jpa = new RazonesTransferenciasJpaController(emf);
+    private EntityManagerFactory emf = Persistence.createEntityManagerFactory("TicketneitorPU");
+    private RazonesTransferenciasJpaController jpa = new RazonesTransferenciasJpaController(emf);
+    private static RazoneServ esto;
+    
+    private RazoneServ(){
+        
+    }
+    
+    public static RazoneServ getRazoneServ(){
+        if(esto == null){
+            esto = new RazoneServ();
+        }
+        return esto;
+    }
     
     public List<RazonesTransferencias> traerTodos(){
         return jpa.findRazonesTransferenciasEntities();

@@ -36,8 +36,8 @@ public class CambiarTipoP extends MenuP {
      */
     public CambiarTipoP(CambiarTipoD mainFrame, Usuarios usu,Main mainFrameO) {
         initComponents();
-        serviciosP = new RoleServ();
-        serviciosU = new UsuarioServ();
+        serviciosP = RoleServ.getRoleServ();
+        serviciosU = UsuarioServ.getUsuarioServ();
         this.mainFrame = mainFrame;
         this.mainFrameO = mainFrameO;
         setSize(260, 360);

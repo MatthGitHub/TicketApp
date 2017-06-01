@@ -19,9 +19,20 @@ import mscb.tick.negocio.entidades.Areas;
  * @author Administrador
  */
 public class AreaServ {
-    EntityManagerFactory emf = Persistence.createEntityManagerFactory("TicketneitorPU");
-    AreasJpaController jpa = new AreasJpaController(emf);
-    List<Areas> miLista;
+    private EntityManagerFactory emf = Persistence.createEntityManagerFactory("TicketneitorPU");
+    private AreasJpaController jpa = new AreasJpaController(emf);
+    private List<Areas> miLista;
+    private static AreaServ esto;
+    private AreaServ(){
+        
+    }
+    
+    public static AreaServ getAreaServ(){
+        if(esto == null){
+            esto = new AreaServ();
+        }
+        return esto;
+    }
     
     public List<Areas> traerTodasconAsuntos(){
          miLista = jpa.findAreasEntities();

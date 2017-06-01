@@ -34,7 +34,7 @@ public class AsuntoSinEncargadosP extends MenuP {
         setSize(360, 320);
         setVisible(true);
         modelo = (DefaultTableModel) jt_asuntos.getModel();
-        servicioA = new AsuntoSecundarioServ();
+        servicioA = AsuntoSecundarioServ.getAsuntoPrincipalServ();
         llenarTabla();
     }
     

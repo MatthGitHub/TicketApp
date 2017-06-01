@@ -22,8 +22,20 @@ public class AsuntoSecundarioServ {
     private List <Servicios> miLista;
     private List <Servicios> aux;
     
-    EntityManagerFactory emf = Persistence.createEntityManagerFactory("TicketneitorPU");
-    ServiciosJpaController jpa = new ServiciosJpaController(emf);
+    private EntityManagerFactory emf = Persistence.createEntityManagerFactory("TicketneitorPU");
+    private ServiciosJpaController jpa = new ServiciosJpaController(emf);
+    private static AsuntoSecundarioServ esto;
+    
+    private AsuntoSecundarioServ(){
+        
+    }
+    
+    public static AsuntoSecundarioServ getAsuntoPrincipalServ(){
+        if(esto == null){
+            esto = new AsuntoSecundarioServ();
+        }
+        return esto;
+    }
     
     public List <Servicios> traerPorAreaPrincipal(Asuntos asunto){
         

@@ -22,8 +22,20 @@ import mscb.tick.negocio.entidades.Usuarios;
  * @author Administrador
  */
 public class HistorialServ {
-    EntityManagerFactory emf = Persistence.createEntityManagerFactory("TicketneitorPU");
-    HistorialTicketsJpaController jpa = new HistorialTicketsJpaController(emf);
+    private EntityManagerFactory emf = Persistence.createEntityManagerFactory("TicketneitorPU");
+    private HistorialTicketsJpaController jpa = new HistorialTicketsJpaController(emf);
+    private static HistorialServ esto;
+    
+    private HistorialServ(){
+        
+    }
+    
+    public static HistorialServ getHistorialServ(){
+        if(esto == null){
+            esto = new HistorialServ();
+        }
+        return esto;
+    }
     
     public List<HistorialTickets> traerTodos(){
         return jpa.findHistorialTicketsEntities();
@@ -98,23 +110,25 @@ public class HistorialServ {
     }
     
     public HistorialTickets buscarUltimo(Tickets miTick){
-        List<HistorialTickets> miLista = jpa.findHistorialTicketsEntities();
-        List<HistorialTickets> aux = new ArrayList<>();
-        List<HistorialTickets> aux2 = new ArrayList<>();
+        //List<HistorialTickets> miLista = jpa.findHistorialTicketsEntities();
+        //List<HistorialTickets> aux = new ArrayList<>();
+        //List<HistorialTickets> aux2 = new ArrayList<>();
         HistorialTickets mayor = new HistorialTickets();
+        List<HistorialTickets> miLista = miTick.getHistorialTicketsList();
+        mayor = miLista.get(0);
         
         //Busco todos los historiales del ticket 
-        for(int i = 0; i < miLista.size(); i++){
+        /*for(int i = 0; i < miLista.size(); i++){
             if(miLista.get(i).getFkTicket().equals(miTick)){
                 aux.add(miLista.get(i));
                 mayor = miLista.get(i);
             }
-        }
-        
+        }*/
+       
         // Ordeno para buscar el mayor
-        for(int i = 0; i < aux.size(); i++){
+        for(int i = 0; i < miLista.size(); i++){
             if(miLista.get(i).getIdHistorial() > mayor.getIdHistorial()){
-                aux.add(miLista.get(i));
+                mayor = miLista.get(i);
             }
         }
         return mayor;

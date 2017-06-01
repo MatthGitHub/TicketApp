@@ -43,7 +43,7 @@ public class NuevoUsuario extends MenuP {
         this.mainFrame = mainFrame;
         this.mainFrameO = mainFrameO;
         modelo = (DefaultTableModel) jt_empleados.getModel();
-        buscaE = new EmpleadoServ();
+        buscaE = EmpleadoServ.getEmpleadoServ();
         listaEmp = buscaE.traerTodos();
         llenarTabla(listaEmp);
         cargarCmBxPermisos();
@@ -60,7 +60,7 @@ public class NuevoUsuario extends MenuP {
     }
     
     private void cargarCmBxPermisos(){
-        buscaP = new RoleServ();
+        buscaP = RoleServ.getRoleServ();
         listaPer = new ArrayList<>();
         listaPer = buscaP.traerTodos();
         
@@ -307,7 +307,7 @@ public class NuevoUsuario extends MenuP {
         if((txt_nombre.getText().trim().length() > 0)&&(!txt_nombre.getText().trim().contains("0 1 2 3 4 5 6 7 8 9"))){
             if(txt_clave.getText().trim().length() > 0){
                 if(JOptionPane.showConfirmDialog(estePanel, "Seguro desea guardar?") == 0){
-                    guardarU = new UsuarioServ();
+                    guardarU = UsuarioServ.getUsuarioServ();
                     nuevoUsu = new Usuarios();
                     nuevoUsu.setActivo(true);
                     nuevoUsu.setContrasenia(txt_clave.getText());

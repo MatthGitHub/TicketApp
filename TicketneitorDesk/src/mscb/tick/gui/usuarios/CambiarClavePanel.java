@@ -30,7 +30,7 @@ public class CambiarClavePanel extends MenuP {
         setVisible(true);
         pswr_actual.requestFocus();
         pswr_actual.setText("");
-        md5 = new MD5();
+        md5 = MD5.getMD5();
     }
     
     public static CambiarClavePanel getCambiarClavePanel(CambiarClaveDialog mainFrame){
@@ -195,7 +195,7 @@ public class CambiarClavePanel extends MenuP {
 
     private void btn_guardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_guardarActionPerformed
         // TODO add your handling code here:
-        servicios = new UsuarioServ();
+        servicios = UsuarioServ.getUsuarioServ();
         String clave = md5.md5(pswr_actual.getText());
         if(clave.equals(LoginEJB.usuario.getContrasenia())){
             if(pswr_nueva.getText().equals(pswr_nueva2.getText())){

@@ -32,6 +32,7 @@ public class ObservacionP extends MenuP {
         lbl_areaE.setText(miTick.getCreador().getFkEmpleado().getFkArea().getNombreArea());
         txtA_obser.setText(miTick.getObservacion());
         txtA_obser.setEditable(false);
+        txtA_obser.setLineWrap(true);
     }
     
     public static ObservacionP getObservacionP(Tickets miTick,ObservacionD mainFrame){

@@ -48,7 +48,7 @@ public class BandejaEnviados extends MenuP {
         initComponents();
         jt_tickets.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
         this.mainFrame = mainFrame;
-        servH = new HistorialServ();
+        servH = HistorialServ.getHistorialServ();
         lblNombreUsuario.setText(LoginEJB.usuario.getNombreUsuario());
         miLista = new ArrayList<>();
         modelo = (DefaultTableModel) jt_tickets.getModel();
@@ -56,6 +56,7 @@ public class BandejaEnviados extends MenuP {
         mainFrame.setLocationRelativeTo(null);
         mainFrame.setTitle("Ticketneitor");
         //setSize(mainFrame.getSize());
+        configurarTabla(jt_tickets);
         setVisible(true);
         llenarTabla();
         report = EjecutarReporte.getEjecutarReporte();
@@ -67,10 +68,15 @@ public class BandejaEnviados extends MenuP {
         }
         return estePanel;
     }
+    public void configurarTabla(JTable MiTabla){
+        //MiTabla.setIntercellSpacing(Dimension newSpacing);
+        MiTabla.setRowHeight(20);
+        //MiTabla.setRowHeight(row, rowHeight);
+    }
     
     public void llenarTabla() {
         vaciarTabla(jt_tickets);
-        serviciosT = new TicketServ();
+        serviciosT = TicketServ.getTicketServ();
         miLista = serviciosT.buscarPorUsuarioEmisor();
         //cambiarEstadoDeTicketsRecibidos(); esta funcion cambia el estado del ticket a recibido porquien abre la app
         

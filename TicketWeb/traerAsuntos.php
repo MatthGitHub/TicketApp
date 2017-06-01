@@ -9,7 +9,7 @@ if(isset($_POST["idArea"]))
 
 		$link = mysqli_connect ($dbhost, $dbusername, $dbuserpass);
 		mysqli_select_db($link,$dbname) or die('No se puede seleccionar la base de datos');
-		$strConsulta = "SELECT id_asuntoP,nombre FROM asuntos WHERE fk_area = $area";
+		$strConsulta = "SELECT id_asuntoP,nombre FROM asuntos WHERE fk_area = $area AND visible = 0";
 		$result = $link->query($strConsulta);
 
 

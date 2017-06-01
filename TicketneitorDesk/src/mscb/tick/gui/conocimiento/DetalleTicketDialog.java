@@ -31,6 +31,8 @@ public class DetalleTicketDialog extends javax.swing.JDialog {
         setearValoresTicket(miBase);
         pack();
         setVisible(true);
+        txtAObs.setLineWrap(true);
+        txtAReso.setLineWrap(true);
     }
 
     private DetalleTicketDialog(JFrame jFrame, boolean b) {

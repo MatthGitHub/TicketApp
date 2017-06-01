@@ -41,7 +41,7 @@ public class NuevoEmpleado extends MenuP {
     }
     
     private void llenarComboBox(){
-        serviciosA = new AreaServ();
+        serviciosA = AreaServ.getAreaServ();
         List<Areas> misA = serviciosA.traerTodas();
         
         for(int i = 0; i < misA.size(); i++){
@@ -272,7 +272,7 @@ public class NuevoEmpleado extends MenuP {
                     if((!txt_legajo.getText().isEmpty())&&(!txt_legajo.getText().equals("Escriba el legajo aqui..."))){
                         if(cmbx_areas.getSelectedIndex() > 0){
                             Empleados miEmp = new Empleados();
-                            serviciosE = new EmpleadoServ();
+                            serviciosE = EmpleadoServ.getEmpleadoServ();
                             miEmp.setNombre(txt_nombre.getText());
                             miEmp.setApellido(txt_apellido.getText());
                             miEmp.setDocumento(txt_documento.getText());

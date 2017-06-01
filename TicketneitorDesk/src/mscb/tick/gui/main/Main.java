@@ -8,7 +8,10 @@ package mscb.tick.gui.main;
 import java.awt.Dialog;
 import java.awt.Image;
 import java.awt.Toolkit;
+import java.io.IOException;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import mscb.tick.gui.areas.AreasV;
 import mscb.tick.gui.areas.NuevaAreaD;
@@ -153,7 +156,7 @@ public class Main extends javax.swing.JFrame {
     }
     
     public void validarPermisos(){
-        serviciosP = new PermisoServ();
+        serviciosP = PermisoServ.getPermisoServ();
         List<Permisos> permisosU = LoginEJB.usuario.getFkRol().getPermisosList();
         jMB_bar.setVisible(true);
         
@@ -251,7 +254,7 @@ public class Main extends javax.swing.JFrame {
     }
     
     public boolean validarPermisos(int idPer){
-        serviciosP = new PermisoServ();
+        serviciosP = PermisoServ.getPermisoServ();
          List<Permisos> permisosU = LoginEJB.usuario.getFkRol().getPermisosList();
          if(permisosU.contains(serviciosP.traerUno(idPer))){
              return true;
@@ -764,6 +767,7 @@ public class Main extends javax.swing.JFrame {
         mi_conocimiento = new javax.swing.JMenuItem();
         mi_conocimiento1 = new javax.swing.JMenuItem();
         mi_salir = new javax.swing.JMenuItem();
+        mi_aactualizar = new javax.swing.JMenuItem();
         jm_administracion = new javax.swing.JMenu();
         mi_administrar = new javax.swing.JMenuItem();
         mi_estadoPGM = new javax.swing.JMenuItem();
@@ -856,6 +860,16 @@ public class Main extends javax.swing.JFrame {
             }
         });
         jM_archivo.add(mi_salir);
+
+        mi_aactualizar.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F11, 0));
+        mi_aactualizar.setFont(new java.awt.Font("SansSerif", 0, 11)); // NOI18N
+        mi_aactualizar.setText("Actualizar");
+        mi_aactualizar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mi_aactualizarActionPerformed(evt);
+            }
+        });
+        jM_archivo.add(mi_aactualizar);
 
         jMB_bar.add(jM_archivo);
 
@@ -1104,6 +1118,19 @@ public class Main extends javax.swing.JFrame {
         misServicios();
     }//GEN-LAST:event_mi_conocimiento1ActionPerformed
 
+    private void mi_aactualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mi_aactualizarActionPerformed
+        // TODO add your handling code here:
+        if(JOptionPane.showConfirmDialog(null,"Seguro desea actualizar", "Confirmar", JOptionPane.YES_NO_OPTION)==0){
+             try {
+                Runtime.getRuntime().exec("java -jar TicketneitorUpdater.jar");
+                System.exit(0);
+            } catch (IOException ex) {
+                Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+                System.out.println(ex);
+            }
+        }
+    }//GEN-LAST:event_mi_aactualizarActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -1142,6 +1169,7 @@ public class Main extends javax.swing.JFrame {
     private javax.swing.JMenu jM_archivo;
     private javax.swing.JMenu jM_configuracion;
     private javax.swing.JMenu jm_administracion;
+    private javax.swing.JMenuItem mi_aactualizar;
     private javax.swing.JMenuItem mi_administrar;
     private javax.swing.JMenuItem mi_areas;
     private javax.swing.JMenuItem mi_asignar;

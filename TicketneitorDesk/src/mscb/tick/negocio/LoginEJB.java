@@ -31,8 +31,8 @@ public class LoginEJB {
     }
 
     public boolean login(String nombre, String clave) {
-        md5 = new MD5();
-        serviciosU = new UsuarioServ();
+        md5 = MD5.getMD5();
+        serviciosU = UsuarioServ.getUsuarioServ();
         miLista = serviciosU.traerTodos();
         clave = md5.md5(clave);
         
@@ -58,7 +58,7 @@ public class LoginEJB {
     }
     
     public static void refrescarPermisos(){
-        serviciosU = new UsuarioServ();
+        serviciosU = UsuarioServ.getUsuarioServ();
         usuario = serviciosU.buscarUnUsuario(usuario.getIdUsuario());
     }
 }

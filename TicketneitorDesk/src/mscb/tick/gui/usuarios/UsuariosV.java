@@ -97,7 +97,7 @@ public class UsuariosV extends MenuP {
         }
     }
     private List <Usuarios> traerUsuarios(){
-        servicios = new UsuarioServ();
+        servicios = UsuarioServ.getUsuarioServ();
         listaUsuarios = servicios.traerTodos();
         cargarCache(listaUsuarios);
         

@@ -26,7 +26,7 @@ public class NuevaAreaD extends javax.swing.JDialog {
     public NuevaAreaD(JFrame parent, boolean modal) {
         super(parent, modal);
         initComponents();
-        serviciosA = new AreaServ();
+        serviciosA = AreaServ.getAreaServ();
         setLocationRelativeTo(parent);
         setDefaultCloseOperation(0);
         setResizable(false);
@@ -194,6 +194,9 @@ public class NuevaAreaD extends javax.swing.JDialog {
                 JOptionPane.showMessageDialog(this, "Area cargada!", "Finalizado", JOptionPane.INFORMATION_MESSAGE);
                 AreasV areasT = AreasV.getAreasV(mainFrameO);
                 areasT.llenarTabla();
+                txt_nombre.setText("");
+                txt_direccion.setText("");
+                txt_correo.setText("");
                 this.setVisible(false);
                 this.dispose();
                 System.gc();

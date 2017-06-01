@@ -37,8 +37,8 @@ public class RolesV extends MenuP {
         initComponents();
         this.mainFrame = mainFrame;
         pnl_nuevo.setVisible(false);
-        serviciosP = new PermisoServ();
-        serviciosR = new RoleServ();
+        serviciosP = PermisoServ.getPermisoServ();
+        serviciosR = RoleServ.getRoleServ();
         modeloR = (DefaultTableModel) jt_roles.getModel();
         modeloA = (DefaultTableModel) jt_permisosA.getModel();
         modeloF = (DefaultTableModel) jt_permisosF.getModel();

@@ -1,0 +1,67 @@
+ESTRUCTURA TIPO Portico
+
+UNIDADES ENTRADA TON M GRAD
+
+UNIDADES SALIDA  TON M GRAD
+
+NUMERO DE NODOS 8
+*    Nro.   Coord-X   Coord-Y
+      1       0         0       r
+      2       0         4       r
+      3       3         6       r
+      4       7         6       r
+      5      10         4       r
+      6      10         0       r
+      7       7         4       r
+      8       3         4       r
+NUMERO DE BARRAS 13
+*    Nro.   Desde     Hasta
+      1      1        2
+      2      2        3
+      3      3        4
+      4      4        5
+      5      5        6
+      6      6        7
+      7      7        8
+      8      1        8
+      9      2        8
+     10      3        8
+     11      3        7
+     12      4        7
+     13      5        7
+NODOS RESTRINGIDOS  2
+*    Nro.   Rest-X  Rest-Y  Rest-0
+      1       1       1       0
+      6       0       1       0
+NODOS CON CEDIMIENTOS 0
+*    Nro.   Ced-X   Ced-Y   Ced-0
+
+NODOS CON VINCULOS ELASTICOS 0
+*    Nro.   K-X     K-Y     K-0
+
+SECCIONES DIFERENTES  1
+PARAMETROS  geometricos
+*    Desc.  B/Area  D/Inercia    Mp+   Mp-
+          barras 0.15  0.15
+ASIGNACION DE MATERIALES
+*    Desc  Cuales
+     acero todas
+DEFINICION DE LAS BARRAS
+*    Desc.  Cuales
+     barras todas
+NUMERO DE ESTADOS 1
+
+NUMERO DE HIPOTESIS 1
+*    E1   E2   E3   E4   E5
+      1    0    0    0    0
+
+ESTADO 1
+
+CARGAS EN BARRAS 0
+
+NUMERO DE NODOS CARGADOS 3
+*    Nodo  F-X   F-Y   M-XY
+       4    -1.53  -1.29   0
+       7     0     -4      0
+       8     0     -3      0
+

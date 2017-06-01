@@ -156,7 +156,7 @@ public class NuevoAsuntoSec extends MenuP {
         // TODO add your handling code here:
         if(!txt_nombreAsunto.getText().trim().isEmpty()){
             if(JOptionPane.showConfirmDialog(mainFrame, "Guardar?", "Confirmar", JOptionPane.YES_NO_OPTION) == 0){
-                serviciosA = new AsuntoSecundarioServ();
+                serviciosA = AsuntoSecundarioServ.getAsuntoPrincipalServ();
                 miAsunto = new Servicios();
                 miAsunto.setPertenece(miAsuntoPP);
                 miAsunto.setNombreasuntoS(txt_nombreAsunto.getText());

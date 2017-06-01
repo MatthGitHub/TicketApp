@@ -37,6 +37,8 @@ import java.net.MalformedURLException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.filechooser.FileNameExtensionFilter;
@@ -87,6 +89,9 @@ public class NuevoTicket extends MenuP {
         lblServicio.setVisible(false);
         asteriscoAsunto.setVisible(false);
         asteriscoServicio.setVisible(false);
+        asteriscoArea.setVisible(false);
+        jLabel1.setVisible(false);
+        cmbx_areas.setVisible(false);
         cmbx_asuntoPrincipal.setVisible(false);
         cmbx_asuntoSecundario.setVisible(false);
         cmbx_usuarios.setVisible(false);
@@ -111,7 +116,7 @@ public class NuevoTicket extends MenuP {
     }
     
     private void llenarAreas(){
-        serviciosA = new AreaServ();
+        serviciosA = AreaServ.getAreaServ();
         List<Areas> misAreas = serviciosA.traerTodasconAsuntos();
         for(int i = 0; i < misAreas.size(); i++){
             cmbx_areas.addItem(misAreas.get(i));
@@ -125,7 +130,7 @@ public class NuevoTicket extends MenuP {
     }
     
     private void llenarAsuntoPrincipal(Areas area){
-        serviciosPrincipal = new AsuntoPrincipalServ();
+        serviciosPrincipal = AsuntoPrincipalServ.getAsuntoPrincipalServ();
         miListaAP = serviciosPrincipal.asuntosPorArea(area);
         
         for(int i = 0 ; i < miListaAP.size(); i++){
@@ -134,7 +139,7 @@ public class NuevoTicket extends MenuP {
     }
     
     private void llenarUsuariosPorServicio(Servicios servicio){
-        serviciosU = new UsuarioServ();
+        serviciosU = UsuarioServ.getUsuarioServ();
         miListaU = serviciosU.traerPorServicios(servicio);
         
         cmbx_usuarios.addItem("Sin");
@@ -208,6 +213,7 @@ public class NuevoTicket extends MenuP {
         jLabel1.setFont(new java.awt.Font("SansSerif", 3, 14)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(0, 108, 118));
         jLabel1.setText("Area Receptor:");
+        jLabel1.setEnabled(false);
 
         cmbx_asuntoPrincipal.setBackground(new java.awt.Color(153, 153, 153));
         cmbx_asuntoPrincipal.setFont(new java.awt.Font("SansSerif", 1, 14)); // NOI18N
@@ -274,6 +280,7 @@ public class NuevoTicket extends MenuP {
         cmbx_areas.setBackground(new java.awt.Color(153, 153, 153));
         cmbx_areas.setFont(new java.awt.Font("SansSerif", 1, 14)); // NOI18N
         cmbx_areas.setForeground(new java.awt.Color(0, 108, 118));
+        cmbx_areas.setEnabled(false);
         cmbx_areas.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 cmbx_areasActionPerformed(evt);
@@ -326,6 +333,7 @@ public class NuevoTicket extends MenuP {
         asteriscoArea.setFont(new java.awt.Font("SansSerif", 1, 24)); // NOI18N
         asteriscoArea.setForeground(new java.awt.Color(255, 255, 255));
         asteriscoArea.setText("*");
+        asteriscoArea.setEnabled(false);
 
         asteriscoAsunto.setFont(new java.awt.Font("SansSerif", 1, 24)); // NOI18N
         asteriscoAsunto.setForeground(new java.awt.Color(255, 255, 255));
@@ -488,8 +496,12 @@ public class NuevoTicket extends MenuP {
         if(b != 1){
             b =0;
             txtA_obs.setText("");
-            serviciosSecundario = new AsuntoSecundarioServ();
+            serviciosSecundario = AsuntoSecundarioServ.getAsuntoPrincipalServ();
             miListaAS = serviciosSecundario.traerPorAreaPrincipal((Asuntos) cmbx_asuntoPrincipal.getSelectedItem());
+            /*
+            Comparator<Servicios> comparador = Collections.reverseOrder();
+            Collections.sort(miListaAS,comparador);
+            */
             cmbx_asuntoSecundario.removeAllItems();
             for(int i = 0; i < miListaAS.size();i++){
                 cmbx_asuntoSecundario.addItem(miListaAS.get(i));
@@ -532,8 +544,8 @@ public class NuevoTicket extends MenuP {
         // TODO add your handling code here:
         
             if(JOptionPane.showConfirmDialog(mainFrame, "Seguro desea enviar?","Confirmar",JOptionPane.YES_NO_OPTION) == 0){
-                serviciosEst = new EstadoServ();
-                serviciosT = new TicketServ();
+                serviciosEst = EstadoServ.getEstadoServ();
+                serviciosT = TicketServ.getTicketServ();
                 miTick = new Tickets();
                 fecha = new Date();
                 miTick.setServicio((Servicios) cmbx_asuntoSecundario.getSelectedItem());
@@ -578,7 +590,7 @@ public class NuevoTicket extends MenuP {
                 //Creo el historial de enviado
                 if(serviciosT.nuevoTicket(miTick) == 0){
                     JOptionPane.showMessageDialog(mainFrame, "Ticket enviado...");
-                    HistorialServ serviciosH = new HistorialServ();
+                    HistorialServ serviciosH = HistorialServ.getHistorialServ();
                     HistorialTickets miHis = new HistorialTickets();
                     Date fecha = new Date();
                     miHis.setFecha(fecha);
@@ -615,7 +627,8 @@ public class NuevoTicket extends MenuP {
         if(b != 1){
             b =0;
             cmbx_asuntoPrincipal.removeAllItems();
-            llenarAsuntoPrincipal((Areas) cmbx_areas.getSelectedItem());
+            llenarAsuntoPrincipal(LoginEJB.usuario.getFkEmpleado().getFkArea());
+            //llenarAsuntoPrincipal((Areas) cmbx_areas.getSelectedItem());
             cmbx_asuntoPrincipal.setSelectedIndex(0);
             cmbx_asuntoPrincipal.setVisible(true);
             lblAsunto.setVisible(true);

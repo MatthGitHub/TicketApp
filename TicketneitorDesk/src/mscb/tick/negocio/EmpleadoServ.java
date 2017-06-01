@@ -19,9 +19,21 @@ import mscb.tick.negocio.entidades.Empleados;
  */
 public class EmpleadoServ {
     private static Query q;
-    EntityManagerFactory emf = Persistence.createEntityManagerFactory("TicketneitorPU");
-    EmpleadosJpaController jpa = new EmpleadosJpaController(emf);
+    private EntityManagerFactory emf = Persistence.createEntityManagerFactory("TicketneitorPU");
+    private EmpleadosJpaController jpa = new EmpleadosJpaController(emf);
+    private static EmpleadoServ esto;
+    
+    private EmpleadoServ(){
         
+    }
+    
+    public static EmpleadoServ getEmpleadoServ(){
+        if(esto == null){
+            esto = new EmpleadoServ();
+        }
+        return esto;
+    }
+    
     public List <Empleados> traerTodos(){
         return jpa.findEmpleadosEntities();
     }

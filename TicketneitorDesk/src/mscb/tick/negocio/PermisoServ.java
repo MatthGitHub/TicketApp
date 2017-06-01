@@ -17,9 +17,20 @@ import mscb.tick.negocio.entidades.Roles;
  * @author Administrador
  */
 public class PermisoServ {
-    EntityManagerFactory emf = Persistence.createEntityManagerFactory("TicketneitorPU");
-    PermisosJpaController jpa = new PermisosJpaController(emf);
-        
+    private EntityManagerFactory emf = Persistence.createEntityManagerFactory("TicketneitorPU");
+    private PermisosJpaController jpa = new PermisosJpaController(emf);
+    private static PermisoServ esto;
+    
+    private PermisoServ(){
+    }
+    
+    public static PermisoServ getPermisoServ(){
+        if(esto == null){
+            esto = new PermisoServ();
+        }
+        return esto;
+    }
+            
     public List <Permisos> traerTodos(){
         return jpa.findPermisosEntities();
     }

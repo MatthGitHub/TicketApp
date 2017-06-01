@@ -7,16 +7,12 @@ package mscb.tick.gui.tickets;
 
 import java.text.DateFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
-import mscb.tick.negocio.entidades.Estados;
 import mscb.tick.negocio.entidades.HistorialTickets;
 import mscb.tick.negocio.entidades.Tickets;
 import mscb.tick.negocio.EstadoServ;
@@ -48,10 +44,10 @@ public class TicketsV extends MenuP {
         this.mainFrame = mainFrame;
         modelo = (DefaultTableModel) jt_tickets.getModel();
         miLista = new ArrayList<>();
-        serviciosT = new TicketServ();
-        serviciosE = new EstadoServ();
-        serviciosH = new HistorialServ();
+        serviciosT = TicketServ.getTicketServ();
+        serviciosH = HistorialServ.getHistorialServ();
         validarPermisos();
+        configurarTabla(jt_tickets);
         setVisible(true);
         llenarTabla();
     }
@@ -90,12 +86,15 @@ public class TicketsV extends MenuP {
         }
     }
     
+    public void configurarTabla(JTable MiTabla){
+        //MiTabla.setIntercellSpacing(Dimension newSpacing);
+        MiTabla.setRowHeight(20);
+        //MiTabla.setRowHeight(row, rowHeight);
+    }
+    
     public void llenarTabla() {
         vaciarTabla(jt_tickets);
         miLista = serviciosT.traerTodos();
-        Comparator<Tickets> comparador = Collections.reverseOrder();
-        Collections.sort(miLista,comparador);
-            
         String v[] = new String[8];
         DateFormat dateFormatter;
         dateFormatter = DateFormat.getDateInstance(DateFormat.SHORT, Locale.UK);

@@ -16,9 +16,21 @@ import mscb.tick.negocio.entidades.Estados;
  * @author Administrador
  */
 public class EstadoServ {
-    EntityManagerFactory emf = Persistence.createEntityManagerFactory("TicketneitorPU");
-    EstadosJpaController jpa = new EstadosJpaController(emf);
-   
+    private EntityManagerFactory emf = Persistence.createEntityManagerFactory("TicketneitorPU");
+    private EstadosJpaController jpa = new EstadosJpaController(emf);
+    private static EstadoServ esto;
+    
+    private EstadoServ(){
+        
+    }
+    
+    public static EstadoServ getEstadoServ(){
+        if(esto == null){
+            esto = new EstadoServ();
+        }
+        return esto;
+    }
+    
     public Estados traerEstado(int id){
         return jpa.findEstados(id);
     }

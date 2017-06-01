@@ -37,8 +37,8 @@ public class BaseConocimientoV extends MenuP {
     private BaseConocimientoV(Main mainFrame) {
         initComponents();
         modelo = (DefaultTableModel) jt_conocimiento.getModel();
-        serviciosT = new TicketServ();
-        servH = new HistorialServ();
+        serviciosT = TicketServ.getTicketServ();
+        servH = HistorialServ.getHistorialServ();
         this.mainFrame = mainFrame;
         setSize(800, 600);
         setVisible(true);

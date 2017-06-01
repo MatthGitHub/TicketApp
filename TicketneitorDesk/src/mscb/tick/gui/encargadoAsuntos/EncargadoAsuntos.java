@@ -67,7 +67,7 @@ public class EncargadoAsuntos extends MenuP {
     }
 
     private void cargarComboBoxUsuarios() {
-        serviciosU = new UsuarioServ();
+        serviciosU = UsuarioServ.getUsuarioServ();
         miListaU = new ArrayList<>();
         miListaU = serviciosU.traerSistemas();
 
@@ -77,7 +77,7 @@ public class EncargadoAsuntos extends MenuP {
     }
 
     private void cargarComboBoxAsuntoS() {
-        serviciosA = new AsuntoSecundarioServ();
+        serviciosA = AsuntoSecundarioServ.getAsuntoPrincipalServ();
         if(!cmbx_asuntosP.getSelectedItem().equals(" ")){
             miListaA = serviciosA.traerPorAreaPrincipalyUsuario((Asuntos) cmbx_asuntosP.getSelectedItem(), (Usuarios) cmbx_usuarios.getSelectedItem());
             cmbx_asuntosS.removeAllItems();
@@ -89,7 +89,7 @@ public class EncargadoAsuntos extends MenuP {
     }
 
     private void cargarComboBoxAsuntoP() {
-        serviciosP = new AsuntoPrincipalServ();
+        serviciosP = AsuntoPrincipalServ.getAsuntoPrincipalServ();
         miListaP = new ArrayList<>();
         miListaP = serviciosP.traerTodos();
         for (int i = 0; i < miListaP.size(); i++) {
@@ -129,9 +129,9 @@ public class EncargadoAsuntos extends MenuP {
     private void quitarAsunto(){
         if((jt_asuntos.getSelectedRow() != -1)&&(jt_asuntos.getSelectedRowCount() == 1)){
             if(JOptionPane.showConfirmDialog(mainFrame, "Seguro desea quitar este asunto?") == 0){
-                serviciosU = new UsuarioServ();
-                serviciosA = new AsuntoSecundarioServ();
-                serviciosP = new AsuntoPrincipalServ();
+                serviciosU = UsuarioServ.getUsuarioServ();
+                serviciosA = AsuntoSecundarioServ.getAsuntoPrincipalServ();
+                serviciosP = AsuntoPrincipalServ.getAsuntoPrincipalServ();
                 
                 Usuarios miUsuario = (Usuarios) cmbx_usuarios.getSelectedItem();
                 
@@ -153,7 +153,7 @@ public class EncargadoAsuntos extends MenuP {
                     }
                 }
                 miUsuario.getServiciosList().remove(miAsu);
-                serviciosU = new UsuarioServ();
+                serviciosU = UsuarioServ.getUsuarioServ();
                 if (serviciosU.modificarUsuario(miUsuario)) {
                     JOptionPane.showMessageDialog(mainFrame, "Asunto quitado!");
                     cargarComboBoxAsuntoS();
@@ -402,7 +402,7 @@ public class EncargadoAsuntos extends MenuP {
             if (JOptionPane.showConfirmDialog(mainFrame, "Seguro desea agregar este asunto?", "Seguro", JOptionPane.YES_NO_OPTION) == 0) {
             //Usuarios miUsuario = (Usuarios) cmbx_usuarios.getSelectedItem();
             user.getServiciosList().add((Servicios) cmbx_asuntosS.getSelectedItem());
-            serviciosU = new UsuarioServ();
+            serviciosU = UsuarioServ.getUsuarioServ();
             if (serviciosU.modificarUsuario(user)) {
                 JOptionPane.showMessageDialog(mainFrame, "Asunto agregado!");
                 cargarTabla();

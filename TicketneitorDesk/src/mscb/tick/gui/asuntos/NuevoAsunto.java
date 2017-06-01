@@ -51,7 +51,7 @@ public class NuevoAsunto extends MenuP {
     }
     
     private void cargarComboBox(){
-        AreaServ serviciosAr = new AreaServ();
+        AreaServ serviciosAr = AreaServ.getAreaServ();
         List<Areas> miLista = serviciosAr.traerTodas();
         for(int i = 0; i < miLista.size();i++){
             cmbx_areas.addItem(miLista.get(i));
@@ -74,6 +74,8 @@ public class NuevoAsunto extends MenuP {
         jLabel2 = new javax.swing.JLabel();
         lblArea = new javax.swing.JLabel();
         cmbx_areas = new javax.swing.JComboBox();
+        cmbx_visible = new javax.swing.JComboBox();
+        jLabel3 = new javax.swing.JLabel();
 
         setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Nuevo Asunto", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("SansSerif", 0, 18), java.awt.Color.white)); // NOI18N
 
@@ -123,6 +125,20 @@ public class NuevoAsunto extends MenuP {
             }
         });
 
+        cmbx_visible.setBackground(new java.awt.Color(153, 153, 153));
+        cmbx_visible.setFont(new java.awt.Font("SansSerif", 0, 11)); // NOI18N
+        cmbx_visible.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Si", "No" }));
+        cmbx_visible.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cmbx_visibleActionPerformed(evt);
+            }
+        });
+
+        jLabel3.setBackground(new java.awt.Color(0, 102, 204));
+        jLabel3.setFont(new java.awt.Font("SansSerif", 3, 14)); // NOI18N
+        jLabel3.setForeground(new java.awt.Color(0, 108, 118));
+        jLabel3.setText("Visible:");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -130,14 +146,9 @@ public class NuevoAsunto extends MenuP {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(btn_salir)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(btn_nuevo)
-                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(txt_nombreAsunto)
                             .addGroup(layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addGroup(layout.createSequentialGroup()
@@ -146,9 +157,20 @@ public class NuevoAsunto extends MenuP {
                                     .addGroup(layout.createSequentialGroup()
                                         .addComponent(cmbx_areas, 0, 381, Short.MAX_VALUE)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)))
-                                .addComponent(lblArea, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                                .addComponent(lblArea, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(cmbx_visible, javax.swing.GroupLayout.PREFERRED_SIZE, 381, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(0, 0, Short.MAX_VALUE))
+                            .addComponent(txt_nombreAsunto))
                         .addContainerGap())
-                    .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(btn_salir)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(btn_nuevo))
+                            .addComponent(jLabel3))
+                        .addGap(0, 0, Short.MAX_VALUE))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -158,16 +180,20 @@ public class NuevoAsunto extends MenuP {
                     .addGroup(layout.createSequentialGroup()
                         .addGap(0, 13, Short.MAX_VALUE)
                         .addComponent(lblArea, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(175, 175, 175))
+                        .addGap(86, 86, 86))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel2)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(cmbx_areas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jLabel3)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(txt_nombreAsunto, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(51, 51, 51)))
+                        .addComponent(cmbx_visible, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)))
+                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(txt_nombreAsunto, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btn_salir, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btn_nuevo, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)))
@@ -187,13 +213,27 @@ public class NuevoAsunto extends MenuP {
         // TODO add your handling code here:
         if(!txt_nombreAsunto.getText().trim().isEmpty()){
             if(JOptionPane.showConfirmDialog(mainFrame, "Guardar?", "Confirmar", JOptionPane.YES_NO_OPTION) == 0){
-                serviciosA = new AsuntoPrincipalServ();
+                serviciosA = AsuntoPrincipalServ.getAsuntoPrincipalServ();
                 miAsunto = new Asuntos();
                 miAsunto.setNombre(txt_nombreAsunto.getText());
-                miAsunto.setFkArea(miArea);
+                if(cmbx_visible.getSelectedItem().equals("Si")){
+                    miAsunto.setVisible(true);
+                }
+                if(cmbx_visible.getSelectedItem().equals("No")){
+                    miAsunto.setVisible(false);
+                }
+                
+                if(miArea.getNombreArea().equals("nuevo")){
+                    miAsunto.setFkArea((Areas) cmbx_areas.getSelectedItem());
+                }else{
+                    miAsunto.setFkArea(miArea);
+                }
+                
                 if(serviciosA.nuevoAsunto(miAsunto)){
                     asuntos = AsuntosPrin.getAsuntos(mainFrameO);
-                    asuntos.llenarTabla();
+                    if(!miArea.getNombreArea().equals("nuevo")){
+                        asuntos.llenarTabla();
+                    }                    
                     JOptionPane.showMessageDialog(mainFrame, "Asunto cargado!");
                 }else{
                     JOptionPane.showMessageDialog(mainFrame, "Error al cargar asunto!");
@@ -212,13 +252,19 @@ public class NuevoAsunto extends MenuP {
         
     }//GEN-LAST:event_cmbx_areasActionPerformed
 
+    private void cmbx_visibleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbx_visibleActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_cmbx_visibleActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btn_nuevo;
     private javax.swing.JButton btn_salir;
     private javax.swing.JComboBox cmbx_areas;
+    private javax.swing.JComboBox cmbx_visible;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel lblArea;
     private javax.swing.JTextField txt_nombreAsunto;
     // End of variables declaration//GEN-END:variables

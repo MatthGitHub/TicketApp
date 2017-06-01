@@ -71,7 +71,7 @@ public class AsuntoSec extends MenuP {
     
     private void llenarComboBox(){
         vaciarTabla(jt_asuntoSec);
-        serviciosA = new AsuntoPrincipalServ();
+        serviciosA = AsuntoPrincipalServ.getAsuntoPrincipalServ();
         misAsuntosP = serviciosA.traerTodos();
         
         for(int i = 0 ; i < misAsuntosP.size() ; i ++){
@@ -255,7 +255,7 @@ public class AsuntoSec extends MenuP {
 
     private void cmbx_asuntosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbx_asuntosActionPerformed
         // TODO add your handling code here:
-        serviciosASec = new AsuntoSecundarioServ();
+        serviciosASec = AsuntoSecundarioServ.getAsuntoPrincipalServ();
         opt = null;
         obj = null;
         if((cmbx_asuntos.getSelectedIndex() == 0)||(cmbx_asuntos.getSelectedIndex() == 1)){

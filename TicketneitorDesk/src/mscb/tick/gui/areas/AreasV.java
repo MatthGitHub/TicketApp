@@ -33,7 +33,7 @@ public class AreasV extends MenuP {
         initComponents();
         this.mainFrame = mainFrame;
         modelo = (DefaultTableModel) jt_areas.getModel();
-        serviciosA = new AreaServ();
+        serviciosA = AreaServ.getAreaServ();
         setVisible(true);
         validarPermisos();
         llenarTabla();

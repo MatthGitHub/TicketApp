@@ -32,7 +32,7 @@ public class EmpleadosV extends MenuP {
         initComponents();
         this.mainFrame = mainFrame;
         setVisible(true);
-        serviciosE = new EmpleadoServ();
+        serviciosE = EmpleadoServ.getEmpleadoServ();
         validarPermisos();
         modelo = (DefaultTableModel) jt_empleados.getModel();
         llenarTabla(cargarTodosLosEmpelados());

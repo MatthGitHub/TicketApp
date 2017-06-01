@@ -34,8 +34,8 @@ public class EstadoPGMP extends MenuP {
         this.mainFrame = mainFrame;
         setSize(260, 360);
         setVisible(true);
-        serviciosPgm = new EstadosPgmServ();
-        serviciosPgmA = new EstadoActualPgmServ();
+        serviciosPgm = EstadosPgmServ.getEstadosPgmServ();
+        serviciosPgmA = EstadoActualPgmServ.getEstadoActualPgmServ();
         lbl_estado.setText(serviciosPgmA.traerEstadoActual(1).getFkEstadoPgm().getEstado());
         setearColor();
         cargarComboBoxEstados();

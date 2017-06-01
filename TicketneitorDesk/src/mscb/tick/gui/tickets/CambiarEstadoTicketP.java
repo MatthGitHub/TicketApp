@@ -35,8 +35,8 @@ public class CambiarEstadoTicketP extends MenuP {
         initComponents();
         this.mainFrame = mainFrame;
         this.mainFrameO = mainFrameO;
-        serviciosE = new EstadoServ();
-        serviciosT = new TicketServ();
+        serviciosE = EstadoServ.getEstadoServ();
+        serviciosT = TicketServ.getTicketServ();
         this.miTick = miTick;
         setSize(230, 300);
         lbl_ticket.setText(miTick.getIdTicket().toString());
@@ -195,7 +195,7 @@ public class CambiarEstadoTicketP extends MenuP {
         if(cmbx_estados.getSelectedItem().equals(miTick.getUltimoEstado())){
             
         }else{
-            HistorialServ servH = new HistorialServ();
+            HistorialServ servH = HistorialServ.getHistorialServ();
             HistorialTickets his = new HistorialTickets();
             Date fecha = new Date();
             his.setFkEstado((Estados) cmbx_estados.getSelectedItem());

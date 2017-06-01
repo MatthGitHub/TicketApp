@@ -10,7 +10,7 @@ $id_usuario =  $_SESSION["id_usuario"];
 $link = mysqli_connect ($dbhost, $dbusername, $dbuserpass);
 mysqli_set_charset($link,'utf8');
 mysqli_select_db($link,$dbname) or die('No se puede seleccionar la base de datos');
-$query = mysqli_query($link,"SELECT id_ticket,ht.fecha,SUBSTRING(CAST(hora AS CHAR),11,24) AS hora,nombre,observacion, resolucion
+$query = mysqli_query($link,"SELECT id_ticket,ht.fecha,SUBSTRING(CAST(hora AS CHAR),11,24) AS hora,nombre,observacion, resolucion,adjunto
                               FROM tickets t
                               JOIN historial_tickets ht ON ht.fk_ticket = t.id_ticket
                               JOIN estados e ON ht.fk_estado = e.id_estado
@@ -83,14 +83,15 @@ $query = mysqli_query($link,"SELECT id_ticket,ht.fecha,SUBSTRING(CAST(hora AS CH
 			<div class="row">
 			  <table id="example" class="display" cellspacing="0" width="100%">
 				<thead>
-					  <tr>
+				  <tr>
 						<th> Numero de ticket </th>
 						<th width="10%"> Fecha </th>
 						<th> Hora </th>
 						<th> Estado </th>
 						<th> Observacion </th>
 						<th> Responder </th>
-					  </tr>
+            <th> Adjunto </th>
+				  </tr>
 				</thead>
 					<tbody>
 						<?php while($tickets = mysqli_fetch_array($query)){ ?>
@@ -101,6 +102,9 @@ $query = mysqli_query($link,"SELECT id_ticket,ht.fecha,SUBSTRING(CAST(hora AS CH
 							<td> <?php echo $tickets['nombre']; ?> </td>
 							<td> <?php echo $tickets['observacion'];?></td>
               <td> <button type="submit" id="idTicket" name="idTicket" class="btn btn-sm btn-primary"  onclick="location.href='detalle_ticket_responder.php?idTicket=<?php echo $tickets['id_ticket']; ?>';"><i class="fa fa-address-book-o fa-fw"></i></button> </td>
+              <?php if($tickets['adjunto'] != null){ ?>
+                <td> <button type="submit" id="adjunto" name="adjunto" class="btn btn-sm btn-primary"  onclick="location.href='adjunto.php?adjunto=<?php echo $tickets['adjunto']; ?>';"><i class="fa fa-paperclip fa-fw"></i></button> </td>
+              <?php } ?>
 						</tr>
 						<?php } ?>
 					</tbody>

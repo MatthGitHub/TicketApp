@@ -108,7 +108,7 @@ public class Usuarios implements Serializable {
     }
 
     public void setContrasenia(String contrasenia) {
-        MD5 clave = new MD5();
+        MD5 clave = MD5.getMD5();
         this.contrasenia = clave.md5(contrasenia);
     }
 

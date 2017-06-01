@@ -27,8 +27,20 @@ public class UsuarioServ {
     private List<Usuarios> miLista;
     private Usuarios miUsuario;
     private Date miFecha;
-    EntityManagerFactory emf = Persistence.createEntityManagerFactory("TicketneitorPU");
-    UsuariosJpaController jpa = new UsuariosJpaController(emf);
+    private EntityManagerFactory emf = Persistence.createEntityManagerFactory("TicketneitorPU");
+    private UsuariosJpaController jpa = new UsuariosJpaController(emf);
+    private static UsuarioServ esto;
+    
+    private UsuarioServ(){
+        
+    }
+    
+    public static UsuarioServ getUsuarioServ(){
+        if(esto == null){
+            esto = new UsuarioServ();
+        }
+        return esto;
+    }
     
     public Usuarios buscarUsuario(String nombre, String clave){
         

@@ -32,7 +32,7 @@ public class Razones extends MenuP {
         setSize(800, 600);
         setVisible(true);
         this.mainFrame = mainFrame;
-        serviciosR = new RazoneServ();
+        serviciosR = RazoneServ.getRazoneServ();
         pl_nuevo.setVisible(false);
         validarPermisos();
         llenarTabla();

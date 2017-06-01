@@ -18,8 +18,20 @@ import mscb.tick.negocio.entidades.EstadoActualPgm;
  * @author Administrador
  */
 public class EstadoActualPgmServ {
-    EntityManagerFactory emf = Persistence.createEntityManagerFactory("TicketneitorPU");
-    EstadoActualPgmJpaController jpa = new EstadoActualPgmJpaController(emf);
+    private EntityManagerFactory emf = Persistence.createEntityManagerFactory("TicketneitorPU");
+    private EstadoActualPgmJpaController jpa = new EstadoActualPgmJpaController(emf);
+    private static EstadoActualPgmServ esto;
+    
+    private EstadoActualPgmServ(){
+        
+    }
+    
+    public static EstadoActualPgmServ getEstadoActualPgmServ(){
+        if(esto == null){
+            esto = new EstadoActualPgmServ();
+        }
+        return esto;
+    }
     
     public EstadoActualPgm traerEstadoActual(int id){
         return jpa.findEstadoActualPgm(id);

@@ -185,17 +185,17 @@ public class Tickets implements Serializable,Comparable<Tickets> {
     }
     
     public Estados getUltimoEstado(){
-        HistorialServ his = new HistorialServ();
+        HistorialServ his = HistorialServ.getHistorialServ();
         return his.buscarUltimo(this).getFkEstado();
     }
     
     public Usuarios getUltimoUsuario(){
-        HistorialServ his = new HistorialServ();
+        HistorialServ his = HistorialServ.getHistorialServ();
         return his.buscarUltimo(this).getFkUsuario();
     }
     
     public String getResolucion(){
-        HistorialServ his = new HistorialServ();
+        HistorialServ his = HistorialServ.getHistorialServ();
         return his.buscarUltimo(this).getResolucion();
     }
     

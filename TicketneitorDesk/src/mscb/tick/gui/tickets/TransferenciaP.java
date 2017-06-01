@@ -48,9 +48,9 @@ public class TransferenciaP extends MenuP {
         initComponents();
         panelMisti = BandejaTickets.getBandejaTickets(mainFrameO);
         this.mainFrame = mainFrame;
-        serviciosR = new RazoneServ();
-        serviciosT = new TicketServ();
-        estad = new EstadoServ();
+        serviciosR = RazoneServ.getRazoneServ();
+        serviciosT = TicketServ.getTicketServ();
+        estad = EstadoServ.getEstadoServ();
         //B es una bandera para que el combobox de asuntos no se cargue cuando entre, sino que cuando selecciones
         b = 0;
         this.miTick = miTick;
@@ -72,7 +72,7 @@ public class TransferenciaP extends MenuP {
     }
     
     private void llenarAsuntoPrincipal(){
-        serviciosPrincipal = new AsuntoPrincipalServ();
+        serviciosPrincipal = AsuntoPrincipalServ.getAsuntoPrincipalServ();
         miListaAP = serviciosPrincipal.traerTodos();
         
         for(int i = 0 ; i < miListaAP.size(); i++){
@@ -273,7 +273,7 @@ public class TransferenciaP extends MenuP {
         b++;
         if(b != 1){
             b =0;
-            serviciosSecundario = new AsuntoSecundarioServ();
+            serviciosSecundario = AsuntoSecundarioServ.getAsuntoPrincipalServ();
             miListaAS = serviciosSecundario.traerPorAreaPrincipal((Asuntos) cmbx_asuntoPrincipal.getSelectedItem());
             cmbx_asuntoSecundario.removeAllItems();
             for(int i = 0; i < miListaAS.size();i++){
@@ -303,7 +303,7 @@ public class TransferenciaP extends MenuP {
             if(serviciosT.modificarTicket(miTick) == 0){
                 JOptionPane.showMessageDialog(this, "Ticket transferido");
                 Date fecha = new Date();
-                HistorialServ servH = new HistorialServ();
+                HistorialServ servH = HistorialServ.getHistorialServ();
                 HistorialTickets his = new HistorialTickets();
                 his.setFkRazon((RazonesTransferencias) cmbx_razones.getSelectedItem());
                 his.setFkUsuario(LoginEJB.usuario);

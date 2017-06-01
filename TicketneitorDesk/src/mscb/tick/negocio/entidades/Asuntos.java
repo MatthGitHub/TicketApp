@@ -36,6 +36,10 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Asuntos.findByNombre", query = "SELECT a FROM Asuntos a WHERE a.nombre = :nombre")})
 public class Asuntos implements Serializable {
 
+    @Basic(optional = false)
+    @Column(name = "visible")
+    private boolean visible;
+
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -119,6 +123,14 @@ public class Asuntos implements Serializable {
     @Override
     public String toString() {
         return this.nombre;
+    }
+
+    public boolean getVisible() {
+        return visible;
+    }
+
+    public void setVisible(boolean visible) {
+        this.visible = visible;
     }
     
 }

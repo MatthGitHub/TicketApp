@@ -80,14 +80,16 @@ if($tipo == 'ticket'){
       $link = mysqli_connect ($dbhost, $dbusername, $dbuserpass);
       mysqli_select_db($link,$dbname);
 
+      // Con esta sentencia SQL insertaremos los datos en la base de datos
+      mysqli_query($link,"INSERT INTO tickets (fecha,hora,creador,servicio,observacion)
+      VALUES ('{$fecha}','{$hora}','{$usuario}','{$servicio}','{$obs}')");
+      // Ahora comprobaremos que todo ha ido correctamente
+      $my_error = mysqli_error();
+      $idTicket = mysqli_insert_id($link);
+      mysqli_query($link,"INSERT INTO historial_tickets (fk_ticket,fk_usuario,fecha,fk_estado) VALUES ({$idTicket},'{$usuario}','{$fecha}',1)");
+
       if ((strpos($tipo_archivo, "pdf") || strpos($tipo_archivo, "jpeg") || strpos($tipo_archivo, "doc") || strpos($tipo_archivo, "txt") || strpos($tipo_archivo, "docx"))){
-        // Con esta sentencia SQL insertaremos los datos en la base de datos
-        mysqli_query($link,"INSERT INTO tickets (fecha,hora,creador,servicio,observacion)
-        VALUES ('{$fecha}','{$hora}','{$usuario}','{$servicio}','{$obs}')");
-        // Ahora comprobaremos que todo ha ido correctamente
-        $my_error = mysqli_error();
-        $idTicket = mysqli_insert_id($link);
-        mysqli_query($link,"INSERT INTO historial_tickets (fk_ticket,fk_usuario,fecha,fk_estado) VALUES ({$idTicket},'{$usuario}','{$fecha}',1)");
+
 
         switch($tipo_archivo){
           case 'application/pdf':

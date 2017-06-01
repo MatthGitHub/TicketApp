@@ -22,7 +22,7 @@ public class DiferenciasBD {
     public static List<Tickets> nuevosTick;
 
     private DiferenciasBD() {
-        serviciosT = new TicketServ();
+        serviciosT = TicketServ.getTicketServ();
         cacheDatos = new ArrayList<>();
         nuevosTick = new ArrayList<>();
         cargarCache();

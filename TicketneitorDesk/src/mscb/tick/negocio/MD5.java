@@ -14,6 +14,18 @@ import java.math.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 public class MD5 {
+    private static MD5 esto;
+    
+    private MD5(){
+    
+    }
+    
+    public static MD5 getMD5(){
+        if(esto == null){
+            esto = new MD5();
+        }
+        return esto;
+    }
     
     public String md5(String s){
        MessageDigest m;

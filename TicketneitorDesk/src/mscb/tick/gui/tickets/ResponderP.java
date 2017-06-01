@@ -39,7 +39,7 @@ public class ResponderP extends MenuP {
         panelMisti = BandejaTickets.getBandejaTickets(mainFrameO);
         this.mainFrame = mainFrame;
         this.miTick = miTick;
-        serviciosE = new EmpleadoServ();
+        serviciosE = EmpleadoServ.getEmpleadoServ();
         lbl_ticket.setText(miTick.getIdTicket().toString());
         lbl_usuarioE.setText(miTick.getCreador().getFkEmpleado().getNombre()+" "+miTick.getCreador().getFkEmpleado().getApellido());
         lbl_areaE.setText(miTick.getCreador().getFkEmpleado().getFkArea().getNombreArea());
@@ -197,12 +197,14 @@ public class ResponderP extends MenuP {
         // TODO add your handling code here:
         if(JOptionPane.showConfirmDialog(mainFrame,"Seguro desea enviar?","Confirmar", JOptionPane.YES_NO_OPTION) == 0){
             Estados estado = new Estados();
-            serviciosT = new TicketServ();
-            EstadoServ serviciosE = new EstadoServ();
-            HistorialServ servH = new HistorialServ();
+            serviciosT = TicketServ.getTicketServ();
+            EstadoServ serviciosE = EstadoServ.getEstadoServ();
+            HistorialServ servH = HistorialServ.getHistorialServ();
             Date fecha = new Date();
             estado = serviciosE.traerEstado(4);
             HistorialTickets his = new HistorialTickets();
+            miTick = serviciosT.buscarUno(miTick.getIdTicket());
+            System.out.println("Obs: "+miTick.getObservacion());
             String obs = miTick.getObservacion();
                        
             if((obs == null)||(obs.isEmpty())){

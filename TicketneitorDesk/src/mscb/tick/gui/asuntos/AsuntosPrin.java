@@ -37,8 +37,8 @@ public class AsuntosPrin extends MenuP {
         this.mainFrame = mainFrame;
         setSize(800, 600);
         setVisible(true);
-        serviciosA = new AsuntoPrincipalServ();
-        serviciosAr = new AreaServ();
+        serviciosA = AsuntoPrincipalServ.getAsuntoPrincipalServ();
+        serviciosAr =AreaServ.getAreaServ();
         validarPermisos();
         llenarComboAreas();
     }

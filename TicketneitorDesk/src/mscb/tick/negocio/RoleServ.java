@@ -16,8 +16,20 @@ import mscb.tick.negocio.entidades.Roles;
  * @author Administrador
  */
 public class RoleServ {
-    EntityManagerFactory emf = Persistence.createEntityManagerFactory("TicketneitorPU");
-    RolesJpaController jpa = new RolesJpaController(emf);
+    private EntityManagerFactory emf = Persistence.createEntityManagerFactory("TicketneitorPU");
+    private RolesJpaController jpa = new RolesJpaController(emf);
+    private static RoleServ esto;
+    
+    private RoleServ(){
+        
+    }
+    
+    public static RoleServ getRoleServ(){
+        if(esto == null){
+            esto = new RoleServ();
+        }
+        return esto;
+    }
     
     public List<Roles> traerTodos(){
         return jpa.findRolesEntities();

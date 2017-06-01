@@ -21,8 +21,20 @@ import mscb.tick.negocio.entidades.Asuntos;
  * @author Administrador
  */
 public class AsuntoPrincipalServ {
-    EntityManagerFactory emf = Persistence.createEntityManagerFactory("TicketneitorPU");
-    AsuntosJpaController jpa = new AsuntosJpaController(emf);
+    private EntityManagerFactory emf = Persistence.createEntityManagerFactory("TicketneitorPU");
+    private AsuntosJpaController jpa = new AsuntosJpaController(emf);
+    private static AsuntoPrincipalServ esto;
+    
+    private AsuntoPrincipalServ(){
+        
+    }
+    
+    public static AsuntoPrincipalServ getAsuntoPrincipalServ(){
+        if(esto == null){
+            esto = new AsuntoPrincipalServ();
+        }
+        return esto;
+    }
     
     public List <Asuntos> traerTodos(){
         return jpa.findAsuntosEntities();

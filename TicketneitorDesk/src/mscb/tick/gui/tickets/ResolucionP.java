@@ -221,8 +221,8 @@ public class ResolucionP extends MenuP {
     private void btn_enviarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_enviarActionPerformed
         // TODO add your handling code here:
         if(JOptionPane.showConfirmDialog(mainFrame, "Confirmar", "Seguro desea enviar?", JOptionPane.YES_NO_OPTION) == 0){
-            servH = new HistorialServ();
-            EstadoServ esta = new EstadoServ();
+            servH = HistorialServ.getHistorialServ();
+            EstadoServ esta = EstadoServ.getEstadoServ();
             Estados estado;
             if(marcar.equals("si")){
                 estado = esta.traerEstado(5);
