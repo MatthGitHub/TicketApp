@@ -38,7 +38,8 @@ public class DiferenciasBD {
     public int buscarDiferencias() {
         int i = 0;
         miLista = serviciosT.traerTodos();
-        if(miLista.size() != cacheDatos.size()) {
+        if(miLista != null){
+            if(miLista.size() != cacheDatos.size()) {
             for ( i = 0; i < miLista.size(); i++) {
                 if (!cacheDatos.contains(miLista.get(i))) {
                     nuevosTick.add(miLista.get(i));
@@ -47,6 +48,8 @@ public class DiferenciasBD {
             }
             return nuevosTick.size();
         }
+        }
+        
         return 0;
 
         /**

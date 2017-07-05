@@ -60,54 +60,70 @@ public class TicketServ {
     }
     
     public List<Tickets> traerTodos(){
-        EntityManagerFactory emf = Persistence.createEntityManagerFactory("TicketneitorPU");
-        TicketsJpaController jpa = new TicketsJpaController(emf);
+        try {
+            EntityManagerFactory emf = Persistence.createEntityManagerFactory("TicketneitorPU");
+            TicketsJpaController jpa = new TicketsJpaController(emf);
+            return jpa.findTicketsEntities();
+        } catch (Exception e) {
+            System.out.println("No se loguearon aun o no hay conexion con el servidor: "+e);
+            return null;
+        }
         
-        return jpa.findTicketsEntities();
     }
     
-    
-    public List <Tickets> buscar(String busca){
+    public List<Tickets> traerTodosPorArea(){
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("TicketneitorPU");
         TicketsJpaController jpa = new TicketsJpaController(emf);
-        EntityManager em = emf.createEntityManager();
+        List<Tickets> miLista = jpa.findTicketsEntities();
+        List<Tickets> aux = new ArrayList<>();
         
-        q = em.createQuery("SELECT DISTINCT t "
-                + "FROM Tickets t "
-                + "JOIN t.servicio s "
-                + "JOIN s.pertenece a2 "
-                + "JOIN t.creador c "
-                + "JOIN t.historialTicketsList ht "
-                + "JOIN ht.fkEstado e "
-                + "WHERE e.idEstado NOT IN (5,7) AND ("
-                + "s.nombreasuntoS LIKE :patron "
-                + "OR a2.nombre LIKE :patron "
-                + "OR c.nombreUsuario LIKE :patron "
-                + "OR t.patrimonio LIKE :patron "
-                + "OR c.nombreUsuario LIKE :patron )");
-        q.setParameter("patron", "%"+ busca+"%");
-        return q.getResultList();
+        for(int i = 0; i < miLista.size(); i++){
+            if(LoginEJB.usuario.getFkEmpleado().getFkArea().equals(miLista.get(i).getServicio().getPertenece().getFkArea())){
+                aux.add(miLista.get(i));
+            }
+        }
+        
+        
+        return aux;
     }
     
-    public List <Tickets> buscar(int id){
-        EntityManagerFactory emf = Persistence.createEntityManagerFactory("TicketneitorPU");
-        TicketsJpaController jpa = new TicketsJpaController(emf);
-        EntityManager em = emf.createEntityManager();
-        
-        q = em.createQuery("SELECT t FROM Tickets t WHERE t.idTicket LIKE :patron AND t.fkEstado != 7");
-        q.setParameter("patron",id);
-        return q.getResultList();
-    }
-    
-    public List <Tickets> buscarNoResueltos(int id){
+     public List <Tickets> buscar(String id){
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("TicketneitorPU");
         TicketsJpaController jpa = new TicketsJpaController(emf);
         EntityManager em = emf.createEntityManager();
         
-        q = em.createQuery("SELECT t FROM Tickets t JOIN t.historialTicketsList ht JOIN ht.fkEstado e WHERE t.idTicket LIKE :patron  AND e.idEstado NOT IN (5,7)");
-        q.setParameter("patron",id);
-        return q.getResultList();
+        List<Tickets> miLista = jpa.findTicketsEntities();
+        List<Tickets> aux = new ArrayList<>();
+        
+        em.getTransaction().begin();
+        q = em.createNativeQuery("SELECT DISTINCT * FROM tickets t \n" +
+                                "JOIN historial_tickets ht ON ht.fk_ticket = t.id_ticket\n" +
+                                "JOIN servicios s ON t.servicio = s.id_asuntoS\n" +
+                                "JOIN asuntos a ON a.id_asuntoP = s.pertenece\n" +
+                                "JOIN estados e ON e.id_estado = ht.fk_estado\n" +
+                                "JOIN encargado_servicios es ON es.asunto = s.id_asuntoS\n" +
+                                "JOIN usuarios u2 ON u2.id_usuario = t.creador\n" +
+                                "JOIN usuarios u3 ON u3.id_usuario = ht.fk_usuario\n" +
+                                "WHERE e.id_estado NOT IN (5,7)"+
+                                " AND ht.id_historial IN "+
+                                "(SELECT id_historial FROM "+
+                                "(SELECT MAX(id_historial) as id_historial,fk_ticket "+
+                                "FROM historial_tickets GROUP by fk_ticket ) AS ht2)"+
+                                " AND es.usuario = ?1 "+
+                                "AND ((s.nombre_asuntoS LIKE ?2\n" +
+                                "OR a.nombre LIKE ?2\n"+
+                                "OR u2.nombre_usuario LIKE ?2\n"+
+                                "OR u3.nombre_usuario LIKE ?2\n"+
+                                "OR t.patrimonio LIKE ?2)\n"+
+                                "OR t.id_ticket = ?3)\n"+
+                                "ORDER by t.id_ticket",Tickets.class);
+        q.setParameter(1, LoginEJB.usuario.getIdUsuario());
+        q.setParameter(2, "%"+id+"%");
+        q.setParameter(3,id);
+        aux = q.getResultList();
+        return aux;
     }
+    
     /**
      * 
      * @return 
@@ -119,40 +135,23 @@ public class TicketServ {
         
         List<Tickets> miLista = jpa.findTicketsEntities();
         List<Tickets> aux = new ArrayList<>();
-        /*estad = EstadoServ.getEstadoServ();
-        
-        for(int i = 0; i < miLista.size(); i ++){
-            System.out.println(miLista.get(i).getIdTicket().toString());
-            if((LoginEJB.usuario.getServiciosList().contains(miLista.get(i).getServicio()))&&((!miLista.get(i).getUltimoEstado().equals(estad.traerEstado(5)))&&(!miLista.get(i).getUltimoEstado().equals(estad.traerEstado(7))))){
-                aux.add(miLista.get(i));
-                
-            }
-        }*/
-        //return aux;
+
         em.getTransaction().begin();
         q = em.createNativeQuery("SELECT DISTINCT * FROM tickets t \n" +
                                 "JOIN historial_tickets ht ON ht.fk_ticket = t.id_ticket\n" +
                                 "JOIN servicios s ON t.servicio = s.id_asuntoS\n" +
                                 "JOIN estados e ON e.id_estado = ht.fk_estado\n" +
+                                "JOIN encargado_servicios es ON es.asunto = s.id_asuntoS\n"+
                                 "WHERE e.id_estado NOT IN (5,7)"+
                                 " AND ht.id_historial IN "+
                                 "(SELECT id_historial FROM "+
                                 "(SELECT MAX(id_historial) as id_historial,fk_ticket "+
-                                "FROM historial_tickets GROUP by fk_ticket ) AS ht2) "+
+                                "FROM historial_tickets GROUP by fk_ticket ) AS ht2)"+
+                                " AND es.usuario = ?1 "+
                                 "ORDER by t.id_ticket",Tickets.class);
+        q.setParameter(1, LoginEJB.usuario.getIdUsuario());
         aux = q.getResultList();
         return aux;
-       /* Usuarios usuario = LoginEJB.usuario;
-        q = em.createQuery("SELECT DISTINCT t "
-                + "FROM Tickets t "
-                + "LEFT JOIN t.servicio s "
-                + "LEFT JOIN t.historialTicketsList ht "
-                + "LEFT JOIN ht.fkEstado e "
-                + "WHERE t.servicio IN (SELECT s FROM Usuarios u JOIN u.serviciosList s WHERE s.usuariosList = :patron)"
-                + " AND e.idEstado NOT IN (5,7)");
-        q.setParameter("patron",usuario );
-        aux = q.getResultList();
-        return aux;*/
     }
     
     public List <Tickets> buscarPorUsuarioAsuntoSinEnEspera(){
@@ -240,7 +239,6 @@ public class TicketServ {
         estad = EstadoServ.getEstadoServ();
         
         for(int i = 0; i < miLista.size(); i ++){
-            System.out.println(miLista.get(i).getIdTicket().toString());
             if((miLista.get(i).getCreador().equals(LoginEJB.usuario))&&(!miLista.get(i).getUltimoEstado().equals(estad.traerEstado(7)))){
                 aux.add(miLista.get(i));
             }

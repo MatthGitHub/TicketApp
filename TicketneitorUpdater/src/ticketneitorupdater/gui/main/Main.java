@@ -52,23 +52,24 @@ public class Main extends javax.swing.JFrame {
         }
     }
     
-    public static void copyFile() throws MalformedURLException, SmbException, IOException{
+    public void copyFile() throws MalformedURLException, SmbException{
 
         String fuente = "smb://10.20.130.242/TicketneitorDeskUpdt/TicketneitorDesk.jar"; 
         //String destino = "smb://localhost/Compartida/TicketneitorDesk.jar";
         System.out.println("Fuente: " + fuente);
         //System.out.println("Destino: " + destino);
         NtlmPasswordAuthentication auth = new NtlmPasswordAuthentication("", "administrador", "cavaliere");
-        NtlmPasswordAuthentication auth2 = new NtlmPasswordAuthentication("", "administrador", "sumario");
         
         SmbFile dir = new SmbFile(fuente, auth);
-        //SmbFile copiar = new SmbFile(destino,auth2);
         
-        InputStream in = dir.getInputStream();
-        //dir.copyTo(copiar);
-       
-        //OutputStream out = dir.getOutputStream();
-        Files.copy(in,new File("TicketneitorDesk.jar").toPath());
+        InputStream in;
+        try {
+            in = dir.getInputStream();
+            Files.copy(in,new File("TicketneitorDesk.jar").toPath());
+        } catch (IOException ex) {
+           JOptionPane.showMessageDialog(this, "Error al copiar archivo: "+ex);
+        }
+        
      
     }
     

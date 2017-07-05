@@ -128,7 +128,7 @@ public class Login extends MenuP {
                     .addComponent(txt_nombre)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(btn_salir)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 90, Short.MAX_VALUE)
                         .addComponent(btn_entrar)))
                 .addContainerGap())
         );
@@ -138,9 +138,9 @@ public class Login extends MenuP {
                 .addComponent(txt_nombre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(pswr_clave, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(lbl_mensaje, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(lbl_mensaje, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 59, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btn_salir)
                     .addComponent(btn_entrar, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)))
@@ -168,7 +168,8 @@ public class Login extends MenuP {
         // TODO add your handling code here:
         if ((txt_nombre.getText().trim().length() > 0) && (pswr_clave.getText().trim().length() > 0)) {
             loginejb = new LoginEJB();
-            if (loginejb.login(txt_nombre.getText(), pswr_clave.getText())) {
+            try {
+                if (loginejb.login(txt_nombre.getText(), pswr_clave.getText())) {
                     mainFrame.setSize(800, 600);
                     mainFrame.setResizable(true);
                     mainFrame.validarPermisos();
@@ -187,6 +188,10 @@ public class Login extends MenuP {
                 lbl_mensaje.setText(LoginEJB.mensaje);
                 lbl_mensaje.setVisible(true);
             }
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(this, "No hay conexion al servidor!");
+            }
+            
 
         } else {
             JOptionPane.showMessageDialog(mainFrame, "Completar nombre y clave!");

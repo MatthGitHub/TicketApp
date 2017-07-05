@@ -45,6 +45,7 @@ import mscb.tick.gui.razonesTransf.Razones;
 import mscb.tick.gui.roles.RolesV;
 import mscb.tick.gui.tickets.BandejaEnviados;
 import mscb.tick.gui.tickets.CambiarEstadoTicketD;
+import mscb.tick.gui.tickets.ModificarPatrimonio;
 import mscb.tick.gui.tickets.ObservacionD;
 import mscb.tick.gui.tickets.ResolucionD;
 import mscb.tick.gui.tickets.ResponderD;
@@ -97,6 +98,8 @@ public class Main extends javax.swing.JFrame {
     
     private ObservacionD observacion;
     private Tickets miTick;
+    
+    private ModificarPatrimonio patri;
     
     private ResponderD responder;
     private RespuestaD respuesta;
@@ -234,9 +237,9 @@ public class Main extends javax.swing.JFrame {
         }
         //asignar asuntos
         if(permisosU.contains(serviciosP.traerUno(34))){
-            mi_servicios.setVisible(true);
+            mi_asignar.setVisible(true);
         }else{
-            mi_servicios.setVisible(false);
+            mi_asignar.setVisible(false);
         }
         //roles
         if(permisosU.contains(serviciosP.traerUno(35))){
@@ -406,6 +409,20 @@ public class Main extends javax.swing.JFrame {
         }
         revalidate();
     }
+    
+    /**
+     * Ventana para modificar patrimonio de un ticket. Es un Frame
+     */
+    public void modificarPatrimonio(Tickets elTi){
+        if(patri == null){
+            patri = new ModificarPatrimonio(this, false, elTi);
+        }else{
+            //aiuda.panelInfoP();
+            patri.setVisible(true);
+        }
+        revalidate();
+    }
+    
     
     /**
      * Formulario para asignar asuntos a los usuarios de sistemas

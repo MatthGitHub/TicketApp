@@ -56,7 +56,9 @@ public class AsuntoSecundarioServ {
         miLista = new ArrayList<>();
         miLista = jpa.findServiciosEntities();
         aux = new ArrayList<>();
+        
         for(int i = 0; i < miLista.size(); i++){
+            
             if(asunto.getServiciosList().contains(miLista.get(i))){
                 if(!miLista.get(i).getUsuariosList().contains(user)){
                     aux.add(miLista.get(i));

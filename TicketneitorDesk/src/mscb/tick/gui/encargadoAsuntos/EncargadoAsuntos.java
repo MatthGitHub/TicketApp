@@ -7,9 +7,7 @@ package mscb.tick.gui.encargadoAsuntos;
 
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
-import java.util.Vector;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
@@ -69,7 +67,11 @@ public class EncargadoAsuntos extends MenuP {
     private void cargarComboBoxUsuarios() {
         serviciosU = UsuarioServ.getUsuarioServ();
         miListaU = new ArrayList<>();
-        miListaU = serviciosU.traerSistemas();
+        if(LoginEJB.usuario.getFkRol().getIdRol() == 1){
+            miListaU = serviciosU.traerTodos();
+        }else{
+            miListaU = serviciosU.traerPorArea(LoginEJB.usuario.getFkEmpleado().getFkArea());
+        }
 
         for (int i = 0; i < miListaU.size(); i++) {
             cmbx_usuarios.addItem(miListaU.get(i));
@@ -88,10 +90,18 @@ public class EncargadoAsuntos extends MenuP {
         
     }
 
+    /**
+     * Trae todos los asuntos si el rol es administrador, sino solo los correspondientes del area del usuario
+     */
     private void cargarComboBoxAsuntoP() {
         serviciosP = AsuntoPrincipalServ.getAsuntoPrincipalServ();
         miListaP = new ArrayList<>();
-        miListaP = serviciosP.traerTodos();
+        if(LoginEJB.usuario.getFkRol().getIdRol() == 1){
+             miListaP = serviciosP.traerTodos();
+        }else{
+            miListaP = serviciosP.asuntosPorArea(LoginEJB.usuario.getFkEmpleado().getFkArea());
+        }
+        
         for (int i = 0; i < miListaP.size(); i++) {
             cmbx_asuntosP.addItem(miListaP.get(i));
         }
@@ -128,44 +138,43 @@ public class EncargadoAsuntos extends MenuP {
     
     private void quitarAsunto(){
         if((jt_asuntos.getSelectedRow() != -1)&&(jt_asuntos.getSelectedRowCount() == 1)){
-            if(JOptionPane.showConfirmDialog(mainFrame, "Seguro desea quitar este asunto?") == 0){
-                serviciosU = UsuarioServ.getUsuarioServ();
-                serviciosA = AsuntoSecundarioServ.getAsuntoPrincipalServ();
-                serviciosP = AsuntoPrincipalServ.getAsuntoPrincipalServ();
-                
-                Usuarios miUsuario = (Usuarios) cmbx_usuarios.getSelectedItem();
-                
-                List <Servicios> asuntos = serviciosA.traerTodos();
-                List <Asuntos> asuntoP = serviciosP.traerTodos();
-               Servicios miAsu = new Servicios();
-                Asuntos miAsup = new Asuntos();
-                
-                for(int i = 0; i < asuntoP.size(); i ++ ){
-                    if(asuntoP.get(i).getNombre().equals(modelo.getValueAt(jt_asuntos.getSelectedRow(), 0))){
-                        miAsup = asuntoP.get(i);
-                    }
-                }
-                
-                for(int i = 0; i < asuntos.size(); i++){
-                    if((asuntos.get(i).getNombreasuntoS().equals(modelo.getValueAt(jt_asuntos.getSelectedRow(), 1).toString()))
-                        &&(asuntos.get(i).getPertenece().equals(miAsup))){
-                        miAsu = asuntos.get(i);
-                    }
-                }
-                miUsuario.getServiciosList().remove(miAsu);
-                serviciosU = UsuarioServ.getUsuarioServ();
-                if (serviciosU.modificarUsuario(miUsuario)) {
-                    JOptionPane.showMessageDialog(mainFrame, "Asunto quitado!");
-                    cargarComboBoxAsuntoS();
-                    cargarTabla();
-                    if(mainFrame.asuntoSinEnc != null){
-                        AsuntoSinEncargadosP tablEnc = AsuntoSinEncargadosP.getAsuntoSinEncargadosP(mainFrame.asuntoSinEnc);
-                        tablEnc.llenarTabla();
-                    }
-                } else {
-                    JOptionPane.showMessageDialog(mainFrame, "Error al quitar asunto!");
+            serviciosU = UsuarioServ.getUsuarioServ();
+            serviciosA = AsuntoSecundarioServ.getAsuntoPrincipalServ();
+            serviciosP = AsuntoPrincipalServ.getAsuntoPrincipalServ();
+
+            Usuarios miUsuario = (Usuarios) cmbx_usuarios.getSelectedItem();
+
+            List <Servicios> asuntos = serviciosA.traerTodos();
+            List <Asuntos> asuntoP = serviciosP.traerTodos();
+           Servicios miAsu = new Servicios();
+            Asuntos miAsup = new Asuntos();
+
+            for(int i = 0; i < asuntoP.size(); i ++ ){
+                if(asuntoP.get(i).getNombre().equals(modelo.getValueAt(jt_asuntos.getSelectedRow(), 0))){
+                    miAsup = asuntoP.get(i);
                 }
             }
+
+            for(int i = 0; i < asuntos.size(); i++){
+                if((asuntos.get(i).getNombreasuntoS().equals(modelo.getValueAt(jt_asuntos.getSelectedRow(), 1).toString()))
+                    &&(asuntos.get(i).getPertenece().equals(miAsup))){
+                    miAsu = asuntos.get(i);
+                }
+            }
+            miUsuario.getServiciosList().remove(miAsu);
+            serviciosU = UsuarioServ.getUsuarioServ();
+            if (serviciosU.modificarUsuario(miUsuario)) {
+                cargarComboBoxAsuntoS();
+                cargarTabla();
+                jt_asuntos.getSelectionModel().setSelectionInterval(0, 0);
+                if(mainFrame.asuntoSinEnc != null){
+                    AsuntoSinEncargadosP tablEnc = AsuntoSinEncargadosP.getAsuntoSinEncargadosP(mainFrame.asuntoSinEnc);
+                    tablEnc.llenarTabla();
+                }
+            } else {
+                JOptionPane.showMessageDialog(mainFrame, "Error al quitar asunto!");
+            }
+            
         }
     }
 
@@ -227,6 +236,7 @@ public class EncargadoAsuntos extends MenuP {
                 return canEdit [columnIndex];
             }
         });
+        jt_asuntos.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         jt_asuntos.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
                 jt_asuntosKeyPressed(evt);
@@ -399,12 +409,10 @@ public class EncargadoAsuntos extends MenuP {
         if(cmbx_asuntosS.getSelectedItem() == null){
             JOptionPane.showMessageDialog(this, "No quedan servicios", "Error", JOptionPane.ERROR_MESSAGE);
         }else{
-            if (JOptionPane.showConfirmDialog(mainFrame, "Seguro desea agregar este asunto?", "Seguro", JOptionPane.YES_NO_OPTION) == 0) {
             //Usuarios miUsuario = (Usuarios) cmbx_usuarios.getSelectedItem();
             user.getServiciosList().add((Servicios) cmbx_asuntosS.getSelectedItem());
             serviciosU = UsuarioServ.getUsuarioServ();
             if (serviciosU.modificarUsuario(user)) {
-                JOptionPane.showMessageDialog(mainFrame, "Asunto agregado!");
                 cargarTabla();
                 LoginEJB.refrescarPermisos();
                 if(mainFrame.asuntoSinEnc != null){
@@ -418,7 +426,7 @@ public class EncargadoAsuntos extends MenuP {
             } else {
                 JOptionPane.showMessageDialog(mainFrame, "Error al agregar asunto!");
             }
-        }
+
         }
         
     }//GEN-LAST:event_btn_agregarActionPerformed

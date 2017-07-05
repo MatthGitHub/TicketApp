@@ -34,6 +34,7 @@ public class EmpleadosV extends MenuP {
         setVisible(true);
         serviciosE = EmpleadoServ.getEmpleadoServ();
         validarPermisos();
+        btn_eliminar.setVisible(false);
         modelo = (DefaultTableModel) jt_empleados.getModel();
         llenarTabla(cargarTodosLosEmpelados());
     }
@@ -161,6 +162,11 @@ public class EmpleadosV extends MenuP {
         btn_eliminar.setForeground(new java.awt.Color(0, 108, 118));
         btn_eliminar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/mscb/tick/resources/imagenes/icons/delete.png"))); // NOI18N
         btn_eliminar.setText("Eliminar");
+        btn_eliminar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_eliminarActionPerformed(evt);
+            }
+        });
 
         btn_modificar.setBackground(new java.awt.Color(153, 153, 153));
         btn_modificar.setFont(new java.awt.Font("SansSerif", 1, 10)); // NOI18N
@@ -298,6 +304,10 @@ public class EmpleadosV extends MenuP {
     private void btn_modificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_modificarActionPerformed
         // TODO add your handling code here: se puede hacer desde la jTable tomando los campos modificados
     }//GEN-LAST:event_btn_modificarActionPerformed
+
+    private void btn_eliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_eliminarActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btn_eliminarActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

@@ -56,7 +56,7 @@
                                   <EmptySpace max="-2" attributes="0"/>
                                   <Component id="txtArchivo" min="-2" pref="402" max="-2" attributes="0"/>
                                   <EmptySpace max="32767" attributes="0"/>
-                                  <Component id="btn_volver1" min="-2" max="-2" attributes="0"/>
+                                  <Component id="btn_adjuntar" min="-2" max="-2" attributes="0"/>
                               </Group>
                               <Group type="102" alignment="0" attributes="0">
                                   <Component id="btn_volver" min="-2" max="-2" attributes="0"/>
@@ -158,7 +158,7 @@
               <Group type="103" groupAlignment="1" attributes="0">
                   <Component id="jLabel2" min="-2" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
-                      <Component id="btn_volver1" alignment="3" min="-2" pref="37" max="-2" attributes="0"/>
+                      <Component id="btn_adjuntar" alignment="3" min="-2" pref="37" max="-2" attributes="0"/>
                       <Component id="txtArchivo" alignment="3" min="-2" pref="37" max="-2" attributes="0"/>
                   </Group>
               </Group>
@@ -525,7 +525,7 @@
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="cmbx_usuariosActionPerformed"/>
       </Events>
     </Component>
-    <Component class="javax.swing.JButton" name="btn_volver1">
+    <Component class="javax.swing.JButton" name="btn_adjuntar">
       <Properties>
         <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
           <Color blue="99" green="99" red="99" type="rgb"/>
@@ -542,7 +542,7 @@
         <Property name="text" type="java.lang.String" value="Adjuntar"/>
       </Properties>
       <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btn_volver1ActionPerformed"/>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btn_adjuntarActionPerformed"/>
       </Events>
     </Component>
     <Component class="javax.swing.JLabel" name="txtArchivo">

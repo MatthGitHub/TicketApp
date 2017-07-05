@@ -94,7 +94,7 @@ public class TicketsV extends MenuP {
     
     public void llenarTabla() {
         vaciarTabla(jt_tickets);
-        miLista = serviciosT.traerTodos();
+        miLista = serviciosT.traerTodosPorArea();
         String v[] = new String[8];
         DateFormat dateFormatter;
         dateFormatter = DateFormat.getDateInstance(DateFormat.SHORT, Locale.UK);
@@ -405,7 +405,7 @@ public class TicketsV extends MenuP {
     private void txt_idActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txt_idActionPerformed
         // TODO add your handling code here:
         if(txt_id.getText().trim().length() >0){
-            llenarTablaBuscador(serviciosT.buscar(Integer.parseInt(txt_id.getText().trim())));
+            llenarTablaBuscador(serviciosT.buscar(txt_id.getText().trim()));
         }
     }//GEN-LAST:event_txt_idActionPerformed
 

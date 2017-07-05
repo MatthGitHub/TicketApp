@@ -12,6 +12,7 @@ import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 import mscb.tick.negocio.entidades.Usuarios;
 import mscb.tick.gui.main.Main;
+import mscb.tick.negocio.LoginEJB;
 import mscb.tick.negocio.UsuarioServ;
 import mscb.tick.util.MenuP;
 
@@ -98,7 +99,12 @@ public class UsuariosV extends MenuP {
     }
     private List <Usuarios> traerUsuarios(){
         servicios = UsuarioServ.getUsuarioServ();
-        listaUsuarios = servicios.traerTodos();
+        if(LoginEJB.usuario.getFkRol().getIdRol() == 1){
+            listaUsuarios = servicios.traerTodos();
+        }else{
+            listaUsuarios = servicios.traerPorArea(LoginEJB.usuario.getFkEmpleado().getFkArea());
+        }
+        
         cargarCache(listaUsuarios);
         
         return listaUsuarios;

@@ -5,17 +5,30 @@
  */
 package mscb.tick.gui.tickets;
 
+import java.io.File;
 import java.awt.Desktop;
 import java.io.File;
 import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.net.UnknownHostException;
 import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
+import jcifs.UniAddress;
+import jcifs.smb.NtlmPasswordAuthentication;
+import jcifs.smb.SmbException;
+import jcifs.smb.SmbFile;
+import jcifs.smb.SmbFileOutputStream;
+import jcifs.smb.SmbSession;
 import mscb.tick.negocio.entidades.Estados;
 import mscb.tick.negocio.entidades.HistorialTickets;
 import mscb.tick.negocio.entidades.Tickets;
@@ -25,8 +38,12 @@ import mscb.tick.negocio.LoginEJB;
 import mscb.tick.gui.main.Main;
 import mscb.tick.negocio.TicketServ;
 import mscb.tick.negocio.UsuarioServ;
+import mscb.tick.util.Funciones;
+import static mscb.tick.util.Funciones.connectToServer;
+import static mscb.tick.util.Funciones.dissconectFromServer;
 import mscb.tick.util.reportes.EjecutarReporte;
 import mscb.tick.util.MenuP;
+import org.omg.CORBA.DefinitionKind;
 
 /**
  *
@@ -60,6 +77,8 @@ public class BandejaTickets extends MenuP {
         mainFrame.setLocationRelativeTo(null);
         mainFrame.setTitle("Ticketneitor");
         //setSize(mainFrame.getSize());
+        btnMostrar.setVisible(false);
+        validarPermisos();
         configurarTabla(jt_tickets);
         mostrarEspera = false;
         setVisible(true);
@@ -80,6 +99,13 @@ public class BandejaTickets extends MenuP {
         //MiTabla.setRowHeight(row, rowHeight);
     }
     
+    private void validarPermisos(){
+        if(mainFrame.validarPermisos(45)){
+            btn_patrimonio.setVisible(true);
+        }else{
+            btn_patrimonio.setVisible(false);
+        }
+    }
     
     public void llenarTabla() {
         vaciarTabla(jt_tickets);
@@ -178,19 +204,31 @@ public class BandejaTickets extends MenuP {
      * @param archivo 
      */
     public void abrirArchivo(String archivo){
-
-     try {
-
-            File objetofile = new File (archivo);
-            Desktop.getDesktop().open(objetofile);
-
-     }catch (IOException ex) {
-
-            System.out.println(ex);
-
-     }
-
-}        
+        
+        try {
+            connectToServer();
+        } catch (IOException ex) {
+            Logger.getLogger(BandejaTickets.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(this, "Error al conectar con el servidor: "+ex);
+        }
+       if (Desktop.isDesktopSupported()) {
+           try {
+               Desktop dk = Desktop.getDesktop();
+               dk.browse(new URI(archivo));
+           } catch (IOException | URISyntaxException e1) {
+           try {
+               Desktop dk = Desktop.getDesktop();
+               dk.browse(new URI(archivo));
+           } catch (IOException | URISyntaxException e2) {
+               JOptionPane.showMessageDialog(null, "ERROR: " + e2.getMessage());
+           }
+       }
+    }
+            dissconectFromServer();
+            
+    }
+    
+    
     
     /**
      *Cambia el estado de los tickets enviados a recibidos 
@@ -220,12 +258,10 @@ public class BandejaTickets extends MenuP {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        txt_buscar = new javax.swing.JTextField();
         txt_id = new javax.swing.JTextField();
         jScrollPane1 = new javax.swing.JScrollPane();
         jt_tickets = new javax.swing.JTable();
         lblNombreUsuario = new javax.swing.JLabel();
-        btn_observacion = new javax.swing.JButton();
         btn_verResp = new javax.swing.JButton();
         btn_responder = new javax.swing.JButton();
         btn_enEspera = new javax.swing.JButton();
@@ -239,27 +275,15 @@ public class BandejaTickets extends MenuP {
         btn_ver_adjunto = new javax.swing.JButton();
         lblCantidadTickets = new javax.swing.JLabel();
         btnMostrar = new javax.swing.JButton();
+        btn_control = new javax.swing.JButton();
+        btn_patrimonio = new javax.swing.JButton();
 
         setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Mis Tickets", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("SansSerif", 0, 18), java.awt.Color.white)); // NOI18N
         setMinimumSize(new java.awt.Dimension(827, 569));
 
-        txt_buscar.setFont(new java.awt.Font("SansSerif", 0, 14)); // NOI18N
-        txt_buscar.setForeground(new java.awt.Color(0, 108, 118));
-        txt_buscar.setText("Usuario, asunto, area, patrimonio...");
-        txt_buscar.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                txt_buscarMouseClicked(evt);
-            }
-        });
-        txt_buscar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txt_buscarActionPerformed(evt);
-            }
-        });
-
         txt_id.setFont(new java.awt.Font("SansSerif", 0, 14)); // NOI18N
         txt_id.setForeground(new java.awt.Color(0, 108, 118));
-        txt_id.setText("Nº de ticket....");
+        txt_id.setText("Usuario, Servicio, Patrimonio...");
         txt_id.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 txt_idMouseClicked(evt);
@@ -311,17 +335,6 @@ public class BandejaTickets extends MenuP {
         lblNombreUsuario.setFont(new java.awt.Font("Tekton Pro", 3, 24)); // NOI18N
         lblNombreUsuario.setForeground(new java.awt.Color(255, 255, 255));
         lblNombreUsuario.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-
-        btn_observacion.setBackground(new java.awt.Color(153, 153, 153));
-        btn_observacion.setFont(new java.awt.Font("SansSerif", 1, 10)); // NOI18N
-        btn_observacion.setForeground(new java.awt.Color(0, 108, 118));
-        btn_observacion.setIcon(new javax.swing.ImageIcon(getClass().getResource("/mscb/tick/resources/imagenes/icons/observation.png"))); // NOI18N
-        btn_observacion.setText("Ver observacion / Respuestas");
-        btn_observacion.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btn_observacionActionPerformed(evt);
-            }
-        });
 
         btn_verResp.setBackground(new java.awt.Color(153, 153, 153));
         btn_verResp.setFont(new java.awt.Font("SansSerif", 1, 10)); // NOI18N
@@ -458,6 +471,28 @@ public class BandejaTickets extends MenuP {
             }
         });
 
+        btn_control.setBackground(new java.awt.Color(153, 153, 153));
+        btn_control.setFont(new java.awt.Font("SansSerif", 1, 10)); // NOI18N
+        btn_control.setForeground(new java.awt.Color(0, 108, 118));
+        btn_control.setIcon(new javax.swing.ImageIcon(getClass().getResource("/mscb/tick/resources/imagenes/icons/work.png"))); // NOI18N
+        btn_control.setText("Control");
+        btn_control.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_controlActionPerformed(evt);
+            }
+        });
+
+        btn_patrimonio.setBackground(new java.awt.Color(153, 153, 153));
+        btn_patrimonio.setFont(new java.awt.Font("SansSerif", 1, 10)); // NOI18N
+        btn_patrimonio.setForeground(new java.awt.Color(0, 108, 118));
+        btn_patrimonio.setIcon(new javax.swing.ImageIcon(getClass().getResource("/mscb/tick/resources/imagenes/icons/work.png"))); // NOI18N
+        btn_patrimonio.setText("Patrimonio");
+        btn_patrimonio.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_patrimonioActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -466,11 +501,9 @@ public class BandejaTickets extends MenuP {
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(txt_buscar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(lblNombreUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 175, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(txt_id, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(txt_id, javax.swing.GroupLayout.PREFERRED_SIZE, 342, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(23, 23, 23))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
@@ -479,19 +512,9 @@ public class BandejaTickets extends MenuP {
                                     .addComponent(btn_tomar, javax.swing.GroupLayout.PREFERRED_SIZE, 1, Short.MAX_VALUE)
                                     .addGroup(layout.createSequentialGroup()
                                         .addGap(1, 1, 1)
-                                        .addComponent(btn_volver, javax.swing.GroupLayout.PREFERRED_SIZE, 58, Short.MAX_VALUE)))
+                                        .addComponent(btn_volver, javax.swing.GroupLayout.PREFERRED_SIZE, 66, Short.MAX_VALUE)))
                                 .addGap(7, 7, 7)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addComponent(btn_ver_adjunto, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(btnMostrar, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(btn_verResp, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                        .addComponent(btn_observacion, javax.swing.GroupLayout.PREFERRED_SIZE, 211, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                        .addComponent(btn_responder1, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE))
                                     .addGroup(layout.createSequentialGroup()
                                         .addComponent(btn_transferir)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -502,7 +525,19 @@ public class BandejaTickets extends MenuP {
                                         .addComponent(btn_resuelto)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                         .addComponent(btn_trabajando)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 39, Short.MAX_VALUE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addComponent(btn_control))
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(btn_ver_adjunto, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(btnMostrar, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(btn_verResp, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(btn_patrimonio)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 19, Short.MAX_VALUE)
+                                        .addComponent(btn_responder1, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                         .addComponent(btn_refrescar))))
                             .addComponent(jScrollPane1))
                         .addContainerGap())
@@ -515,7 +550,6 @@ public class BandejaTickets extends MenuP {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(txt_buscar, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(layout.createSequentialGroup()
                         .addGap(12, 12, 12)
                         .addComponent(txt_id, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -525,39 +559,29 @@ public class BandejaTickets extends MenuP {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 410, Short.MAX_VALUE)
                 .addGap(8, 8, 8)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btn_tomar, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btn_enEspera, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btn_transferir, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btn_resuelto, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btn_trabajando, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btn_responder, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(btn_tomar, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btn_enEspera, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btn_transferir, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btn_resuelto, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btn_trabajando, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btn_responder, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btn_control, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(btn_responder1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                .addComponent(btn_ver_adjunto, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(btn_verResp, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(btn_volver, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(btnMostrar, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(btn_patrimonio, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE))))
                     .addComponent(btn_refrescar, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(btn_responder1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(btn_ver_adjunto, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(btn_verResp, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(btn_observacion, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(btn_volver, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(btnMostrar, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
     }// </editor-fold>//GEN-END:initComponents
-
-    private void txt_buscarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txt_buscarMouseClicked
-        // TODO add your handling code here:
-        txt_buscar.setText("");
-    }//GEN-LAST:event_txt_buscarMouseClicked
-
-    private void txt_buscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txt_buscarActionPerformed
-        // TODO add your handling code here:
-        if(txt_buscar.getText().trim().length() >0){
-            llenarTablaBuscador(serviciosT.buscar(txt_buscar.getText().trim()));
-        }
-
-    }//GEN-LAST:event_txt_buscarActionPerformed
 
     private void txt_idMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txt_idMouseClicked
         // TODO add your handling code here:
@@ -567,19 +591,9 @@ public class BandejaTickets extends MenuP {
     private void txt_idActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txt_idActionPerformed
         // TODO add your handling code here:
         if(txt_id.getText().trim().length() >0){
-            llenarTablaBuscador(serviciosT.buscarNoResueltos(Integer.parseInt(txt_id.getText().trim())));
+            llenarTablaBuscador(serviciosT.buscar(txt_id.getText().trim()));
         }
     }//GEN-LAST:event_txt_idActionPerformed
-
-    private void btn_observacionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_observacionActionPerformed
-        // TODO add your handling code here:
-        if((jt_tickets.getSelectedRow() != -1)&&(jt_tickets.getSelectedRowCount() == 1)){
-            mainFrame.Observaciones(serviciosT.buscarUno(Integer.parseInt(modelo.getValueAt(jt_tickets.getSelectedRow(), 0).toString())));
-            serviciosT = null;
-        }else{
-            JOptionPane.showMessageDialog(mainFrame, "Debe seleccionar una y solo una fila!");
-        }
-    }//GEN-LAST:event_btn_observacionActionPerformed
 
     private void btn_verRespActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_verRespActionPerformed
         // TODO add your handling code here:
@@ -639,6 +653,7 @@ public class BandejaTickets extends MenuP {
                 his.setFkEstado(estado);
                 his.setFkTicket(miTicket);
                 his.setFkUsuario(LoginEJB.usuario);
+                servH.nuevo(his);
                 llenarTabla();
             }else{
                 JOptionPane.showMessageDialog(mainFrame, "El ticket ya se encuentra trabajando!!");
@@ -757,8 +772,9 @@ public class BandejaTickets extends MenuP {
     private void btn_ver_adjuntoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_ver_adjuntoActionPerformed
         // TODO add your handling code here:
         if(serviciosT.buscarUno(Integer.parseInt(modelo.getValueAt(jt_tickets.getSelectedRow(), 0).toString())).getAdjunto() != null){
-            String arch = "\\\\10.20.130.242\\www\\TicketWeb\\archivos\\"+serviciosT.buscarUno(Integer.parseInt(modelo.getValueAt(jt_tickets.getSelectedRow(), 0).toString())).getAdjunto();
-        abrirArchivo(arch);
+            //String arch = "\\\\10.20.130.242\\www\\TicketWeb\\archivos\\"+serviciosT.buscarUno(Integer.parseInt(modelo.getValueAt(jt_tickets.getSelectedRow(), 0).toString())).getAdjunto();
+            String arch = "file://10.20.130.242/www/TicketWeb/archivos/"+serviciosT.buscarUno(Integer.parseInt(modelo.getValueAt(jt_tickets.getSelectedRow(), 0).toString())).getAdjunto();
+            abrirArchivo(arch);
         }else{
             JOptionPane.showMessageDialog(this, "Este ticket no posse adjunto");
         }
@@ -779,11 +795,44 @@ public class BandejaTickets extends MenuP {
         
     }//GEN-LAST:event_btnMostrarActionPerformed
 
+    private void btn_controlActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_controlActionPerformed
+        // TODO add your handling code here:
+        if((jt_tickets.getSelectedRow() != -1)&&(jt_tickets.getSelectedRowCount() == 1)){
+            if(!modelo.getValueAt(jt_tickets.getSelectedRow(), 4).equals("Control")){
+                Tickets miTicket = serviciosT.buscarUno(Integer.parseInt(modelo.getValueAt(jt_tickets.getSelectedRow(),0).toString()));
+                EstadoServ esta = EstadoServ.getEstadoServ();
+                Estados estado = esta.traerEstado(8);
+                HistorialTickets his = new HistorialTickets();
+                fecha = new Date();
+                his.setFecha(fecha);
+                his.setFkEstado(estado);
+                his.setFkTicket(miTicket);
+                his.setFkUsuario(LoginEJB.usuario);
+                servH.nuevo(his);
+                llenarTabla();
+            }else{
+                JOptionPane.showMessageDialog(mainFrame, "El ticket ya se encuentra en control!!");
+            }
+        }else{
+            JOptionPane.showMessageDialog(mainFrame, "Debe seleccionar una y solo una fila!");
+        }
+    }//GEN-LAST:event_btn_controlActionPerformed
+
+    private void btn_patrimonioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_patrimonioActionPerformed
+        // TODO add your handling code here:
+        if((jt_tickets.getSelectedRow() != -1)&&(jt_tickets.getSelectedRowCount() == 1)){
+            mainFrame.modificarPatrimonio(serviciosT.buscarUno(Integer.parseInt(modelo.getValueAt(jt_tickets.getSelectedRow(),0).toString())));
+        }else{
+            JOptionPane.showMessageDialog(mainFrame, "Debe seleccionar una y solo una fila!");
+        }
+    }//GEN-LAST:event_btn_patrimonioActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnMostrar;
+    private javax.swing.JButton btn_control;
     private javax.swing.JButton btn_enEspera;
-    private javax.swing.JButton btn_observacion;
+    private javax.swing.JButton btn_patrimonio;
     private javax.swing.JButton btn_refrescar;
     private javax.swing.JButton btn_responder;
     private javax.swing.JButton btn_responder1;
@@ -798,7 +847,6 @@ public class BandejaTickets extends MenuP {
     private javax.swing.JTable jt_tickets;
     private javax.swing.JLabel lblCantidadTickets;
     private javax.swing.JLabel lblNombreUsuario;
-    private javax.swing.JTextField txt_buscar;
     private javax.swing.JTextField txt_id;
     // End of variables declaration//GEN-END:variables
 }

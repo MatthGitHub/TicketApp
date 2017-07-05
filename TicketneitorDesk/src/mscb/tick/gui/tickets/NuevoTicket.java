@@ -204,7 +204,7 @@ public class NuevoTicket extends MenuP {
         jLabel4 = new javax.swing.JLabel();
         lblusuario = new javax.swing.JLabel();
         cmbx_usuarios = new javax.swing.JComboBox();
-        btn_volver1 = new javax.swing.JButton();
+        btn_adjuntar = new javax.swing.JButton();
         txtArchivo = new javax.swing.JLabel();
 
         setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Nuevo pedido a sistemas", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("SansSerif", 0, 18), java.awt.Color.white)); // NOI18N
@@ -358,14 +358,14 @@ public class NuevoTicket extends MenuP {
             }
         });
 
-        btn_volver1.setBackground(new java.awt.Color(153, 153, 153));
-        btn_volver1.setFont(new java.awt.Font("SansSerif", 1, 12)); // NOI18N
-        btn_volver1.setForeground(new java.awt.Color(0, 108, 118));
-        btn_volver1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/mscb/tick/resources/imagenes/icons/attachment.png"))); // NOI18N
-        btn_volver1.setText("Adjuntar");
-        btn_volver1.addActionListener(new java.awt.event.ActionListener() {
+        btn_adjuntar.setBackground(new java.awt.Color(153, 153, 153));
+        btn_adjuntar.setFont(new java.awt.Font("SansSerif", 1, 12)); // NOI18N
+        btn_adjuntar.setForeground(new java.awt.Color(0, 108, 118));
+        btn_adjuntar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/mscb/tick/resources/imagenes/icons/attachment.png"))); // NOI18N
+        btn_adjuntar.setText("Adjuntar");
+        btn_adjuntar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btn_volver1ActionPerformed(evt);
+                btn_adjuntarActionPerformed(evt);
             }
         });
 
@@ -403,7 +403,7 @@ public class NuevoTicket extends MenuP {
                                     .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                     .addComponent(txtArchivo, javax.swing.GroupLayout.PREFERRED_SIZE, 402, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(btn_volver1))
+                                    .addComponent(btn_adjuntar))
                                 .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
                                     .addComponent(btn_volver)
                                     .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -479,7 +479,7 @@ public class NuevoTicket extends MenuP {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jLabel2)
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(btn_volver1, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(btn_adjuntar, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(txtArchivo, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -645,7 +645,7 @@ public class NuevoTicket extends MenuP {
         // TODO add your handling code here:
     }//GEN-LAST:event_cmbx_usuariosActionPerformed
 
-    private void btn_volver1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_volver1ActionPerformed
+    private void btn_adjuntarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_adjuntarActionPerformed
         // TODO add your handling code here:
         txtArchivo.setVisible(true);
         //Mostrar la ventana para abrir archivo y recoger la respuesta
@@ -662,16 +662,16 @@ public class NuevoTicket extends MenuP {
             txtArchivo.setText(txtArchivo.getText()+archivoElegido.getName());
             //Llamo al metodo que copia el archivo al servidor
         }
-    }//GEN-LAST:event_btn_volver1ActionPerformed
+    }//GEN-LAST:event_btn_adjuntarActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel asteriscoArea;
     private javax.swing.JLabel asteriscoAsunto;
     private javax.swing.JLabel asteriscoServicio;
+    private javax.swing.JButton btn_adjuntar;
     private javax.swing.JButton btn_guardar;
     private javax.swing.JButton btn_volver;
-    private javax.swing.JButton btn_volver1;
     private javax.swing.JComboBox cmbx_areas;
     private javax.swing.JComboBox cmbx_asuntoPrincipal;
     private javax.swing.JComboBox cmbx_asuntoSecundario;

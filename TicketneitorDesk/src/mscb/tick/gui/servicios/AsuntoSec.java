@@ -15,6 +15,8 @@ import mscb.tick.negocio.AsuntoSecundarioServ;
 import mscb.tick.negocio.entidades.Asuntos;
 import mscb.tick.negocio.entidades.Servicios;
 import mscb.tick.gui.main.Main;
+import mscb.tick.negocio.AreaServ;
+import mscb.tick.negocio.entidades.Areas;
 import mscb.tick.util.MenuP;
 
 /**
@@ -26,6 +28,8 @@ public class AsuntoSec extends MenuP {
     private static AsuntoSec asuntoSec;
     private AsuntoSecundarioServ serviciosASec;
     private AsuntoPrincipalServ serviciosA;
+    private AreaServ serviciosAr;
+    private List<Areas> misAreas;
     private List<Asuntos> misAsuntosP;
     private List<Servicios> misAsuntoSS;
     private DefaultTableModel modelo;
@@ -39,7 +43,7 @@ public class AsuntoSec extends MenuP {
         this.mainFrame = mainFrame;
         setSize(800, 600);
         setVisible(true);
-        llenarComboBox();
+        llenarComboBoxAreas();
         validarPermisos();
     }
     
@@ -68,19 +72,30 @@ public class AsuntoSec extends MenuP {
             btn_nuevo.setVisible(false); 
         }
     }
-    
-    private void llenarComboBox(){
+    private void llenarComboBoxAreas(){
         vaciarTabla(jt_asuntoSec);
+        serviciosAr = AreaServ.getAreaServ();
+        misAreas = serviciosAr.traerTodasconAsuntos();
+        
+        for(int i = 0 ; i < misAreas.size() ; i ++){
+            cmbx_areas.addItem(misAreas.get(i));
+        }
+    }
+    
+    
+    private void llenarComboBoxAsuntos(){
+        vaciarTabla(jt_asuntoSec);
+        if(cmbx_asuntos.getItemCount() > 0){
+            cmbx_asuntos.removeAllItems();
+        }
         serviciosA = AsuntoPrincipalServ.getAsuntoPrincipalServ();
-        misAsuntosP = serviciosA.traerTodos();
+        
+        misAsuntosP = serviciosA.asuntosPorArea((Areas) cmbx_areas.getSelectedItem());
         
         for(int i = 0 ; i < misAsuntosP.size() ; i ++){
             cmbx_asuntos.addItem(misAsuntosP.get(i));
         }
     }
-    
-    
-    
     
     
     private void eliminarAsunto(int id){
@@ -134,6 +149,8 @@ public class AsuntoSec extends MenuP {
         btn_volver = new javax.swing.JButton();
         btn_eliminar = new javax.swing.JButton();
         btn_nuevo = new javax.swing.JButton();
+        jLabel2 = new javax.swing.JLabel();
+        cmbx_areas = new javax.swing.JComboBox();
 
         setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Servicios", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("SansSerif", 0, 18), java.awt.Color.white)); // NOI18N
 
@@ -169,7 +186,6 @@ public class AsuntoSec extends MenuP {
         cmbx_asuntos.setBackground(new java.awt.Color(153, 153, 153));
         cmbx_asuntos.setFont(new java.awt.Font("SansSerif", 0, 11)); // NOI18N
         cmbx_asuntos.setForeground(new java.awt.Color(0, 108, 118));
-        cmbx_asuntos.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "-", "Todos" }));
         cmbx_asuntos.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 cmbx_asuntosActionPerformed(evt);
@@ -214,6 +230,21 @@ public class AsuntoSec extends MenuP {
             }
         });
 
+        jLabel2.setBackground(new java.awt.Color(0, 102, 204));
+        jLabel2.setFont(new java.awt.Font("SansSerif", 3, 14)); // NOI18N
+        jLabel2.setForeground(new java.awt.Color(0, 108, 118));
+        jLabel2.setText("Eliga un area principal:");
+
+        cmbx_areas.setBackground(new java.awt.Color(153, 153, 153));
+        cmbx_areas.setFont(new java.awt.Font("SansSerif", 0, 11)); // NOI18N
+        cmbx_areas.setForeground(new java.awt.Color(0, 108, 118));
+        cmbx_areas.setModel(new javax.swing.DefaultComboBoxModel(new String[] { " " }));
+        cmbx_areas.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cmbx_areasActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -221,12 +252,15 @@ public class AsuntoSec extends MenuP {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 768, Short.MAX_VALUE)
+                    .addComponent(jScrollPane1)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 212, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(cmbx_asuntos, javax.swing.GroupLayout.PREFERRED_SIZE, 336, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE))
+                        .addComponent(jLabel2)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(cmbx_areas, 0, 266, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jLabel1)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(cmbx_asuntos, javax.swing.GroupLayout.PREFERRED_SIZE, 159, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(btn_volver)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -240,8 +274,11 @@ public class AsuntoSec extends MenuP {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel1)
-                    .addComponent(cmbx_asuntos))
+                    .addComponent(cmbx_asuntos)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jLabel2)
+                        .addComponent(cmbx_areas)
+                        .addComponent(jLabel1)))
                 .addGap(9, 9, 9)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 467, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -256,29 +293,15 @@ public class AsuntoSec extends MenuP {
     private void cmbx_asuntosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbx_asuntosActionPerformed
         // TODO add your handling code here:
         serviciosASec = AsuntoSecundarioServ.getAsuntoPrincipalServ();
-        opt = null;
-        obj = null;
-        if((cmbx_asuntos.getSelectedIndex() == 0)||(cmbx_asuntos.getSelectedIndex() == 1)){
-            opt = (String) cmbx_asuntos.getSelectedItem();
-        }else{
-            obj = (Asuntos) cmbx_asuntos.getSelectedItem();
-        }
+        obj = (Asuntos) cmbx_asuntos.getSelectedItem();
         
-        if(opt != null){
-            switch(opt){
-                case "Todos":
-                    misAsuntoSS = serviciosASec.traerTodos();
-                    break;
-                case "":
-                    vaciarTabla(jt_asuntoSec);
-                    revalidate();
-                    break;
-            }
-        }
         if(obj != null){
             misAsuntoSS = serviciosASec.traerPorAreaPrincipal(obj);
         }
-        llenarTabla(misAsuntoSS);
+        if(cmbx_asuntos.getItemCount() > 0){
+           llenarTabla(misAsuntoSS); 
+        }
+        
     }//GEN-LAST:event_cmbx_asuntosActionPerformed
 
     private void btn_volverActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_volverActionPerformed
@@ -326,13 +349,20 @@ public class AsuntoSec extends MenuP {
         }
     }//GEN-LAST:event_jt_asuntoSecKeyPressed
 
+    private void cmbx_areasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbx_areasActionPerformed
+        // TODO add your handling code here:
+        llenarComboBoxAsuntos();
+    }//GEN-LAST:event_cmbx_areasActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btn_eliminar;
     private javax.swing.JButton btn_nuevo;
     private javax.swing.JButton btn_volver;
+    private javax.swing.JComboBox cmbx_areas;
     private javax.swing.JComboBox cmbx_asuntos;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jt_asuntoSec;
     // End of variables declaration//GEN-END:variables

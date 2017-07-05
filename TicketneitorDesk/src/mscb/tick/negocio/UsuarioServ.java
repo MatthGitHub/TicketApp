@@ -17,6 +17,7 @@ import mscb.tick.negocio.controladores.exceptions.IllegalOrphanException;
 import mscb.tick.negocio.controladores.exceptions.NonexistentEntityException;
 import mscb.tick.negocio.entidades.Usuarios;
 import mscb.tick.negocio.MD5;
+import mscb.tick.negocio.entidades.Areas;
 import mscb.tick.negocio.entidades.Servicios;
 
 /**
@@ -228,5 +229,16 @@ public class UsuarioServ {
         }
         return aux;
     }
+    public List<Usuarios> traerPorArea(Areas area){
+        List<Usuarios> aux = new ArrayList<>();
+        List<Usuarios> miListaU = jpa.findUsuariosEntities();
+        for(int i = 0; i < miListaU.size(); i++){
+            if(miListaU.get(i).getFkEmpleado().getFkArea().equals(area)){
+                aux.add(miListaU.get(i));
+            }
+        }
+        return aux;
+    }
+    
     
 }

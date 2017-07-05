@@ -30,7 +30,7 @@ public class LoginEJB {
         usuario = new Usuarios();
     }
 
-    public boolean login(String nombre, String clave) {
+    public boolean login(String nombre, String clave){
         md5 = MD5.getMD5();
         serviciosU = UsuarioServ.getUsuarioServ();
         miLista = serviciosU.traerTodos();
