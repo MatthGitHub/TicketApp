@@ -45,6 +45,7 @@ import mscb.tick.gui.razonesTransf.Razones;
 import mscb.tick.gui.roles.RolesV;
 import mscb.tick.gui.tickets.BandejaEnviados;
 import mscb.tick.gui.tickets.CambiarEstadoTicketD;
+import mscb.tick.gui.tickets.ModificarNotaSalida;
 import mscb.tick.gui.tickets.ModificarPatrimonio;
 import mscb.tick.gui.tickets.ObservacionD;
 import mscb.tick.gui.tickets.ResolucionD;
@@ -100,6 +101,7 @@ public class Main extends javax.swing.JFrame {
     private Tickets miTick;
     
     private ModificarPatrimonio patri;
+    private ModificarNotaSalida salia;
     
     private ResponderD responder;
     private RespuestaD respuesta;
@@ -419,6 +421,19 @@ public class Main extends javax.swing.JFrame {
         }else{
             //aiuda.panelInfoP();
             patri.setVisible(true);
+        }
+        revalidate();
+    }
+    
+    /**
+     * Ventana para modificar nota salida de un ticket. Es un Frame
+     */
+    public void modificarNotaSalida(Tickets elTi){
+        if(salia == null){
+            salia = new ModificarNotaSalida(this, false, elTi);
+        }else{
+            //aiuda.panelInfoP();
+            salia.setVisible(true);
         }
         revalidate();
     }

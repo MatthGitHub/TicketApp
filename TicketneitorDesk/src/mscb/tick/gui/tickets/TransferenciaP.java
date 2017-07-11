@@ -55,7 +55,12 @@ public class TransferenciaP extends MenuP {
         b = 0;
         this.miTick = miTick;
         lbl_ticket.setText(miTick.getIdTicket().toString());
-        lbl_usuarioE.setText(miTick.getUltimoUsuario().getNombreUsuario());
+        if(miTick.getUltimoUsuario() == null){
+            lbl_usuarioE.setText("");
+        }else{
+            lbl_usuarioE.setText(miTick.getUltimoUsuario().getNombreUsuario());
+        }
+        
         lbl_asunto.setText(miTick.getServicio().getNombreasuntoS());
         setSize(520, 380);
         setVisible(true);

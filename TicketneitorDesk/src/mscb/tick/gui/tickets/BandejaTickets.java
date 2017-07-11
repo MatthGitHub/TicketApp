@@ -5,16 +5,14 @@
  */
 package mscb.tick.gui.tickets;
 
-import java.io.File;
 import java.awt.Desktop;
-import java.io.File;
 import java.io.IOException;
-import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.net.UnknownHostException;
 import java.text.DateFormat;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
@@ -23,12 +21,6 @@ import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
-import jcifs.UniAddress;
-import jcifs.smb.NtlmPasswordAuthentication;
-import jcifs.smb.SmbException;
-import jcifs.smb.SmbFile;
-import jcifs.smb.SmbFileOutputStream;
-import jcifs.smb.SmbSession;
 import mscb.tick.negocio.entidades.Estados;
 import mscb.tick.negocio.entidades.HistorialTickets;
 import mscb.tick.negocio.entidades.Tickets;
@@ -38,12 +30,10 @@ import mscb.tick.negocio.LoginEJB;
 import mscb.tick.gui.main.Main;
 import mscb.tick.negocio.TicketServ;
 import mscb.tick.negocio.UsuarioServ;
-import mscb.tick.util.Funciones;
 import static mscb.tick.util.Funciones.connectToServer;
 import static mscb.tick.util.Funciones.dissconectFromServer;
 import mscb.tick.util.reportes.EjecutarReporte;
 import mscb.tick.util.MenuP;
-import org.omg.CORBA.DefinitionKind;
 
 /**
  *
@@ -77,7 +67,6 @@ public class BandejaTickets extends MenuP {
         mainFrame.setLocationRelativeTo(null);
         mainFrame.setTitle("Ticketneitor");
         //setSize(mainFrame.getSize());
-        btnMostrar.setVisible(false);
         validarPermisos();
         configurarTabla(jt_tickets);
         mostrarEspera = false;
@@ -105,6 +94,12 @@ public class BandejaTickets extends MenuP {
         }else{
             btn_patrimonio.setVisible(false);
         }
+        if(mainFrame.validarPermisos(46)){
+            btn_nota_salida.setVisible(true);
+        }else{
+            btn_nota_salida.setVisible(false);
+        }
+        
     }
     
     public void llenarTabla() {
@@ -114,7 +109,10 @@ public class BandejaTickets extends MenuP {
         //cambiarEstadoDeTicketsRecibidos(); esta funcion cambia el estado del ticket a recibido porquien abre la app
         Integer cantidad = 0;
         
-        String v[] = new String[9];
+        Comparator<Tickets> compara = Collections.reverseOrder();
+        Collections.sort(miLista,compara);
+        
+        String v[] = new String[11];
         DateFormat dateFormatter;
         dateFormatter = DateFormat.getDateInstance(DateFormat.SHORT, Locale.UK);
         
@@ -140,6 +138,16 @@ public class BandejaTickets extends MenuP {
             }else{
                 v[8] = miLista.get(i).getAdjunto();
             }
+            if((miLista.get(i).getNotaEntrada()== null)||(miLista.get(i).getNotaEntrada().isEmpty())){
+                v[9] = "Sin";
+            }else{
+                v[9] = miLista.get(i).getNotaEntrada();
+            }
+            if((miLista.get(i).getNotaSalida()== null)||(miLista.get(i).getNotaSalida().isEmpty())){
+                v[10] = "Sin";
+            }else{
+                v[10] = miLista.get(i).getNotaSalida();
+            }
             modelo.addRow(v);
             cantidad ++;
         }
@@ -150,10 +158,13 @@ public class BandejaTickets extends MenuP {
     
     private void llenarTablaBuscador(List <Tickets> busca) {
         vaciarTabla(jt_tickets);
-        String v[] = new String[9];
+        String v[] = new String[11];
         DateFormat dateFormatter;
         dateFormatter = DateFormat.getDateInstance(DateFormat.SHORT, Locale.UK);
         Integer cantidad = 0;
+        
+        Comparator<Tickets> compara = Collections.reverseOrder();
+        Collections.sort(miLista,compara);
         
         for (int i = 0; i < busca.size(); i++) {
             v[0] = busca.get(i).getIdTicket().toString();
@@ -176,6 +187,16 @@ public class BandejaTickets extends MenuP {
                 v[8] = "Sin";
             }else{
                 v[8] = miLista.get(i).getAdjunto();
+            }
+            if((miLista.get(i).getNotaEntrada()== null)||(miLista.get(i).getNotaEntrada().isEmpty())){
+                v[9] = "Sin";
+            }else{
+                v[9] = miLista.get(i).getNotaEntrada();
+            }
+            if((miLista.get(i).getNotaSalida()== null)||(miLista.get(i).getNotaSalida().isEmpty())){
+                v[10] = "Sin";
+            }else{
+                v[10] = miLista.get(i).getNotaSalida();
             }
             modelo.addRow(v);
             cantidad ++;
@@ -274,9 +295,9 @@ public class BandejaTickets extends MenuP {
         btn_trabajando = new javax.swing.JButton();
         btn_ver_adjunto = new javax.swing.JButton();
         lblCantidadTickets = new javax.swing.JLabel();
-        btnMostrar = new javax.swing.JButton();
         btn_control = new javax.swing.JButton();
         btn_patrimonio = new javax.swing.JButton();
+        btn_nota_salida = new javax.swing.JButton();
 
         setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Mis Tickets", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("SansSerif", 0, 18), java.awt.Color.white)); // NOI18N
         setMinimumSize(new java.awt.Dimension(827, 569));
@@ -301,14 +322,14 @@ public class BandejaTickets extends MenuP {
 
             },
             new String [] {
-                "Nº Ticket", "Fecha", "Area Emisor", "Usuario Emisor", "Estado", "Asunto", "Usuario receptor", "Patrimonio", "Adjunto"
+                "Nº Ticket", "Fecha", "Area creador", "Creador", "Estado", "Asunto", "Receptor", "Patrimonio", "Adjunto", "Nota entrada", "Nota salida"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class
+                java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class
             };
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false, false, false, false
+                false, false, false, false, false, false, false, false, false, false, false
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -461,16 +482,6 @@ public class BandejaTickets extends MenuP {
         lblCantidadTickets.setForeground(new java.awt.Color(255, 255, 255));
         lblCantidadTickets.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
 
-        btnMostrar.setBackground(new java.awt.Color(153, 153, 153));
-        btnMostrar.setFont(new java.awt.Font("SansSerif", 1, 10)); // NOI18N
-        btnMostrar.setForeground(new java.awt.Color(0, 108, 118));
-        btnMostrar.setText("Ocultar en espera");
-        btnMostrar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnMostrarActionPerformed(evt);
-            }
-        });
-
         btn_control.setBackground(new java.awt.Color(153, 153, 153));
         btn_control.setFont(new java.awt.Font("SansSerif", 1, 10)); // NOI18N
         btn_control.setForeground(new java.awt.Color(0, 108, 118));
@@ -490,6 +501,17 @@ public class BandejaTickets extends MenuP {
         btn_patrimonio.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btn_patrimonioActionPerformed(evt);
+            }
+        });
+
+        btn_nota_salida.setBackground(new java.awt.Color(153, 153, 153));
+        btn_nota_salida.setFont(new java.awt.Font("SansSerif", 1, 10)); // NOI18N
+        btn_nota_salida.setForeground(new java.awt.Color(0, 108, 118));
+        btn_nota_salida.setIcon(new javax.swing.ImageIcon(getClass().getResource("/mscb/tick/resources/imagenes/icons/work.png"))); // NOI18N
+        btn_nota_salida.setText("Nota salida");
+        btn_nota_salida.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_nota_salidaActionPerformed(evt);
             }
         });
 
@@ -525,17 +547,17 @@ public class BandejaTickets extends MenuP {
                                         .addComponent(btn_resuelto)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                         .addComponent(btn_trabajando)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 45, Short.MAX_VALUE)
                                         .addComponent(btn_control))
                                     .addGroup(layout.createSequentialGroup()
                                         .addComponent(btn_ver_adjunto, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(btnMostrar, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                         .addComponent(btn_verResp, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                         .addComponent(btn_patrimonio)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 19, Short.MAX_VALUE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(btn_nota_salida)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                         .addComponent(btn_responder1, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                         .addComponent(btn_refrescar))))
@@ -576,8 +598,8 @@ public class BandejaTickets extends MenuP {
                                 .addComponent(btn_ver_adjunto, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addComponent(btn_verResp, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addComponent(btn_volver, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(btnMostrar, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(btn_patrimonio, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                .addComponent(btn_patrimonio, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(btn_nota_salida, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE))))
                     .addComponent(btn_refrescar, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap())
         );
@@ -781,20 +803,6 @@ public class BandejaTickets extends MenuP {
         
     }//GEN-LAST:event_btn_ver_adjuntoActionPerformed
 
-    private void btnMostrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMostrarActionPerformed
-        // TODO add your handling code here:v
-        if(mostrarEspera){
-            llenarTablaBuscador(serviciosT.buscarPorUsuarioAsunto());
-            btnMostrar.setText("Ocultar en espera");
-            mostrarEspera = false;
-        }else{
-            llenarTablaBuscador(serviciosT.buscarPorUsuarioAsuntoSinEnEspera());
-            btnMostrar.setText("Mostrar en espera");
-            mostrarEspera = true;
-        }
-        
-    }//GEN-LAST:event_btnMostrarActionPerformed
-
     private void btn_controlActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_controlActionPerformed
         // TODO add your handling code here:
         if((jt_tickets.getSelectedRow() != -1)&&(jt_tickets.getSelectedRowCount() == 1)){
@@ -827,11 +835,20 @@ public class BandejaTickets extends MenuP {
         }
     }//GEN-LAST:event_btn_patrimonioActionPerformed
 
+    private void btn_nota_salidaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_nota_salidaActionPerformed
+        // TODO add your handling code here:
+        if((jt_tickets.getSelectedRow() != -1)&&(jt_tickets.getSelectedRowCount() == 1)){
+            mainFrame.modificarNotaSalida(serviciosT.buscarUno(Integer.parseInt(modelo.getValueAt(jt_tickets.getSelectedRow(),0).toString())));
+        }else{
+            JOptionPane.showMessageDialog(mainFrame, "Debe seleccionar una y solo una fila!");
+        }
+    }//GEN-LAST:event_btn_nota_salidaActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnMostrar;
     private javax.swing.JButton btn_control;
     private javax.swing.JButton btn_enEspera;
+    private javax.swing.JButton btn_nota_salida;
     private javax.swing.JButton btn_patrimonio;
     private javax.swing.JButton btn_refrescar;
     private javax.swing.JButton btn_responder;

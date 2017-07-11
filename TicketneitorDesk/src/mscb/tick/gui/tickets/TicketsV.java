@@ -7,6 +7,8 @@ package mscb.tick.gui.tickets;
 
 import java.text.DateFormat;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
@@ -94,7 +96,15 @@ public class TicketsV extends MenuP {
     
     public void llenarTabla() {
         vaciarTabla(jt_tickets);
-        miLista = serviciosT.traerTodosPorArea();
+        if(LoginEJB.usuario.getFkRol().getIdRol() == 1){
+            miLista = serviciosT.traerTodos();
+        }else{
+            miLista = serviciosT.traerTodosPorArea();
+        }
+        
+        Comparator<Tickets> compara = Collections.reverseOrder();
+        Collections.sort(miLista,compara);
+        
         String v[] = new String[8];
         DateFormat dateFormatter;
         dateFormatter = DateFormat.getDateInstance(DateFormat.SHORT, Locale.UK);
@@ -128,7 +138,10 @@ public class TicketsV extends MenuP {
         String v[] = new String[7];
         DateFormat dateFormatter;
         dateFormatter = DateFormat.getDateInstance(DateFormat.SHORT, Locale.US);
-
+        
+        Comparator<Tickets> compara = Collections.reverseOrder();
+        Collections.sort(miLista,compara);
+        
         for (int i = 0; i < busca.size(); i++) {
             v[0] = busca.get(i).getIdTicket().toString();
             v[1] = dateFormatter.format(busca.get(i).getFecha()).toString();

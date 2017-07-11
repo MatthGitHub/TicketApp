@@ -45,6 +45,15 @@ import mscb.tick.negocio.UsuarioServ;
     @NamedQuery(name = "Tickets.findByTiempoResolucion", query = "SELECT t FROM Tickets t WHERE t.tiempoResolucion = :tiempoResolucion")})
 public class Tickets implements Serializable,Comparable<Tickets> {
 
+    @JoinColumn(name = "fkEdificio", referencedColumnName = "id_edificio")
+    @ManyToOne
+    private Edificios fkEdificio;
+
+    @Column(name = "nota_entrada")
+    private String notaEntrada;
+    @Column(name = "nota_salida")
+    private String notaSalida;
+
     @Column(name = "adjunto")
     private String adjunto;
 
@@ -221,6 +230,30 @@ public class Tickets implements Serializable,Comparable<Tickets> {
 
     public void setAdjunto(String adjunto) {
         this.adjunto = adjunto;
+    }
+
+    public String getNotaEntrada() {
+        return notaEntrada;
+    }
+
+    public void setNotaEntrada(String notaEntrada) {
+        this.notaEntrada = notaEntrada;
+    }
+
+    public String getNotaSalida() {
+        return notaSalida;
+    }
+
+    public void setNotaSalida(String notaSalida) {
+        this.notaSalida = notaSalida;
+    }
+
+    public Edificios getFkEdificio() {
+        return fkEdificio;
+    }
+
+    public void setFkEdificio(Edificios fkEdificio) {
+        this.fkEdificio = fkEdificio;
     }
     
 }

@@ -10,7 +10,6 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Locale;
-import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import mscb.tick.negocio.LoginEJB;
 import mscb.tick.gui.main.Main;
@@ -54,7 +53,7 @@ public class BaseConocimientoV extends MenuP {
     
     private void llenarTabla(){
         miLista = servH.traerTodosResueltosPorArea(LoginEJB.usuario.getFkEmpleado().getFkArea());
-        String v[] = new String[9];
+        String v[] = new String[10];
         DateFormat dateFormatter;
         dateFormatter = DateFormat.getDateInstance(DateFormat.SHORT, Locale.UK);
         
@@ -75,6 +74,11 @@ public class BaseConocimientoV extends MenuP {
                 v[8] = "Sin";
             }else{
                 v[8] = miLista.get(i).getFkTicket().getPatrimonio();
+            }
+            if((miLista.get(i).getFkTicket().getNotaSalida()== null)||(miLista.get(i).getFkTicket().getNotaSalida().isEmpty())){
+                v[9] = "Sin";
+            }else{
+                v[9] = miLista.get(i).getFkTicket().getNotaSalida();
             }
             modelo.addRow(v);
             cant++;
@@ -105,11 +109,11 @@ public class BaseConocimientoV extends MenuP {
 
             },
             new String [] {
-                "Nº ticket", "Nº historial", "Emisor", "Fecha entrada", "Receptor", "Fecha resuelto", "Asunto", "Servicio", "Patrimonio"
+                "Nº ticket", "Nº historial", "Emisor", "Fecha entrada", "Receptor", "Fecha resuelto", "Asunto", "Servicio", "Patrimonio", "Nota salida"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false, false, false, false
+                false, false, false, false, false, false, false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {

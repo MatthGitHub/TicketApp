@@ -48,4 +48,15 @@ public class RoleServ {
             return false;
         }
     }
+    
+    
+    public boolean nuevoRol(Roles nuevo){
+        try {
+            jpa.create(nuevo);
+            return true;
+        } catch (Exception e) {
+            System.out.println(e+" - Error en crear Rol");
+            return false;
+        }
+    }
 }

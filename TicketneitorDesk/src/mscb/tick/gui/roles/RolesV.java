@@ -466,7 +466,11 @@ public class RolesV extends MenuP {
 
     private void btn_guardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_guardarActionPerformed
         // TODO add your handling code here:
-        if(!txt_nuevoRol.getText().isEmpty()){
+        if(!txt_nuevoRol.getText().trim().isEmpty()){
+            miRol = new Roles();
+            miRol.setNombreRol(txt_nuevoRol.getText());
+            serviciosR.nuevoRol(miRol);
+            llenarTablaRoles();
             txt_nuevoRol.setText("");
             pnl_nuevo.setVisible(false);
         }else{

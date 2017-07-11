@@ -7,6 +7,8 @@ package mscb.tick.gui.tickets;
 
 import java.text.DateFormat;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
@@ -79,6 +81,9 @@ public class BandejaEnviados extends MenuP {
         serviciosT = TicketServ.getTicketServ();
         miLista = serviciosT.buscarPorUsuarioEmisor();
         //cambiarEstadoDeTicketsRecibidos(); esta funcion cambia el estado del ticket a recibido porquien abre la app
+        
+        Comparator<Tickets> compara = Collections.reverseOrder();
+        Collections.sort(miLista,compara);
         
         String v[] = new String[8];
         DateFormat dateFormatter;

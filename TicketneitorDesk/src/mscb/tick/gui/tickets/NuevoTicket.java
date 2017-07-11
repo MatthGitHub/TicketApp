@@ -25,27 +25,20 @@ import mscb.tick.gui.main.Main;
 import mscb.tick.negocio.TicketServ;
 import mscb.tick.util.MenuP;
 import com.mxrck.autocompleter.TextAutoCompleter;
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileOutputStream;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
 import java.io.OutputStream;
 import java.net.MalformedURLException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import jcifs.smb.NtlmPasswordAuthentication;
 import jcifs.smb.SmbFile;
-import jcifs.smb.SmbFileOutputStream;
+import mscb.tick.negocio.EdificioServ;
 import mscb.tick.negocio.UsuarioServ;
+import mscb.tick.negocio.entidades.Edificios;
 import mscb.tick.negocio.entidades.Usuarios;
 import org.springframework.util.StringUtils;
 
@@ -68,8 +61,10 @@ public class NuevoTicket extends MenuP {
     private TicketServ serviciosT;
     private Time hora;
     private EstadoServ serviciosEst;
+    private EdificioServ serviciosE;
     private AreaServ serviciosA;
     private TextAutoCompleter textAutoAcompleter;
+    private TextAutoCompleter textAutoAcompleter2;
     //Crear un objeto FileChooser
     private JFileChooser fc;
     
@@ -98,7 +93,12 @@ public class NuevoTicket extends MenuP {
         textAutoAcompleter = new TextAutoCompleter(txt_areaE);
         textAutoAcompleter.setMode(0);
         textAutoAcompleter.setCaseSensitive(false);
+        textAutoAcompleter2 = new TextAutoCompleter(txt_edificio);
+        textAutoAcompleter2.setMode(0);
+        textAutoAcompleter2.setCaseSensitive(false);
+        txt_n_nota.setText("0000");
         llenarAreas();
+        llenarEdificios();
         cmbx_areas.setSelectedItem(LoginEJB.usuario.getFkEmpleado().getFkArea());
         //Instanciamos
         fc = new JFileChooser();
@@ -106,13 +106,21 @@ public class NuevoTicket extends MenuP {
         FileNameExtensionFilter filtro = new FileNameExtensionFilter("Textos", "txt","pdf","doc","docx");
         //Le indicamos el filtro
         fc.setFileFilter(filtro);
-        }
+    }
     
     public static NuevoTicket getNuevoTicket(Main mainFrame){
         if(form == null){
             form = new NuevoTicket(mainFrame);
         }
         return form;
+    }
+    
+    private void llenarEdificios(){
+        serviciosE = EdificioServ.getEdificioServ();
+        List<Edificios> misEdificios = serviciosE.traerTodos();
+        for(int i = 0; i < misEdificios.size(); i++){
+            textAutoAcompleter2.addItem(misEdificios.get(i));
+        }
     }
     
     private void llenarAreas(){
@@ -206,6 +214,12 @@ public class NuevoTicket extends MenuP {
         cmbx_usuarios = new javax.swing.JComboBox();
         btn_adjuntar = new javax.swing.JButton();
         txtArchivo = new javax.swing.JLabel();
+        jLabel8 = new javax.swing.JLabel();
+        txt_area_nota = new javax.swing.JTextField();
+        jLabel10 = new javax.swing.JLabel();
+        txt_n_nota = new javax.swing.JTextField();
+        jLabel9 = new javax.swing.JLabel();
+        txt_edificio = new javax.swing.JTextField();
 
         setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Nuevo pedido a sistemas", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("SansSerif", 0, 18), java.awt.Color.white)); // NOI18N
 
@@ -373,6 +387,50 @@ public class NuevoTicket extends MenuP {
         txtArchivo.setForeground(new java.awt.Color(255, 255, 255));
         txtArchivo.setText("Adjunto: ");
 
+        jLabel8.setBackground(new java.awt.Color(0, 102, 204));
+        jLabel8.setFont(new java.awt.Font("SansSerif", 3, 14)); // NOI18N
+        jLabel8.setForeground(new java.awt.Color(0, 108, 118));
+        jLabel8.setText("Nº de nota:");
+
+        txt_area_nota.setFont(new java.awt.Font("SansSerif", 0, 11)); // NOI18N
+        txt_area_nota.setForeground(new java.awt.Color(0, 108, 118));
+        txt_area_nota.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txt_area_notaKeyTyped(evt);
+            }
+        });
+
+        jLabel10.setBackground(new java.awt.Color(0, 102, 204));
+        jLabel10.setFont(new java.awt.Font("SansSerif", 3, 14)); // NOI18N
+        jLabel10.setForeground(new java.awt.Color(0, 108, 118));
+        jLabel10.setText("-");
+
+        txt_n_nota.setFont(new java.awt.Font("SansSerif", 0, 11)); // NOI18N
+        txt_n_nota.setForeground(new java.awt.Color(0, 108, 118));
+        txt_n_nota.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txt_n_notaActionPerformed(evt);
+            }
+        });
+        txt_n_nota.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txt_n_notaKeyTyped(evt);
+            }
+        });
+
+        jLabel9.setBackground(new java.awt.Color(0, 102, 204));
+        jLabel9.setFont(new java.awt.Font("SansSerif", 3, 14)); // NOI18N
+        jLabel9.setForeground(new java.awt.Color(0, 108, 118));
+        jLabel9.setText("Lugar de trabajo:");
+
+        txt_edificio.setFont(new java.awt.Font("SansSerif", 0, 11)); // NOI18N
+        txt_edificio.setForeground(new java.awt.Color(0, 108, 118));
+        txt_edificio.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txt_edificioActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -380,57 +438,66 @@ public class NuevoTicket extends MenuP {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel4)
+                    .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 454, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 185, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(txtArchivo, javax.swing.GroupLayout.PREFERRED_SIZE, 402, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btn_adjuntar))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(btn_volver)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btn_guardar, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 741, Short.MAX_VALUE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(asteriscoAsunto, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(lblAsunto))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(asteriscoArea, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jLabel1))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(asteriscoServicio, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(lblServicio))
+                            .addComponent(lblusuario))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(cmbx_asuntoPrincipal, 0, 590, Short.MAX_VALUE)
+                            .addComponent(cmbx_areas, 0, 590, Short.MAX_VALUE)
+                            .addComponent(cmbx_asuntoSecundario, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(cmbx_usuarios, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel7)
                             .addComponent(jLabel5)
                             .addComponent(jLabel6))
                         .addGap(57, 57, 57)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addComponent(txt_areaE, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 164, Short.MAX_VALUE)
+                            .addComponent(txt_patrimonio, javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(txt_solicita))
+                        .addGap(18, 18, Short.MAX_VALUE)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(txt_areaE)
-                            .addComponent(txt_solicita)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(txt_patrimonio)
-                                .addGap(271, 271, 271)))
-                        .addGap(21, 21, 21))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel4)
-                            .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 454, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                                    .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 185, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                    .addComponent(txtArchivo, javax.swing.GroupLayout.PREFERRED_SIZE, 402, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(btn_adjuntar))
-                                .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                                    .addComponent(btn_volver)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(btn_guardar, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 741, Short.MAX_VALUE)
-                                .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addGroup(layout.createSequentialGroup()
-                                            .addComponent(asteriscoAsunto, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                            .addComponent(lblAsunto))
-                                        .addGroup(layout.createSequentialGroup()
-                                            .addComponent(asteriscoArea, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                            .addComponent(jLabel1))
-                                        .addGroup(layout.createSequentialGroup()
-                                            .addComponent(asteriscoServicio, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                            .addComponent(lblServicio))
-                                        .addComponent(lblusuario))
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                        .addComponent(cmbx_asuntoPrincipal, 0, 590, Short.MAX_VALUE)
-                                        .addComponent(cmbx_areas, 0, 590, Short.MAX_VALUE)
-                                        .addComponent(cmbx_asuntoSecundario, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                        .addComponent(cmbx_usuarios, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))))
-                        .addContainerGap(21, Short.MAX_VALUE))))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addComponent(jLabel8)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(txt_n_nota, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jLabel10)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(txt_area_nota, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addComponent(jLabel9)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(txt_edificio, javax.swing.GroupLayout.PREFERRED_SIZE, 146, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(0, 0, Short.MAX_VALUE)))
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -461,19 +528,31 @@ public class NuevoTicket extends MenuP {
                     .addComponent(cmbx_usuarios, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(8, 8, 8)
                 .addComponent(jLabel4)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 12, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel7)
-                    .addComponent(txt_solicita, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel5)
-                    .addComponent(txt_areaE, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(6, 6, 6)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(txt_patrimonio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel6))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel7)
+                            .addComponent(txt_solicita, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                .addComponent(jLabel9)
+                                .addComponent(txt_edificio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                .addComponent(jLabel5)
+                                .addComponent(txt_areaE, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(6, 6, 6)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(txt_patrimonio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel6)))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel8)
+                            .addComponent(txt_area_nota, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel10)
+                            .addComponent(txt_n_nota, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(61, 61, 61)))
                 .addComponent(jLabel3)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
@@ -482,8 +561,8 @@ public class NuevoTicket extends MenuP {
                         .addComponent(btn_adjuntar, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(txtArchivo, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 108, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btn_guardar, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btn_volver, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)))
@@ -586,7 +665,23 @@ public class NuevoTicket extends MenuP {
                     }
                 }
                 
+                if(txt_edificio.getText().trim().isEmpty()){
+                    
+                }else{
+                    miTick.setFkEdificio(EdificioServ.getEdificioServ().buscarUno(txt_edificio.getText()));
+                }
+                
                 miTick.setPatrimonio(txt_patrimonio.getText());
+                //Completo numero de nota para que cumpla con el estandar
+                if(txt_n_nota.getText().trim().length() < 4){
+                    for(int i = 0; i < 4-txt_n_nota.getText().trim().length();i++){
+                        txt_n_nota.setText("0"+txt_n_nota.getText().trim());
+                    }
+                }
+                if(txt_area_nota.getText().trim().isEmpty()){
+                    txt_area_nota.setText("--------");
+                }
+                miTick.setNotaEntrada(txt_n_nota.getText()+"-"+txt_area_nota.getText().trim());
                 //Creo el historial de enviado
                 if(serviciosT.nuevoTicket(miTick) == 0){
                     JOptionPane.showMessageDialog(mainFrame, "Ticket enviado...");
@@ -664,6 +759,31 @@ public class NuevoTicket extends MenuP {
         }
     }//GEN-LAST:event_btn_adjuntarActionPerformed
 
+    private void txt_n_notaKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txt_n_notaKeyTyped
+        // TODO add your handling code here:
+        if(txt_n_nota.getText().length()== 4){
+            evt.consume();
+        }
+    }//GEN-LAST:event_txt_n_notaKeyTyped
+
+    private void txt_area_notaKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txt_area_notaKeyTyped
+        // TODO add your handling code here:
+        if (txt_area_nota.getText().length()== 8){
+            txt_area_nota.setText(txt_area_nota.getText().toUpperCase());
+            evt.consume();
+        }else{
+            txt_area_nota.setText(txt_area_nota.getText().toUpperCase());
+        }
+    }//GEN-LAST:event_txt_area_notaKeyTyped
+
+    private void txt_n_notaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txt_n_notaActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txt_n_notaActionPerformed
+
+    private void txt_edificioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txt_edificioActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txt_edificioActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel asteriscoArea;
@@ -677,12 +797,15 @@ public class NuevoTicket extends MenuP {
     private javax.swing.JComboBox cmbx_asuntoSecundario;
     private javax.swing.JComboBox cmbx_usuarios;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
+    private javax.swing.JLabel jLabel9;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel lblAsunto;
     private javax.swing.JLabel lblServicio;
@@ -690,6 +813,9 @@ public class NuevoTicket extends MenuP {
     private javax.swing.JTextArea txtA_obs;
     private javax.swing.JLabel txtArchivo;
     private javax.swing.JTextField txt_areaE;
+    private javax.swing.JTextField txt_area_nota;
+    private javax.swing.JTextField txt_edificio;
+    private javax.swing.JTextField txt_n_nota;
     private javax.swing.JTextField txt_patrimonio;
     private javax.swing.JTextField txt_solicita;
     // End of variables declaration//GEN-END:variables

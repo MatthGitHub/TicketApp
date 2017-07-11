@@ -77,6 +77,10 @@ public class ResolucionP extends MenuP {
         jLabel6 = new javax.swing.JLabel();
         txtTiempo = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
+        jLabel8 = new javax.swing.JLabel();
+        txt_n_nota = new javax.swing.JTextField();
+        txt_area_nota = new javax.swing.JTextField();
+        jLabel10 = new javax.swing.JLabel();
 
         setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Resolucion", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("SansSerif", 0, 18), java.awt.Color.white)); // NOI18N
 
@@ -140,6 +144,37 @@ public class ResolucionP extends MenuP {
         jLabel7.setForeground(new java.awt.Color(0, 108, 118));
         jLabel7.setText("Resolucion:");
 
+        jLabel8.setBackground(new java.awt.Color(0, 102, 204));
+        jLabel8.setFont(new java.awt.Font("SansSerif", 3, 14)); // NOI18N
+        jLabel8.setForeground(new java.awt.Color(0, 108, 118));
+        jLabel8.setText("Nº de nota salida:");
+
+        txt_n_nota.setFont(new java.awt.Font("SansSerif", 0, 11)); // NOI18N
+        txt_n_nota.setForeground(new java.awt.Color(0, 108, 118));
+        txt_n_nota.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txt_n_notaActionPerformed(evt);
+            }
+        });
+        txt_n_nota.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txt_n_notaKeyTyped(evt);
+            }
+        });
+
+        txt_area_nota.setFont(new java.awt.Font("SansSerif", 0, 11)); // NOI18N
+        txt_area_nota.setForeground(new java.awt.Color(0, 108, 118));
+        txt_area_nota.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txt_area_notaKeyTyped(evt);
+            }
+        });
+
+        jLabel10.setBackground(new java.awt.Color(0, 102, 204));
+        jLabel10.setFont(new java.awt.Font("SansSerif", 3, 14)); // NOI18N
+        jLabel10.setForeground(new java.awt.Color(0, 108, 118));
+        jLabel10.setText("-");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -147,32 +182,44 @@ public class ResolucionP extends MenuP {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jScrollPane1)
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(btn_cerrar)
-                                .addGap(18, 18, 18)
-                                .addComponent(btn_enviar))
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel1)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(lbl_ticket, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(70, 70, 70)
-                                .addComponent(jLabel3)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(lbl_usuarioE, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel5)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(lbl_areaE, javax.swing.GroupLayout.PREFERRED_SIZE, 186, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel6)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(txtTiempo, javax.swing.GroupLayout.PREFERRED_SIZE, 186, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(jLabel7))
-                        .addGap(0, 145, Short.MAX_VALUE)))
-                .addContainerGap())
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(btn_cerrar)
+                                        .addGap(18, 18, 18)
+                                        .addComponent(btn_enviar))
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(jLabel1)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(lbl_ticket, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(70, 70, 70)
+                                        .addComponent(jLabel3)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(lbl_usuarioE, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(jLabel5)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(lbl_areaE, javax.swing.GroupLayout.PREFERRED_SIZE, 186, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(jLabel6)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(txtTiempo, javax.swing.GroupLayout.PREFERRED_SIZE, 186, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addGap(0, 0, Short.MAX_VALUE)))
+                        .addContainerGap())
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLabel7)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 123, Short.MAX_VALUE)
+                        .addComponent(jLabel8)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(txt_n_nota, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jLabel10)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(txt_area_nota, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(58, 58, 58))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -197,7 +244,12 @@ public class ResolucionP extends MenuP {
                     .addComponent(jLabel6)
                     .addComponent(txtTiempo, javax.swing.GroupLayout.PREFERRED_SIZE, 17, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(11, 11, 11)
-                .addComponent(jLabel7)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel7)
+                    .addComponent(jLabel8)
+                    .addComponent(txt_area_nota, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txt_n_nota, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel10))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 139, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -220,8 +272,22 @@ public class ResolucionP extends MenuP {
 
     private void btn_enviarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_enviarActionPerformed
         // TODO add your handling code here:
-        if(JOptionPane.showConfirmDialog(mainFrame, "Confirmar", "Seguro desea enviar?", JOptionPane.YES_NO_OPTION) == 0){
+        if(JOptionPane.showConfirmDialog(mainFrame,"Seguro desea enviar?","Confirmar",JOptionPane.YES_NO_OPTION) == 0){
             servH = HistorialServ.getHistorialServ();
+            serviciosT = TicketServ.getTicketServ();
+            
+            //Completo numero de nota para que cumpla con el estandar
+            if(txt_n_nota.getText().trim().length() < 4){
+                for(int i = 0; i < 4-txt_n_nota.getText().trim().length();i++){
+                    txt_n_nota.setText("0"+txt_n_nota.getText().trim());
+                }
+            }
+            if(txt_area_nota.getText().trim().isEmpty()){
+                txt_area_nota.setText("--------");
+            }
+            miTick.setNotaSalida(txt_n_nota.getText()+"-"+txt_area_nota.getText().trim());
+            serviciosT.modificarTicket(miTick);
+            
             EstadoServ esta = EstadoServ.getEstadoServ();
             Estados estado;
             if(marcar.equals("si")){
@@ -236,7 +302,12 @@ public class ResolucionP extends MenuP {
             his.setFkEstado(estado);
             String reso = miTick.getResolucion();
             if((reso == null)||(reso.isEmpty())){
-                his.setResolucion("Resolucion por "+LoginEJB.usuario+" : "+txtA_respuesta.getText());
+                if(txtA_respuesta.getText().trim().isEmpty()){
+                    his.setResolucion(null);
+                }else{
+                    his.setResolucion("Resolucion por "+LoginEJB.usuario+" : "+txtA_respuesta.getText());
+                }
+                
             }else{
                 his.setResolucion(reso+"\nResolucion por "+LoginEJB.usuario+" : "+txtA_respuesta.getText());
             }
@@ -253,20 +324,45 @@ public class ResolucionP extends MenuP {
         }
     }//GEN-LAST:event_btn_enviarActionPerformed
 
+    private void txt_n_notaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txt_n_notaActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txt_n_notaActionPerformed
+
+    private void txt_n_notaKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txt_n_notaKeyTyped
+        // TODO add your handling code here:
+        if(txt_n_nota.getText().length()== 4){
+            evt.consume();
+        }
+    }//GEN-LAST:event_txt_n_notaKeyTyped
+
+    private void txt_area_notaKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txt_area_notaKeyTyped
+        // TODO add your handling code here:
+        if (txt_area_nota.getText().length()== 8){
+            txt_area_nota.setText(txt_area_nota.getText().toUpperCase());
+            evt.consume();
+        }else{
+            txt_area_nota.setText(txt_area_nota.getText().toUpperCase());
+        }
+    }//GEN-LAST:event_txt_area_notaKeyTyped
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btn_cerrar;
     private javax.swing.JButton btn_enviar;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel lbl_areaE;
     private javax.swing.JLabel lbl_ticket;
     private javax.swing.JLabel lbl_usuarioE;
     private javax.swing.JTextArea txtA_respuesta;
     private javax.swing.JLabel txtTiempo;
+    private javax.swing.JTextField txt_area_nota;
+    private javax.swing.JTextField txt_n_nota;
     // End of variables declaration//GEN-END:variables
 }
