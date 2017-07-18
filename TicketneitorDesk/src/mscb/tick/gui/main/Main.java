@@ -5,6 +5,7 @@
  */
 package mscb.tick.gui.main;
 
+
 import java.awt.Dialog;
 import java.awt.Image;
 import java.awt.Toolkit;
@@ -59,6 +60,7 @@ import mscb.tick.gui.usuarios.CambiarTipoD;
 import mscb.tick.gui.usuarios.NuevoUsuarioD;
 import mscb.tick.gui.usuarios.UsuariosV;
 import mscb.tick.negocio.entidades.HistorialTickets;
+import mscb.tick.util.MySystemTray;
 
 /**
  *
@@ -130,6 +132,7 @@ public class Main extends javax.swing.JFrame {
     private EdificiosV edificiosV;
     private NuevoEdificio nuevoEdificio;
     
+    private MySystemTray mySystemTray;
     
     @Override
     public Image getIconImage() {
@@ -145,6 +148,7 @@ public class Main extends javax.swing.JFrame {
      */
     private Main() {
         initComponents();
+        mySystemTray = MySystemTray.getMySystemTray(this);
         setDefaultCloseOperation(0);
         setResizable(false);
         setLocationRelativeTo(null);

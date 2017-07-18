@@ -5,13 +5,8 @@
  */
 package mscb.tick.negocio;
 
-import java.sql.Time;
-import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.swing.JOptionPane;
-import mscb.tick.negocio.entidades.Tickets;
-import mscb.tick.negocio.LoginEJB;
 
 /**
  *

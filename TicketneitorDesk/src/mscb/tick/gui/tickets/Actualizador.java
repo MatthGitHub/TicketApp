@@ -5,10 +5,12 @@
  */
 package mscb.tick.gui.tickets;
 
+import java.awt.TrayIcon;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import mscb.tick.negocio.Listener;
 import mscb.tick.gui.main.Main;
+import mscb.tick.util.MySystemTray;
 
 /**
  *
@@ -33,6 +35,7 @@ public class Actualizador extends Thread {
             System.out.println("Corriendo Actualizador - " + System.currentTimeMillis() / 100000);
             if (diferencia.diferencias == true) {
                 System.out.println("Hay diferencias en BD");
+                MySystemTray.getMySystemTray(mainFrame).MensajeTrayIcon("Tiene nuevos tickets", TrayIcon.MessageType.INFO);
                 misTi = BandejaTickets.getBandejaTickets(mainFrame);
                 tickets = TicketsV.getTickets(mainFrame);
                 misTi.llenarTabla();
