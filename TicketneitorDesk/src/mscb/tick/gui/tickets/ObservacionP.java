@@ -30,7 +30,9 @@ public class ObservacionP extends MenuP {
         lbl_numero.setText(miTick.getIdTicket().toString());
         lbl_usuarioE.setText(miTick.getCreador().getFkEmpleado().getNombre()+" "+miTick.getCreador().getFkEmpleado().getApellido());
         lbl_areaE.setText(miTick.getCreador().getFkEmpleado().getFkArea().getNombreArea());
-        lbl_edificio.setText(miTick.getFkEdificio().getNombre());
+        if(miTick.getFkEdificio() != null){
+            lbl_edificio.setText(miTick.getFkEdificio().getNombre());
+        }
         lbl_servicio.setText(miTick.getServicio().getPertenece().getNombre()+" - "+miTick.getServicio().getNombreasuntoS());
         txtA_obser.setText(miTick.getObservacion());
         txtA_obser.setEditable(false);

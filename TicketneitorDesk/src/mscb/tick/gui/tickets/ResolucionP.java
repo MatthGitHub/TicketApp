@@ -293,7 +293,7 @@ public class ResolucionP extends MenuP {
             if(marcar.equals("si")){
                 estado = esta.traerEstado(5);
             }else{
-                estado = esta.traerEstado(1);
+                estado = esta.traerEstado(9);
             }
             
             HistorialTickets his = new HistorialTickets();
@@ -313,7 +313,13 @@ public class ResolucionP extends MenuP {
             }
             his.setFecha(fecha);
             his.setFkUsuario(LoginEJB.usuario);
-            servH.nuevo(his);
+            if(marcar.equals("si")){
+               servH.nuevo(his);
+            }else{
+                his.setIdHistorial(servH.buscarUltimo(miTick).getIdHistorial());
+                
+                servH.modificar(his);
+            }
             JOptionPane.showMessageDialog(mainFrame, "Resolucion guardada!");
             setVisible(false);
             mainFrame.setVisible(false);

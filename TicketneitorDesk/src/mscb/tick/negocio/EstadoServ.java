@@ -35,6 +35,16 @@ public class EstadoServ {
         return jpa.findEstados(id);
     }
     
+    public Estados traerEstado(String nombre){
+        List<Estados> miLista = jpa.findEstadosEntities();
+        for(int i = 0; i < miLista.size(); i++){
+            if(miLista.get(i).getNombre().equals(nombre)){
+                return miLista.get(i);
+            }
+        }
+        return null;
+    }
+    
     public List<Estados> traerTodos(){
         return jpa.findEstadosEntities();
     }

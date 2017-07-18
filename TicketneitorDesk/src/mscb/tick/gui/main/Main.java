@@ -21,6 +21,8 @@ import mscb.tick.gui.asuntos.AsuntosPrin;
 import mscb.tick.gui.asuntos.NuevoAsuntoD;
 import mscb.tick.gui.conocimiento.BaseConocimientoV;
 import mscb.tick.gui.conocimiento.DetalleTicketDialog;
+import mscb.tick.gui.edificios.EdificiosV;
+import mscb.tick.gui.edificios.NuevoEdificio;
 import mscb.tick.gui.empleados.EmpleadosV;
 import mscb.tick.gui.empleados.NuevoEmpleado;
 import mscb.tick.gui.encargadoAsuntos.EncargadoAsuntos;
@@ -35,7 +37,6 @@ import mscb.tick.gui.tickets.NuevoTicket;
 import mscb.tick.gui.encargadoAsuntos.AsuntoSinEncargadoD;
 import mscb.tick.gui.encargadoAsuntos.MiServicios;
 import mscb.tick.negocio.entidades.Areas;
-//import mscb.tick.negocio.entidades.BaseConocimiento;
 import mscb.tick.negocio.entidades.Permisos;
 import mscb.tick.negocio.entidades.Usuarios;
 import mscb.tick.gui.historialTicket.HistorialTicketV;
@@ -125,6 +126,10 @@ public class Main extends javax.swing.JFrame {
     
     private AreasV areasV;
     private NuevaAreaD nuevaArea;
+    
+    private EdificiosV edificiosV;
+    private NuevoEdificio nuevoEdificio;
+    
     
     @Override
     public Image getIconImage() {
@@ -254,6 +259,12 @@ public class Main extends javax.swing.JFrame {
             mi_empleados.setVisible(true);
         }else{
             mi_empleados.setVisible(false);
+        }
+        //Edificios
+        if(permisosU.contains(serviciosP.traerUno(47))){
+            mi_edificios.setVisible(true);
+        }else{
+            mi_edificios.setVisible(false);
         }
         
     }
@@ -740,7 +751,36 @@ public class Main extends javax.swing.JFrame {
             nuevaArea.setVisible(true);
         }
         revalidate();
-    } 
+    }
+    
+    /**
+     * Llamada a la ventana de edificios
+     */
+    public void edificios(){
+        edificiosV = edificiosV.getEdificiosV(this);
+        
+        if(!edificiosV.isVisible() == false){
+            getContentPane().add(edificiosV);
+        }else{
+            edificiosV.setVisible(true);
+        }
+        revalidate();
+    }
+    /**
+     * Llamada a la ventana para generar un nuevo edificio
+     */
+    public void nuevoEdificio(){
+        nuevoEdificio = NuevoEdificio.getNuevoEdificio(this);
+        
+        if(!nuevoEdificio.isVisible() == false){
+            getContentPane().add(nuevoEdificio);
+        }else{
+            nuevoEdificio.setVisible(true);
+        }
+        revalidate();
+    }
+    
+    
     /**
      * Ventana de roles
      */
@@ -804,6 +844,7 @@ public class Main extends javax.swing.JFrame {
         mi_administrar = new javax.swing.JMenuItem();
         mi_estadoPGM = new javax.swing.JMenuItem();
         jM_configuracion = new javax.swing.JMenu();
+        mi_edificios = new javax.swing.JMenuItem();
         mi_areas = new javax.swing.JMenuItem();
         mi_asunutos = new javax.swing.JMenuItem();
         mi_servicios = new javax.swing.JMenuItem();
@@ -930,6 +971,16 @@ public class Main extends javax.swing.JFrame {
 
         jM_configuracion.setText("Configuracion");
         jM_configuracion.setFont(new java.awt.Font("SansSerif", 0, 11)); // NOI18N
+
+        mi_edificios.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_E, java.awt.event.InputEvent.SHIFT_MASK | java.awt.event.InputEvent.CTRL_MASK));
+        mi_edificios.setFont(new java.awt.Font("SansSerif", 0, 11)); // NOI18N
+        mi_edificios.setText("Edificios");
+        mi_edificios.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mi_edificiosActionPerformed(evt);
+            }
+        });
+        jM_configuracion.add(mi_edificios);
 
         mi_areas.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_A, java.awt.event.InputEvent.CTRL_MASK));
         mi_areas.setFont(new java.awt.Font("SansSerif", 0, 11)); // NOI18N
@@ -1163,6 +1214,13 @@ public class Main extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_mi_aactualizarActionPerformed
 
+    private void mi_edificiosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mi_edificiosActionPerformed
+        // TODO add your handling code here:
+        this.getContentPane().removeAll();
+        edificios();
+        this.repaint();
+    }//GEN-LAST:event_mi_edificiosActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -1210,6 +1268,7 @@ public class Main extends javax.swing.JFrame {
     private javax.swing.JMenuItem mi_bandejaSalida;
     private javax.swing.JMenuItem mi_conocimiento;
     private javax.swing.JMenuItem mi_conocimiento1;
+    private javax.swing.JMenuItem mi_edificios;
     private javax.swing.JMenuItem mi_empleados;
     private javax.swing.JMenuItem mi_empleados1;
     private javax.swing.JMenuItem mi_estadoPGM;

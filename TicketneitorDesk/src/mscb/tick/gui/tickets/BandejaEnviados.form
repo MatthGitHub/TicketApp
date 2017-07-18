@@ -114,11 +114,11 @@
               <Table columnCount="8" rowCount="0">
                 <Column editable="false" title="N&#xba; Ticket" type="java.lang.Integer"/>
                 <Column editable="false" title="Fecha" type="java.lang.String"/>
-                <Column editable="false" title="Area Emisor" type="java.lang.String"/>
-                <Column editable="false" title="Usuario Emisor" type="java.lang.String"/>
+                <Column editable="false" title="Nota entrada" type="java.lang.String"/>
+                <Column editable="false" title="Nota salida" type="java.lang.String"/>
                 <Column editable="false" title="Estado" type="java.lang.String"/>
                 <Column editable="false" title="Asunto" type="java.lang.String"/>
-                <Column editable="false" title="Usuario receptor" type="java.lang.Object"/>
+                <Column editable="false" title="Receptor" type="java.lang.Object"/>
                 <Column editable="false" title="Patrimonio" type="java.lang.Object"/>
               </Table>
             </Property>

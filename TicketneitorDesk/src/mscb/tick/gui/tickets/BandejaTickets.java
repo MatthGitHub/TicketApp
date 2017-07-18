@@ -6,6 +6,8 @@
 package mscb.tick.gui.tickets;
 
 import java.awt.Desktop;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -18,7 +20,10 @@ import java.util.List;
 import java.util.Locale;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JMenu;
+import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
+import javax.swing.JPopupMenu;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 import mscb.tick.negocio.entidades.Estados;
@@ -28,12 +33,16 @@ import mscb.tick.negocio.EstadoServ;
 import mscb.tick.negocio.HistorialServ;
 import mscb.tick.negocio.LoginEJB;
 import mscb.tick.gui.main.Main;
+import mscb.tick.negocio.AreaServ;
 import mscb.tick.negocio.TicketServ;
 import mscb.tick.negocio.UsuarioServ;
+import mscb.tick.negocio.entidades.Areas;
 import static mscb.tick.util.Funciones.connectToServer;
 import static mscb.tick.util.Funciones.dissconectFromServer;
 import mscb.tick.util.reportes.EjecutarReporte;
 import mscb.tick.util.MenuP;
+import mscb.tick.util.AccionMenu;
+import org.jfree.ui.action.ActionMenuItem;
 
 /**
  *
@@ -44,14 +53,14 @@ public class BandejaTickets extends MenuP {
     private static BandejaTickets estePanel;
     private TicketServ serviciosT;
     private List<Tickets> miLista;
-    private DefaultTableModel modelo;
+    public DefaultTableModel modelo;
     private HistorialServ servH;
     private EstadoServ esta;
     private UsuarioServ serviciosU;
     private EjecutarReporte report;
     private Date fecha;
     private boolean mostrarEspera;
-    
+    private static JPopupMenu popup;
     /**
      * Creates new form MisTickets
      */
@@ -67,11 +76,18 @@ public class BandejaTickets extends MenuP {
         mainFrame.setLocationRelativeTo(null);
         mainFrame.setTitle("Ticketneitor");
         //setSize(mainFrame.getSize());
+        if(LoginEJB.usuario.getFkRol().getIdRol() == 1){
+            cmbx_areas.setVisible(true);
+        }else{
+            cmbx_areas.setVisible(false);
+        }
         validarPermisos();
+        cargarComboAreas();
         configurarTabla(jt_tickets);
         mostrarEspera = false;
         setVisible(true);
         llenarTabla();
+        initPopup();
         report = EjecutarReporte.getEjecutarReporte();
     }
     
@@ -80,6 +96,89 @@ public class BandejaTickets extends MenuP {
             estePanel = new BandejaTickets(mainFrame);
         }
         return estePanel;
+    }
+    
+    //Construccion del JPopupMenu
+    private void initPopup(){
+        popup = new JPopupMenu();
+        JMenu menuEstados = new JMenu("Estados");
+        menuEstados.add(new AccionMenu("En espera",popup));
+        menuEstados.add(new AccionMenu("En trabajo",popup));
+        menuEstados.add(new AccionMenu("En control",popup));
+        
+        popup.add(new AccionMenu("Aceptar",popup));
+        popup.add(menuEstados);
+        popup.add(new AccionMenu("Transferir",popup));
+        if(mainFrame.validarPermisos(45)){
+            popup.add(new AccionMenu("Modificar patrimonio",popup));
+        }
+        if(mainFrame.validarPermisos(46)){
+            popup.add(new AccionMenu("Modificar nota de salida",popup));
+        }
+        popup.add(new AccionMenu("Responder",popup));
+        popup.add(new AccionMenu("Ver adjunto",popup));
+        popup.add(new AccionMenu("Ver resolucion",popup));
+        popup.add(new AccionMenu("Imprimir",popup));
+        popup.add(new AccionMenu("Marcar resuelto",popup));
+        
+        
+        jt_tickets.addMouseListener(new MouseListener() {
+
+                @Override
+                public void mouseReleased(MouseEvent e) {
+                        muestraMenu(e);
+                }
+
+                /**
+                 * Método que muestra el menú.
+                 * 
+                 * @param e
+                 */
+                private void muestraMenu(MouseEvent e) {
+                        // isPopupTrigger() indica si es el evento de raton
+                        // por defecto en el sistema operativo para mostrar
+                        // el menu.
+                        if (e.isPopupTrigger()) {
+                             int r = jt_tickets.rowAtPoint(e.getPoint());
+                                if (r >= 0 && r < jt_tickets.getRowCount()){
+                                   jt_tickets.setRowSelectionInterval(r, r); 
+                                }
+                        popup.show(e.getComponent(), e.getX(), e.getY());
+                        
+                            //popup.setLocation(e.getLocationOnScreen());
+                            //popup.setVisible(true);
+                        }
+                }
+
+                @Override
+                public void mousePressed(MouseEvent e) {
+                        muestraMenu(e);
+                }
+
+                @Override
+                public void mouseExited(MouseEvent e) {
+                        muestraMenu(e);
+                }
+
+                @Override
+                public void mouseEntered(MouseEvent e) {
+                        muestraMenu(e);
+                }
+
+                @Override
+                public void mouseClicked(MouseEvent e) {
+                        muestraMenu(e);
+                }
+
+
+        });
+    }
+    
+    private void cargarComboAreas(){
+        List<Areas> misAreas = AreaServ.getAreaServ().traerTodasconAsuntos();
+        for(int i = 0 ; i < misAreas.size(); i++){
+            cmbx_areas.addItem(misAreas.get(i));
+        }
     }
     
     public void configurarTabla(JTable MiTabla){
@@ -112,41 +211,45 @@ public class BandejaTickets extends MenuP {
         Comparator<Tickets> compara = Collections.reverseOrder();
         Collections.sort(miLista,compara);
         
-        String v[] = new String[11];
+        String v[] = new String[10];
         DateFormat dateFormatter;
         dateFormatter = DateFormat.getDateInstance(DateFormat.SHORT, Locale.UK);
         
         for (int i = 0; i < miLista.size(); i++) {
             v[0] = miLista.get(i).getIdTicket().toString();
             v[1] = dateFormatter.format(miLista.get(i).getFecha()).toString();
-            v[2] = miLista.get(i).getCreador().getFkEmpleado().getFkArea().getNombreArea();
-            v[3] = miLista.get(i).getCreador().getNombreUsuario();
-            v[4] = miLista.get(i).getUltimoEstado().getNombre();
-            v[5] = miLista.get(i).getServicio().getPertenece().getNombre() + " - " + miLista.get(i).getServicio().getNombreasuntoS();
-            if(miLista.get(i).getUltimoUsuario() == null){
-                v[6] = "No aun";
+            if(miLista.get(i).getFkEdificio() == null){
+                v[2] = "";
             }else{
-                v[6] = miLista.get(i).getUltimoUsuario().getNombreUsuario();
+                v[2] = miLista.get(i).getFkEdificio().getNombre();
+            }
+            //v[3] = miLista.get(i).getCreador().getNombreUsuario();
+            v[3] = miLista.get(i).getUltimoEstado().getNombre();
+            v[4] = miLista.get(i).getServicio().getPertenece().getNombre() + " - " + miLista.get(i).getServicio().getNombreasuntoS();
+            if(miLista.get(i).getUltimoUsuario() == null){
+                v[5] = "";
+            }else{
+                v[5] = miLista.get(i).getUltimoUsuario().getNombreUsuario();
             }
             if((miLista.get(i).getPatrimonio() == null)||(miLista.get(i).getPatrimonio().isEmpty())){
-                v[7] = "Sin";
+                v[6] = "";
             }else{
-                v[7] = miLista.get(i).getPatrimonio();
+                v[6] = miLista.get(i).getPatrimonio();
             }
             if((miLista.get(i).getAdjunto() == null)||(miLista.get(i).getAdjunto().isEmpty())){
-                v[8] = "Sin";
+                v[7] = "";
             }else{
-                v[8] = miLista.get(i).getAdjunto();
+                v[7] = miLista.get(i).getAdjunto();
             }
-            if((miLista.get(i).getNotaEntrada()== null)||(miLista.get(i).getNotaEntrada().isEmpty())){
-                v[9] = "Sin";
+            if((miLista.get(i).getNotaEntrada() == null)||(miLista.get(i).getNotaEntrada().equals("0000---------"))){
+                v[8] = "";
             }else{
-                v[9] = miLista.get(i).getNotaEntrada();
+                v[8] = miLista.get(i).getNotaEntrada();
             }
-            if((miLista.get(i).getNotaSalida()== null)||(miLista.get(i).getNotaSalida().isEmpty())){
-                v[10] = "Sin";
+            if((miLista.get(i).getNotaSalida()== null)||(miLista.get(i).getNotaSalida().equals("00---------"))){
+                v[9] = "";
             }else{
-                v[10] = miLista.get(i).getNotaSalida();
+                v[9] = miLista.get(i).getNotaSalida();
             }
             modelo.addRow(v);
             cantidad ++;
@@ -158,45 +261,49 @@ public class BandejaTickets extends MenuP {
     
     private void llenarTablaBuscador(List <Tickets> busca) {
         vaciarTabla(jt_tickets);
-        String v[] = new String[11];
+        String v[] = new String[10];
         DateFormat dateFormatter;
         dateFormatter = DateFormat.getDateInstance(DateFormat.SHORT, Locale.UK);
         Integer cantidad = 0;
         
         Comparator<Tickets> compara = Collections.reverseOrder();
-        Collections.sort(miLista,compara);
+        Collections.sort(busca,compara);
         
         for (int i = 0; i < busca.size(); i++) {
             v[0] = busca.get(i).getIdTicket().toString();
             v[1] = dateFormatter.format(busca.get(i).getFecha()).toString();
-            v[2] = busca.get(i).getCreador().getFkEmpleado().getFkArea().getNombreArea();
-            v[3] = busca.get(i).getCreador().getNombreUsuario();
-            v[4] = miLista.get(i).getUltimoEstado().getNombre();
-            v[5] = busca.get(i).getServicio().getPertenece().getNombre() + " - " + busca.get(i).getServicio().getNombreasuntoS();
-            if(miLista.get(i).getUltimoUsuario() == null){
-                v[6] = "No aun";
+            if(busca.get(i).getFkEdificio() == null){
+                v[2] = "";
             }else{
-                v[6] = miLista.get(i).getUltimoUsuario().getNombreUsuario();
+                v[2] = busca.get(i).getFkEdificio().getNombre();
             }
-            if((miLista.get(i).getPatrimonio() == null)||(miLista.get(i).getPatrimonio().isEmpty())){
-                v[7] = "Sin";
+            //v[3] = miLista.get(i).getCreador().getNombreUsuario();
+            v[3] = busca.get(i).getUltimoEstado().getNombre();
+            v[4] = busca.get(i).getServicio().getPertenece().getNombre() + " - " + busca.get(i).getServicio().getNombreasuntoS();
+            if(busca.get(i).getUltimoUsuario() == null){
+                v[5] = "";
             }else{
-                v[7] = miLista.get(i).getPatrimonio();
+                v[5] = busca.get(i).getUltimoUsuario().getNombreUsuario();
             }
-            if((miLista.get(i).getAdjunto() == null)||(miLista.get(i).getAdjunto().isEmpty())){
-                v[8] = "Sin";
+            if((busca.get(i).getPatrimonio() == null)||(busca.get(i).getPatrimonio().isEmpty())){
+                v[6] = "";
             }else{
-                v[8] = miLista.get(i).getAdjunto();
+                v[6] = busca.get(i).getPatrimonio();
             }
-            if((miLista.get(i).getNotaEntrada()== null)||(miLista.get(i).getNotaEntrada().isEmpty())){
-                v[9] = "Sin";
+            if((busca.get(i).getAdjunto() == null)||(busca.get(i).getAdjunto().isEmpty())){
+                v[7] = "";
             }else{
-                v[9] = miLista.get(i).getNotaEntrada();
+                v[7] = busca.get(i).getAdjunto();
             }
-            if((miLista.get(i).getNotaSalida()== null)||(miLista.get(i).getNotaSalida().isEmpty())){
-                v[10] = "Sin";
+            if((busca.get(i).getNotaEntrada() == null)||(busca.get(i).getNotaEntrada().equals("0000---------"))){
+                v[8] = "";
             }else{
-                v[10] = miLista.get(i).getNotaSalida();
+                v[8] = busca.get(i).getNotaEntrada();
+            }
+            if((busca.get(i).getNotaSalida()== null)||(busca.get(i).getNotaSalida().equals("00---------"))){
+                v[9] = "";
+            }else{
+                v[9] = busca.get(i).getNotaSalida();
             }
             modelo.addRow(v);
             cantidad ++;
@@ -206,8 +313,6 @@ public class BandejaTickets extends MenuP {
 
     }
     
-    
-
     private void vaciarTabla(JTable tabla) {
         try {
             DefaultTableModel modelo = (DefaultTableModel) tabla.getModel();
@@ -248,28 +353,7 @@ public class BandejaTickets extends MenuP {
             dissconectFromServer();
             
     }
-    
-    
-    
-    /**
-     *Cambia el estado de los tickets enviados a recibidos 
-     *//*
-    private void cambiarEstadoDeTicketsRecibidos(){
-        esta = new EstadoServ();
-        Estados estado = esta.traerEstado(2);
-        for(int i = 0; i < miLista.size(); i++){
-            if(miLista.get(i).getUltimoEstado().getIdEstado() == 1){
-                HistorialTickets his = new HistorialTickets();
-                fecha = new Date();
-                his.setFecha(fecha);
-                his.setFkEstado(estado);
-                his.setFkTicket(miLista.get(i));
-                his.setFkUsuario(LoginEJB.usuario);
-                servH.nuevo(his);
-            }
-        }
-    }*/
-    
+     
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -298,13 +382,15 @@ public class BandejaTickets extends MenuP {
         btn_control = new javax.swing.JButton();
         btn_patrimonio = new javax.swing.JButton();
         btn_nota_salida = new javax.swing.JButton();
+        cmbx_areas = new javax.swing.JComboBox();
+        btn_patrimonio1 = new javax.swing.JButton();
 
         setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Mis Tickets", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("SansSerif", 0, 18), java.awt.Color.white)); // NOI18N
         setMinimumSize(new java.awt.Dimension(827, 569));
 
         txt_id.setFont(new java.awt.Font("SansSerif", 0, 14)); // NOI18N
         txt_id.setForeground(new java.awt.Color(0, 108, 118));
-        txt_id.setText("Usuario, Servicio, Patrimonio...");
+        txt_id.setText("Usuario, Servicio, Patrimonio, Lugar de trabajo...");
         txt_id.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 txt_idMouseClicked(evt);
@@ -322,14 +408,14 @@ public class BandejaTickets extends MenuP {
 
             },
             new String [] {
-                "Nº Ticket", "Fecha", "Area creador", "Creador", "Estado", "Asunto", "Receptor", "Patrimonio", "Adjunto", "Nota entrada", "Nota salida"
+                "Nº Ticket", "Fecha", "Lugar de trabajo", "Estado", "Asunto", "Receptor", "Patrimonio", "Adjunto", "Nota entrada", "Nota salida"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class
+                java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class
             };
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false, false, false, false, false, false
+                false, false, false, false, false, false, false, false, false, false
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -515,6 +601,27 @@ public class BandejaTickets extends MenuP {
             }
         });
 
+        cmbx_areas.setBackground(new java.awt.Color(153, 153, 153));
+        cmbx_areas.setFont(new java.awt.Font("SansSerif", 1, 14)); // NOI18N
+        cmbx_areas.setForeground(new java.awt.Color(0, 108, 118));
+        cmbx_areas.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Todas" }));
+        cmbx_areas.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cmbx_areasActionPerformed(evt);
+            }
+        });
+
+        btn_patrimonio1.setBackground(new java.awt.Color(153, 153, 153));
+        btn_patrimonio1.setFont(new java.awt.Font("SansSerif", 1, 10)); // NOI18N
+        btn_patrimonio1.setForeground(new java.awt.Color(0, 108, 118));
+        btn_patrimonio1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/mscb/tick/resources/imagenes/icons/loading.png"))); // NOI18N
+        btn_patrimonio1.setText("Ocultar en espera");
+        btn_patrimonio1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_patrimonio1ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -522,11 +629,6 @@ public class BandejaTickets extends MenuP {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(lblNombreUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 175, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(txt_id, javax.swing.GroupLayout.PREFERRED_SIZE, 342, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(23, 23, 23))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addGroup(layout.createSequentialGroup()
@@ -563,23 +665,38 @@ public class BandejaTickets extends MenuP {
                                         .addComponent(btn_refrescar))))
                             .addComponent(jScrollPane1))
                         .addContainerGap())
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(lblCantidadTickets, javax.swing.GroupLayout.PREFERRED_SIZE, 475, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addComponent(btn_patrimonio1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(lblNombreUsuario, javax.swing.GroupLayout.DEFAULT_SIZE, 175, Short.MAX_VALUE))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(cmbx_areas, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(txt_id, javax.swing.GroupLayout.PREFERRED_SIZE, 342, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(23, 23, 23))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(45, 45, 45)
+                                .addComponent(lblCantidadTickets, javax.swing.GroupLayout.PREFERRED_SIZE, 475, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(12, 12, 12)
-                        .addComponent(txt_id, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(11, 11, 11)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(txt_id, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(cmbx_areas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addComponent(lblNombreUsuario, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(lblCantidadTickets, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(lblCantidadTickets, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btn_patrimonio1, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 410, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 406, Short.MAX_VALUE)
                 .addGap(8, 8, 8)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(layout.createSequentialGroup()
@@ -675,6 +792,7 @@ public class BandejaTickets extends MenuP {
                 his.setFkEstado(estado);
                 his.setFkTicket(miTicket);
                 his.setFkUsuario(LoginEJB.usuario);
+                his.setResolucion(miTicket.getResolucion());
                 servH.nuevo(his);
                 llenarTabla();
             }else{
@@ -781,6 +899,7 @@ public class BandejaTickets extends MenuP {
                 his.setFkEstado(estado);
                 his.setFkTicket(miTicket);
                 his.setFkUsuario(LoginEJB.usuario);
+                his.setResolucion(miTicket.getResolucion());
                 servH.nuevo(his);
                 llenarTabla();
             }else{
@@ -816,6 +935,7 @@ public class BandejaTickets extends MenuP {
                 his.setFkEstado(estado);
                 his.setFkTicket(miTicket);
                 his.setFkUsuario(LoginEJB.usuario);
+                his.setResolucion(miTicket.getResolucion());
                 servH.nuevo(his);
                 llenarTabla();
             }else{
@@ -844,12 +964,27 @@ public class BandejaTickets extends MenuP {
         }
     }//GEN-LAST:event_btn_nota_salidaActionPerformed
 
+    private void cmbx_areasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbx_areasActionPerformed
+        // TODO add your handling code here:
+        if(cmbx_areas.getSelectedItem().equals("Todas")){
+            llenarTabla();
+        }else{
+            llenarTablaBuscador(serviciosT.traerTodosPorArea((Areas) cmbx_areas.getSelectedItem()));
+        }
+    }//GEN-LAST:event_cmbx_areasActionPerformed
+
+    private void btn_patrimonio1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_patrimonio1ActionPerformed
+        // TODO add your handling code here:
+        llenarTablaBuscador(serviciosT.buscarPorUsuarioAsuntoSinEnEspera());
+    }//GEN-LAST:event_btn_patrimonio1ActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btn_control;
     private javax.swing.JButton btn_enEspera;
     private javax.swing.JButton btn_nota_salida;
     private javax.swing.JButton btn_patrimonio;
+    private javax.swing.JButton btn_patrimonio1;
     private javax.swing.JButton btn_refrescar;
     private javax.swing.JButton btn_responder;
     private javax.swing.JButton btn_responder1;
@@ -860,8 +995,9 @@ public class BandejaTickets extends MenuP {
     private javax.swing.JButton btn_verResp;
     private javax.swing.JButton btn_ver_adjunto;
     private javax.swing.JButton btn_volver;
+    private javax.swing.JComboBox cmbx_areas;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jt_tickets;
+    public javax.swing.JTable jt_tickets;
     private javax.swing.JLabel lblCantidadTickets;
     private javax.swing.JLabel lblNombreUsuario;
     private javax.swing.JTextField txt_id;

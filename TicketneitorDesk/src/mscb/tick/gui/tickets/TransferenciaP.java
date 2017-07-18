@@ -310,10 +310,12 @@ public class TransferenciaP extends MenuP {
                 Date fecha = new Date();
                 HistorialServ servH = HistorialServ.getHistorialServ();
                 HistorialTickets his = new HistorialTickets();
+                his.setFkTicket(miTick);
                 his.setFkRazon((RazonesTransferencias) cmbx_razones.getSelectedItem());
                 his.setFkUsuario(LoginEJB.usuario);
-                his.setFkEstado(estad.traerEstado(1));
+                his.setFkEstado(estad.traerEstado(9));
                 his.setFecha(fecha);
+                his.setResolucion(miTick.getResolucion());
                 servH.nuevo(his);
                 BandejaTickets.getBandejaTickets(mainFrameO).llenarTabla();
                 setVisible(false);

@@ -16,11 +16,8 @@ import javax.persistence.Query;
 import mscb.tick.negocio.controladores.TicketsJpaController;
 import mscb.tick.negocio.controladores.exceptions.IllegalOrphanException;
 import mscb.tick.negocio.controladores.exceptions.NonexistentEntityException;
+import mscb.tick.negocio.entidades.Areas;
 import mscb.tick.negocio.entidades.Tickets;
-import mscb.tick.negocio.EstadoServ;
-import mscb.tick.negocio.LoginEJB;
-import mscb.tick.negocio.entidades.Servicios;
-import mscb.tick.negocio.entidades.Usuarios;
 
 //import mscb.tick.login.Login;
 
@@ -87,6 +84,37 @@ public class TicketServ {
         return aux;
     }
     
+    public List<Tickets> traerTodosPorArea(Areas area){
+         EntityManagerFactory emf = Persistence.createEntityManagerFactory("TicketneitorPU");
+        TicketsJpaController jpa = new TicketsJpaController(emf);
+        EntityManager em = emf.createEntityManager();
+        
+        List<Tickets> miLista = jpa.findTicketsEntities();
+        List<Tickets> aux = new ArrayList<>();
+
+        em.getTransaction().begin();
+        q = em.createNativeQuery("SELECT DISTINCT * FROM tickets t \n" +
+                                "JOIN historial_tickets ht ON ht.fk_ticket = t.id_ticket\n" +
+                                "JOIN servicios s ON t.servicio = s.id_asuntoS\n" +
+                                "JOIN estados e ON e.id_estado = ht.fk_estado\n" +
+                                "JOIN encargado_servicios es ON es.asunto = s.id_asuntoS\n"+
+                                "JOIN usuarios u ON u.id_usuario = t.creador\n" +
+                                "JOIN empleados em ON u.fk_empleado = em.id_empleado\n"+
+                                "WHERE e.id_estado NOT IN (5,7)"+
+                                " AND ht.id_historial IN "+
+                                "(SELECT id_historial FROM "+
+                                "(SELECT MAX(id_historial) as id_historial,fk_ticket "+
+                                "FROM historial_tickets GROUP by fk_ticket ) AS ht2)"+
+                                " AND es.usuario = ?1 "+
+                                " AND em.fk_area = ?2 "+
+                                "ORDER by t.id_ticket",Tickets.class);
+        q.setParameter(1, LoginEJB.usuario.getIdUsuario());
+        q.setParameter(2, area.getIdArea());
+        aux = q.getResultList();
+        return aux;
+    }
+    
+    
      public List <Tickets> buscar(String id){
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("TicketneitorPU");
         TicketsJpaController jpa = new TicketsJpaController(emf);
@@ -103,7 +131,8 @@ public class TicketServ {
                                 "JOIN estados e ON e.id_estado = ht.fk_estado\n" +
                                 "JOIN encargado_servicios es ON es.asunto = s.id_asuntoS\n" +
                                 "JOIN usuarios u2 ON u2.id_usuario = t.creador\n" +
-                                "JOIN usuarios u3 ON u3.id_usuario = ht.fk_usuario\n" +
+                                "LEFT JOIN usuarios u3 ON u3.id_usuario = ht.fk_usuario\n"+
+                                "LEFT JOIN edificios ed ON t.fkEdificio = ed.id_edificio\n" +
                                 "WHERE e.id_estado NOT IN (5,7)"+
                                 " AND ht.id_historial IN "+
                                 "(SELECT id_historial FROM "+
@@ -112,6 +141,7 @@ public class TicketServ {
                                 " AND es.usuario = ?1 "+
                                 "AND ((s.nombre_asuntoS LIKE ?2\n" +
                                 "OR a.nombre LIKE ?2\n"+
+                                "OR ed.nombre LIKE ?2\n"+
                                 "OR u2.nombre_usuario LIKE ?2\n"+
                                 "OR u3.nombre_usuario LIKE ?2\n"+
                                 "OR t.patrimonio LIKE ?2)\n"+

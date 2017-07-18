@@ -7,7 +7,7 @@ import javax.persistence.metamodel.StaticMetamodel;
 import mscb.tick.negocio.entidades.Asuntos;
 import mscb.tick.negocio.entidades.Empleados;
 
-@Generated(value="EclipseLink-2.5.2.v20140319-rNA", date="2017-07-11T13:45:20")
+@Generated(value="EclipseLink-2.5.2.v20140319-rNA", date="2017-07-18T09:49:53")
 @StaticMetamodel(Areas.class)
 public class Areas_ { 
 

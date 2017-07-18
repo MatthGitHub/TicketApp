@@ -50,4 +50,11 @@ public class EdificioServ {
         return null;
     }
     
+    public void nuevo(Edificios nuevo) throws Exception{
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("TicketneitorPU");
+        EdificiosJpaController jpa = new EdificiosJpaController(emf);
+        
+        jpa.create(nuevo);
+    }
+    
 }
