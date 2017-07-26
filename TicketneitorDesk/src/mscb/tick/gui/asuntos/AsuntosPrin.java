@@ -6,6 +6,8 @@
 package mscb.tick.gui.asuntos;
 
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
@@ -81,14 +83,21 @@ public class AsuntosPrin extends MenuP {
     public void llenarTabla(){
         vaciarTabla(jt_asuntos);
         modelo = (DefaultTableModel) jt_asuntos.getModel();
-        String v[] = new String[2];
+        String v[] = new String[3];
         misAsuntos =  serviciosA.asuntosPorArea((Areas) cmbx_areas.getSelectedItem());
         
         for(int i = 0; i < misAsuntos.size(); i++){
             v[0] = misAsuntos.get(i).getIdasuntoP().toString();
             v[1] = misAsuntos.get(i).getNombre();
+            //v[2] = misAsuntos.get(i).getVisible().toString();
             modelo.addRow(v);
+            if(misAsuntos.get(i).getVisible()){
+                modelo.setValueAt(true, i, 2);
+            }else{
+                modelo.setValueAt(false, i, 2);
+            }
         }
+        
     }
     
     private void vaciarTabla(JTable tabla) {
@@ -125,6 +134,7 @@ public class AsuntosPrin extends MenuP {
         btn_nuevo = new javax.swing.JButton();
         cmbx_areas = new javax.swing.JComboBox();
         jLabel1 = new javax.swing.JLabel();
+        btn_nuevo1 = new javax.swing.JButton();
 
         setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Asuntos", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("SansSerif", 0, 18), java.awt.Color.white)); // NOI18N
 
@@ -135,12 +145,19 @@ public class AsuntosPrin extends MenuP {
 
             },
             new String [] {
-                "ID", "Nombre"
+                "ID", "Nombre", "Visible"
             }
         ) {
-            boolean[] canEdit = new boolean [] {
-                false, false
+            Class[] types = new Class [] {
+                java.lang.Object.class, java.lang.Object.class, java.lang.Boolean.class
             };
+            boolean[] canEdit = new boolean [] {
+                false, false, false
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
                 return canEdit [columnIndex];
@@ -197,6 +214,17 @@ public class AsuntosPrin extends MenuP {
         jLabel1.setForeground(new java.awt.Color(0, 108, 118));
         jLabel1.setText("Eliga un area:");
 
+        btn_nuevo1.setBackground(new java.awt.Color(153, 153, 153));
+        btn_nuevo1.setFont(new java.awt.Font("SansSerif", 1, 10)); // NOI18N
+        btn_nuevo1.setForeground(new java.awt.Color(0, 108, 118));
+        btn_nuevo1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/mscb/tick/resources/imagenes/icons/add.png"))); // NOI18N
+        btn_nuevo1.setText("Visible");
+        btn_nuevo1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_nuevo1ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -208,6 +236,8 @@ public class AsuntosPrin extends MenuP {
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addComponent(btn_volver)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btn_nuevo1)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(btn_nuevo)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(btn_eliminar))
@@ -231,7 +261,8 @@ public class AsuntosPrin extends MenuP {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btn_volver, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btn_eliminar, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btn_nuevo, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(btn_nuevo, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btn_nuevo1, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(43, 43, 43))
         );
     }// </editor-fold>//GEN-END:initComponents
@@ -277,10 +308,36 @@ public class AsuntosPrin extends MenuP {
         }
     }//GEN-LAST:event_cmbx_areasActionPerformed
 
+    private void btn_nuevo1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_nuevo1ActionPerformed
+        // TODO add your handling code here:
+        if((jt_asuntos.getSelectedRow() != -1)&&(jt_asuntos.getSelectedRowCount() == 1)){
+            Asuntos asuntico = serviciosA.getAsunto(Integer.parseInt(jt_asuntos.getValueAt(jt_asuntos.getSelectedRow(), 0).toString()));
+            if(asuntico.getVisible()){
+                asuntico.setVisible(false);
+                try {
+                    serviciosA.setVisible(asuntico);
+                } catch (Exception ex) {
+                    Logger.getLogger(AsuntosPrin.class.getName()).log(Level.SEVERE, null, ex);
+                    JOptionPane.showMessageDialog(this, "Error al modificar asunto: "+ex);
+                }
+            }else{
+                asuntico.setVisible(true);
+                try {
+                    serviciosA.setVisible(asuntico);
+                } catch (Exception ex) {
+                    Logger.getLogger(AsuntosPrin.class.getName()).log(Level.SEVERE, null, ex);
+                    JOptionPane.showMessageDialog(this, "Error al modificar asunto: "+ex);
+                }
+            }
+            llenarTabla();
+        }
+    }//GEN-LAST:event_btn_nuevo1ActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btn_eliminar;
     private javax.swing.JButton btn_nuevo;
+    private javax.swing.JButton btn_nuevo1;
     private javax.swing.JButton btn_volver;
     private javax.swing.JComboBox cmbx_areas;
     private javax.swing.JLabel jLabel1;

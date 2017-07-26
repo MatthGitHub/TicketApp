@@ -144,7 +144,8 @@ public class TicketServ {
                                 "OR ed.nombre LIKE ?2\n"+
                                 "OR u2.nombre_usuario LIKE ?2\n"+
                                 "OR u3.nombre_usuario LIKE ?2\n"+
-                                "OR t.patrimonio LIKE ?2)\n"+
+                                "OR t.patrimonio LIKE ?2\n"+
+                                "OR t.observacion LIKE ?2)\n"+
                                 "OR t.id_ticket = ?3)\n"+
                                 "ORDER by t.id_ticket",Tickets.class);
         q.setParameter(1, LoginEJB.usuario.getIdUsuario());
@@ -204,12 +205,15 @@ public class TicketServ {
                                 "JOIN historial_tickets ht ON ht.fk_ticket = t.id_ticket\n" +
                                 "JOIN servicios s ON t.servicio = s.id_asuntoS\n" +
                                 "JOIN estados e ON e.id_estado = ht.fk_estado\n" +
+                                "JOIN encargado_servicios es ON es.asunto = s.id_asuntoS\n"+
                                 "WHERE e.id_estado NOT IN (3,5,7)"+
                                 " AND ht.id_historial IN "+
                                 "(SELECT id_historial FROM "+
                                 "(SELECT MAX(id_historial) as id_historial,fk_ticket "+
-                                "FROM historial_tickets GROUP by fk_ticket ) AS ht2) "+
+                                "FROM historial_tickets GROUP by fk_ticket ) AS ht2)"+
+                                " AND es.usuario = ?1 "+
                                 "ORDER by t.id_ticket",Tickets.class);
+        q.setParameter(1, LoginEJB.usuario.getIdUsuario());
         aux = q.getResultList();
         return aux;
         

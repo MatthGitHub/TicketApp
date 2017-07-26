@@ -32,6 +32,7 @@
     <class>mscb.tick.negocio.entidades.Estados</class>
     <class>mscb.tick.negocio.entidades.Empleados</class>
     <class>mscb.tick.negocio.entidades.Edificios</class>
+    <class>mscb.tick.negocio.entidades.Configuracion</class>
     <properties>
       <property name="javax.persistence.jdbc.url" value="jdbc:mysql://10.20.130.242:3306/ticket?zeroDateTimeBehavior=convertToNull"/>
       <property name="javax.persistence.jdbc.user" value="administrador"/>

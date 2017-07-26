@@ -38,7 +38,7 @@ public class Asuntos implements Serializable {
 
     @Basic(optional = false)
     @Column(name = "visible")
-    private boolean visible;
+    private Boolean visible;
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -125,11 +125,11 @@ public class Asuntos implements Serializable {
         return this.nombre;
     }
 
-    public boolean getVisible() {
+    public Boolean getVisible() {
         return visible;
     }
 
-    public void setVisible(boolean visible) {
+    public void setVisible(Boolean visible) {
         this.visible = visible;
     }
     

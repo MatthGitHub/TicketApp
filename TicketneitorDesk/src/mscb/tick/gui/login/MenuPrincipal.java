@@ -216,7 +216,7 @@ public class MenuPrincipal extends MenuP {
     private void btn_salirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_salirActionPerformed
         // TODO add your handling code here:
         if(JOptionPane.showConfirmDialog(this,"El programa se cerrará. Continuar?","Confirmar",JOptionPane.YES_NO_OPTION)==0){
-            System.exit(0);
+            mainFrame.salirPrograma();
         }
     }//GEN-LAST:event_btn_salirActionPerformed
 

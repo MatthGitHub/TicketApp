@@ -52,7 +52,12 @@ public class BaseConocimientoV extends MenuP {
     }
     
     private void llenarTabla(){
-        miLista = servH.traerTodosResueltosPorArea(LoginEJB.usuario.getFkEmpleado().getFkArea());
+        if(LoginEJB.usuario.getFkRol().getIdRol() == 1){
+            miLista = servH.traerTodosResueltos();
+        }else{
+             miLista = servH.traerTodosResueltosPorArea(LoginEJB.usuario.getFkEmpleado().getFkArea());
+        }
+       
         String v[] = new String[10];
         DateFormat dateFormatter;
         dateFormatter = DateFormat.getDateInstance(DateFormat.SHORT, Locale.UK);
@@ -71,19 +76,24 @@ public class BaseConocimientoV extends MenuP {
             v[6] = miLista.get(i).getFkTicket().getServicio().getPertenece().getNombre();
             v[7] = miLista.get(i).getFkTicket().getServicio().getNombreasuntoS();
             if((miLista.get(i).getFkTicket().getPatrimonio() == null)||(miLista.get(i).getFkTicket().getPatrimonio().isEmpty())){
-                v[8] = "Sin";
+                v[8] = "";
             }else{
                 v[8] = miLista.get(i).getFkTicket().getPatrimonio();
             }
-            if((miLista.get(i).getFkTicket().getNotaSalida()== null)||(miLista.get(i).getFkTicket().getNotaSalida().isEmpty())){
-                v[9] = "Sin";
+            if((miLista.get(i).getFkTicket().getNotaSalida()== null)||(miLista.get(i).getFkTicket().getNotaSalida().isEmpty())||(miLista.get(i).getFkTicket().getNotaSalida().equals("00---------"))){
+                v[9] = "";
             }else{
                 v[9] = miLista.get(i).getFkTicket().getNotaSalida();
             }
             modelo.addRow(v);
             cant++;
         }
-        lblCant.setText(Integer.toString(cant)+" Tickets resueltos de: "+serviciosT.traerTodos().size());
+        if(LoginEJB.usuario.getFkRol().getIdRol() == 1){
+            lblCant.setText(Integer.toString(cant)+" Tickets resueltos de: "+serviciosT.traerTodos().size());
+        }else{
+             lblCant.setText(Integer.toString(cant)+" Tickets resueltos de: "+serviciosT.traerTodosPorArea().size());
+        }
+        
         revalidate();
     }
 

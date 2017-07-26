@@ -5,6 +5,8 @@
  */
 package mscb.tick.gui.tickets;
 
+import java.awt.Color;
+import java.awt.Component;
 import java.awt.Desktop;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;

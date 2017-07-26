@@ -13,6 +13,7 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import mscb.tick.negocio.controladores.AsuntosJpaController;
 import mscb.tick.negocio.controladores.ServiciosJpaController;
+import mscb.tick.negocio.controladores.exceptions.NonexistentEntityException;
 import mscb.tick.negocio.entidades.Areas;
 import mscb.tick.negocio.entidades.Asuntos;
 
@@ -71,5 +72,15 @@ public class AsuntoPrincipalServ {
         }
         return aux;
     }
+    
+    public Asuntos getAsunto(int id){
+        return jpa.findAsuntos(id);
+    }
+    
+    public void setVisible(Asuntos asuntico) throws NonexistentEntityException, Exception{
+        
+        jpa.edit(asuntico);
+    }
+    
     
 }
