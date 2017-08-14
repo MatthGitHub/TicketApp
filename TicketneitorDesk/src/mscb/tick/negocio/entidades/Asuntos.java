@@ -34,11 +34,11 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Asuntos.findAll", query = "SELECT a FROM Asuntos a"),
     @NamedQuery(name = "Asuntos.findByIdasuntoP", query = "SELECT a FROM Asuntos a WHERE a.idasuntoP = :idasuntoP"),
     @NamedQuery(name = "Asuntos.findByNombre", query = "SELECT a FROM Asuntos a WHERE a.nombre = :nombre")})
-public class Asuntos implements Serializable {
+public class Asuntos implements Serializable,Comparable<Asuntos> {
 
     @Basic(optional = false)
-    @Column(name = "visible")
-    private Boolean visible;
+    @Column(name = "visible", nullable = false)
+    private boolean visible;
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -125,11 +125,23 @@ public class Asuntos implements Serializable {
         return this.nombre;
     }
 
-    public Boolean getVisible() {
+    
+    @Override
+    public int compareTo(Asuntos a) {
+        if(nombre.compareTo(a.nombre) > 0){
+            return -1;
+        }
+        if(nombre.compareTo(a.nombre) < 0){
+            return 1;
+        }
+        return 0;
+    }
+
+    public boolean getVisible() {
         return visible;
     }
 
-    public void setVisible(Boolean visible) {
+    public void setVisible(boolean visible) {
         this.visible = visible;
     }
     

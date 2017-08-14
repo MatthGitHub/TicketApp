@@ -39,7 +39,6 @@ import mscb.tick.negocio.UsuarioServ;
     @NamedQuery(name = "Tickets.findAll", query = "SELECT t FROM Tickets t"),
     @NamedQuery(name = "Tickets.findByIdTicket", query = "SELECT t FROM Tickets t WHERE t.idTicket = :idTicket"),
     @NamedQuery(name = "Tickets.findByFecha", query = "SELECT t FROM Tickets t WHERE t.fecha = :fecha"),
-    @NamedQuery(name = "Tickets.findByHora", query = "SELECT t FROM Tickets t WHERE t.hora = :hora"),
     @NamedQuery(name = "Tickets.findByObservacion", query = "SELECT t FROM Tickets t WHERE t.observacion = :observacion"),
     @NamedQuery(name = "Tickets.findByPatrimonio", query = "SELECT t FROM Tickets t WHERE t.patrimonio = :patrimonio"),
     @NamedQuery(name = "Tickets.findByTiempoResolucion", query = "SELECT t FROM Tickets t WHERE t.tiempoResolucion = :tiempoResolucion")})
@@ -67,10 +66,6 @@ public class Tickets implements Serializable,Comparable<Tickets> {
     @Column(name = "fecha")
     @Temporal(TemporalType.DATE)
     private Date fecha;
-    @Basic(optional = false)
-    @Column(name = "hora")
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date hora;
     @Column(name = "observacion")
     private String observacion;
     @Column(name = "patrimonio")
@@ -97,7 +92,6 @@ public class Tickets implements Serializable,Comparable<Tickets> {
     public Tickets(Integer idTicket, Date fecha, Date hora) {
         this.idTicket = idTicket;
         this.fecha = fecha;
-        this.hora = hora;
     }
 
     public Integer getIdTicket() {
@@ -114,14 +108,6 @@ public class Tickets implements Serializable,Comparable<Tickets> {
 
     public void setFecha(Date fecha) {
         this.fecha = fecha;
-    }
-
-    public Date getHora() {
-        return hora;
-    }
-
-    public void setHora(Date hora) {
-        this.hora = hora;
     }
 
     public String getObservacion() {
@@ -191,6 +177,10 @@ public class Tickets implements Serializable,Comparable<Tickets> {
             return false;
         }
         return true;
+    }
+    public HistorialTickets getUltimoHistorial(){
+        HistorialServ his = HistorialServ.getHistorialServ();
+        return his.buscarUltimo(this);
     }
     
     public Estados getUltimoEstado(){

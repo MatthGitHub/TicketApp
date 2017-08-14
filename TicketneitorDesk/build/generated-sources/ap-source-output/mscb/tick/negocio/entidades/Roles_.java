@@ -7,7 +7,7 @@ import javax.persistence.metamodel.StaticMetamodel;
 import mscb.tick.negocio.entidades.Permisos;
 import mscb.tick.negocio.entidades.Usuarios;
 
-@Generated(value="EclipseLink-2.5.2.v20140319-rNA", date="2017-07-25T11:55:53")
+@Generated(value="EclipseLink-2.5.2.v20140319-rNA", date="2017-08-14T13:49:49")
 @StaticMetamodel(Roles.class)
 public class Roles_ { 
 

@@ -374,7 +374,7 @@ public class UsuariosV extends MenuP {
     private void btn_resetClaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_resetClaveActionPerformed
         // TODO add your handling code here:
         if((jt_usuarios.getSelectedRow() != -1)&&(jt_usuarios.getSelectedRowCount()== 1)){
-            if(JOptionPane.showConfirmDialog(mainFrame,"La nueva clava sera el nombre completo del dueño del usuario", "Seguro desea resetear la clave?",JOptionPane.YES_OPTION) == 0){
+            if(JOptionPane.showConfirmDialog(mainFrame,"La nueva clava sera el legajo del usuario", "Seguro desea resetear la clave?",JOptionPane.YES_OPTION) == 0){
                     if(servicios.resetClave(Integer.parseInt(modelo.getValueAt(jt_usuarios.getSelectedRow(), 0).toString()))== 0){
                         JOptionPane.showMessageDialog(mainFrame, "Clave reseteada!");
                         //cargarTablaUsuarios(); --> Es innecesario ya que la clave no se ve.

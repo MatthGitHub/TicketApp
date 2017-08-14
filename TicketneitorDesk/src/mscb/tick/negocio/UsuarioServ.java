@@ -141,7 +141,7 @@ public class UsuarioServ {
     public int resetClave(int id){
         Usuarios usu;
         usu = jpa.findUsuarios(id);
-        usu.setContrasenia(usu.getFkEmpleado().getNombre());
+        usu.setContrasenia(usu.getFkEmpleado().getLegajo().toString());
         
         try {
             jpa.edit(usu);

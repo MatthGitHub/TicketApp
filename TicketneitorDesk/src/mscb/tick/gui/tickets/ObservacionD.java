@@ -22,11 +22,10 @@ public class ObservacionD extends javax.swing.JDialog {
     public ObservacionD(JFrame parent, boolean modal,Tickets miTick) {
         super(parent, modal);
         initComponents();
+        
         setLocationRelativeTo(parent);
-        setResizable(false);
         setDefaultCloseOperation(0);
         this.mainFrame = (Main) parent;
-        setSize(520, 300);
         setTitle("Observacion Ticket");
         Observacion(miTick);
         pack();
@@ -56,17 +55,9 @@ public class ObservacionD extends javax.swing.JDialog {
     private void initComponents() {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 520, Short.MAX_VALUE)
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 300, Short.MAX_VALUE)
-        );
+        setLocationByPlatform(true);
+        setMaximumSize(new java.awt.Dimension(800, 600));
+        setMinimumSize(new java.awt.Dimension(540, 350));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents

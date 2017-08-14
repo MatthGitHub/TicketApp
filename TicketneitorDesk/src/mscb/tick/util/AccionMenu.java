@@ -106,6 +106,7 @@ public class AccionMenu extends AbstractAction {
                 esta = EstadoServ.getEstadoServ();
                 fecha = new Date();
                 his.setFecha(fecha);
+                his.setHora(fecha);
                 his.setFkEstado(esta.traerEstado(2));
                 his.setFkTicket(miTick);
                 his.setFkUsuario(LoginEJB.usuario);
@@ -120,6 +121,7 @@ public class AccionMenu extends AbstractAction {
                     esta = EstadoServ.getEstadoServ();
                     fecha = new Date();
                     his.setFecha(fecha);
+                    his.setHora(fecha);
                     his.setFkEstado(esta.traerEstado(2));
                     his.setFkTicket(miTick);
                     his.setFkUsuario(LoginEJB.usuario);
@@ -149,6 +151,7 @@ public class AccionMenu extends AbstractAction {
             if(!miTicket.getUltimoEstado().equals(estado)){
                 HistorialTickets his = new HistorialTickets();
                 fecha = new Date();
+                his.setHora(fecha);
                 his.setFecha(fecha);
                 his.setFkEstado(estado);
                 his.setFkTicket(miTicket);

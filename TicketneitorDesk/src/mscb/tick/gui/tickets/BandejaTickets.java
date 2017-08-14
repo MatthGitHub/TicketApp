@@ -5,8 +5,6 @@
  */
 package mscb.tick.gui.tickets;
 
-import java.awt.Color;
-import java.awt.Component;
 import java.awt.Desktop;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
@@ -14,6 +12,7 @@ import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -23,7 +22,6 @@ import java.util.Locale;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JMenu;
-import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPopupMenu;
 import javax.swing.JTable;
@@ -35,16 +33,14 @@ import mscb.tick.negocio.EstadoServ;
 import mscb.tick.negocio.HistorialServ;
 import mscb.tick.negocio.LoginEJB;
 import mscb.tick.gui.main.Main;
+import mscb.tick.gui.tickets.ConfigurarTabla.ListaConf;
 import mscb.tick.negocio.AreaServ;
 import mscb.tick.negocio.TicketServ;
 import mscb.tick.negocio.UsuarioServ;
 import mscb.tick.negocio.entidades.Areas;
-import static mscb.tick.util.Funciones.connectToServer;
-import static mscb.tick.util.Funciones.dissconectFromServer;
 import mscb.tick.util.reportes.EjecutarReporte;
 import mscb.tick.util.MenuP;
 import mscb.tick.util.AccionMenu;
-import org.jfree.ui.action.ActionMenuItem;
 
 /**
  *
@@ -63,6 +59,7 @@ public class BandejaTickets extends MenuP {
     private Date fecha;
     private boolean mostrarEspera;
     private static JPopupMenu popup;
+    private ConfigurarTabla configuracion;
     /**
      * Creates new form MisTickets
      */
@@ -85,7 +82,11 @@ public class BandejaTickets extends MenuP {
         }
         validarPermisos();
         cargarComboAreas();
-        configurarTabla(jt_tickets);
+        try {
+            configurarTabla(jt_tickets);
+        } catch (IOException ex) {
+            Logger.getLogger(BandejaTickets.class.getName()).log(Level.SEVERE, null, ex);
+        }
         mostrarEspera = false;
         setVisible(true);
         llenarTabla();
@@ -183,23 +184,110 @@ public class BandejaTickets extends MenuP {
         }
     }
     
-    public void configurarTabla(JTable MiTabla){
+    public void configurarTabla(JTable MiTabla) throws IOException{
         //MiTabla.setIntercellSpacing(Dimension newSpacing);
-        MiTabla.setRowHeight(20);
         //MiTabla.setRowHeight(row, rowHeight);
+        configuracion = ConfigurarTabla.getConfigurarTabla(Main.getMainFrame());
+        List<ListaConf> miConfig = configuracion.getListaDeConfiguracionTabla();
+        //Configura tamaño de las filas
+        if(configuracion.getSiMuestra("RowSize", miConfig)){
+            MiTabla.setRowHeight(20);
+        }else{
+            MiTabla.setRowHeight(40);
+        }
+        
+        
+        if(!configuracion.getSiMuestra("NumTicket", miConfig)){
+            MiTabla.getColumnModel().getColumn(0).setResizable(false);
+            MiTabla.getColumnModel().getColumn(0).setMaxWidth(0);
+            MiTabla.getColumnModel().getColumn(0).setMinWidth(0);
+            MiTabla.getColumnModel().getColumn(0).setPreferredWidth(0);
+        }
+        if(!configuracion.getSiMuestra("Fecha", miConfig)){
+            MiTabla.getColumnModel().getColumn(1).setResizable(false);
+            MiTabla.getColumnModel().getColumn(1).setMaxWidth(0);
+            MiTabla.getColumnModel().getColumn(1).setMinWidth(0);
+            MiTabla.getColumnModel().getColumn(1).setPreferredWidth(0);
+        }
+        if(!configuracion.getSiMuestra("LugarTrabajo", miConfig)){
+            MiTabla.getColumnModel().getColumn(2).setResizable(false);
+            MiTabla.getColumnModel().getColumn(2).setMaxWidth(0);
+            MiTabla.getColumnModel().getColumn(2).setMinWidth(0);
+            MiTabla.getColumnModel().getColumn(2).setPreferredWidth(0);
+        }
+        if(!configuracion.getSiMuestra("Estado", miConfig)){
+            MiTabla.getColumnModel().getColumn(5).setResizable(false);
+            MiTabla.getColumnModel().getColumn(5).setMaxWidth(0);
+            MiTabla.getColumnModel().getColumn(5).setMinWidth(0);
+            MiTabla.getColumnModel().getColumn(5).setPreferredWidth(0);
+        }
+        if(!configuracion.getSiMuestra("Hora", miConfig)){
+            MiTabla.getColumnModel().getColumn(6).setResizable(false);
+            MiTabla.getColumnModel().getColumn(6).setMaxWidth(0);
+            MiTabla.getColumnModel().getColumn(6).setMinWidth(0);
+            MiTabla.getColumnModel().getColumn(6).setPreferredWidth(0);
+        }
+        if(!configuracion.getSiMuestra("Asunto", miConfig)){
+            MiTabla.getColumnModel().getColumn(8).setResizable(false);
+            MiTabla.getColumnModel().getColumn(8).setMaxWidth(0);
+            MiTabla.getColumnModel().getColumn(8).setMinWidth(0);
+            MiTabla.getColumnModel().getColumn(8).setPreferredWidth(0);
+        }
+        if(!configuracion.getSiMuestra("Receptor", miConfig)){
+            MiTabla.getColumnModel().getColumn(9).setResizable(false);
+            MiTabla.getColumnModel().getColumn(9).setMaxWidth(0);
+            MiTabla.getColumnModel().getColumn(9).setMinWidth(0);
+            MiTabla.getColumnModel().getColumn(9).setPreferredWidth(0);
+        }
+        if(!configuracion.getSiMuestra("Patrimonio", miConfig)){
+            MiTabla.getColumnModel().getColumn(10).setResizable(false);
+            MiTabla.getColumnModel().getColumn(10).setMaxWidth(0);
+            MiTabla.getColumnModel().getColumn(10).setMinWidth(0);
+            MiTabla.getColumnModel().getColumn(10).setPreferredWidth(0);
+        }
+        if(!configuracion.getSiMuestra("Adjunto", miConfig)){
+            MiTabla.getColumnModel().getColumn(11).setResizable(false);
+            MiTabla.getColumnModel().getColumn(11).setMaxWidth(0);
+            MiTabla.getColumnModel().getColumn(11).setMinWidth(0);
+            MiTabla.getColumnModel().getColumn(11).setPreferredWidth(0);
+        }
+        if(!configuracion.getSiMuestra("NotaEntrada", miConfig)){
+            MiTabla.getColumnModel().getColumn(12).setResizable(false);
+            MiTabla.getColumnModel().getColumn(12).setMaxWidth(0);
+            MiTabla.getColumnModel().getColumn(12).setMinWidth(0);
+            MiTabla.getColumnModel().getColumn(12).setPreferredWidth(0);
+        }
+        if(!configuracion.getSiMuestra("NotaSalida", miConfig)){
+            MiTabla.getColumnModel().getColumn(13).setResizable(false);
+            MiTabla.getColumnModel().getColumn(13).setMaxWidth(0);
+            MiTabla.getColumnModel().getColumn(13).setMinWidth(0);
+            MiTabla.getColumnModel().getColumn(13).setPreferredWidth(0);
+        }
+        if(!configuracion.getSiMuestra("Observacion", miConfig)){
+            MiTabla.getColumnModel().getColumn(7).setResizable(false);
+            MiTabla.getColumnModel().getColumn(7).setMaxWidth(0);
+            MiTabla.getColumnModel().getColumn(7).setMinWidth(0);
+            MiTabla.getColumnModel().getColumn(7).setPreferredWidth(0);
+        }/*else{
+            MiTabla.getColumnModel().getColumn(7).setMaxWidth(400);
+            MiTabla.getColumnModel().getColumn(7).setMinWidth(400);
+            MiTabla.getColumnModel().getColumn(7).setPreferredWidth(400);
+        }*/
+        if(!configuracion.getSiMuestra("AreaEmisora", miConfig)){
+            MiTabla.getColumnModel().getColumn(3).setResizable(false);
+            MiTabla.getColumnModel().getColumn(3).setMaxWidth(0);
+            MiTabla.getColumnModel().getColumn(3).setMinWidth(0);
+            MiTabla.getColumnModel().getColumn(3).setPreferredWidth(0);
+        }
+        if(!configuracion.getSiMuestra("Creador", miConfig)){
+            MiTabla.getColumnModel().getColumn(4).setResizable(false);
+            MiTabla.getColumnModel().getColumn(4).setMaxWidth(0);
+            MiTabla.getColumnModel().getColumn(4).setMinWidth(0);
+            MiTabla.getColumnModel().getColumn(4).setPreferredWidth(0);
+        }
     }
     
     private void validarPermisos(){
-        if(mainFrame.validarPermisos(45)){
-            btn_patrimonio.setVisible(true);
-        }else{
-            btn_patrimonio.setVisible(false);
-        }
-        if(mainFrame.validarPermisos(46)){
-            btn_nota_salida.setVisible(true);
-        }else{
-            btn_nota_salida.setVisible(false);
-        }
         
     }
     
@@ -213,9 +301,10 @@ public class BandejaTickets extends MenuP {
         Comparator<Tickets> compara = Collections.reverseOrder();
         Collections.sort(miLista,compara);
         
-        String v[] = new String[10];
+        String v[] = new String[14];
         DateFormat dateFormatter;
         dateFormatter = DateFormat.getDateInstance(DateFormat.SHORT, Locale.UK);
+        DateFormat hourFormat = new SimpleDateFormat("HH:mm:ss");
         
         for (int i = 0; i < miLista.size(); i++) {
             v[0] = miLista.get(i).getIdTicket().toString();
@@ -225,33 +314,40 @@ public class BandejaTickets extends MenuP {
             }else{
                 v[2] = miLista.get(i).getFkEdificio().getNombre();
             }
-            //v[3] = miLista.get(i).getCreador().getNombreUsuario();
-            v[3] = miLista.get(i).getUltimoEstado().getNombre();
-            v[4] = miLista.get(i).getServicio().getPertenece().getNombre() + " - " + miLista.get(i).getServicio().getNombreasuntoS();
+            v[3] = miLista.get(i).getCreador().getFkEmpleado().getFkArea().getNombreArea();
+            v[4] = miLista.get(i).getCreador().getNombreUsuario();
+            v[5] = miLista.get(i).getUltimoEstado().getNombre();
+            if(miLista.get(i).getUltimoHistorial().getHora() != null){
+                v[6] = hourFormat.format(miLista.get(i).getUltimoHistorial().getHora()).toString();
+            }else{
+                v[6] = ""
+;            }
+            v[7] = miLista.get(i).getObservacion();
+            v[8] = miLista.get(i).getServicio().getPertenece().getNombre() + " - " + miLista.get(i).getServicio().getNombreasuntoS();
             if(miLista.get(i).getUltimoUsuario() == null){
-                v[5] = "";
-            }else{
-                v[5] = miLista.get(i).getUltimoUsuario().getNombreUsuario();
-            }
-            if((miLista.get(i).getPatrimonio() == null)||(miLista.get(i).getPatrimonio().isEmpty())){
-                v[6] = "";
-            }else{
-                v[6] = miLista.get(i).getPatrimonio();
-            }
-            if((miLista.get(i).getAdjunto() == null)||(miLista.get(i).getAdjunto().isEmpty())){
-                v[7] = "";
-            }else{
-                v[7] = miLista.get(i).getAdjunto();
-            }
-            if((miLista.get(i).getNotaEntrada() == null)||(miLista.get(i).getNotaEntrada().equals("0000---------"))){
-                v[8] = "";
-            }else{
-                v[8] = miLista.get(i).getNotaEntrada();
-            }
-            if((miLista.get(i).getNotaSalida()== null)||(miLista.get(i).getNotaSalida().equals("00---------"))){
                 v[9] = "";
             }else{
-                v[9] = miLista.get(i).getNotaSalida();
+                v[9] = miLista.get(i).getUltimoUsuario().getNombreUsuario();
+            }
+            if((miLista.get(i).getPatrimonio() == null)||(miLista.get(i).getPatrimonio().isEmpty())){
+                v[10] = "";
+            }else{
+                v[10] = miLista.get(i).getPatrimonio();
+            }
+            if((miLista.get(i).getAdjunto() == null)||(miLista.get(i).getAdjunto().isEmpty())){
+                v[11] = "";
+            }else{
+                v[11] = miLista.get(i).getAdjunto();
+            }
+            if((miLista.get(i).getNotaEntrada() == null)||(miLista.get(i).getNotaEntrada().equals("0000---------"))){
+                v[12] = "";
+            }else{
+                v[12] = miLista.get(i).getNotaEntrada();
+            }
+            if((miLista.get(i).getNotaSalida()== null)||(miLista.get(i).getNotaSalida().equals("00---------"))){
+                v[13] = "";
+            }else{
+                v[13] = miLista.get(i).getNotaSalida();
             }
             modelo.addRow(v);
             cantidad ++;
@@ -263,9 +359,10 @@ public class BandejaTickets extends MenuP {
     
     private void llenarTablaBuscador(List <Tickets> busca) {
         vaciarTabla(jt_tickets);
-        String v[] = new String[10];
+        String v[] = new String[14];
         DateFormat dateFormatter;
         dateFormatter = DateFormat.getDateInstance(DateFormat.SHORT, Locale.UK);
+        DateFormat hourFormat = new SimpleDateFormat("HH:mm:ss");
         Integer cantidad = 0;
         
         Comparator<Tickets> compara = Collections.reverseOrder();
@@ -279,33 +376,40 @@ public class BandejaTickets extends MenuP {
             }else{
                 v[2] = busca.get(i).getFkEdificio().getNombre();
             }
-            //v[3] = miLista.get(i).getCreador().getNombreUsuario();
-            v[3] = busca.get(i).getUltimoEstado().getNombre();
-            v[4] = busca.get(i).getServicio().getPertenece().getNombre() + " - " + busca.get(i).getServicio().getNombreasuntoS();
+            v[3] = busca.get(i).getCreador().getFkEmpleado().getFkArea().getNombreArea();
+            v[4] = busca.get(i).getCreador().getNombreUsuario();
+            v[5] = busca.get(i).getUltimoEstado().getNombre();
+            if(busca.get(i).getUltimoHistorial().getHora() != null){
+                v[6] = hourFormat.format(busca.get(i).getUltimoHistorial().getHora()).toString();
+            }else{
+                v[6] = ""
+;            }
+            v[7] = busca.get(i).getObservacion();
+            v[8] = busca.get(i).getServicio().getPertenece().getNombre() + " - " + busca.get(i).getServicio().getNombreasuntoS();
             if(busca.get(i).getUltimoUsuario() == null){
-                v[5] = "";
-            }else{
-                v[5] = busca.get(i).getUltimoUsuario().getNombreUsuario();
-            }
-            if((busca.get(i).getPatrimonio() == null)||(busca.get(i).getPatrimonio().isEmpty())){
-                v[6] = "";
-            }else{
-                v[6] = busca.get(i).getPatrimonio();
-            }
-            if((busca.get(i).getAdjunto() == null)||(busca.get(i).getAdjunto().isEmpty())){
-                v[7] = "";
-            }else{
-                v[7] = busca.get(i).getAdjunto();
-            }
-            if((busca.get(i).getNotaEntrada() == null)||(busca.get(i).getNotaEntrada().equals("0000---------"))){
-                v[8] = "";
-            }else{
-                v[8] = busca.get(i).getNotaEntrada();
-            }
-            if((busca.get(i).getNotaSalida()== null)||(busca.get(i).getNotaSalida().equals("00---------"))){
                 v[9] = "";
             }else{
-                v[9] = busca.get(i).getNotaSalida();
+                v[9] = busca.get(i).getUltimoUsuario().getNombreUsuario();
+            }
+            if((busca.get(i).getPatrimonio() == null)||(busca.get(i).getPatrimonio().isEmpty())){
+                v[10] = "";
+            }else{
+                v[10] = busca.get(i).getPatrimonio();
+            }
+            if((busca.get(i).getAdjunto() == null)||(busca.get(i).getAdjunto().isEmpty())){
+                v[11] = "";
+            }else{
+                v[11] = busca.get(i).getAdjunto();
+            }
+            if((busca.get(i).getNotaEntrada() == null)||(busca.get(i).getNotaEntrada().equals("0000---------"))){
+                v[12] = "";
+            }else{
+                v[12] = busca.get(i).getNotaEntrada();
+            }
+            if((busca.get(i).getNotaSalida()== null)||(busca.get(i).getNotaSalida().equals("00---------"))){
+                v[13] = "";
+            }else{
+                v[13] = busca.get(i).getNotaSalida();
             }
             modelo.addRow(v);
             cantidad ++;
@@ -332,13 +436,6 @@ public class BandejaTickets extends MenuP {
      * @param archivo 
      */
     public void abrirArchivo(String archivo){
-        
-        try {
-            connectToServer();
-        } catch (IOException ex) {
-            Logger.getLogger(BandejaTickets.class.getName()).log(Level.SEVERE, null, ex);
-            JOptionPane.showMessageDialog(this, "Error al conectar con el servidor: "+ex);
-        }
        if (Desktop.isDesktopSupported()) {
            try {
                Desktop dk = Desktop.getDesktop();
@@ -352,8 +449,29 @@ public class BandejaTickets extends MenuP {
            }
        }
     }
-            dissconectFromServer();
             
+    }
+    
+    private void modificarAtributosTicket(String atributo, Tickets miTick){
+        switch(atributo){
+            case "Patrimonio":
+                if(serviciosT.getTicketServ().modificarTicket(miTick) == 0){
+                    JOptionPane.showMessageDialog(this, "Patrimonio modificado");
+                }
+                break;
+                
+            case "NotaEntrada":
+                if(serviciosT.getTicketServ().modificarTicket(miTick) == 0){
+                    JOptionPane.showMessageDialog(this, "Nota de entrada modificada");
+                }
+                break;
+                
+            case "NotaSalida":
+                if(serviciosT.getTicketServ().modificarTicket(miTick) == 0){
+                    JOptionPane.showMessageDialog(this, "Nota de salida modificada");
+                }
+                break;
+        }
     }
      
     /**
@@ -382,10 +500,9 @@ public class BandejaTickets extends MenuP {
         btn_ver_adjunto = new javax.swing.JButton();
         lblCantidadTickets = new javax.swing.JLabel();
         btn_control = new javax.swing.JButton();
-        btn_patrimonio = new javax.swing.JButton();
-        btn_nota_salida = new javax.swing.JButton();
         cmbx_areas = new javax.swing.JComboBox();
         btn_patrimonio1 = new javax.swing.JButton();
+        btn_patrimonio2 = new javax.swing.JButton();
 
         setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Mis Tickets", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("SansSerif", 0, 18), java.awt.Color.white)); // NOI18N
         setMinimumSize(new java.awt.Dimension(827, 569));
@@ -404,20 +521,20 @@ public class BandejaTickets extends MenuP {
             }
         });
 
-        jt_tickets.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
+        jt_tickets.setFont(new java.awt.Font("SansSerif", 0, 14)); // NOI18N
         jt_tickets.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
             new String [] {
-                "Nº Ticket", "Fecha", "Lugar de trabajo", "Estado", "Asunto", "Receptor", "Patrimonio", "Adjunto", "Nota entrada", "Nota salida"
+                "Nº Ticket", "Fecha", "Lugar de trabajo", "Area emisora", "Creador", "Estado", "Hora", "Observacion", "Asunto", "Receptor", "Patrimonio", "Adjunto", "Nota entrada", "Nota salida"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class
+                java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.Object.class, java.lang.Object.class, java.lang.String.class, java.lang.Object.class, java.lang.Object.class, java.lang.String.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class
             };
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false, false, false, false, false
+                false, false, false, false, false, false, false, false, false, false, true, false, true, true
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -429,6 +546,15 @@ public class BandejaTickets extends MenuP {
             }
         });
         jt_tickets.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        jt_tickets.getTableHeader().setReorderingAllowed(false);
+        jt_tickets.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                jt_ticketsFocusGained(evt);
+            }
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                jt_ticketsFocusLost(evt);
+            }
+        });
         jt_tickets.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 jt_ticketsMouseClicked(evt);
@@ -436,8 +562,44 @@ public class BandejaTickets extends MenuP {
         });
         jScrollPane1.setViewportView(jt_tickets);
         if (jt_tickets.getColumnModel().getColumnCount() > 0) {
-            jt_tickets.getColumnModel().getColumn(0).setMinWidth(15);
-            jt_tickets.getColumnModel().getColumn(0).setPreferredWidth(15);
+            jt_tickets.getColumnModel().getColumn(0).setMinWidth(40);
+            jt_tickets.getColumnModel().getColumn(0).setPreferredWidth(40);
+            jt_tickets.getColumnModel().getColumn(0).setMaxWidth(60);
+            jt_tickets.getColumnModel().getColumn(1).setMinWidth(75);
+            jt_tickets.getColumnModel().getColumn(1).setPreferredWidth(75);
+            jt_tickets.getColumnModel().getColumn(1).setMaxWidth(75);
+            jt_tickets.getColumnModel().getColumn(2).setMinWidth(50);
+            jt_tickets.getColumnModel().getColumn(2).setPreferredWidth(500);
+            jt_tickets.getColumnModel().getColumn(2).setMaxWidth(600);
+            jt_tickets.getColumnModel().getColumn(3).setMinWidth(50);
+            jt_tickets.getColumnModel().getColumn(3).setPreferredWidth(150);
+            jt_tickets.getColumnModel().getColumn(3).setMaxWidth(400);
+            jt_tickets.getColumnModel().getColumn(4).setMinWidth(50);
+            jt_tickets.getColumnModel().getColumn(4).setPreferredWidth(75);
+            jt_tickets.getColumnModel().getColumn(4).setMaxWidth(100);
+            jt_tickets.getColumnModel().getColumn(5).setMinWidth(50);
+            jt_tickets.getColumnModel().getColumn(5).setPreferredWidth(100);
+            jt_tickets.getColumnModel().getColumn(5).setMaxWidth(150);
+            jt_tickets.getColumnModel().getColumn(6).setMinWidth(75);
+            jt_tickets.getColumnModel().getColumn(6).setPreferredWidth(75);
+            jt_tickets.getColumnModel().getColumn(6).setMaxWidth(75);
+            jt_tickets.getColumnModel().getColumn(8).setMinWidth(50);
+            jt_tickets.getColumnModel().getColumn(8).setPreferredWidth(50);
+            jt_tickets.getColumnModel().getColumn(9).setMinWidth(50);
+            jt_tickets.getColumnModel().getColumn(9).setPreferredWidth(100);
+            jt_tickets.getColumnModel().getColumn(9).setMaxWidth(100);
+            jt_tickets.getColumnModel().getColumn(10).setMinWidth(50);
+            jt_tickets.getColumnModel().getColumn(10).setPreferredWidth(100);
+            jt_tickets.getColumnModel().getColumn(10).setMaxWidth(100);
+            jt_tickets.getColumnModel().getColumn(11).setMinWidth(40);
+            jt_tickets.getColumnModel().getColumn(11).setPreferredWidth(75);
+            jt_tickets.getColumnModel().getColumn(11).setMaxWidth(150);
+            jt_tickets.getColumnModel().getColumn(12).setMinWidth(100);
+            jt_tickets.getColumnModel().getColumn(12).setPreferredWidth(250);
+            jt_tickets.getColumnModel().getColumn(12).setMaxWidth(250);
+            jt_tickets.getColumnModel().getColumn(13).setMinWidth(100);
+            jt_tickets.getColumnModel().getColumn(13).setPreferredWidth(250);
+            jt_tickets.getColumnModel().getColumn(13).setMaxWidth(250);
         }
 
         lblNombreUsuario.setBackground(new java.awt.Color(0, 102, 204));
@@ -504,7 +666,7 @@ public class BandejaTickets extends MenuP {
         btn_resuelto.setFont(new java.awt.Font("SansSerif", 1, 10)); // NOI18N
         btn_resuelto.setForeground(new java.awt.Color(0, 108, 118));
         btn_resuelto.setIcon(new javax.swing.ImageIcon(getClass().getResource("/mscb/tick/resources/imagenes/icons/check.png"))); // NOI18N
-        btn_resuelto.setText("Resuelto");
+        btn_resuelto.setText("Resoluciones");
         btn_resuelto.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btn_resueltoActionPerformed(evt);
@@ -581,28 +743,6 @@ public class BandejaTickets extends MenuP {
             }
         });
 
-        btn_patrimonio.setBackground(new java.awt.Color(153, 153, 153));
-        btn_patrimonio.setFont(new java.awt.Font("SansSerif", 1, 10)); // NOI18N
-        btn_patrimonio.setForeground(new java.awt.Color(0, 108, 118));
-        btn_patrimonio.setIcon(new javax.swing.ImageIcon(getClass().getResource("/mscb/tick/resources/imagenes/icons/work.png"))); // NOI18N
-        btn_patrimonio.setText("Patrimonio");
-        btn_patrimonio.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btn_patrimonioActionPerformed(evt);
-            }
-        });
-
-        btn_nota_salida.setBackground(new java.awt.Color(153, 153, 153));
-        btn_nota_salida.setFont(new java.awt.Font("SansSerif", 1, 10)); // NOI18N
-        btn_nota_salida.setForeground(new java.awt.Color(0, 108, 118));
-        btn_nota_salida.setIcon(new javax.swing.ImageIcon(getClass().getResource("/mscb/tick/resources/imagenes/icons/work.png"))); // NOI18N
-        btn_nota_salida.setText("Nota salida");
-        btn_nota_salida.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btn_nota_salidaActionPerformed(evt);
-            }
-        });
-
         cmbx_areas.setBackground(new java.awt.Color(153, 153, 153));
         cmbx_areas.setFont(new java.awt.Font("SansSerif", 1, 14)); // NOI18N
         cmbx_areas.setForeground(new java.awt.Color(0, 108, 118));
@@ -624,6 +764,17 @@ public class BandejaTickets extends MenuP {
             }
         });
 
+        btn_patrimonio2.setBackground(new java.awt.Color(153, 153, 153));
+        btn_patrimonio2.setFont(new java.awt.Font("SansSerif", 1, 10)); // NOI18N
+        btn_patrimonio2.setForeground(new java.awt.Color(0, 108, 118));
+        btn_patrimonio2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/mscb/tick/resources/imagenes/icons/work.png"))); // NOI18N
+        btn_patrimonio2.setText("Configurar tabla");
+        btn_patrimonio2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_patrimonio2ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -638,7 +789,7 @@ public class BandejaTickets extends MenuP {
                                     .addComponent(btn_tomar, javax.swing.GroupLayout.PREFERRED_SIZE, 1, Short.MAX_VALUE)
                                     .addGroup(layout.createSequentialGroup()
                                         .addGap(1, 1, 1)
-                                        .addComponent(btn_volver, javax.swing.GroupLayout.PREFERRED_SIZE, 66, Short.MAX_VALUE)))
+                                        .addComponent(btn_volver, javax.swing.GroupLayout.PREFERRED_SIZE, 70, Short.MAX_VALUE)))
                                 .addGap(7, 7, 7)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addGroup(layout.createSequentialGroup()
@@ -651,16 +802,12 @@ public class BandejaTickets extends MenuP {
                                         .addComponent(btn_resuelto)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                         .addComponent(btn_trabajando)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 45, Short.MAX_VALUE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 25, Short.MAX_VALUE)
                                         .addComponent(btn_control))
                                     .addGroup(layout.createSequentialGroup()
                                         .addComponent(btn_ver_adjunto, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                         .addComponent(btn_verResp, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(btn_patrimonio)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(btn_nota_salida)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                         .addComponent(btn_responder1, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -676,12 +823,13 @@ public class BandejaTickets extends MenuP {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addComponent(cmbx_areas, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(txt_id, javax.swing.GroupLayout.PREFERRED_SIZE, 342, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(23, 23, 23))
+                                .addComponent(txt_id, javax.swing.GroupLayout.PREFERRED_SIZE, 342, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(layout.createSequentialGroup()
-                                .addGap(45, 45, 45)
-                                .addComponent(lblCantidadTickets, javax.swing.GroupLayout.PREFERRED_SIZE, 475, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(lblCantidadTickets, javax.swing.GroupLayout.PREFERRED_SIZE, 217, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(btn_patrimonio2)))
+                        .addGap(23, 23, 23))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -695,8 +843,10 @@ public class BandejaTickets extends MenuP {
                     .addComponent(lblNombreUsuario, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(lblCantidadTickets, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btn_patrimonio1, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(btn_patrimonio1, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                        .addComponent(btn_patrimonio2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                        .addComponent(lblCantidadTickets, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 22, Short.MAX_VALUE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 406, Short.MAX_VALUE)
                 .addGap(8, 8, 8)
@@ -716,9 +866,7 @@ public class BandejaTickets extends MenuP {
                             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                 .addComponent(btn_ver_adjunto, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addComponent(btn_verResp, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(btn_volver, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(btn_patrimonio, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(btn_nota_salida, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                .addComponent(btn_volver, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE))))
                     .addComponent(btn_refrescar, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap())
         );
@@ -791,6 +939,7 @@ public class BandejaTickets extends MenuP {
                 HistorialTickets his = new HistorialTickets();
                 fecha = new Date();
                 his.setFecha(fecha);
+                his.setHora(fecha);
                 his.setFkEstado(estado);
                 his.setFkTicket(miTicket);
                 his.setFkUsuario(LoginEJB.usuario);
@@ -833,6 +982,7 @@ public class BandejaTickets extends MenuP {
                 esta = EstadoServ.getEstadoServ();
                 fecha = new Date();
                 his.setFecha(fecha);
+                his.setHora(fecha);
                 his.setFkEstado(esta.traerEstado(2));
                 his.setFkTicket(miTicket);
                 his.setFkUsuario(LoginEJB.usuario);
@@ -848,6 +998,7 @@ public class BandejaTickets extends MenuP {
                     esta = EstadoServ.getEstadoServ();
                     fecha = new Date();
                     his.setFecha(fecha);
+                    his.setHora(fecha);
                     his.setFkEstado(esta.traerEstado(2));
                     his.setFkTicket(miTicket);
                     his.setFkUsuario(LoginEJB.usuario);
@@ -898,6 +1049,7 @@ public class BandejaTickets extends MenuP {
                 HistorialTickets his = new HistorialTickets();
                 fecha = new Date();
                 his.setFecha(fecha);
+                his.setHora(fecha);
                 his.setFkEstado(estado);
                 his.setFkTicket(miTicket);
                 his.setFkUsuario(LoginEJB.usuario);
@@ -921,7 +1073,6 @@ public class BandejaTickets extends MenuP {
         }else{
             JOptionPane.showMessageDialog(this, "Este ticket no posse adjunto");
         }
-        
     }//GEN-LAST:event_btn_ver_adjuntoActionPerformed
 
     private void btn_controlActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_controlActionPerformed
@@ -934,6 +1085,7 @@ public class BandejaTickets extends MenuP {
                 HistorialTickets his = new HistorialTickets();
                 fecha = new Date();
                 his.setFecha(fecha);
+                his.setHora(fecha);
                 his.setFkEstado(estado);
                 his.setFkTicket(miTicket);
                 his.setFkUsuario(LoginEJB.usuario);
@@ -947,24 +1099,6 @@ public class BandejaTickets extends MenuP {
             JOptionPane.showMessageDialog(mainFrame, "Debe seleccionar una y solo una fila!");
         }
     }//GEN-LAST:event_btn_controlActionPerformed
-
-    private void btn_patrimonioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_patrimonioActionPerformed
-        // TODO add your handling code here:
-        if((jt_tickets.getSelectedRow() != -1)&&(jt_tickets.getSelectedRowCount() == 1)){
-            mainFrame.modificarPatrimonio(serviciosT.buscarUno(Integer.parseInt(modelo.getValueAt(jt_tickets.getSelectedRow(),0).toString())));
-        }else{
-            JOptionPane.showMessageDialog(mainFrame, "Debe seleccionar una y solo una fila!");
-        }
-    }//GEN-LAST:event_btn_patrimonioActionPerformed
-
-    private void btn_nota_salidaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_nota_salidaActionPerformed
-        // TODO add your handling code here:
-        if((jt_tickets.getSelectedRow() != -1)&&(jt_tickets.getSelectedRowCount() == 1)){
-            mainFrame.modificarNotaSalida(serviciosT.buscarUno(Integer.parseInt(modelo.getValueAt(jt_tickets.getSelectedRow(),0).toString())));
-        }else{
-            JOptionPane.showMessageDialog(mainFrame, "Debe seleccionar una y solo una fila!");
-        }
-    }//GEN-LAST:event_btn_nota_salidaActionPerformed
 
     private void cmbx_areasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbx_areasActionPerformed
         // TODO add your handling code here:
@@ -980,13 +1114,74 @@ public class BandejaTickets extends MenuP {
         llenarTablaBuscador(serviciosT.buscarPorUsuarioAsuntoSinEnEspera());
     }//GEN-LAST:event_btn_patrimonio1ActionPerformed
 
+    private void jt_ticketsFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jt_ticketsFocusLost
+        // TODO add your handling code here:
+        if(jt_tickets.isEditing()){
+            System.out.println("Focus lost");
+        }
+    }//GEN-LAST:event_jt_ticketsFocusLost
+
+    private void jt_ticketsFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jt_ticketsFocusGained
+        // TODO add your handling code here:
+        if(jt_tickets.isCellSelected(jt_tickets.getSelectedRow(), 10)){
+            System.out.println("Focus gained");
+            Tickets miTick = serviciosT.getTicketServ().buscarUno(Integer.parseInt(modelo.getValueAt(jt_tickets.getSelectedRow(), 0).toString()));
+            
+            //Verifico si se modifca patrimonio
+            if(miTick.getPatrimonio() != null){
+                if(!modelo.getValueAt(jt_tickets.getSelectedRow(), 10).toString().equals("")&&(!modelo.getValueAt(jt_tickets.getSelectedRow(), 10).toString().equals(miTick.getPatrimonio()))){
+                    miTick.setPatrimonio(modelo.getValueAt(jt_tickets.getSelectedRow(), 10).toString());
+                    modificarAtributosTicket("Patrimonio",miTick);
+                }
+            }else{
+                if(!modelo.getValueAt(jt_tickets.getSelectedRow(), 10).toString().equals("")){
+                    miTick.setPatrimonio(modelo.getValueAt(jt_tickets.getSelectedRow(), 10).toString());
+                    modificarAtributosTicket("Patrimonio",miTick);
+                }
+            }
+            
+            //Verifico si se modifca nota de entrada
+            if(miTick.getNotaEntrada()!= null){
+                if(!modelo.getValueAt(jt_tickets.getSelectedRow(), 12).toString().equals("")&&(!modelo.getValueAt(jt_tickets.getSelectedRow(), 12).toString().equals(miTick.getNotaEntrada()))){
+                    miTick.setNotaEntrada(modelo.getValueAt(jt_tickets.getSelectedRow(), 12).toString());
+                    modificarAtributosTicket("NotaEntrada",miTick);
+                }
+            }else{
+                if(!modelo.getValueAt(jt_tickets.getSelectedRow(), 12).toString().equals("")){
+                    miTick.setNotaEntrada(modelo.getValueAt(jt_tickets.getSelectedRow(), 12).toString());
+                    modificarAtributosTicket("NotaEntrada",miTick);
+                }
+            }
+            
+            //Verifico si se modifca nota de entrada
+            if(miTick.getNotaSalida()!= null){
+                if(!modelo.getValueAt(jt_tickets.getSelectedRow(), 13).toString().equals("")&&(!modelo.getValueAt(jt_tickets.getSelectedRow(), 13).toString().equals(miTick.getNotaSalida()))){
+                    miTick.setNotaSalida(modelo.getValueAt(jt_tickets.getSelectedRow(), 13).toString());
+                    modificarAtributosTicket("NotaSalida",miTick);
+                }
+            }else{
+                if(!modelo.getValueAt(jt_tickets.getSelectedRow(), 13).toString().equals("")){
+                    miTick.setNotaSalida(modelo.getValueAt(jt_tickets.getSelectedRow(), 13).toString());
+                    modificarAtributosTicket("NotaSalida",miTick);
+                }
+            }
+        }
+    }//GEN-LAST:event_jt_ticketsFocusGained
+
+    private void btn_patrimonio2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_patrimonio2ActionPerformed
+        // TODO add your handling code here:
+        this.setVisible(false);
+        mainFrame.configurarTabla();
+        estePanel = null;
+        System.gc();
+    }//GEN-LAST:event_btn_patrimonio2ActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btn_control;
     private javax.swing.JButton btn_enEspera;
-    private javax.swing.JButton btn_nota_salida;
-    private javax.swing.JButton btn_patrimonio;
     private javax.swing.JButton btn_patrimonio1;
+    private javax.swing.JButton btn_patrimonio2;
     private javax.swing.JButton btn_refrescar;
     private javax.swing.JButton btn_responder;
     private javax.swing.JButton btn_responder1;

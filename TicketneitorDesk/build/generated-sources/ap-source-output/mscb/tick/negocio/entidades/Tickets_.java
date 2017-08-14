@@ -10,19 +10,18 @@ import mscb.tick.negocio.entidades.HistorialTickets;
 import mscb.tick.negocio.entidades.Servicios;
 import mscb.tick.negocio.entidades.Usuarios;
 
-@Generated(value="EclipseLink-2.5.2.v20140319-rNA", date="2017-07-25T11:55:53")
+@Generated(value="EclipseLink-2.5.2.v20140319-rNA", date="2017-08-14T14:22:39")
 @StaticMetamodel(Tickets.class)
 public class Tickets_ { 
 
-    public static volatile SingularAttribute<Tickets, Servicios> servicio;
-    public static volatile SingularAttribute<Tickets, String> notaEntrada;
-    public static volatile SingularAttribute<Tickets, Date> hora;
-    public static volatile SingularAttribute<Tickets, String> patrimonio;
     public static volatile SingularAttribute<Tickets, Integer> idTicket;
     public static volatile SingularAttribute<Tickets, Date> fecha;
     public static volatile SingularAttribute<Tickets, Usuarios> creador;
     public static volatile ListAttribute<Tickets, HistorialTickets> historialTicketsList;
+    public static volatile SingularAttribute<Tickets, Servicios> servicio;
+    public static volatile SingularAttribute<Tickets, String> notaEntrada;
     public static volatile SingularAttribute<Tickets, String> adjunto;
+    public static volatile SingularAttribute<Tickets, String> patrimonio;
     public static volatile SingularAttribute<Tickets, Date> tiempoResolucion;
     public static volatile SingularAttribute<Tickets, Edificios> fkEdificio;
     public static volatile SingularAttribute<Tickets, String> notaSalida;

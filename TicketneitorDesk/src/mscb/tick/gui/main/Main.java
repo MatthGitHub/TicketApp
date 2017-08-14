@@ -50,6 +50,7 @@ import mscb.tick.gui.razonesTransf.Razones;
 import mscb.tick.gui.roles.RolesV;
 import mscb.tick.gui.tickets.BandejaEnviados;
 import mscb.tick.gui.tickets.CambiarEstadoTicketD;
+import mscb.tick.gui.tickets.ConfigurarTabla;
 import mscb.tick.gui.tickets.ModificarNotaSalida;
 import mscb.tick.gui.tickets.ModificarPatrimonio;
 import mscb.tick.gui.tickets.ObservacionD;
@@ -65,6 +66,8 @@ import mscb.tick.gui.usuarios.UsuariosV;
 import mscb.tick.negocio.ConfiguracioneServ;
 import mscb.tick.negocio.entidades.Configuracion;
 import mscb.tick.negocio.entidades.HistorialTickets;
+import mscb.tick.util.Funciones;
+import static mscb.tick.util.Funciones.connectToServer;
 import mscb.tick.util.MySystemTray;
 
 /**
@@ -104,6 +107,7 @@ public class Main extends javax.swing.JFrame {
         
     private BandejaTickets bandejaEntrada;
     private BandejaEnviados bandejaSalida;
+    private ConfigurarTabla configTabla;
     
     private ObservacionD observacion;
     private Tickets miTick;
@@ -138,7 +142,8 @@ public class Main extends javax.swing.JFrame {
     private NuevoEdificio nuevoEdificio;
     
     private MySystemTray mySystemTray;
-    
+    private static BufferedWriter bw = null;
+            
     @Override
     public Image getIconImage() {
         Image retValue = Toolkit.getDefaultToolkit().
@@ -156,7 +161,7 @@ public class Main extends javax.swing.JFrame {
         version = new Configuracion();
         version.setIdConfiguracion(1);
         version.setNombre("version");
-        version.setDescripcion("6.0.9");
+        version.setDescripcion("6.2.7");
         mySystemTray = MySystemTray.getMySystemTray(this);
         setDefaultCloseOperation(0);
         setResizable(false);
@@ -166,19 +171,22 @@ public class Main extends javax.swing.JFrame {
         ventanaLogin();
         escuchador.start();
         actualizador.start();
+        crearArchivoBlockeo();
+        conectarAlServidor();
         try{
             verificarVersion();
         }catch(Exception e){
-            JOptionPane.showMessageDialog(this, "No hay conexion al servidor","Error", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this, e+" - No hay conexion al servidor","Error", JOptionPane.ERROR_MESSAGE);
             salirPrograma();
         }
         
-        crearArchivoBlockeo();
+        
     }
     /**
      * 
      * @return 
      */
+    
     public static Main getMainFrame(){
         if(esteMain == null){
             esteMain = new Main();
@@ -207,12 +215,19 @@ public class Main extends javax.swing.JFrame {
      * Genera un archivo que si ya existe no deja crear otra instancia de la aplicacion
      */
     public void crearArchivoBlockeo(){
+        File aBorrar = new File("Block.info").getAbsoluteFile();
+        if(aBorrar.delete()){
+             System.out.println("Se borro archivo");
+        }else{
+            System.out.println("No se borro archivo");
+        }
+        
         String ruta = new File("Block.info").getAbsolutePath();
         
         File archivo = new File(ruta);
         
         System.out.println(ruta);
-        BufferedWriter bw = null;
+        
         if(archivo.exists()) {
             JOptionPane.showMessageDialog(this, "Ya hay una instancia del programa abierta");
             System.exit(0);
@@ -223,13 +238,12 @@ public class Main extends javax.swing.JFrame {
                 Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
             }
             try {
-                bw.write("Acabo de crear el fichero de texto.");
+                bw.write("Desarrollado por MB.\n No tocar este archivo.");
             } catch (IOException ex) {
                 Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
     }
-    
     
     /**
      * Valida los permisos de la aplicacion
@@ -338,6 +352,25 @@ public class Main extends javax.swing.JFrame {
         
     }
     
+    /**
+     * Este metodo se conecta al servidor donde estan los archivos adjuntos guardados
+     */
+    public void conectarAlServidor(){
+        try {
+            Funciones.connectToServer();
+        } catch (IOException ex) {
+            Logger.getLogger(BandejaTickets.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(this, "Error al conectar con el servidor: "+ex);
+        }
+    }
+    
+    /**
+     * Se desconecta del servidor
+     */
+    public void desconectarDelServidor(){
+        Funciones.dissconectFromServer();
+    }
+    
     public boolean validarPermisos(int idPer){
         serviciosP = PermisoServ.getPermisoServ();
          List<Permisos> permisosU = LoginEJB.usuario.getFkRol().getPermisosList();
@@ -362,6 +395,7 @@ public class Main extends javax.swing.JFrame {
         }
         revalidate();
     }
+    
     /**
      * Llamada a la ventana del menu principal
      */
@@ -375,6 +409,7 @@ public class Main extends javax.swing.JFrame {
         }
         revalidate();
     }
+    
     /**
      * Ventana de informacion de la app. Es un Frame
      */
@@ -387,7 +422,6 @@ public class Main extends javax.swing.JFrame {
         }
         revalidate();
     }
-    
     
     /**
      * Ventana de ayuda de la app. Es un Frame
@@ -428,6 +462,7 @@ public class Main extends javax.swing.JFrame {
         }
         revalidate();
     }
+    
     /**
      * Llama al frame con el fomrulario para un nuevo usuario
      */
@@ -440,6 +475,7 @@ public class Main extends javax.swing.JFrame {
         }
         revalidate();
     }
+    
     /**
      * Ventana para modificar el tipo de usuario
      * @param usu
@@ -453,6 +489,7 @@ public class Main extends javax.swing.JFrame {
         }
         revalidate();
     }
+    
     /**
      * Llama al frame con el fomrulario para cambiar la clave del usuario 
      */
@@ -465,6 +502,7 @@ public class Main extends javax.swing.JFrame {
         }
         revalidate();
     }
+    
     /**
      * Formulario para crear nuevo ticket
      */
@@ -478,6 +516,7 @@ public class Main extends javax.swing.JFrame {
         }
         revalidate();
     }
+    
     /**
      * Ventana con tabla de tickets
      */
@@ -499,7 +538,6 @@ public class Main extends javax.swing.JFrame {
         if(patri == null){
             patri = new ModificarPatrimonio(this, false, elTi);
         }else{
-            //aiuda.panelInfoP();
             patri.setVisible(true);
         }
         revalidate();
@@ -518,7 +556,6 @@ public class Main extends javax.swing.JFrame {
         revalidate();
     }
     
-    
     /**
      * Formulario para asignar asuntos a los usuarios de sistemas
      */
@@ -532,6 +569,7 @@ public class Main extends javax.swing.JFrame {
         }
         revalidate();
     }
+    
     /**
      * Formulario para usuarios
      */
@@ -559,6 +597,21 @@ public class Main extends javax.swing.JFrame {
         }
         revalidate();
     }
+    
+    /**
+     * Vista de confifuracion de la tabla de bandeja de entrada
+     */
+    public void configurarTabla(){
+        configTabla = ConfigurarTabla.getConfigurarTabla(this);
+        
+        if(!configTabla.isVisible() == false){
+            getContentPane().add(configTabla);
+        }else{
+            configTabla.setVisible(true);
+        }
+        revalidate();
+    }
+    
     /**
      * Muestra ventana con observacion
      * @param miTick
@@ -572,6 +625,7 @@ public class Main extends javax.swing.JFrame {
         }
         revalidate();
     }
+    
     /**
      * Formulario de respuesta para tickets
      * 
@@ -586,6 +640,7 @@ public class Main extends javax.swing.JFrame {
         }
         revalidate();
     }
+    
     /**
      * Muestra ventana con respuestas
      * @param miTick
@@ -599,6 +654,7 @@ public class Main extends javax.swing.JFrame {
         }
         revalidate();
     }
+    
     /**
      * Ventana para transferir ticket de asunto
      * @param miTick 
@@ -612,6 +668,7 @@ public class Main extends javax.swing.JFrame {
         }
         revalidate();
     }
+    
     /**
      * Abre ventana para escribir la resolucion del ticket
      * @param miTick 
@@ -723,7 +780,6 @@ public class Main extends javax.swing.JFrame {
         revalidate();
     }
     
-    
     /**
      * Ventana de base de conocimiento
      */
@@ -750,7 +806,6 @@ public class Main extends javax.swing.JFrame {
         }
         revalidate();
     }
-    
     
     /**
      *Ventana con el historial de ticket seleccionado 
@@ -781,7 +836,6 @@ public class Main extends javax.swing.JFrame {
         revalidate();
     }
     
-    
     /**
      * Ventana con asuntos sin encargar a nadie
      * 
@@ -796,7 +850,6 @@ public class Main extends javax.swing.JFrame {
         revalidate();
     }
     
-    
     /**
      * Llamada a la ventana de areas
      */
@@ -810,6 +863,7 @@ public class Main extends javax.swing.JFrame {
         }
         revalidate();
     }
+    
     /**
      * Ventana para dar de alta nueva area
      */
@@ -835,6 +889,7 @@ public class Main extends javax.swing.JFrame {
         }
         revalidate();
     }
+    
     /**
      * Llamada a la ventana para generar un nuevo edificio
      */
@@ -849,7 +904,6 @@ public class Main extends javax.swing.JFrame {
         revalidate();
     }
     
-    
     /**
      * Ventana de roles
      */
@@ -863,6 +917,7 @@ public class Main extends javax.swing.JFrame {
         }
         revalidate();
     }
+    
     /**
      * Ventana de empleados
      */
@@ -876,6 +931,7 @@ public class Main extends javax.swing.JFrame {
         }
         revalidate();
     }
+    
     /**
      * Ventana de empleados
      */
@@ -889,6 +945,7 @@ public class Main extends javax.swing.JFrame {
         }
         revalidate();
     }
+    
     /**
      * Metodo para actualizar el programa
      */
@@ -907,12 +964,19 @@ public class Main extends javax.swing.JFrame {
      */
     public void salirPrograma(){
         File aBorrar = new File("Block.info").getAbsoluteFile();
-              
+        
+        try {
+            bw.close();
+        } catch (IOException ex) {
+            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
         if(aBorrar.delete()){
              System.out.println("Se borro archivo");
         }else{
             System.out.println("No se borro archivo");
         }
+        desconectarDelServidor();
         System.exit(0);
     }
     

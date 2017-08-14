@@ -5,7 +5,9 @@
  */
 package mscb.tick.gui.tickets;
 
+import java.text.DateFormat;
 import java.util.Date;
+import java.util.Locale;
 import javax.swing.JOptionPane;
 import mscb.tick.negocio.EmpleadoServ;
 import mscb.tick.negocio.entidades.Estados;
@@ -40,6 +42,7 @@ public class ResponderP extends MenuP {
         this.mainFrame = mainFrame;
         this.miTick = miTick;
         serviciosE = EmpleadoServ.getEmpleadoServ();
+        txtA_respuesta.setLineWrap(true);
         lbl_ticket.setText(miTick.getIdTicket().toString());
         lbl_usuarioE.setText(miTick.getCreador().getFkEmpleado().getNombre()+" "+miTick.getCreador().getFkEmpleado().getApellido());
         lbl_areaE.setText(miTick.getCreador().getFkEmpleado().getFkArea().getNombreArea());
@@ -196,6 +199,8 @@ public class ResponderP extends MenuP {
     private void btn_enviarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_enviarActionPerformed
         // TODO add your handling code here:
         if(JOptionPane.showConfirmDialog(mainFrame,"Seguro desea enviar?","Confirmar", JOptionPane.YES_NO_OPTION) == 0){
+            DateFormat dateFormatter;
+            dateFormatter = DateFormat.getDateInstance(DateFormat.SHORT, Locale.UK);
             Estados estado = new Estados();
             serviciosT = TicketServ.getTicketServ();
             EstadoServ serviciosE = EstadoServ.getEstadoServ();
@@ -208,14 +213,15 @@ public class ResponderP extends MenuP {
             String obs = miTick.getObservacion();
                        
             if((obs == null)||(obs.isEmpty())){
-                miTick.setObservacion(" Mensaje de "+LoginEJB.usuario.getNombreUsuario()+": "+txtA_respuesta.getText());
+                miTick.setObservacion(dateFormatter.format(fecha)+" Mensaje de "+LoginEJB.usuario.getNombreUsuario()+": "+txtA_respuesta.getText());
             }else{
-                miTick.setObservacion(obs+"\n Mensaje de "+LoginEJB.usuario.getNombreUsuario()+": "+txtA_respuesta.getText());
+                miTick.setObservacion(obs+"\n"+dateFormatter.format(fecha)+" Mensaje de "+LoginEJB.usuario.getNombreUsuario()+": "+txtA_respuesta.getText());
             }
             his.setFkEstado(estado);
             his.setFkUsuario(LoginEJB.usuario);
             his.setFkTicket(miTick);
             his.setFecha(fecha);
+            his.setHora(fecha);
             his.setResolucion(miTick.getResolucion());
             serviciosT.modificarTicket(miTick);
             servH.nuevo(his);

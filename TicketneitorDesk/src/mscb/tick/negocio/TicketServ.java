@@ -154,6 +154,46 @@ public class TicketServ {
         aux = q.getResultList();
         return aux;
     }
+     
+     public List <Tickets> buscarTodos(String id){
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("TicketneitorPU");
+        TicketsJpaController jpa = new TicketsJpaController(emf);
+        EntityManager em = emf.createEntityManager();
+        
+        List<Tickets> miLista = jpa.findTicketsEntities();
+        List<Tickets> aux = new ArrayList<>();
+        
+        em.getTransaction().begin();
+        q = em.createNativeQuery("SELECT DISTINCT * FROM tickets t \n" +
+                                "JOIN historial_tickets ht ON ht.fk_ticket = t.id_ticket\n" +
+                                "JOIN servicios s ON t.servicio = s.id_asuntoS\n" +
+                                "JOIN asuntos a ON a.id_asuntoP = s.pertenece\n" +
+                                "JOIN estados e ON e.id_estado = ht.fk_estado\n" +
+                                "JOIN encargado_servicios es ON es.asunto = s.id_asuntoS\n" +
+                                "JOIN usuarios u2 ON u2.id_usuario = t.creador\n" +
+                                "LEFT JOIN usuarios u3 ON u3.id_usuario = ht.fk_usuario\n"+
+                                "LEFT JOIN edificios ed ON t.fkEdificio = ed.id_edificio\n" +
+                                "WHERE ht.id_historial IN "+
+                                "(SELECT id_historial FROM "+
+                                "(SELECT MAX(id_historial) as id_historial,fk_ticket "+
+                                "FROM historial_tickets GROUP by fk_ticket ) AS ht2)"+
+                                " AND es.usuario = ?1 "+
+                                "AND ((s.nombre_asuntoS LIKE ?2\n" +
+                                "OR a.nombre LIKE ?2\n"+
+                                "OR ed.nombre LIKE ?2\n"+
+                                "OR u2.nombre_usuario LIKE ?2\n"+
+                                "OR u3.nombre_usuario LIKE ?2\n"+
+                                "OR t.patrimonio LIKE ?2\n"+
+                                "OR t.observacion LIKE ?2)\n"+
+                                "OR t.id_ticket = ?3)\n"+
+                                "ORDER by t.id_ticket",Tickets.class);
+        q.setParameter(1, LoginEJB.usuario.getIdUsuario());
+        q.setParameter(2, "%"+id+"%");
+        q.setParameter(3,id);
+        System.out.println();
+        aux = q.getResultList();
+        return aux;
+    }
     
     /**
      * 

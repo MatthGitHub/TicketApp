@@ -193,7 +193,7 @@ public class Usuarios implements Serializable {
 
     @Override
     public String toString() {
-        return this.nombreUsuario +" - "+this.fkEmpleado.getLegajo().toString();
+        return this.nombreUsuario; //+" - "+this.fkEmpleado.getLegajo().toString();
     }
     
 }

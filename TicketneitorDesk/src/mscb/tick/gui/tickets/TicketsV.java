@@ -117,12 +117,12 @@ public class TicketsV extends MenuP {
             v[4] = miLista.get(i).getUltimoEstado().getNombre();
             v[5] = miLista.get(i).getServicio().getPertenece().getNombre() + " - " + miLista.get(i).getServicio().getNombreasuntoS();
             if(miLista.get(i).getUltimoUsuario()== null){
-                v[6] = "No aun";
+                v[6] = "";
             }else{
                 v[6] = miLista.get(i).getUltimoUsuario().getNombreUsuario();
             }
             if((miLista.get(i).getPatrimonio() == null)||(miLista.get(i).getPatrimonio().isEmpty())){
-                v[7] = "Sin";
+                v[7] = "";
             }else{
                 v[7] = miLista.get(i).getPatrimonio();
             }
@@ -148,12 +148,12 @@ public class TicketsV extends MenuP {
             v[2] = busca.get(i).getCreador().getFkEmpleado().getFkArea().getNombreArea();
             v[3] = busca.get(i).getCreador().getNombreUsuario();
             //v[4] = busca.get(i).getFkAreaSistemas().getNombreArea();
-            v[4] = miLista.get(i).getUltimoEstado().getNombre();
+            v[4] = busca.get(i).getUltimoEstado().getNombre();
             v[5] = busca.get(i).getServicio().getPertenece().getNombre() + " - " + busca.get(i).getServicio().getNombreasuntoS();
-            if(miLista.get(i).getUltimoUsuario()== null){
-                v[6] = "No aun";
+            if(busca.get(i).getUltimoUsuario()== null){
+                v[6] = "";
             }else{
-                v[6] = miLista.get(i).getUltimoUsuario().getNombreUsuario();
+                v[6] = busca.get(i).getUltimoUsuario().getNombreUsuario();
             }
             
             modelo.addRow(v);
@@ -251,6 +251,7 @@ public class TicketsV extends MenuP {
         });
         jt_tickets.setToolTipText("");
         jt_tickets.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        jt_tickets.getTableHeader().setReorderingAllowed(false);
         jScrollPane1.setViewportView(jt_tickets);
         if (jt_tickets.getColumnModel().getColumnCount() > 0) {
             jt_tickets.getColumnModel().getColumn(0).setMinWidth(15);
@@ -418,7 +419,7 @@ public class TicketsV extends MenuP {
     private void txt_idActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txt_idActionPerformed
         // TODO add your handling code here:
         if(txt_id.getText().trim().length() >0){
-            llenarTablaBuscador(serviciosT.buscar(txt_id.getText().trim()));
+            llenarTablaBuscador(serviciosT.buscarTodos(txt_id.getText().trim()));
         }
     }//GEN-LAST:event_txt_idActionPerformed
 
@@ -446,7 +447,7 @@ public class TicketsV extends MenuP {
             Tickets miTick = serviciosT.buscarUno(Integer.parseInt(modelo.getValueAt(jt_tickets.getSelectedRow(), 0).toString()));
             fecha = new Date();
             HistorialTickets his = new HistorialTickets();
-            his.setFkEstado(serviciosE.traerEstado(7));
+            his.setFkEstado(serviciosE.getEstadoServ().traerEstado(7));
             his.setFecha(fecha);
             his.setFkTicket(miTick);
             his.setFkUsuario(LoginEJB.usuario);

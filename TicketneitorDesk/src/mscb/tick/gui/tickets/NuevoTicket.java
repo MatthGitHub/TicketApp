@@ -31,6 +31,8 @@ import java.net.MalformedURLException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.filechooser.FileNameExtensionFilter;
@@ -79,6 +81,7 @@ public class NuevoTicket extends MenuP {
         b = 0;
         this.mainFrame = mainFrame;
         setVisible(true);
+        txtA_obs.setLineWrap(true);
         txtArchivo.setVisible(false);
         lblAsunto.setVisible(false);
         lblServicio.setVisible(false);
@@ -140,6 +143,9 @@ public class NuevoTicket extends MenuP {
     private void llenarAsuntoPrincipal(Areas area){
         serviciosPrincipal = AsuntoPrincipalServ.getAsuntoPrincipalServ();
         miListaAP = serviciosPrincipal.asuntosPorArea(area);
+        
+        Comparator<Asuntos> compara = Collections.reverseOrder();
+        Collections.sort(miListaAP,compara);
         
         for(int i = 0 ; i < miListaAP.size(); i++){
             cmbx_asuntoPrincipal.addItem(miListaAP.get(i));
@@ -577,10 +583,10 @@ public class NuevoTicket extends MenuP {
             txtA_obs.setText("");
             serviciosSecundario = AsuntoSecundarioServ.getAsuntoPrincipalServ();
             miListaAS = serviciosSecundario.traerPorAreaPrincipal((Asuntos) cmbx_asuntoPrincipal.getSelectedItem());
-            /*
+            
             Comparator<Servicios> comparador = Collections.reverseOrder();
             Collections.sort(miListaAS,comparador);
-            */
+            
             cmbx_asuntoSecundario.removeAllItems();
             for(int i = 0; i < miListaAS.size();i++){
                 cmbx_asuntoSecundario.addItem(miListaAS.get(i));
@@ -630,8 +636,25 @@ public class NuevoTicket extends MenuP {
                 miTick.setServicio((Servicios) cmbx_asuntoSecundario.getSelectedItem());
                 miTick.setFecha(fecha);
                 miTick.setCreador(LoginEJB.usuario);
-                miTick.setHora(fecha);
-                if(!txt_solicita.getText().isEmpty()){
+                String observacion = "";
+                if(!txtA_obs.getText().trim().isEmpty()){
+                    observacion = observacion + "Observacion: "+txtA_obs.getText();
+                }
+                if(!txt_solicita.getText().trim().isEmpty()){
+                    observacion = observacion + "Solicita: "+txt_solicita.getText()+"\n";
+                }
+                if(!txt_areaE.getText().trim().isEmpty()){
+                    observacion = observacion + "Area emisora: "+txt_areaE.getText()+"\n";
+                }
+                if(!txt_edificio.getText().trim().isEmpty()){
+                    observacion = observacion + "Lugar de trabajo: "+txt_edificio.getText()+"\n";
+                }
+                if(!observacion.trim().isEmpty()){
+                    miTick.setObservacion(observacion);
+                }else{
+                    miTick.setObservacion(null);
+                }
+                /*if(!txt_solicita.getText().isEmpty()){
                     if(!txt_areaE.getText().isEmpty()){
                         if(!txtA_obs.getText().isEmpty()){
                             miTick.setObservacion("Solicita: "+txt_solicita.getText()+"\n Area Emisora: "+txt_areaE.getText()+"\n Observacion: "+txtA_obs.getText());
@@ -663,7 +686,7 @@ public class NuevoTicket extends MenuP {
                             miTick.setObservacion("");
                         }
                     }
-                }
+                }*/
                 
                 if(txt_edificio.getText().trim().isEmpty()){
                     
@@ -689,6 +712,7 @@ public class NuevoTicket extends MenuP {
                     HistorialTickets miHis = new HistorialTickets();
                     Date fecha = new Date();
                     miHis.setFecha(fecha);
+                    miHis.setHora(fecha);
                     miHis.setFkTicket(miTick);
                     //miHis.setFkUsuario(LoginEJB.usuario);
                     miHis.setFkEstado(serviciosEst.traerEstado(1));

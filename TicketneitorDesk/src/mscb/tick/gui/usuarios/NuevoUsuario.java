@@ -176,6 +176,7 @@ public class NuevoUsuario extends MenuP {
                 return canEdit [columnIndex];
             }
         });
+        jt_empleados.getTableHeader().setReorderingAllowed(false);
         jScrollPane1.setViewportView(jt_empleados);
         if (jt_empleados.getColumnModel().getColumnCount() > 0) {
             jt_empleados.getColumnModel().getColumn(2).setPreferredWidth(25);

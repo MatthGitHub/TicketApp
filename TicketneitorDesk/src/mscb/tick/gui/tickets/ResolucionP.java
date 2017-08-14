@@ -40,11 +40,15 @@ public class ResolucionP extends MenuP {
         this.miTick = miTick;
         this.marcar = marcar;
         jLabel6.setVisible(false);
+        txtA_respuesta.setLineWrap(true);
         lbl_ticket.setText(miTick.getIdTicket().toString());
         lbl_usuarioE.setText(miTick.getCreador().getNombreUsuario());
         lbl_areaE.setText(miTick.getCreador().getFkEmpleado().getFkArea().getNombreArea());
         setSize(520, 380);
         setVisible(true);
+        if(!marcar.equals("si")){
+            cbxResuelto.setVisible(false);
+        }
     }
     
     public static ResolucionP getResolucion(Tickets miTick, ResolucionD mainFrame,String marcar){
@@ -81,6 +85,7 @@ public class ResolucionP extends MenuP {
         txt_n_nota = new javax.swing.JTextField();
         txt_area_nota = new javax.swing.JTextField();
         jLabel10 = new javax.swing.JLabel();
+        cbxResuelto = new javax.swing.JCheckBox();
 
         setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Resolucion", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("SansSerif", 0, 18), java.awt.Color.white)); // NOI18N
 
@@ -175,6 +180,10 @@ public class ResolucionP extends MenuP {
         jLabel10.setForeground(new java.awt.Color(0, 108, 118));
         jLabel10.setText("-");
 
+        cbxResuelto.setFont(new java.awt.Font("SansSerif", 1, 14)); // NOI18N
+        cbxResuelto.setForeground(new java.awt.Color(255, 255, 255));
+        cbxResuelto.setText("Marcar como resuelto");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -187,10 +196,6 @@ public class ResolucionP extends MenuP {
                             .addComponent(jScrollPane1)
                             .addGroup(layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addComponent(btn_cerrar)
-                                        .addGap(18, 18, 18)
-                                        .addComponent(btn_enviar))
                                     .addGroup(layout.createSequentialGroup()
                                         .addComponent(jLabel1)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -207,7 +212,13 @@ public class ResolucionP extends MenuP {
                                         .addComponent(jLabel6)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                         .addComponent(txtTiempo, javax.swing.GroupLayout.PREFERRED_SIZE, 186, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                                .addGap(0, 0, Short.MAX_VALUE)))
+                                .addGap(0, 82, Short.MAX_VALUE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(btn_cerrar)
+                                .addGap(18, 18, 18)
+                                .addComponent(btn_enviar)
+                                .addGap(18, 18, 18)
+                                .addComponent(cbxResuelto, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                         .addContainerGap())
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel7)
@@ -255,7 +266,8 @@ public class ResolucionP extends MenuP {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btn_enviar)
-                    .addComponent(btn_cerrar))
+                    .addComponent(btn_cerrar)
+                    .addComponent(cbxResuelto))
                 .addContainerGap())
         );
     }// </editor-fold>//GEN-END:initComponents
@@ -290,8 +302,13 @@ public class ResolucionP extends MenuP {
             
             EstadoServ esta = EstadoServ.getEstadoServ();
             Estados estado;
+            
             if(marcar.equals("si")){
-                estado = esta.traerEstado(5);
+                if(cbxResuelto.isSelected()){
+                    estado = esta.traerEstado(5);
+                }else{
+                    estado = miTick.getUltimoEstado();
+                }
             }else{
                 estado = esta.traerEstado(9);
             }
@@ -312,15 +329,14 @@ public class ResolucionP extends MenuP {
                 his.setResolucion(reso+"\nResolucion por "+LoginEJB.usuario+" : "+txtA_respuesta.getText());
             }
             his.setFecha(fecha);
+            his.setHora(fecha);
             his.setFkUsuario(LoginEJB.usuario);
             if(marcar.equals("si")){
                servH.nuevo(his);
             }else{
                 his.setIdHistorial(servH.buscarUltimo(miTick).getIdHistorial());
-                
                 servH.modificar(his);
             }
-            JOptionPane.showMessageDialog(mainFrame, "Resolucion guardada!");
             setVisible(false);
             mainFrame.setVisible(false);
             estePanel = null;
@@ -355,6 +371,7 @@ public class ResolucionP extends MenuP {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btn_cerrar;
     private javax.swing.JButton btn_enviar;
+    private javax.swing.JCheckBox cbxResuelto;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel3;

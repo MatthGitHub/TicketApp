@@ -171,6 +171,7 @@ public class AsuntoSec extends MenuP {
                 return canEdit [columnIndex];
             }
         });
+        jt_asuntoSec.getTableHeader().setReorderingAllowed(false);
         jt_asuntoSec.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
                 jt_asuntoSecKeyPressed(evt);
@@ -273,12 +274,12 @@ public class AsuntoSec extends MenuP {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(cmbx_asuntos)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(jLabel2)
                         .addComponent(cmbx_areas)
-                        .addComponent(jLabel1)))
+                        .addComponent(jLabel1))
+                    .addComponent(cmbx_asuntos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(9, 9, 9)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 467, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)

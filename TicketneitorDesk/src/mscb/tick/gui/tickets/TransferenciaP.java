@@ -315,6 +315,7 @@ public class TransferenciaP extends MenuP {
                 his.setFkUsuario(LoginEJB.usuario);
                 his.setFkEstado(estad.traerEstado(9));
                 his.setFecha(fecha);
+                his.setHora(fecha);
                 his.setResolucion(miTick.getResolucion());
                 servH.nuevo(his);
                 BandejaTickets.getBandejaTickets(mainFrameO).llenarTabla();

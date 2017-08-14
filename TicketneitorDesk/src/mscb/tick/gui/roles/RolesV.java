@@ -203,6 +203,7 @@ public class RolesV extends MenuP {
         });
         jt_roles.setColumnSelectionAllowed(true);
         jt_roles.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        jt_roles.getTableHeader().setReorderingAllowed(false);
         jt_roles.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 jt_rolesMouseClicked(evt);
@@ -226,6 +227,7 @@ public class RolesV extends MenuP {
             }
         ));
         jt_permisosA.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        jt_permisosA.getTableHeader().setReorderingAllowed(false);
         jScrollPane2.setViewportView(jt_permisosA);
         if (jt_permisosA.getColumnModel().getColumnCount() > 0) {
             jt_permisosA.getColumnModel().getColumn(0).setMinWidth(50);
@@ -260,6 +262,7 @@ public class RolesV extends MenuP {
         });
         jt_permisosF.setColumnSelectionAllowed(true);
         jt_permisosF.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        jt_permisosF.getTableHeader().setReorderingAllowed(false);
         jScrollPane3.setViewportView(jt_permisosF);
         jt_permisosF.getColumnModel().getSelectionModel().setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         if (jt_permisosF.getColumnModel().getColumnCount() > 0) {

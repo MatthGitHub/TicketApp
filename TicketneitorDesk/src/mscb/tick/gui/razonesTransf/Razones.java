@@ -137,6 +137,7 @@ public class Razones extends MenuP {
             }
         });
         jt_razones.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        jt_razones.getTableHeader().setReorderingAllowed(false);
         jScrollPane1.setViewportView(jt_razones);
 
         btn_volver.setBackground(new java.awt.Color(153, 153, 153));

@@ -1,0 +1,15 @@
+RowSize	false
+NumTicket	true
+Fecha	true
+LugarTrabajo	false
+Estado	true
+Hora	true
+Asunto	true
+Receptor	true
+Patrimonio	false
+Adjunto	true
+NotaEntrada	false
+NotaSalida	false
+Observacion	true
+AreaEmisora	false
+Creador	true

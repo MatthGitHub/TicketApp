@@ -58,7 +58,7 @@ public class BaseConocimientoV extends MenuP {
              miLista = servH.traerTodosResueltosPorArea(LoginEJB.usuario.getFkEmpleado().getFkArea());
         }
        
-        String v[] = new String[10];
+        String v[] = new String[9];
         DateFormat dateFormatter;
         dateFormatter = DateFormat.getDateInstance(DateFormat.SHORT, Locale.UK);
         
@@ -68,22 +68,61 @@ public class BaseConocimientoV extends MenuP {
         
         for(int i = 0; i < miLista.size();i++){
             v[0] = miLista.get(i).getFkTicket().toString();
-            v[1] = miLista.get(i).getIdHistorial().toString();
-            v[2] = miLista.get(i).getFkTicket().getCreador().getNombreUsuario();
-            v[3] = dateFormatter.format(miLista.get(i).getFkTicket().getFecha()).toString();
-            v[4] = miLista.get(i).getFkTicket().getUltimoUsuario().getNombreUsuario();
-            v[5] = dateFormatter.format(miLista.get(i).getFecha()).toString();
-            v[6] = miLista.get(i).getFkTicket().getServicio().getPertenece().getNombre();
-            v[7] = miLista.get(i).getFkTicket().getServicio().getNombreasuntoS();
+            v[1] = miLista.get(i).getFkTicket().getCreador().getNombreUsuario();
+            v[2] = dateFormatter.format(miLista.get(i).getFkTicket().getFecha()).toString();
+            v[3] = miLista.get(i).getFkTicket().getUltimoUsuario().getNombreUsuario();
+            v[4] = dateFormatter.format(miLista.get(i).getFecha()).toString();
+            v[5] = miLista.get(i).getFkTicket().getServicio().getPertenece().getNombre();
+            v[6] = miLista.get(i).getFkTicket().getServicio().getNombreasuntoS();
             if((miLista.get(i).getFkTicket().getPatrimonio() == null)||(miLista.get(i).getFkTicket().getPatrimonio().isEmpty())){
-                v[8] = "";
+                v[7] = "";
             }else{
-                v[8] = miLista.get(i).getFkTicket().getPatrimonio();
+                v[7] = miLista.get(i).getFkTicket().getPatrimonio();
             }
             if((miLista.get(i).getFkTicket().getNotaSalida()== null)||(miLista.get(i).getFkTicket().getNotaSalida().isEmpty())||(miLista.get(i).getFkTicket().getNotaSalida().equals("00---------"))){
-                v[9] = "";
+                v[8] = "";
             }else{
-                v[9] = miLista.get(i).getFkTicket().getNotaSalida();
+                v[8] = miLista.get(i).getFkTicket().getNotaSalida();
+            }
+            modelo.addRow(v);
+            cant++;
+        }
+        if(LoginEJB.usuario.getFkRol().getIdRol() == 1){
+            lblCant.setText(Integer.toString(cant)+" Tickets resueltos de: "+serviciosT.traerTodos().size());
+        }else{
+             lblCant.setText(Integer.toString(cant)+" Tickets resueltos de: "+serviciosT.traerTodosPorArea().size());
+        }
+        
+        revalidate();
+    }
+    
+    private void llenarTablaBuscador(List<HistorialTickets> miLista){
+        
+        String v[] = new String[9];
+        DateFormat dateFormatter;
+        dateFormatter = DateFormat.getDateInstance(DateFormat.SHORT, Locale.UK);
+        
+        Comparator<HistorialTickets> compara = Collections.reverseOrder();
+        Collections.sort(miLista,compara);
+        Integer cant =0;
+        
+        for(int i = 0; i < miLista.size();i++){
+            v[0] = miLista.get(i).getFkTicket().toString();
+            v[1] = miLista.get(i).getFkTicket().getCreador().getNombreUsuario();
+            v[2] = dateFormatter.format(miLista.get(i).getFkTicket().getFecha()).toString();
+            v[3] = miLista.get(i).getFkTicket().getUltimoUsuario().getNombreUsuario();
+            v[4] = dateFormatter.format(miLista.get(i).getFecha()).toString();
+            v[5] = miLista.get(i).getFkTicket().getServicio().getPertenece().getNombre();
+            v[6] = miLista.get(i).getFkTicket().getServicio().getNombreasuntoS();
+            if((miLista.get(i).getFkTicket().getPatrimonio() == null)||(miLista.get(i).getFkTicket().getPatrimonio().isEmpty())){
+                v[7] = "";
+            }else{
+                v[7] = miLista.get(i).getFkTicket().getPatrimonio();
+            }
+            if((miLista.get(i).getFkTicket().getNotaSalida()== null)||(miLista.get(i).getFkTicket().getNotaSalida().isEmpty())||(miLista.get(i).getFkTicket().getNotaSalida().equals("00---------"))){
+                v[8] = "";
+            }else{
+                v[8] = miLista.get(i).getFkTicket().getNotaSalida();
             }
             modelo.addRow(v);
             cant++;
@@ -110,6 +149,7 @@ public class BaseConocimientoV extends MenuP {
         jt_conocimiento = new javax.swing.JTable();
         btn_volver = new javax.swing.JButton();
         lblCant = new javax.swing.JLabel();
+        txt_id2 = new javax.swing.JTextField();
 
         setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Base de conocimiento", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("SansSerif", 0, 18), new java.awt.Color(255, 255, 255))); // NOI18N
 
@@ -119,11 +159,11 @@ public class BaseConocimientoV extends MenuP {
 
             },
             new String [] {
-                "Nº ticket", "Nº historial", "Emisor", "Fecha entrada", "Receptor", "Fecha resuelto", "Asunto", "Servicio", "Patrimonio", "Nota salida"
+                "Nº ticket", "Emisor", "Fecha entrada", "Receptor", "Fecha resuelto", "Asunto", "Servicio", "Patrimonio", "Nota salida"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false, false, false, false, false
+                false, false, false, false, false, false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -139,9 +179,9 @@ public class BaseConocimientoV extends MenuP {
         jScrollPane1.setViewportView(jt_conocimiento);
         if (jt_conocimiento.getColumnModel().getColumnCount() > 0) {
             jt_conocimiento.getColumnModel().getColumn(0).setMinWidth(50);
-            jt_conocimiento.getColumnModel().getColumn(6).setPreferredWidth(100);
-            jt_conocimiento.getColumnModel().getColumn(7).setMinWidth(200);
-            jt_conocimiento.getColumnModel().getColumn(7).setPreferredWidth(200);
+            jt_conocimiento.getColumnModel().getColumn(5).setPreferredWidth(100);
+            jt_conocimiento.getColumnModel().getColumn(6).setMinWidth(200);
+            jt_conocimiento.getColumnModel().getColumn(6).setPreferredWidth(200);
         }
 
         btn_volver.setBackground(new java.awt.Color(153, 153, 153));
@@ -158,6 +198,20 @@ public class BaseConocimientoV extends MenuP {
         lblCant.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         lblCant.setForeground(new java.awt.Color(255, 255, 255));
 
+        txt_id2.setFont(new java.awt.Font("SansSerif", 0, 14)); // NOI18N
+        txt_id2.setForeground(new java.awt.Color(0, 108, 118));
+        txt_id2.setText("Nº de Ticket");
+        txt_id2.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                txt_id2MouseClicked(evt);
+            }
+        });
+        txt_id2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txt_id2ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -169,14 +223,19 @@ public class BaseConocimientoV extends MenuP {
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(btn_volver)
                         .addGap(188, 188, 188)
-                        .addComponent(lblCant, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                        .addComponent(lblCant, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(txt_id2, javax.swing.GroupLayout.PREFERRED_SIZE, 342, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 476, Short.MAX_VALUE)
+                .addComponent(txt_id2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 445, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btn_volver, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -205,11 +264,26 @@ public class BaseConocimientoV extends MenuP {
         }
     }//GEN-LAST:event_jt_conocimientoMouseClicked
 
+    private void txt_id2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txt_id2MouseClicked
+        // TODO add your handling code here:
+        txt_id.setText("");
+    }//GEN-LAST:event_txt_id2MouseClicked
+
+    private void txt_id2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txt_id2ActionPerformed
+        // TODO add your handling code here:
+        if(txt_id.getText().trim().length() >0){
+            llenarTablaBuscador(servH.buscarTodosResueltosPorArea(LoginEJB.usuario.getFkEmpleado().getFkArea(), txt_id2.getText().trim()));
+        }
+    }//GEN-LAST:event_txt_id2ActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btn_volver;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jt_conocimiento;
     private javax.swing.JLabel lblCant;
+    private javax.swing.JTextField txt_id;
+    private javax.swing.JTextField txt_id1;
+    private javax.swing.JTextField txt_id2;
     // End of variables declaration//GEN-END:variables
 }

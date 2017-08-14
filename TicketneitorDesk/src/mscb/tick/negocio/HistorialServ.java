@@ -65,6 +65,21 @@ public class HistorialServ {
         return aux;
     }
     
+    public List<HistorialTickets> buscarTodosResueltosPorArea(Areas area, String id){
+        List<HistorialTickets> aux = new ArrayList<>();
+        List<HistorialTickets> miLista = jpa.findHistorialTicketsEntities();
+        
+        for(int i = 0; i < miLista.size(); i++){
+            if((miLista.get(i).getFkEstado().getIdEstado() == 5)
+            &&(miLista.get(i).getFkTicket().getServicio().getPertenece().getFkArea().equals(area))
+            &&((miLista.get(i).getFkTicket().getIdTicket().toString().equals(id))
+                ||(miLista.get(i).getFkTicket().getCreador().getNombreUsuario().equals(id)))){
+                aux.add(miLista.get(i));
+            }
+        }
+        return aux;
+    }
+    
     
     public HistorialTickets buscarUnoPorId(int id){
         return jpa.findHistorialTickets(id);

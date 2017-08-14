@@ -28,13 +28,16 @@ import javax.xml.bind.annotation.XmlRootElement;
  */
 @Entity
 @Table(name = "historial_tickets")
-@XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "HistorialTickets.findAll", query = "SELECT h FROM HistorialTickets h"),
     @NamedQuery(name = "HistorialTickets.findByIdHistorial", query = "SELECT h FROM HistorialTickets h WHERE h.idHistorial = :idHistorial"),
     @NamedQuery(name = "HistorialTickets.findByFecha", query = "SELECT h FROM HistorialTickets h WHERE h.fecha = :fecha"),
     @NamedQuery(name = "HistorialTickets.findByResolucion", query = "SELECT h FROM HistorialTickets h WHERE h.resolucion = :resolucion")})
 public class HistorialTickets implements Serializable, Comparable<HistorialTickets>{
+
+    @Column(name = "hora")
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date hora;
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -163,6 +166,14 @@ public class HistorialTickets implements Serializable, Comparable<HistorialTicke
             return 1;
         }
         return 0;
+    }
+
+    public Date getHora() {
+        return hora;
+    }
+
+    public void setHora(Date hora) {
+        this.hora = hora;
     }
     
 }

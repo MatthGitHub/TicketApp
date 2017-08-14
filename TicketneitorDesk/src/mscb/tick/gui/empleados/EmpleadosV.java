@@ -82,7 +82,7 @@ public class EmpleadosV extends MenuP {
             v[1] = aCargar.get(i).getNombre();
             v[2] = aCargar.get(i).getApellido();
             v[3] = aCargar.get(i).getDocumento();
-            v[4] = aCargar.get(i).getLegajo().toString();
+            v[4] = "Legajo";//aCargar.get(i).getLegajo().toString();
             v[5] = aCargar.get(i).getFkArea().getNombreArea();
             modelo.addRow(v);
         }
@@ -155,6 +155,7 @@ public class EmpleadosV extends MenuP {
             }
         });
         jt_empleados.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        jt_empleados.getTableHeader().setReorderingAllowed(false);
         jScrollPane1.setViewportView(jt_empleados);
 
         btn_eliminar.setBackground(new java.awt.Color(153, 153, 153));

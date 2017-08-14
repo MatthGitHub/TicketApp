@@ -29,10 +29,11 @@ public class DetalleTicketDialog extends javax.swing.JDialog {
         setResizable(false);
         setDefaultCloseOperation(1);
         setearValoresTicket(miBase);
-        pack();
-        setVisible(true);
         txtAObs.setLineWrap(true);
         txtAReso.setLineWrap(true);
+        pack();
+        setVisible(true);
+        
     }
 
     private DetalleTicketDialog(JFrame jFrame, boolean b) {

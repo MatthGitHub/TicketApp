@@ -15,8 +15,6 @@ import java.util.Locale;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
-import mscb.tick.negocio.entidades.Estados;
-import mscb.tick.negocio.entidades.HistorialTickets;
 import mscb.tick.negocio.entidades.Tickets;
 import mscb.tick.negocio.EstadoServ;
 import mscb.tick.negocio.HistorialServ;
@@ -92,17 +90,25 @@ public class BandejaEnviados extends MenuP {
         for (int i = 0; i < miLista.size(); i++) {
             v[0] = miLista.get(i).getIdTicket().toString();
             v[1] = dateFormatter.format(miLista.get(i).getFecha()).toString();
-            v[2] = miLista.get(i).getNotaEntrada();
-            v[3] = miLista.get(i).getNotaSalida();
+            if((miLista.get(i).getNotaEntrada() == null)||(miLista.get(i).getNotaEntrada().equals("0000---------"))){
+                v[2] = "";
+            }else{
+                v[2] = miLista.get(i).getNotaEntrada();
+            }
+            if((miLista.get(i).getNotaSalida()== null)||(miLista.get(i).getNotaSalida().equals("00---------"))){
+                v[3] = "";
+            }else{
+                v[3] = miLista.get(i).getNotaSalida();
+            }
             v[4] = miLista.get(i).getUltimoEstado().getNombre();
             v[5] = miLista.get(i).getServicio().getPertenece().getNombre() + " - " + miLista.get(i).getServicio().getNombreasuntoS();
             if(miLista.get(i).getUltimoUsuario() == null){
-                v[6] = "No aun";
+                v[6] = "";
             }else{
                 v[6] = miLista.get(i).getUltimoUsuario().getNombreUsuario();
             }
             if((miLista.get(i).getPatrimonio() == null)||(miLista.get(i).getPatrimonio().isEmpty())){
-                v[7] = "Sin";
+                v[7] = "";
             }else{
                 v[7] = miLista.get(i).getPatrimonio();
             }
@@ -244,6 +250,7 @@ public class BandejaEnviados extends MenuP {
             }
         });
         jt_tickets.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        jt_tickets.getTableHeader().setReorderingAllowed(false);
         jt_tickets.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 jt_ticketsMouseClicked(evt);

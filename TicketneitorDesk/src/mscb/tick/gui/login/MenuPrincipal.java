@@ -7,9 +7,6 @@ package mscb.tick.gui.login;
 
 import java.awt.Image;
 import java.awt.Toolkit;
-import java.io.IOException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import mscb.tick.negocio.LoginEJB;

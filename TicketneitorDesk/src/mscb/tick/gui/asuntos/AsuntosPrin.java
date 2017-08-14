@@ -164,6 +164,7 @@ public class AsuntosPrin extends MenuP {
             }
         });
         jt_asuntos.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        jt_asuntos.getTableHeader().setReorderingAllowed(false);
         jScrollPane1.setViewportView(jt_asuntos);
 
         btn_volver.setBackground(new java.awt.Color(153, 153, 153));

@@ -6,6 +6,7 @@
 package mscb.tick.gui.historialTicket;
 
 import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.Locale;
 import javax.swing.JOptionPane;
@@ -13,9 +14,7 @@ import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 import mscb.tick.negocio.entidades.HistorialTickets;
 import mscb.tick.negocio.entidades.Tickets;
-import mscb.tick.negocio.HistorialServ;
 import mscb.tick.gui.main.Main;
-import mscb.tick.negocio.TicketServ;
 import mscb.tick.util.MenuP;
 
 /**
@@ -52,23 +51,34 @@ public class HistorialTicketV extends MenuP {
     public void llenarTabla() {
         vaciarTabla(jt_tickets);
         miLista = miTick.getHistorialTicketsList();
-        String v[] = new String[5];
+        String v[] = new String[6];
         DateFormat dateFormatter;
         dateFormatter = DateFormat.getDateInstance(DateFormat.SHORT, Locale.UK);
-
+        DateFormat hourFormat = new SimpleDateFormat("HH:mm:ss");
+        
         for (int i = 0; i < miLista.size(); i++) {
-            v[0] = miLista.get(i).getIdHistorial().toString();
-            v[1] = miLista.get(i).getFkTicket().getIdTicket().toString();
+            v[0] = miLista.get(i).getFkTicket().getIdTicket().toString();
+            
+            if(miLista.get(i).getFkUsuario() == null){
+                v[1] = miLista.get(i).getFkTicket().getCreador().getFkEmpleado().getFkArea().getNombreArea();
+            }else{
+                v[1] = miLista.get(i).getFkUsuario().getFkEmpleado().getFkArea().getNombreArea();
+            }
             if(miLista.get(i).getFkUsuario() == null){
                 v[2] = miLista.get(i).getFkTicket().getCreador().getNombreUsuario();
             }else{
-            v[2] = miLista.get(i).getFkUsuario().getNombreUsuario();
+                v[2] = miLista.get(i).getFkUsuario().getNombreUsuario();
             }
             v[3] = dateFormatter.format(miLista.get(i).getFecha()).toString();
-            if(miLista.get(i).getFkEstado() == null){
-                v[4] = "No tiene aun";
+            if(miLista.get(i).getHora() == null){
+                v[4] = "";
             }else{
-                v[4] = miLista.get(i).getFkEstado().getNombre();
+                v[4] = hourFormat.format(miLista.get(i).getHora()).toString();
+            }
+            if(miLista.get(i).getFkEstado() == null){
+                v[5] = "No tiene aun";
+            }else{
+                v[5] = miLista.get(i).getFkEstado().getNombre();
             }
             modelo.addRow(v);
         }
@@ -112,14 +122,14 @@ public class HistorialTicketV extends MenuP {
 
             },
             new String [] {
-                "Id Historial", "Nº Ticket", "Usuario", "Fecha", "Estado"
+                "Nº Ticket", "Area", "Usuario", "Fecha", "Hora", "Estado"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.Integer.class, java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
+                java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.Object.class, java.lang.String.class
             };
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false
+                false, true, false, false, false, false
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -131,6 +141,7 @@ public class HistorialTicketV extends MenuP {
             }
         });
         jt_tickets.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        jt_tickets.getTableHeader().setReorderingAllowed(false);
         jScrollPane1.setViewportView(jt_tickets);
 
         btn_volver.setBackground(new java.awt.Color(153, 153, 153));

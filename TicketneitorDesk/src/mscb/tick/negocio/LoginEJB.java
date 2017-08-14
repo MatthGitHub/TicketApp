@@ -5,14 +5,8 @@
  */
 package mscb.tick.negocio;
 
-import java.sql.Connection;
 import java.util.List;
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.Persistence;
 import mscb.tick.negocio.entidades.Usuarios;
-import mscb.tick.negocio.MD5;
-import mscb.tick.negocio.UsuarioServ;
 
 /**
  *

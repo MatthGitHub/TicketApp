@@ -40,8 +40,8 @@ import javax.xml.bind.annotation.XmlTransient;
 public class Empleados implements Serializable {
 
     @Basic(optional = false)
-    @Column(name = "legajo")
-    private Integer legajo;
+    @Column(name = "legajo", nullable = false)
+    private int legajo;
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -154,11 +154,11 @@ public class Empleados implements Serializable {
         return this.nombre+" "+this.apellido;
     }
 
-    public Integer getLegajo() {
+    public int getLegajo() {
         return legajo;
     }
 
-    public void setLegajo(Integer legajo) {
+    public void setLegajo(int legajo) {
         this.legajo = legajo;
     }
     

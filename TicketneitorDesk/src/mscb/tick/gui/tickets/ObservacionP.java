@@ -5,6 +5,11 @@
  */
 package mscb.tick.gui.tickets;
 
+import java.awt.Font;
+import java.awt.font.FontRenderContext;
+import java.awt.font.TextLayout;
+import static java.lang.Integer.SIZE;
+import java.util.Date;
 import mscb.tick.negocio.entidades.Tickets;
 import mscb.tick.gui.main.Main;
 import mscb.tick.util.MenuP;
@@ -23,7 +28,6 @@ public class ObservacionP extends MenuP {
      */
     private ObservacionP(Tickets miTick, ObservacionD mainFrame) {
         initComponents();
-        setSize(520, 300);
         setVisible(true);
         this.miTick = miTick;
         this.mainFrame = mainFrame;
@@ -37,6 +41,15 @@ public class ObservacionP extends MenuP {
         txtA_obser.setText(miTick.getObservacion());
         txtA_obser.setEditable(false);
         txtA_obser.setLineWrap(true);
+        lbl_dias.setText(dias(miTick.getFecha()).toString());
+        lbl_dias1.setText(dias(miTick.getUltimoHistorial().getFecha()).toString());
+    }
+    
+    public Integer dias(Date miFe){
+        Date hoy = new Date();
+        long diferenciaEn_ms = hoy.getTime() - miFe.getTime();
+        long dias = diferenciaEn_ms / (1000 * 60 * 60 * 24);
+        return (int) dias;
     }
     
     public static ObservacionP getObservacionP(Tickets miTick,ObservacionD mainFrame){
@@ -68,6 +81,10 @@ public class ObservacionP extends MenuP {
         lbl_servicio = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         lbl_edificio = new javax.swing.JLabel();
+        lbl_dias = new javax.swing.JLabel();
+        jLabel5 = new javax.swing.JLabel();
+        jLabel6 = new javax.swing.JLabel();
+        lbl_dias1 = new javax.swing.JLabel();
 
         setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Observacion", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("SansSerif", 0, 18), java.awt.Color.white)); // NOI18N
 
@@ -93,7 +110,7 @@ public class ObservacionP extends MenuP {
         lbl_areaE.setForeground(new java.awt.Color(0, 108, 118));
 
         txtA_obser.setColumns(20);
-        txtA_obser.setFont(new java.awt.Font("SansSerif", 0, 11)); // NOI18N
+        txtA_obser.setFont(new java.awt.Font("SansSerif", 0, 14)); // NOI18N
         txtA_obser.setForeground(new java.awt.Color(0, 108, 118));
         txtA_obser.setRows(5);
         jScrollPane1.setViewportView(txtA_obser);
@@ -119,12 +136,30 @@ public class ObservacionP extends MenuP {
         lbl_edificio.setFont(new java.awt.Font("SansSerif", 0, 11)); // NOI18N
         lbl_edificio.setForeground(new java.awt.Color(0, 108, 118));
 
+        lbl_dias.setFont(new java.awt.Font("SansSerif", 0, 11)); // NOI18N
+        lbl_dias.setForeground(new java.awt.Color(0, 108, 118));
+
+        jLabel5.setFont(new java.awt.Font("SansSerif", 3, 14)); // NOI18N
+        jLabel5.setForeground(new java.awt.Color(0, 108, 118));
+        jLabel5.setText("Dias desde que se creó:");
+
+        jLabel6.setFont(new java.awt.Font("SansSerif", 3, 14)); // NOI18N
+        jLabel6.setForeground(new java.awt.Color(0, 108, 118));
+        jLabel6.setText("Dias sin movimientos:");
+
+        lbl_dias1.setFont(new java.awt.Font("SansSerif", 0, 11)); // NOI18N
+        lbl_dias1.setForeground(new java.awt.Color(0, 108, 118));
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane1)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(btn_cerrar)
+                        .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
                         .addContainerGap()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -138,7 +173,7 @@ public class ObservacionP extends MenuP {
                                         .addGap(18, 18, 18)
                                         .addComponent(jLabel1)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                        .addComponent(lbl_usuarioE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addComponent(lbl_usuarioE, javax.swing.GroupLayout.DEFAULT_SIZE, 125, Short.MAX_VALUE)
                                         .addGap(38, 38, 38))
                                     .addGroup(layout.createSequentialGroup()
                                         .addComponent(jLabel3)
@@ -149,11 +184,15 @@ public class ObservacionP extends MenuP {
                                     .addComponent(lbl_edificio, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                     .addGroup(layout.createSequentialGroup()
                                         .addComponent(jLabel4)
-                                        .addGap(48, 48, 48))))))
-                    .addComponent(jScrollPane1)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(btn_cerrar)
-                        .addGap(0, 0, Short.MAX_VALUE)))
+                                        .addGap(48, 48, 48))))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jLabel5)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(lbl_dias, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(jLabel6)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(lbl_dias1, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)))))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -173,9 +212,17 @@ public class ObservacionP extends MenuP {
                         .addComponent(lbl_areaE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addComponent(lbl_edificio, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(lbl_servicio, javax.swing.GroupLayout.DEFAULT_SIZE, 10, Short.MAX_VALUE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 146, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(lbl_servicio, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addComponent(jLabel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(lbl_dias, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addComponent(jLabel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(lbl_dias1, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 146, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btn_cerrar)
                 .addGap(21, 21, 21))
@@ -200,8 +247,12 @@ public class ObservacionP extends MenuP {
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel lbl_areaE;
+    private javax.swing.JLabel lbl_dias;
+    private javax.swing.JLabel lbl_dias1;
     private javax.swing.JLabel lbl_edificio;
     private javax.swing.JLabel lbl_numero;
     private javax.swing.JLabel lbl_servicio;

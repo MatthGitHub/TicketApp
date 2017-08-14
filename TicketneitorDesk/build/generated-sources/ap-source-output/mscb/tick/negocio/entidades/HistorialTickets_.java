@@ -9,13 +9,14 @@ import mscb.tick.negocio.entidades.RazonesTransferencias;
 import mscb.tick.negocio.entidades.Tickets;
 import mscb.tick.negocio.entidades.Usuarios;
 
-@Generated(value="EclipseLink-2.5.2.v20140319-rNA", date="2017-07-25T11:55:53")
+@Generated(value="EclipseLink-2.5.2.v20140319-rNA", date="2017-08-14T13:49:49")
 @StaticMetamodel(HistorialTickets.class)
 public class HistorialTickets_ { 
 
     public static volatile SingularAttribute<HistorialTickets, Estados> fkEstado;
     public static volatile SingularAttribute<HistorialTickets, Date> fecha;
     public static volatile SingularAttribute<HistorialTickets, String> resolucion;
+    public static volatile SingularAttribute<HistorialTickets, Date> hora;
     public static volatile SingularAttribute<HistorialTickets, Usuarios> fkUsuario;
     public static volatile SingularAttribute<HistorialTickets, RazonesTransferencias> fkRazon;
     public static volatile SingularAttribute<HistorialTickets, Integer> idHistorial;
