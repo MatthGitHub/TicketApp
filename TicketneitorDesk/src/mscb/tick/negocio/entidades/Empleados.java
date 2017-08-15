@@ -41,7 +41,7 @@ public class Empleados implements Serializable {
 
     @Basic(optional = false)
     @Column(name = "legajo", nullable = false)
-    private int legajo;
+    private Integer legajo;
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -154,11 +154,11 @@ public class Empleados implements Serializable {
         return this.nombre+" "+this.apellido;
     }
 
-    public int getLegajo() {
+    public Integer getLegajo() {
         return legajo;
     }
 
-    public void setLegajo(int legajo) {
+    public void setLegajo(Integer legajo) {
         this.legajo = legajo;
     }
     

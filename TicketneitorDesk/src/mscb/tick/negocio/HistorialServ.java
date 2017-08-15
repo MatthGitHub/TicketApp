@@ -22,7 +22,7 @@ import mscb.tick.negocio.entidades.Usuarios;
  * @author Administrador
  */
 public class HistorialServ {
-    private EntityManagerFactory emf = Persistence.createEntityManagerFactory("TicketneitorPU");
+    private static EntityManagerFactory emf = Persistence.createEntityManagerFactory("TicketneitorPU");
     private HistorialTicketsJpaController jpa = new HistorialTicketsJpaController(emf);
     private static HistorialServ esto;
     
@@ -34,6 +34,7 @@ public class HistorialServ {
         if(esto == null){
             esto = new HistorialServ();
         }
+        emf.getCache().evictAll();
         return esto;
     }
     

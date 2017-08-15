@@ -5,7 +5,6 @@
  */
 package mscb.tick.negocio;
 
-import java.util.ArrayList;
 import java.util.List;
 import mscb.tick.negocio.entidades.Tickets;
 
@@ -16,15 +15,10 @@ import mscb.tick.negocio.entidades.Tickets;
 public class DiferenciasBD {
 
     private List<Tickets> miLista;
-    public static List<Tickets> cacheDatos;
+    public static Integer cacheDatos;
     private static DiferenciasBD single;
-    private TicketServ serviciosT;
-    public static List<Tickets> nuevosTick;
 
     private DiferenciasBD() {
-        serviciosT = TicketServ.getTicketServ();
-        cacheDatos = new ArrayList<>();
-        nuevosTick = new ArrayList<>();
         cargarCache();
     }
 
@@ -36,19 +30,11 @@ public class DiferenciasBD {
     }
 
     public int buscarDiferencias() {
-        int i = 0;
-        miLista = serviciosT.traerTodos();
-        if(miLista != null){
-            if(miLista.size() != cacheDatos.size()) {
-            for ( i = 0; i < miLista.size(); i++) {
-                if (!cacheDatos.contains(miLista.get(i))) {
-                    nuevosTick.add(miLista.get(i));
-                    cacheDatos.add(miLista.get(i));
-                }
+        miLista = TicketServ.getTicketServ().buscarPorUsuarioAsunto();
+            if(miLista.size() > cacheDatos){
+                cacheDatos = miLista.size();
+                return cacheDatos;
             }
-            return nuevosTick.size();
-        }
-        }
         
         return 0;
 
@@ -60,7 +46,7 @@ public class DiferenciasBD {
     }
 
     private void cargarCache() {
-        cacheDatos = serviciosT.traerTodos();
+        cacheDatos = TicketServ.getTicketServ().buscarPorUsuarioAsunto().size();
     }
 
 }

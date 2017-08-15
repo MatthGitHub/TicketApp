@@ -161,7 +161,7 @@ public class Main extends javax.swing.JFrame {
         version = new Configuracion();
         version.setIdConfiguracion(1);
         version.setNombre("version");
-        version.setDescripcion("6.2.7");
+        version.setDescripcion("6.2.8");
         mySystemTray = MySystemTray.getMySystemTray(this);
         setDefaultCloseOperation(0);
         setResizable(false);

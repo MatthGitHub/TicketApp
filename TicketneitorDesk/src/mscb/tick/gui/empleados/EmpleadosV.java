@@ -82,7 +82,7 @@ public class EmpleadosV extends MenuP {
             v[1] = aCargar.get(i).getNombre();
             v[2] = aCargar.get(i).getApellido();
             v[3] = aCargar.get(i).getDocumento();
-            v[4] = "Legajo";//aCargar.get(i).getLegajo().toString();
+            v[4] = aCargar.get(i).getLegajo().toString();
             v[5] = aCargar.get(i).getFkArea().getNombreArea();
             modelo.addRow(v);
         }

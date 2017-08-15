@@ -3,16 +3,9 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/Administrador/Documents/NetBeansProjects/TicketApp/TicketneitorDesk/src/mscb/tick/gui/tickets/BandejaTickets.java</file>
-            <file>file:/C:/Users/Administrador/Documents/NetBeansProjects/TicketApp/TicketneitorDesk/src/mscb/tick/gui/tickets/ConfigurarTabla.java</file>
-            <file>file:/C:/Users/Administrador/Documents/NetBeansProjects/TicketApp/TicketneitorDesk/src/mscb/tick/negocio/entidades/HistorialTickets.java</file>
-            <file>file:/C:/Users/Administrador/Documents/NetBeansProjects/TicketApp/TicketneitorDesk/src/mscb/tick/negocio/entidades/Usuarios.java</file>
-            <file>file:/C:/Users/Administrador/Documents/NetBeansProjects/TicketApp/TicketneitorDesk/src/mscb/tick/gui/main/Main.java</file>
-            <file>file:/C:/Users/Administrador/Documents/NetBeansProjects/TicketApp/TicketneitorDesk/src/mscb/tick/negocio/entidades/Empleados.java</file>
-            <file>file:/C:/Users/Administrador/Documents/NetBeansProjects/TicketApp/TicketneitorDesk/src/mscb/tick/gui/tickets/ResolucionP.java</file>
-            <file>file:/C:/Users/Administrador/Documents/NetBeansProjects/TicketApp/TicketneitorDesk/src/mscb/tick/negocio/entidades/Tickets.java</file>
-            <file>file:/C:/Users/Administrador/Documents/NetBeansProjects/TicketApp/TicketneitorDesk/src/mscb/tick/gui/tickets/NuevoTicket.java</file>
             <file>file:/C:/Users/Administrador/Documents/NetBeansProjects/TicketApp/TicketneitorDesk/src/mscb/tick/negocio/TicketServ.java</file>
+            <file>file:/C:/Users/Administrador/Documents/NetBeansProjects/TicketApp/TicketneitorDesk/src/mscb/tick/gui/tickets/BandejaTickets.java</file>
+            <file>file:/C:/Users/Administrador/Documents/NetBeansProjects/TicketApp/TicketneitorDesk/src/mscb/tick/gui/main/Main.java</file>
         </group>
     </open-files>
 </project-private>

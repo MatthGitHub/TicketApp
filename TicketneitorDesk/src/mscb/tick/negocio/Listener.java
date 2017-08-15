@@ -42,25 +42,11 @@ public class Listener extends Thread {
             f = dif.buscarDiferencias();
             
             if(f != 0){
-                for(int i = 0; i < f; i++){
-                    if(LoginEJB.usuario.getServiciosList().contains(DiferenciasBD.nuevosTick.get(i).getServicio())){
-                    /*JOptionPane.showMessageDialog(null, "Tiene un nuevo pedido de "
-                            +DiferenciasBD.nuevosTick.get(i).getFkUsuarioEmisor()
-                            +" - "+DiferenciasBD.nuevosTick.get(i).getFkAreaEmisor());
-                    */
-                    System.out.println("Hay nuevos tickets: "+LoginEJB.usuario.getNombreUsuario());
-                    diferencias = true;
-                   // panelAdmTi = TicketsV.getTickets(mainFrame);
-                    //panelMisti = MisTickets.getMisTickets(mainFrame);
-                   // panelAdmTi.llenarTabla();
-                   // panelMisti.llenarTabla();
-                    }
-                }
-                
+                System.out.println("Hay nuevos tickets: "+LoginEJB.usuario.getNombreUsuario());
+                diferencias = true;
             }
         esperar();
         }
-        
     }
             
     private void esperar(){

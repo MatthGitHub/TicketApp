@@ -30,21 +30,24 @@ public class TicketServ {
     
     private EstadoServ estad;
     private static TicketServ esto;
+    private static EntityManagerFactory emf;
+    private TicketsJpaController jpa;
     
     
     private TicketServ(){
-        
+        emf = Persistence.createEntityManagerFactory("TicketneitorPU");
+        jpa = new TicketsJpaController(emf);
     }
      
     public static TicketServ getTicketServ(){
         if(esto == null){
             esto = new TicketServ();
         }
+        emf.getCache().evictAll();
         return esto;
     }
     public int nuevoTicket(Tickets nuevo){
-        EntityManagerFactory emf = Persistence.createEntityManagerFactory("TicketneitorPU");
-        TicketsJpaController jpa = new TicketsJpaController(emf);
+        
         EntityManager em = emf.createEntityManager();
         try{
             jpa.create(nuevo);
@@ -58,8 +61,6 @@ public class TicketServ {
     
     public List<Tickets> traerTodos(){
         try {
-            EntityManagerFactory emf = Persistence.createEntityManagerFactory("TicketneitorPU");
-            TicketsJpaController jpa = new TicketsJpaController(emf);
             return jpa.findTicketsEntities();
         } catch (Exception e) {
             System.out.println("No se loguearon aun o no hay conexion con el servidor: "+e);
@@ -69,8 +70,6 @@ public class TicketServ {
     }
     
     public List<Tickets> traerTodosPorArea(){
-        EntityManagerFactory emf = Persistence.createEntityManagerFactory("TicketneitorPU");
-        TicketsJpaController jpa = new TicketsJpaController(emf);
         List<Tickets> miLista = jpa.findTicketsEntities();
         List<Tickets> aux = new ArrayList<>();
         
@@ -85,11 +84,8 @@ public class TicketServ {
     }
     
     public List<Tickets> traerTodosPorArea(Areas area){
-         EntityManagerFactory emf = Persistence.createEntityManagerFactory("TicketneitorPU");
-        TicketsJpaController jpa = new TicketsJpaController(emf);
         EntityManager em = emf.createEntityManager();
         
-        List<Tickets> miLista = jpa.findTicketsEntities();
         List<Tickets> aux = new ArrayList<>();
 
         em.getTransaction().begin();
@@ -116,11 +112,8 @@ public class TicketServ {
     
     
      public List <Tickets> buscar(String id){
-        EntityManagerFactory emf = Persistence.createEntityManagerFactory("TicketneitorPU");
-        TicketsJpaController jpa = new TicketsJpaController(emf);
         EntityManager em = emf.createEntityManager();
         
-        List<Tickets> miLista = jpa.findTicketsEntities();
         List<Tickets> aux = new ArrayList<>();
         
         em.getTransaction().begin();
@@ -156,11 +149,8 @@ public class TicketServ {
     }
      
      public List <Tickets> buscarTodos(String id){
-        EntityManagerFactory emf = Persistence.createEntityManagerFactory("TicketneitorPU");
-        TicketsJpaController jpa = new TicketsJpaController(emf);
         EntityManager em = emf.createEntityManager();
         
-        List<Tickets> miLista = jpa.findTicketsEntities();
         List<Tickets> aux = new ArrayList<>();
         
         em.getTransaction().begin();
@@ -200,11 +190,8 @@ public class TicketServ {
      * @return 
      */
     public List <Tickets> buscarPorUsuarioAsunto(){
-        EntityManagerFactory emf = Persistence.createEntityManagerFactory("TicketneitorPU");
-        TicketsJpaController jpa = new TicketsJpaController(emf);
         EntityManager em = emf.createEntityManager();
         
-        List<Tickets> miLista = jpa.findTicketsEntities();
         List<Tickets> aux = new ArrayList<>();
 
         em.getTransaction().begin();
@@ -226,20 +213,8 @@ public class TicketServ {
     }
     
     public List <Tickets> buscarPorUsuarioAsuntoSinEnEspera(){
-        EntityManagerFactory emf = Persistence.createEntityManagerFactory("TicketneitorPU");
-        //TicketsJpaController jpa = new TicketsJpaController(emf);
         EntityManager em = emf.createEntityManager();
-        //List<Tickets> miLista = jpa.findTicketsEntities();
         List<Tickets> aux = new ArrayList<>();
-        //estad = EstadoServ.getEstadoServ();
-        
-        /*for(int i = 0; i < miLista.size(); i ++){
-            System.out.println(miLista.get(i).getIdTicket().toString());
-            if((LoginEJB.usuario.getServiciosList().contains(miLista.get(i).getServicio()))&&((!miLista.get(i).getUltimoEstado().equals(estad.traerEstado(5)))&&(!miLista.get(i).getUltimoEstado().equals(estad.traerEstado(7)))&&(!miLista.get(i).getUltimoEstado().equals(estad.traerEstado(3))))){
-                aux.add(miLista.get(i));
-            }
-        }
-        return aux;*/
         em.getTransaction().begin();
         q = em.createNativeQuery("SELECT DISTINCT * FROM tickets t \n" +
                                 "JOIN historial_tickets ht ON ht.fk_ticket = t.id_ticket\n" +
@@ -261,8 +236,6 @@ public class TicketServ {
     
     
     public List <Tickets> buscarPorUsuarioAsuntoNoResueltos(){
-        EntityManagerFactory emf = Persistence.createEntityManagerFactory("TicketneitorPU");
-        TicketsJpaController jpa = new TicketsJpaController(emf);
         List<Tickets> miLista = jpa.findTicketsEntities();
         List<Tickets> aux = new ArrayList<>();
         estad = EstadoServ.getEstadoServ();
@@ -276,14 +249,10 @@ public class TicketServ {
     }
     
     public Tickets buscarUno(int id){
-        EntityManagerFactory emf = Persistence.createEntityManagerFactory("TicketneitorPU");
-        TicketsJpaController jpa = new TicketsJpaController(emf);
         return jpa.findTickets(id);
     }
     
     public int modificarTicket(Tickets miTick){
-        EntityManagerFactory emf = Persistence.createEntityManagerFactory("TicketneitorPU");
-        TicketsJpaController jpa = new TicketsJpaController(emf);
         try {
             jpa.edit(miTick);
             return 0;
@@ -293,8 +262,6 @@ public class TicketServ {
         }
     }
     public boolean eliminarTicket(int id){
-        EntityManagerFactory emf = Persistence.createEntityManagerFactory("TicketneitorPU");
-        TicketsJpaController jpa = new TicketsJpaController(emf);
         try {
             jpa.destroy(id);
         } catch (IllegalOrphanException ex) {
@@ -306,8 +273,6 @@ public class TicketServ {
     }
     
     public List<Tickets> buscarPorUsuarioEmisor(){
-        EntityManagerFactory emf = Persistence.createEntityManagerFactory("TicketneitorPU");
-        TicketsJpaController jpa = new TicketsJpaController(emf);
         List<Tickets> miLista = jpa.findTicketsEntities();
         List<Tickets> aux = new ArrayList<>();
         estad = EstadoServ.getEstadoServ();
