@@ -12,6 +12,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
+import mscb.tick.gui.main.Main;
 import mscb.tick.negocio.controladores.UsuariosJpaController;
 import mscb.tick.negocio.controladores.exceptions.IllegalOrphanException;
 import mscb.tick.negocio.controladores.exceptions.NonexistentEntityException;
@@ -28,7 +29,8 @@ public class UsuarioServ {
     private List<Usuarios> miLista;
     private Usuarios miUsuario;
     private Date miFecha;
-    private EntityManagerFactory emf = Persistence.createEntityManagerFactory("TicketneitorPU");
+    private String PU = Main.getServer();
+    private EntityManagerFactory emf = EntitiesManager.getEntityManagerFactory();
     private UsuariosJpaController jpa = new UsuariosJpaController(emf);
     private static UsuarioServ esto;
     
@@ -233,7 +235,7 @@ public class UsuarioServ {
         List<Usuarios> aux = new ArrayList<>();
         List<Usuarios> miListaU = jpa.findUsuariosEntities();
         for(int i = 0; i < miListaU.size(); i++){
-            if(miListaU.get(i).getFkEmpleado().getFkArea().equals(area)){
+            if((miListaU.get(i).getFkEmpleado().getFkArea().equals(area))&&(miListaU.get(i).getFkRol().getIdRol() != 1)){
                 aux.add(miListaU.get(i));
             }
         }

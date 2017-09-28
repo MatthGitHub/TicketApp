@@ -29,7 +29,7 @@ public class ResolucionD extends javax.swing.JDialog {
         setLocationRelativeTo(parent);
         this.miTick = miTick;
         setTitle("Resolucion");
-        this.setSize(520, 380);
+        this.setSize(500, 540);
         ResolucionM(miTick,marcar);
         pack();
         setVisible(true);
@@ -69,7 +69,7 @@ public class ResolucionD extends javax.swing.JDialog {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 380, Short.MAX_VALUE)
+            .addGap(0, 540, Short.MAX_VALUE)
         );
 
         pack();

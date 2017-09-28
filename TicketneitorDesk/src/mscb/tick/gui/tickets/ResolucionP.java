@@ -40,15 +40,20 @@ public class ResolucionP extends MenuP {
         this.miTick = miTick;
         this.marcar = marcar;
         jLabel6.setVisible(false);
-        txtA_respuesta.setLineWrap(true);
+        
         lbl_ticket.setText(miTick.getIdTicket().toString());
         lbl_usuarioE.setText(miTick.getCreador().getNombreUsuario());
         lbl_areaE.setText(miTick.getCreador().getFkEmpleado().getFkArea().getNombreArea());
-        setSize(520, 380);
+        setSize(520, 540);
         setVisible(true);
         if(!marcar.equals("si")){
             cbxResuelto.setVisible(false);
         }
+        txtA_reso.setLineWrap(true);
+        txtA_Resos.setLineWrap(true);
+        txtA_Resos.setText(miTick.getResolucion());
+        txtA_Resos.setEditable(false);
+        
     }
     
     public static ResolucionP getResolucion(Tickets miTick, ResolucionD mainFrame,String marcar){
@@ -77,7 +82,7 @@ public class ResolucionP extends MenuP {
         jLabel5 = new javax.swing.JLabel();
         lbl_areaE = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        txtA_respuesta = new javax.swing.JTextArea();
+        txtA_reso = new javax.swing.JTextArea();
         jLabel6 = new javax.swing.JLabel();
         txtTiempo = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
@@ -86,6 +91,8 @@ public class ResolucionP extends MenuP {
         txt_area_nota = new javax.swing.JTextField();
         jLabel10 = new javax.swing.JLabel();
         cbxResuelto = new javax.swing.JCheckBox();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        txtA_Resos = new javax.swing.JTextArea();
 
         setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Resolucion", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("SansSerif", 0, 18), java.awt.Color.white)); // NOI18N
 
@@ -132,11 +139,11 @@ public class ResolucionP extends MenuP {
         lbl_areaE.setFont(new java.awt.Font("SansSerif", 0, 11)); // NOI18N
         lbl_areaE.setForeground(new java.awt.Color(0, 108, 118));
 
-        txtA_respuesta.setColumns(20);
-        txtA_respuesta.setFont(new java.awt.Font("SansSerif", 0, 11)); // NOI18N
-        txtA_respuesta.setForeground(new java.awt.Color(0, 108, 118));
-        txtA_respuesta.setRows(5);
-        jScrollPane1.setViewportView(txtA_respuesta);
+        txtA_reso.setColumns(20);
+        txtA_reso.setFont(new java.awt.Font("SansSerif", 0, 11)); // NOI18N
+        txtA_reso.setForeground(new java.awt.Color(0, 108, 118));
+        txtA_reso.setRows(5);
+        jScrollPane1.setViewportView(txtA_reso);
 
         jLabel6.setFont(new java.awt.Font("SansSerif", 3, 14)); // NOI18N
         jLabel6.setForeground(new java.awt.Color(0, 108, 118));
@@ -184,6 +191,11 @@ public class ResolucionP extends MenuP {
         cbxResuelto.setForeground(new java.awt.Color(255, 255, 255));
         cbxResuelto.setText("Marcar como resuelto");
 
+        txtA_Resos.setColumns(20);
+        txtA_Resos.setFont(new java.awt.Font("SansSerif", 0, 11)); // NOI18N
+        txtA_Resos.setRows(5);
+        jScrollPane2.setViewportView(txtA_Resos);
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -192,9 +204,21 @@ public class ResolucionP extends MenuP {
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jScrollPane1)
-                            .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLabel7)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 123, Short.MAX_VALUE)
+                        .addComponent(jLabel8)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(txt_n_nota, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jLabel10)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(txt_area_nota, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(58, 58, 58))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jScrollPane2, javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addGroup(layout.createSequentialGroup()
                                         .addComponent(jLabel1)
@@ -212,25 +236,14 @@ public class ResolucionP extends MenuP {
                                         .addComponent(jLabel6)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                         .addComponent(txtTiempo, javax.swing.GroupLayout.PREFERRED_SIZE, 186, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                                .addGap(0, 82, Short.MAX_VALUE))
-                            .addGroup(layout.createSequentialGroup()
+                                .addGap(0, 147, Short.MAX_VALUE))
+                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
                                 .addComponent(btn_cerrar)
                                 .addGap(18, 18, 18)
                                 .addComponent(btn_enviar)
                                 .addGap(18, 18, 18)
                                 .addComponent(cbxResuelto, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                        .addContainerGap())
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel7)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 123, Short.MAX_VALUE)
-                        .addComponent(jLabel8)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(txt_n_nota, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jLabel10)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(txt_area_nota, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(58, 58, 58))))
+                        .addContainerGap())))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -261,9 +274,11 @@ public class ResolucionP extends MenuP {
                     .addComponent(txt_area_nota, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(txt_n_nota, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel10))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 139, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 146, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 139, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btn_enviar)
                     .addComponent(btn_cerrar)
@@ -319,14 +334,14 @@ public class ResolucionP extends MenuP {
             his.setFkEstado(estado);
             String reso = miTick.getResolucion();
             if((reso == null)||(reso.isEmpty())){
-                if(txtA_respuesta.getText().trim().isEmpty()){
+                if(txtA_reso.getText().trim().isEmpty()){
                     his.setResolucion(null);
                 }else{
-                    his.setResolucion("Resolucion por "+LoginEJB.usuario+" : "+txtA_respuesta.getText());
+                    his.setResolucion("Resolucion por "+LoginEJB.usuario+" : "+txtA_reso.getText());
                 }
                 
             }else{
-                his.setResolucion(reso+"\nResolucion por "+LoginEJB.usuario+" : "+txtA_respuesta.getText());
+                his.setResolucion(reso+"\nResolucion por "+LoginEJB.usuario+" : "+txtA_reso.getText());
             }
             his.setFecha(fecha);
             his.setHora(fecha);
@@ -337,6 +352,7 @@ public class ResolucionP extends MenuP {
                 his.setIdHistorial(servH.buscarUltimo(miTick).getIdHistorial());
                 servH.modificar(his);
             }
+            BandejaTickets.getBandejaTickets(mainFrameO).llenarTabla();
             setVisible(false);
             mainFrame.setVisible(false);
             estePanel = null;
@@ -380,10 +396,12 @@ public class ResolucionP extends MenuP {
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JLabel lbl_areaE;
     private javax.swing.JLabel lbl_ticket;
     private javax.swing.JLabel lbl_usuarioE;
-    private javax.swing.JTextArea txtA_respuesta;
+    private javax.swing.JTextArea txtA_Resos;
+    private javax.swing.JTextArea txtA_reso;
     private javax.swing.JLabel txtTiempo;
     private javax.swing.JTextField txt_area_nota;
     private javax.swing.JTextField txt_n_nota;

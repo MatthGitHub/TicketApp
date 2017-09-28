@@ -41,6 +41,7 @@ public class ObservacionP extends MenuP {
         txtA_obser.setText(miTick.getObservacion());
         txtA_obser.setEditable(false);
         txtA_obser.setLineWrap(true);
+        txtA_obser.setWrapStyleWord(true);
         lbl_dias.setText(dias(miTick.getFecha()).toString());
         lbl_dias1.setText(dias(miTick.getUltimoHistorial().getFecha()).toString());
     }
@@ -173,7 +174,7 @@ public class ObservacionP extends MenuP {
                                         .addGap(18, 18, 18)
                                         .addComponent(jLabel1)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                        .addComponent(lbl_usuarioE, javax.swing.GroupLayout.DEFAULT_SIZE, 125, Short.MAX_VALUE)
+                                        .addComponent(lbl_usuarioE, javax.swing.GroupLayout.DEFAULT_SIZE, 251, Short.MAX_VALUE)
                                         .addGap(38, 38, 38))
                                     .addGroup(layout.createSequentialGroup()
                                         .addComponent(jLabel3)
@@ -222,7 +223,7 @@ public class ObservacionP extends MenuP {
                         .addComponent(jLabel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(lbl_dias1, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 146, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 217, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btn_cerrar)
                 .addGap(21, 21, 21))

@@ -10,6 +10,7 @@ import java.sql.*;
 import java.util.Map;
 import java.util.HashMap;
 import javax.swing.JOptionPane;
+import mscb.tick.gui.main.Main;
 import net.sf.jasperreports.engine.*;
 import net.sf.jasperreports.engine.util.JRLoader;
 import net.sf.jasperreports.view.*;
@@ -18,7 +19,7 @@ public class EjecutarReporte {
     
     private static EjecutarReporte estaClase;
     public static final String DRIVER="com.mysql.jdbc.Driver";
-    public static final String RUTA="jdbc:mysql://10.20.130.242/ticket";
+    public static final String RUTA="jdbc:mysql://"+Main.getServer()+"/ticket";
     public static final String USER="administrador";
     public static final String PASSWORD="cavaliere";
     public static Connection CONEXION;
@@ -44,10 +45,11 @@ public class EjecutarReporte {
             CONEXION = DriverManager.getConnection(RUTA,USER,PASSWORD);
             System.out.println("Conexion establecida");
             
-            String template="reportes/Reporte.jasper";
+            String template="//10.20.130.242/TicketneitorDeskUpdt/reportes/MiTicket.jasper";
             JasperReport reporte=null;
             reporte=(JasperReport) JRLoader.loadObject(template);
-
+            System.out.println("Template: "+template);
+            System.out.println("Base de datos: "+RUTA);
             Map param=new HashMap();
             param.put("id", id);
             
@@ -66,7 +68,7 @@ public class EjecutarReporte {
     
     public void reporteTicketPorUsuario(int userId){
         
-        try{
+        /*try{
             Class.forName(DRIVER);
             CONEXION = DriverManager.getConnection(RUTA,USER,PASSWORD);
             javax.swing.JOptionPane.showMessageDialog(null,"Conexion establecida");
@@ -88,7 +90,7 @@ public class EjecutarReporte {
         }catch(Exception e){
             javax.swing.JOptionPane.showMessageDialog(null, e);
 
-        }
+        }*/
     }
     
 

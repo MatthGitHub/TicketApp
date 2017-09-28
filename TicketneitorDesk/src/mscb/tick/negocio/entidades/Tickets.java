@@ -44,6 +44,13 @@ import mscb.tick.negocio.UsuarioServ;
     @NamedQuery(name = "Tickets.findByTiempoResolucion", query = "SELECT t FROM Tickets t WHERE t.tiempoResolucion = :tiempoResolucion")})
 public class Tickets implements Serializable,Comparable<Tickets> {
 
+    @Basic(optional = false)
+    @Column(name = "hora")
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date hora;
+    @Column(name = "fk_areaSolicitante")
+    private Integer fkareaSolicitante;
+
     @JoinColumn(name = "fkEdificio", referencedColumnName = "id_edificio")
     @ManyToOne
     private Edificios fkEdificio;
@@ -205,10 +212,10 @@ public class Tickets implements Serializable,Comparable<Tickets> {
 
     @Override
     public int compareTo(Tickets t) {
-        if(idTicket < t.idTicket){
+        if(getUltimoHistorial().getHora().compareTo(t.getUltimoHistorial().getHora()) < 0){
             return -1;
         }
-        if(idTicket > t.idTicket){
+        if(getUltimoHistorial().getHora().compareTo(t.getUltimoHistorial().getHora()) > 0){
             return 1;
         }
         return 0;
@@ -244,6 +251,22 @@ public class Tickets implements Serializable,Comparable<Tickets> {
 
     public void setFkEdificio(Edificios fkEdificio) {
         this.fkEdificio = fkEdificio;
+    }
+
+    public Date getHora() {
+        return hora;
+    }
+
+    public void setHora(Date hora) {
+        this.hora = hora;
+    }
+
+    public Integer getFkareaSolicitante() {
+        return fkareaSolicitante;
+    }
+
+    public void setFkareaSolicitante(Integer fkareaSolicitante) {
+        this.fkareaSolicitante = fkareaSolicitante;
     }
     
 }

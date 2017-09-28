@@ -6,6 +6,7 @@
 package mscb.tick.gui.login;
 
 import java.awt.Dimension;
+import java.awt.Frame;
 import java.awt.event.KeyEvent;
 import javax.swing.JOptionPane;
 import mscb.tick.negocio.LoginEJB;
@@ -173,7 +174,7 @@ public class Login extends MenuP {
             try {
                 if (loginejb.login(txt_nombre.getText(), pswr_clave.getText())) {
                     mainFrame.setMinimumSize(new Dimension(800,600));
-                    mainFrame.setSize(800, 600);
+                    mainFrame.setExtendedState(Frame.MAXIMIZED_BOTH);
                     mainFrame.setResizable(true);
                     mainFrame.validarPermisos();
                     mainFrame.setLocationRelativeTo(null);

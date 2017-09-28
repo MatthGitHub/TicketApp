@@ -16,7 +16,7 @@ while( $fila = $result->fetch_array() )
 {
   $opciones.='<option value="'.$fila["id_asuntoP"].'">'.$fila["nombre"].'</option>';
 }
-
+mysqli_close($link);
 
 ?>
 <!DOCTYPE html>

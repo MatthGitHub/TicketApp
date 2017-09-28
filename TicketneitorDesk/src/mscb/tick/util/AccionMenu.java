@@ -7,8 +7,6 @@ import javax.swing.AbstractAction;
 import javax.swing.Action;
 import javax.swing.JOptionPane;
 import javax.swing.JPopupMenu;
-import javax.swing.JTable;
-import javax.swing.table.DefaultTableModel;
 import mscb.tick.gui.main.Main;
 import mscb.tick.gui.tickets.BandejaTickets;
 import mscb.tick.negocio.EstadoServ;
@@ -42,7 +40,7 @@ public class AccionMenu extends AbstractAction {
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-            System.out.println("Pulsado " + textoOpcion);
+            //System.out.println("Pulsado " + textoOpcion);
             switch(textoOpcion){
                 /* El usuario logueado acepta el ticket*/
                 case "Aceptar":
@@ -69,19 +67,19 @@ public class AccionMenu extends AbstractAction {
                 case "Modificar nota de salida":
                     modificarNotaSalida();
                     break;
-                case "Responder":
+                case "Detalle":
                     responder();
                     break;
                 case "Ver adjunto":
                     verAdjunto();
                     break;
-                case "Ver resolucion":
+                /*case "Ver resolucion":
                     verResolucion();
-                    break;
+                    break;*/
                 case "Imprimir":
                     imprimir();
                     break;
-                case "Marcar resuelto":
+                case "Resoluciones":
                     marcarResuelto();
                     break;
             }
@@ -133,15 +131,8 @@ public class AccionMenu extends AbstractAction {
         }
         
         private void transferir(){
-            if(JOptionPane.showConfirmDialog(Main.getMainFrame(), "Desea cargar una resolucion para el ticket?", "Base de conocimiento", JOptionPane.YES_NO_OPTION) == 0){
-                int ide = Integer.parseInt(BandejaTickets.getBandejaTickets(Main.getMainFrame()).modelo.getValueAt(BandejaTickets.getBandejaTickets(Main.getMainFrame()).jt_tickets.getSelectedRow(), 0).toString());
-                Main.getMainFrame().transferirTicket(TicketServ.getTicketServ().buscarUno(ide));
-                Main.getMainFrame().resolucionTicketSinMarcar(TicketServ.getTicketServ().buscarUno(ide));
-                BandejaTickets.getBandejaTickets(Main.getMainFrame()).llenarTabla();
-            }else{
-                Main.getMainFrame().transferirTicket(TicketServ.getTicketServ().buscarUno(Integer.parseInt(BandejaTickets.getBandejaTickets(Main.getMainFrame()).modelo.getValueAt(BandejaTickets.getBandejaTickets(Main.getMainFrame()).jt_tickets.getSelectedRow(), 0).toString())));
-                BandejaTickets.getBandejaTickets(Main.getMainFrame()).llenarTabla();
-            }
+            Main.getMainFrame().transferirTicket(TicketServ.getTicketServ().buscarUno(Integer.parseInt(BandejaTickets.getBandejaTickets(Main.getMainFrame()).modelo.getValueAt(BandejaTickets.getBandejaTickets(Main.getMainFrame()).jt_tickets.getSelectedRow(), 0).toString())));
+            BandejaTickets.getBandejaTickets(Main.getMainFrame()).llenarTabla();
         }
         
         private void cambiarEstado(String nombreEstado){

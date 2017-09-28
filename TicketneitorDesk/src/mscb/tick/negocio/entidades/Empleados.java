@@ -40,7 +40,7 @@ import javax.xml.bind.annotation.XmlTransient;
 public class Empleados implements Serializable {
 
     @Basic(optional = false)
-    @Column(name = "legajo", nullable = false)
+    @Column(name = "legajo")
     private Integer legajo;
 
     private static final long serialVersionUID = 1L;

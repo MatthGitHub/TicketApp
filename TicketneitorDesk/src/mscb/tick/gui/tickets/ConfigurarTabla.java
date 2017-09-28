@@ -95,7 +95,7 @@ public class ConfigurarTabla extends MenuP {
             miConfig.add(new ListaConf(palabraUno, palabraDos));
         }
         br.close();
-        System.out.println(miConfig);
+        //System.out.println(miConfig);
         return miConfig;
     }
     
@@ -467,7 +467,7 @@ public class ConfigurarTabla extends MenuP {
         miLista.add(new ListaConf("Creador", cbxCreador.isSelected()));
         try {
             guardarNuevaListaConfiguracion(miLista);
-            BandejaEnviados.getBandejaEnviados(mainFrame).llenarTabla();
+            BandejaTickets.getBandejaTickets(mainFrame).llenarTabla();
             btn_volverActionPerformed(evt);
         } catch (IOException ex) {
             Logger.getLogger(ConfigurarTabla.class.getName()).log(Level.SEVERE, null, ex);

@@ -25,6 +25,7 @@ public class ResponderD extends javax.swing.JDialog {
         initComponents();
         setDefaultCloseOperation(0);
         setResizable(false);
+        //setLocationRelativeTo(null);
         setTitle("Responder ticket");
         this.mainFrame = (Main) parent;
         this.miTick = miTick;
@@ -57,17 +58,6 @@ public class ResponderD extends javax.swing.JDialog {
     private void initComponents() {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 520, Short.MAX_VALUE)
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 380, Short.MAX_VALUE)
-        );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents

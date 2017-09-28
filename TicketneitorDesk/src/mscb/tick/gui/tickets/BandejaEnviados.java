@@ -6,15 +6,21 @@
 package mscb.tick.gui.tickets;
 
 import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableModel;
+import javax.swing.table.TableRowSorter;
 import mscb.tick.negocio.entidades.Tickets;
 import mscb.tick.negocio.EstadoServ;
 import mscb.tick.negocio.HistorialServ;
@@ -69,6 +75,34 @@ public class BandejaEnviados extends MenuP {
         return estePanel;
     }
     public void configurarTabla(JTable MiTabla){
+        // Instanciamos el TableRowSorter y lo añadimos al JTable
+        
+        /*TableRowSorter<TableModel> elQueOrdena = new TableRowSorter<>(modelo);
+        elQueOrdena.setComparator(0, (String t, String t1) -> Integer.parseInt(t)-Integer.parseInt(t1));
+        elQueOrdena.setComparator(1, (String t, String t1) -> {
+            
+            Date d1 = null;
+            Date d2 = null;
+
+            DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+            
+            try {
+                d1 = dateFormat.parse(t);
+                d2 = dateFormat.parse(t1);
+            } catch (ParseException ex) {
+                Logger.getLogger(BandejaEnviados.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            
+            if(d1.compareTo(d2) < 0){
+                return -1;
+            }
+            if(d1.compareTo(d2) > 0){
+                return 1;
+            }
+            return 0;
+        });
+       
+        MiTabla.setRowSorter(elQueOrdena);*/
         //MiTabla.setIntercellSpacing(Dimension newSpacing);
         MiTabla.setRowHeight(20);
         //MiTabla.setRowHeight(row, rowHeight);
@@ -84,8 +118,7 @@ public class BandejaEnviados extends MenuP {
         Collections.sort(miLista,compara);
         
         String v[] = new String[8];
-        DateFormat dateFormatter;
-        dateFormatter = DateFormat.getDateInstance(DateFormat.SHORT, Locale.UK);
+        DateFormat dateFormatter = DateFormat.getDateInstance(DateFormat.SHORT, Locale.UK);
 
         for (int i = 0; i < miLista.size(); i++) {
             v[0] = miLista.get(i).getIdTicket().toString();
@@ -202,7 +235,6 @@ public class BandejaEnviados extends MenuP {
         jScrollPane1 = new javax.swing.JScrollPane();
         jt_tickets = new javax.swing.JTable();
         lblNombreUsuario = new javax.swing.JLabel();
-        btn_observacion = new javax.swing.JButton();
         btn_verResp = new javax.swing.JButton();
         btn_refrescar = new javax.swing.JButton();
         btn_volver = new javax.swing.JButton();
@@ -267,17 +299,6 @@ public class BandejaEnviados extends MenuP {
         lblNombreUsuario.setForeground(new java.awt.Color(255, 255, 255));
         lblNombreUsuario.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
 
-        btn_observacion.setBackground(new java.awt.Color(153, 153, 153));
-        btn_observacion.setFont(new java.awt.Font("SansSerif", 1, 10)); // NOI18N
-        btn_observacion.setForeground(new java.awt.Color(0, 108, 118));
-        btn_observacion.setIcon(new javax.swing.ImageIcon(getClass().getResource("/mscb/tick/resources/imagenes/icons/observation.png"))); // NOI18N
-        btn_observacion.setText("Ver observacion");
-        btn_observacion.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btn_observacionActionPerformed(evt);
-            }
-        });
-
         btn_verResp.setBackground(new java.awt.Color(153, 153, 153));
         btn_verResp.setFont(new java.awt.Font("SansSerif", 1, 10)); // NOI18N
         btn_verResp.setForeground(new java.awt.Color(0, 108, 118));
@@ -332,9 +353,7 @@ public class BandejaEnviados extends MenuP {
                         .addComponent(btn_volver, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addComponent(btn_responder1, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 202, Short.MAX_VALUE)
-                        .addComponent(btn_observacion)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(btn_verResp)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(btn_refrescar))
@@ -342,7 +361,7 @@ public class BandejaEnviados extends MenuP {
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addComponent(lblNombreUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 206, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(155, 155, 155)
-                        .addComponent(txt_id)))
+                        .addComponent(txt_id, javax.swing.GroupLayout.DEFAULT_SIZE, 442, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -359,7 +378,6 @@ public class BandejaEnviados extends MenuP {
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(btn_refrescar, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(btn_volver, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(btn_observacion, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(btn_verResp, javax.swing.GroupLayout.DEFAULT_SIZE, 43, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
@@ -379,15 +397,6 @@ public class BandejaEnviados extends MenuP {
             llenarTablaBuscador(serviciosT.buscar(txt_id.getText().trim()));
         }
     }//GEN-LAST:event_txt_idActionPerformed
-
-    private void btn_observacionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_observacionActionPerformed
-        // TODO add your handling code here:
-        if((jt_tickets.getSelectedRow() != -1)&&(jt_tickets.getSelectedRowCount() == 1)){
-            mainFrame.Observaciones(serviciosT.buscarUno(Integer.parseInt(modelo.getValueAt(jt_tickets.getSelectedRow(), 0).toString())));
-        }else{
-            JOptionPane.showMessageDialog(mainFrame, "Debe seleccionar una y solo una fila!");
-        }
-    }//GEN-LAST:event_btn_observacionActionPerformed
 
     private void btn_verRespActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_verRespActionPerformed
         // TODO add your handling code here:
@@ -436,7 +445,6 @@ public class BandejaEnviados extends MenuP {
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btn_observacion;
     private javax.swing.JButton btn_refrescar;
     private javax.swing.JButton btn_responder1;
     private javax.swing.JButton btn_verResp;

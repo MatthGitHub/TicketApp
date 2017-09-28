@@ -8,6 +8,7 @@ package mscb.tick.negocio;
 import java.util.List;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
+import mscb.tick.gui.main.Main;
 import mscb.tick.negocio.controladores.EstadosJpaController;
 import mscb.tick.negocio.entidades.Estados;
 
@@ -16,7 +17,8 @@ import mscb.tick.negocio.entidades.Estados;
  * @author Administrador
  */
 public class EstadoServ {
-    private EntityManagerFactory emf = Persistence.createEntityManagerFactory("TicketneitorPU");
+    private String PU = Main.getServer();
+    private EntityManagerFactory emf = EntitiesManager.getEntityManagerFactory();
     private EstadosJpaController jpa = new EstadosJpaController(emf);
     private static EstadoServ esto;
     

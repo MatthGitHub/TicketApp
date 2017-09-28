@@ -30,7 +30,9 @@ public class DetalleTicketDialog extends javax.swing.JDialog {
         setDefaultCloseOperation(1);
         setearValoresTicket(miBase);
         txtAObs.setLineWrap(true);
+        txtAObs.setWrapStyleWord(true);
         txtAReso.setLineWrap(true);
+        txtAReso.setWrapStyleWord(true);
         pack();
         setVisible(true);
         

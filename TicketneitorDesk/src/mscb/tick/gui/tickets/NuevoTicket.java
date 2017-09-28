@@ -168,7 +168,7 @@ public class NuevoTicket extends MenuP {
         Path sourceP = Paths.get(source.getAbsolutePath());
         SmbFile newFile = null;
         try {
-            newFile = new SmbFile("smb://10.20.130.242/www/TicketWeb/archivos/"+nombre, new NtlmPasswordAuthentication("", "administrador", "cavaliere"));
+            newFile = new SmbFile("smb://"+Main.getServer()+"/www/TicketWeb/archivos/"+nombre, new NtlmPasswordAuthentication("", "administrador", "cavaliere"));
         } catch (MalformedURLException ex) {
             Logger.getLogger(NuevoTicket.class.getName()).log(Level.SEVERE, null, ex);
             System.out.println("new SMBFile: "+ex);
@@ -580,7 +580,7 @@ public class NuevoTicket extends MenuP {
         b++;
         if(b != 1){
             b =0;
-            txtA_obs.setText("");
+            //txtA_obs.setText("");
             serviciosSecundario = AsuntoSecundarioServ.getAsuntoPrincipalServ();
             miListaAS = serviciosSecundario.traerPorAreaPrincipal((Asuntos) cmbx_asuntoPrincipal.getSelectedItem());
             
@@ -627,117 +627,77 @@ public class NuevoTicket extends MenuP {
 
     private void btn_guardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_guardarActionPerformed
         // TODO add your handling code here:
-        
-            if(JOptionPane.showConfirmDialog(mainFrame, "Seguro desea enviar?","Confirmar",JOptionPane.YES_NO_OPTION) == 0){
-                serviciosEst = EstadoServ.getEstadoServ();
-                serviciosT = TicketServ.getTicketServ();
-                miTick = new Tickets();
-                fecha = new Date();
-                miTick.setServicio((Servicios) cmbx_asuntoSecundario.getSelectedItem());
-                miTick.setFecha(fecha);
-                miTick.setCreador(LoginEJB.usuario);
-                String observacion = "";
-                if(!txtA_obs.getText().trim().isEmpty()){
-                    observacion = observacion + "Observacion: "+txtA_obs.getText();
-                }
-                if(!txt_solicita.getText().trim().isEmpty()){
-                    observacion = observacion + "Solicita: "+txt_solicita.getText()+"\n";
-                }
-                if(!txt_areaE.getText().trim().isEmpty()){
-                    observacion = observacion + "Area emisora: "+txt_areaE.getText()+"\n";
-                }
-                if(!txt_edificio.getText().trim().isEmpty()){
-                    observacion = observacion + "Lugar de trabajo: "+txt_edificio.getText()+"\n";
-                }
-                if(!observacion.trim().isEmpty()){
-                    miTick.setObservacion(observacion);
-                }else{
-                    miTick.setObservacion(null);
-                }
-                /*if(!txt_solicita.getText().isEmpty()){
-                    if(!txt_areaE.getText().isEmpty()){
-                        if(!txtA_obs.getText().isEmpty()){
-                            miTick.setObservacion("Solicita: "+txt_solicita.getText()+"\n Area Emisora: "+txt_areaE.getText()+"\n Observacion: "+txtA_obs.getText());
-                        }else{
-                             miTick.setObservacion("Solicita: "+txt_solicita.getText()+"\n Area Emisora: "+txt_areaE.getText());
-                        }
-                    }else{
-                        if(!txtA_obs.getText().isEmpty()){
-                            miTick.setObservacion("Solicita: "+txt_solicita.getText()+"\n Observacion: "+txtA_obs.getText());
-                        }else{
-                            miTick.setObservacion("Solicita: "+txt_solicita.getText());
-                        }
-                    }
-                }else{
-                    if(!txt_areaE.getText().isEmpty()){
-                        if(textAutoAcompleter.itemExists(textAutoAcompleter.getItemSelected())){
-                            if(!txtA_obs.getText().isEmpty()){
-                                miTick.setObservacion("Area Emisora: "+txt_areaE.getText()+"\n Observacion: "+txtA_obs.getText());
-                            }else{
-                                 miTick.setObservacion("Area Emisora: "+txt_areaE.getText());
-                            }
-                        }else{
-                            JOptionPane.showMessageDialog(mainFrame, "Error", "Error al seleccionar area emisora", JOptionPane.ERROR_MESSAGE);
-                        }   
-                    }else{
-                        if(!txtA_obs.getText().isEmpty()){
-                            miTick.setObservacion("Observacion: "+txtA_obs.getText());
-                        }else{
-                            miTick.setObservacion("");
-                        }
-                    }
-                }*/
-                
-                if(txt_edificio.getText().trim().isEmpty()){
-                    
-                }else{
-                    miTick.setFkEdificio(EdificioServ.getEdificioServ().buscarUno(txt_edificio.getText()));
-                }
-                
-                miTick.setPatrimonio(txt_patrimonio.getText());
-                //Completo numero de nota para que cumpla con el estandar
-                if(txt_n_nota.getText().trim().length() < 4){
-                    for(int i = 0; i < 4-txt_n_nota.getText().trim().length();i++){
-                        txt_n_nota.setText("0"+txt_n_nota.getText().trim());
-                    }
-                }
-                if(txt_area_nota.getText().trim().isEmpty()){
-                    txt_area_nota.setText("--------");
-                }
-                miTick.setNotaEntrada(txt_n_nota.getText()+"-"+txt_area_nota.getText().trim());
-                //Creo el historial de enviado
-                if(serviciosT.nuevoTicket(miTick) == 0){
-                    JOptionPane.showMessageDialog(mainFrame, "Ticket enviado...");
-                    HistorialServ serviciosH = HistorialServ.getHistorialServ();
-                    HistorialTickets miHis = new HistorialTickets();
-                    Date fecha = new Date();
-                    miHis.setFecha(fecha);
-                    miHis.setHora(fecha);
-                    miHis.setFkTicket(miTick);
-                    //miHis.setFkUsuario(LoginEJB.usuario);
-                    miHis.setFkEstado(serviciosEst.traerEstado(1));
-                    if(!cmbx_usuarios.getSelectedItem().equals("Sin")){
-                        miHis.setFkUsuario((Usuarios) cmbx_usuarios.getSelectedItem());
-                    }
-                    //Edito el ticket y le agrego el adjunto si es que hay
-                    if(archivoElegido != null){
-                    miTick.setAdjunto(miTick.getIdTicket()+"."+StringUtils.getFilenameExtension(archivoElegido.getPath()).toLowerCase());
-                        if(serviciosT.modificarTicket(miTick) == 0){
-                            copyFile(archivoElegido,miTick.getIdTicket()+"."+StringUtils.getFilenameExtension(archivoElegido.getPath()).toLowerCase());
-                        }
-                    }
-                    serviciosH.nuevo(miHis);
-                    mainFrame.menuPrincipal();
-                    this.setVisible(false);
-                    b=0;
-                    form = null;
-                    System.gc();
-                }else{
-                    JOptionPane.showMessageDialog(mainFrame,"No se envio ticket","Error", JOptionPane.ERROR_MESSAGE);
-                }
-                
+        serviciosEst = EstadoServ.getEstadoServ();
+        serviciosT = TicketServ.getTicketServ();
+        miTick = new Tickets();
+        fecha = new Date();
+        miTick.setServicio((Servicios) cmbx_asuntoSecundario.getSelectedItem());
+        miTick.setFecha(fecha);
+        miTick.setCreador(LoginEJB.usuario);
+        String observacion = "";
+        if(!txtA_obs.getText().trim().isEmpty()){
+            observacion = observacion + txtA_obs.getText()+"\n";
+        }
+        if(!txt_solicita.getText().trim().isEmpty()){
+            observacion = observacion + "Solicita: "+txt_solicita.getText()+"\n";
+        }
+        if(!txt_areaE.getText().trim().isEmpty()){
+            observacion = observacion + "Area emisora: "+txt_areaE.getText()+"\n";
+        }
+        if(!observacion.trim().isEmpty()){
+            miTick.setObservacion(observacion);
+        }else{
+            miTick.setObservacion(null);
+        }
+
+        if(txt_edificio.getText().trim().isEmpty()){
+
+        }else{
+            miTick.setFkEdificio(EdificioServ.getEdificioServ().buscarUno(txt_edificio.getText()));
+        }
+
+        miTick.setPatrimonio(txt_patrimonio.getText());
+        //Completo numero de nota para que cumpla con el estandar
+        if(txt_n_nota.getText().trim().length() < 4){
+            for(int i = 0; i < 4-txt_n_nota.getText().trim().length();i++){
+                txt_n_nota.setText("0"+txt_n_nota.getText().trim());
             }
-        
+        }
+        if(txt_area_nota.getText().trim().isEmpty()){
+            txt_area_nota.setText("--------");
+        }
+        miTick.setNotaEntrada(txt_n_nota.getText()+"-"+txt_area_nota.getText().trim());
+        //Creo el historial de enviado
+        if(serviciosT.nuevoTicket(miTick) == 0){
+            //JOptionPane.showMessageDialog(mainFrame, "Ticket enviado...");
+            HistorialServ serviciosH = HistorialServ.getHistorialServ();
+            HistorialTickets miHis = new HistorialTickets();
+            Date fecha = new Date();
+            miHis.setFecha(fecha);
+            miHis.setHora(fecha);
+            miHis.setFkTicket(miTick);
+            //miHis.setFkUsuario(LoginEJB.usuario);
+            miHis.setFkEstado(serviciosEst.traerEstado(1));
+            if(!cmbx_usuarios.getSelectedItem().equals("Sin")){
+                miHis.setFkUsuario((Usuarios) cmbx_usuarios.getSelectedItem());
+            }
+            //Edito el ticket y le agrego el adjunto si es que hay
+            if(archivoElegido != null){
+            miTick.setAdjunto(miTick.getIdTicket()+"."+StringUtils.getFilenameExtension(archivoElegido.getPath()).toLowerCase());
+                if(serviciosT.modificarTicket(miTick) == 0){
+                    copyFile(archivoElegido,miTick.getIdTicket()+"."+StringUtils.getFilenameExtension(archivoElegido.getPath()).toLowerCase());
+                }
+            }
+            serviciosH.nuevo(miHis);
+            BandejaTickets.getBandejaTickets(mainFrame).llenarTabla();
+            mainFrame.bandejaEntrada();
+            this.setVisible(false);
+            b=0;
+            form = null;
+            System.gc();
+        }else{
+            JOptionPane.showMessageDialog(mainFrame,"No se envio ticket","Error", JOptionPane.ERROR_MESSAGE);
+        }
     }//GEN-LAST:event_btn_guardarActionPerformed
 
     private void cmbx_areasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbx_areasActionPerformed

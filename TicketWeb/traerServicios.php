@@ -19,4 +19,5 @@ if(isset($_POST["idAsunto"]))
 
 		echo $opciones;
 	}
+	mysqli_close($link);
 	?>

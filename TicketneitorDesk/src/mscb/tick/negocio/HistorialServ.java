@@ -11,6 +11,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
+import mscb.tick.gui.main.Main;
 import mscb.tick.negocio.controladores.HistorialTicketsJpaController;
 import mscb.tick.negocio.entidades.Areas;
 import mscb.tick.negocio.entidades.HistorialTickets;
@@ -22,7 +23,8 @@ import mscb.tick.negocio.entidades.Usuarios;
  * @author Administrador
  */
 public class HistorialServ {
-    private static EntityManagerFactory emf = Persistence.createEntityManagerFactory("TicketneitorPU");
+    private static String PU = Main.getServer();
+    private static EntityManagerFactory emf = EntitiesManager.getEntityManagerFactory();
     private HistorialTicketsJpaController jpa = new HistorialTicketsJpaController(emf);
     private static HistorialServ esto;
     
@@ -34,7 +36,7 @@ public class HistorialServ {
         if(esto == null){
             esto = new HistorialServ();
         }
-        emf.getCache().evictAll();
+        emf.getCache().evict(HistorialTickets.class);
         return esto;
     }
     

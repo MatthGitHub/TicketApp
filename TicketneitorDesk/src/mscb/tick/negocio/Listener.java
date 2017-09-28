@@ -37,9 +37,11 @@ public class Listener extends Thread {
     public void run(){
         //int ran=1;
         while(ran == 1){
-            int f;
+            int f = 0;
             dif = DiferenciasBD.getDiferenciasBD();
             f = dif.buscarDiferencias();
+            //System.err.println("Buscando diferencias - Aun no se conecta el usuario"+e);
+            
             
             if(f != 0){
                 System.out.println("Hay nuevos tickets: "+LoginEJB.usuario.getNombreUsuario());

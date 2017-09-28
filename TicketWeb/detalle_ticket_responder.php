@@ -33,7 +33,7 @@ $idTicket = $_GET['idTicket'];
 		//echo "ID:".$ticket['observacion'];
 		//exit();
 	}
-
+mysqli_close($link);
 ?>
 
 <!DOCTYPE html">
@@ -125,7 +125,19 @@ $idTicket = $_GET['idTicket'];
 					 <div class='alert alert-warning-alt alert-dismissable'>
 									 <span class='glyphicon glyphicon-exclamation-sign'></span>
 									 <button type='button' class='close' data-dismiss='alert' aria-hidden='true'>
-										 ×</button>Ha habido un error.</div>
+										 ×</button>El campo observacion no puede estar vacio.</div>
+					 ";
+					 }else{
+					 echo "";
+					 }
+					 ?>
+					 <?php
+					 if(isset($_GET['errordb'])){
+					 echo "
+					 <div class='alert alert-warning-alt alert-dismissable'>
+									 <span class='glyphicon glyphicon-exclamation-sign'></span>
+									 <button type='button' class='close' data-dismiss='alert' aria-hidden='true'>
+										 ×</button>Error en la base de datos.</div>
 					 ";
 					 }else{
 					 echo "";

@@ -69,7 +69,7 @@ if($tipo == 'ticket'){
       // Si entramos es que todo se ha realizado correctamente
       $asunto = $_POST['asunto'];
   		$servicio = $_POST['servicios'];
-  		$obs = $_POST['observacion']." - Numero de interno: ".$_POST['interno'];
+  		$obs = $_POST['observacion']."\r\n"." - Numero de interno: ".$_POST['interno']."\r\n"."Adjunto: ".$_FILES["archivo"]['name'];
       $fecha = date('Y-m-d');
       $time = time();
       $hora = date('Y-m-d H:i:s');
@@ -77,16 +77,20 @@ if($tipo == 'ticket'){
       $adjunto = $_FILES["archivo"]['name'];
       $tipo_archivo = $_FILES["archivo"]['type'];
 
+      //echo "TIPO: ".$tipo_archivo;
+      //exit();
+
       $link = mysqli_connect ($dbhost, $dbusername, $dbuserpass);
       mysqli_select_db($link,$dbname);
+      mysqli_set_charset($link,'utf8');
 
       // Con esta sentencia SQL insertaremos los datos en la base de datos
-      mysqli_query($link,"INSERT INTO tickets (fecha,hora,creador,servicio,observacion)
-      VALUES ('{$fecha}','{$hora}','{$usuario}','{$servicio}','{$obs}')");
+      mysqli_query($link,"INSERT INTO tickets (fecha,creador,servicio,observacion)
+      VALUES ('{$fecha}','{$usuario}','{$servicio}','{$obs}')");
       // Ahora comprobaremos que todo ha ido correctamente
-      $my_error = mysqli_error();
+      $my_error = mysqli_error($link);
       $idTicket = mysqli_insert_id($link);
-      mysqli_query($link,"INSERT INTO historial_tickets (fk_ticket,fk_usuario,fecha,fk_estado) VALUES ({$idTicket},'{$usuario}','{$fecha}',1)");
+      mysqli_query($link,"INSERT INTO historial_tickets (fk_ticket,fk_usuario,fecha,hora,fk_estado) VALUES ({$idTicket},'{$usuario}','{$fecha}','{$hora}',1)");
 
       if ((strpos($tipo_archivo, "pdf") || strpos($tipo_archivo, "jpeg") || strpos($tipo_archivo, "doc") || strpos($tipo_archivo, "txt") || strpos($tipo_archivo, "docx"))){
 
@@ -107,13 +111,19 @@ if($tipo == 'ticket'){
           case 'image/jpeg':
             $adjunto = $idTicket.'.jpg';
             break;
+          case 'application/vnd.oasis.opendocument.text':
+            $adjunto = $idTicket.'.odt';
+            break;
+          case 'application/vnd.oasis.opendocument.spreadsheet':
+            $adjunto = $idTicket.'.ods';
+            break;
         }
         mysqli_query($link,"UPDATE tickets SET adjunto = '$adjunto' WHERE id_ticket = $idTicket");
 
       }
 
       if(!empty($my_error)) {
-
+          mysqli_close($link);
           header ("Location: ticket_nuevo.php?errordat");
 
       } else {
@@ -145,12 +155,13 @@ if($tipo == 'ticket'){
         }else{
           echo $msg;
         }
+        mysqli_close($link);
         header ("Location: tickets_recientes.php");
 
       }
 
     } else {
-
+        mysqli_close($link);
          header ("Location: ticket_nuevo.php?errordb");
 
     }

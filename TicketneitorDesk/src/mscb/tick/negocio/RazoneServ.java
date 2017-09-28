@@ -8,6 +8,7 @@ package mscb.tick.negocio;
 import java.util.List;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
+import mscb.tick.gui.main.Main;
 import mscb.tick.negocio.controladores.RazonesTransferenciasJpaController;
 import mscb.tick.negocio.entidades.RazonesTransferencias;
 
@@ -16,7 +17,8 @@ import mscb.tick.negocio.entidades.RazonesTransferencias;
  * @author Administrador
  */
 public class RazoneServ {
-    private EntityManagerFactory emf = Persistence.createEntityManagerFactory("TicketneitorPU");
+    private String PU = Main.getServer();
+    private EntityManagerFactory emf = EntitiesManager.getEntityManagerFactory();
     private RazonesTransferenciasJpaController jpa = new RazonesTransferenciasJpaController(emf);
     private static RazoneServ esto;
     

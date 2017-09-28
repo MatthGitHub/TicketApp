@@ -4,7 +4,7 @@ Fecha	true
 LugarTrabajo	false
 Estado	true
 Hora	true
-Asunto	true
+Asunto	false
 Receptor	true
 Patrimonio	false
 Adjunto	true

@@ -67,7 +67,6 @@ import mscb.tick.negocio.ConfiguracioneServ;
 import mscb.tick.negocio.entidades.Configuracion;
 import mscb.tick.negocio.entidades.HistorialTickets;
 import mscb.tick.util.Funciones;
-import static mscb.tick.util.Funciones.connectToServer;
 import mscb.tick.util.MySystemTray;
 
 /**
@@ -79,6 +78,7 @@ import mscb.tick.util.MySystemTray;
 public class Main extends javax.swing.JFrame {
     private static Main esteMain;
     public static Configuracion version;
+    public static String server;
     //Objetos de los paneles.
     private Listener escuchador;
     private Actualizador actualizador;
@@ -159,17 +159,21 @@ public class Main extends javax.swing.JFrame {
     private Main() {
         initComponents();
         version = new Configuracion();
+        try {
+            server = ConfiguracionServer.getConfiguracionServer().getConfiguracion().getServer();
+        } catch (IOException ex) {
+            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        System.out.println("Server: "+server);
         version.setIdConfiguracion(1);
         version.setNombre("version");
-        version.setDescripcion("6.2.8");
+        version.setDescripcion("6.4.4");
         mySystemTray = MySystemTray.getMySystemTray(this);
         setDefaultCloseOperation(0);
         setResizable(false);
         setLocationRelativeTo(null);
-        escuchador =  Listener.getListener(1);
         actualizador = new Actualizador(this);
         ventanaLogin();
-        escuchador.start();
         actualizador.start();
         crearArchivoBlockeo();
         conectarAlServidor();
@@ -194,6 +198,9 @@ public class Main extends javax.swing.JFrame {
         return esteMain;
     }
     
+    public static String getServer(){
+        return Main.server;
+    }
     /**
      * Verifica la version actual de la aplicacion contra la base de datos y si son diferentes avisa que hay
      * una nueva version o ejecuta la actualizacion si es una actualizacion obligatoria
@@ -217,9 +224,9 @@ public class Main extends javax.swing.JFrame {
     public void crearArchivoBlockeo(){
         File aBorrar = new File("Block.info").getAbsoluteFile();
         if(aBorrar.delete()){
-             System.out.println("Se borro archivo");
+             //System.out.println("Se borro archivo");
         }else{
-            System.out.println("No se borro archivo");
+            //System.out.println("No se borro archivo");
         }
         
         String ruta = new File("Block.info").getAbsolutePath();
@@ -348,6 +355,13 @@ public class Main extends javax.swing.JFrame {
             mi_edificios.setVisible(true);
         }else{
             mi_edificios.setVisible(false);
+        }
+        
+        //ConfigurarSistema
+        if(permisosU.contains(serviciosP.traerUno(51))){
+            mi_sistema.setVisible(true);
+        }else{
+            mi_sistema.setVisible(false);
         }
         
     }
@@ -972,9 +986,9 @@ public class Main extends javax.swing.JFrame {
         }
         
         if(aBorrar.delete()){
-             System.out.println("Se borro archivo");
+             //System.out.println("Se borro archivo");
         }else{
-            System.out.println("No se borro archivo");
+            //System.out.println("No se borro archivo");
         }
         desconectarDelServidor();
         System.exit(0);
@@ -1013,6 +1027,7 @@ public class Main extends javax.swing.JFrame {
         mi_asignar = new javax.swing.JMenuItem();
         mi_roles = new javax.swing.JMenuItem();
         mi_empleados = new javax.swing.JMenuItem();
+        mi_sistema = new javax.swing.JMenuItem();
         mi_empleados1 = new javax.swing.JMenuItem();
 
         chkbx_thread.setText("jCheckBox1");
@@ -1222,6 +1237,16 @@ public class Main extends javax.swing.JFrame {
         });
         jM_configuracion.add(mi_empleados);
 
+        mi_sistema.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_E, java.awt.event.InputEvent.CTRL_MASK));
+        mi_sistema.setFont(new java.awt.Font("SansSerif", 0, 11)); // NOI18N
+        mi_sistema.setText("Sistema");
+        mi_sistema.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mi_sistemaActionPerformed(evt);
+            }
+        });
+        jM_configuracion.add(mi_sistema);
+
         mi_empleados1.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F11, 0));
         mi_empleados1.setFont(new java.awt.Font("SansSerif", 0, 11)); // NOI18N
         mi_empleados1.setText("Ayuda");
@@ -1363,9 +1388,13 @@ public class Main extends javax.swing.JFrame {
 
     private void mi_aactualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mi_aactualizarActionPerformed
         // TODO add your handling code here:
-        if(JOptionPane.showConfirmDialog(null,"Seguro desea actualizar", "Confirmar", JOptionPane.YES_NO_OPTION)==0){
-            actualizarPrograma();
-        }
+            if(ConfiguracioneServ.getConfiguracioneServ().validarVersion(version)){
+                if(JOptionPane.showConfirmDialog(null,"Seguro desea actualizar", "Confirmar", JOptionPane.YES_NO_OPTION)==0){
+                    actualizarPrograma();
+                }
+            }else{
+                JOptionPane.showMessageDialog(this, "No hay actualizaciones nuevas");
+            }
     }//GEN-LAST:event_mi_aactualizarActionPerformed
 
     private void mi_edificiosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mi_edificiosActionPerformed
@@ -1374,6 +1403,15 @@ public class Main extends javax.swing.JFrame {
         edificios();
         this.repaint();
     }//GEN-LAST:event_mi_edificiosActionPerformed
+
+    private void mi_sistemaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mi_sistemaActionPerformed
+        // TODO add your handling code here:
+        try {
+            server = ConfiguracionServer.getConfiguracionServer().crearNuevaConfiguracion().getServer();
+        } catch (IOException ex) {
+            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_mi_sistemaActionPerformed
 
     /**
      * @param args the command line arguments
@@ -1432,6 +1470,7 @@ public class Main extends javax.swing.JFrame {
     private javax.swing.JMenuItem mi_roles;
     private javax.swing.JMenuItem mi_salir;
     private javax.swing.JMenuItem mi_servicios;
+    private javax.swing.JMenuItem mi_sistema;
     private javax.swing.JMenuItem mi_usuarios;
     // End of variables declaration//GEN-END:variables
 

@@ -8,6 +8,7 @@ package mscb.tick.negocio;
 import java.util.List;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
+import mscb.tick.gui.main.Main;
 import mscb.tick.negocio.controladores.RolesJpaController;
 import mscb.tick.negocio.entidades.Roles;
 
@@ -16,7 +17,8 @@ import mscb.tick.negocio.entidades.Roles;
  * @author Administrador
  */
 public class RoleServ {
-    private EntityManagerFactory emf = Persistence.createEntityManagerFactory("TicketneitorPU");
+    private String PU = Main.getServer();
+    private EntityManagerFactory emf = EntitiesManager.getEntityManagerFactory();
     private RolesJpaController jpa = new RolesJpaController(emf);
     private static RoleServ esto;
     

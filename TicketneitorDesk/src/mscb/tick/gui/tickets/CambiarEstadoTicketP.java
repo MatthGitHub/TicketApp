@@ -200,6 +200,7 @@ public class CambiarEstadoTicketP extends MenuP {
             Date fecha = new Date();
             his.setFkEstado((Estados) cmbx_estados.getSelectedItem());
             his.setFecha(fecha);
+            his.setHora(fecha);
             his.setFkTicket(miTick);
             his.setFkUsuario(LoginEJB.usuario);
             his.setResolucion(miTick.getResolucion());

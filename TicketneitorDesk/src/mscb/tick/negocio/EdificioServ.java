@@ -8,6 +8,7 @@ package mscb.tick.negocio;
 import java.util.List;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
+import mscb.tick.gui.main.Main;
 import mscb.tick.negocio.controladores.EdificiosJpaController;
 import mscb.tick.negocio.entidades.Edificios;
 
@@ -17,6 +18,10 @@ import mscb.tick.negocio.entidades.Edificios;
  */
 public class EdificioServ {
     private static EdificioServ estaClase;
+    private String PU = Main.getServer();
+    private EntityManagerFactory emf = EntitiesManager.getEntityManagerFactory();
+    private EdificiosJpaController jpa = new EdificiosJpaController(emf);
+
     
     private EdificioServ(){
         
@@ -31,15 +36,10 @@ public class EdificioServ {
     
     
     public List<Edificios> traerTodos(){
-        EntityManagerFactory emf = Persistence.createEntityManagerFactory("TicketneitorPU");
-        EdificiosJpaController jpa = new EdificiosJpaController(emf);
-        
         return jpa.findEdificiosEntities();
     }
     
     public Edificios buscarUno(String nombre){
-        EntityManagerFactory emf = Persistence.createEntityManagerFactory("TicketneitorPU");
-        EdificiosJpaController jpa = new EdificiosJpaController(emf);
         List<Edificios> miLista = jpa.findEdificiosEntities();
         
         for(int i = 0; i < miLista.size(); i++){
@@ -51,9 +51,6 @@ public class EdificioServ {
     }
     
     public void nuevo(Edificios nuevo) throws Exception{
-        EntityManagerFactory emf = Persistence.createEntityManagerFactory("TicketneitorPU");
-        EdificiosJpaController jpa = new EdificiosJpaController(emf);
-        
         jpa.create(nuevo);
     }
     

@@ -11,6 +11,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import javax.persistence.Query;
+import mscb.tick.gui.main.Main;
 import mscb.tick.negocio.controladores.AreasJpaController;
 import mscb.tick.negocio.entidades.Areas;
 
@@ -19,7 +20,8 @@ import mscb.tick.negocio.entidades.Areas;
  * @author Administrador
  */
 public class AreaServ {
-    private EntityManagerFactory emf = Persistence.createEntityManagerFactory("TicketneitorPU");
+    private String PU = Main.getServer();
+    private EntityManagerFactory emf = EntitiesManager.getEntityManagerFactory();
     private AreasJpaController jpa = new AreasJpaController(emf);
     private List<Areas> miLista;
     private static AreaServ esto;

@@ -10,14 +10,16 @@ $id_usuario =  $_SESSION["id_usuario"];
 $link = mysqli_connect ($dbhost, $dbusername, $dbuserpass);
 mysqli_set_charset($link,'utf8');
 mysqli_select_db($link,$dbname) or die('No se puede seleccionar la base de datos');
-$query = mysqli_query($link,"SELECT id_ticket,ht.fecha,SUBSTRING(CAST(hora AS CHAR),11,24) AS hora,nombre,observacion, resolucion,adjunto
+$query = mysqli_query($link,"SELECT id_ticket,ht.fecha,SUBSTRING(CAST(ht.hora AS CHAR),11,24) AS hora,nombre,observacion, resolucion,adjunto
                               FROM tickets t
                               JOIN historial_tickets ht ON ht.fk_ticket = t.id_ticket
                               JOIN estados e ON ht.fk_estado = e.id_estado
                               WHERE t.creador = $id_usuario
                               AND ht.fk_estado NOT IN (7,5)
                               AND ht.id_historial IN (SELECT MAX(id_historial) FROM historial_tickets WHERE fk_ticket = t.id_ticket)
-                              ORDER by id_ticket DESC") or die(mysql_error());
+                              ORDER by id_ticket DESC") or die(mysqli_error($link));
+
+mysqli_close($link);
 ?>
 
 <!DOCTYPE html>

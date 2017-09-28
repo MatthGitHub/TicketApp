@@ -1,40 +1,51 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <persistence version="2.1" xmlns="http://xmlns.jcp.org/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd">
-  <persistence-unit name="TicketneitorPU" transaction-type="RESOURCE_LOCAL">
+  <persistence-unit name="10.20.130.242" transaction-type="RESOURCE_LOCAL">
     <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
-    <class>mscb.tick.entidades.AreaSistemas</class>
-    <class>mscb.tick.entidades.Areas</class>
-    <class>mscb.tick.entidades.Asuntos</class>
-    <class>mscb.tick.entidades.BaseConocimiento</class>
-    <class>mscb.tick.entidades.Empleados</class>
-    <class>mscb.tick.entidades.EstadoActualPgm</class>
-    <class>mscb.tick.entidades.Estados</class>
-    <class>mscb.tick.entidades.EstadosPgm</class>
-    <class>mscb.tick.entidades.HistorialTickets</class>
-    <class>mscb.tick.entidades.Permisos</class>
-    <class>mscb.tick.entidades.RazonesTransferencias</class>
-    <class>mscb.tick.entidades.Respuestas</class>
-    <class>mscb.tick.entidades.Roles</class>
-    <class>mscb.tick.entidades.Servicios</class>
-    <class>mscb.tick.entidades.Tickets</class>
-    <class>mscb.tick.entidades.Usuarios</class>
-    <class>mscb.tick.negocio.entidades.RazonesTransferencias</class>
-    <class>mscb.tick.negocio.entidades.Usuarios</class>
-    <class>mscb.tick.negocio.entidades.Servicios</class>
-    <class>mscb.tick.negocio.entidades.Permisos</class>
+    <class>mscb.tick.negocio.entidades.Areas</class>
+    <class>mscb.tick.negocio.entidades.Asuntos</class>
+    <class>mscb.tick.negocio.entidades.Configuracion</class>
+    <class>mscb.tick.negocio.entidades.Edificios</class>
+    <class>mscb.tick.negocio.entidades.Empleados</class>
+    <class>mscb.tick.negocio.entidades.EstadoActualPgm</class>
+    <class>mscb.tick.negocio.entidades.Estados</class>
     <class>mscb.tick.negocio.entidades.EstadosPgm</class>
     <class>mscb.tick.negocio.entidades.HistorialTickets</class>
+    <class>mscb.tick.negocio.entidades.Permisos</class>
+    <class>mscb.tick.negocio.entidades.RazonesTransferencias</class>
     <class>mscb.tick.negocio.entidades.Roles</class>
-    <class>mscb.tick.negocio.entidades.Asuntos</class>
-    <class>mscb.tick.negocio.entidades.EstadoActualPgm</class>
+    <class>mscb.tick.negocio.entidades.Servicios</class>
     <class>mscb.tick.negocio.entidades.Tickets</class>
-    <class>mscb.tick.negocio.entidades.Areas</class>
-    <class>mscb.tick.negocio.entidades.Estados</class>
-    <class>mscb.tick.negocio.entidades.Empleados</class>
-    <class>mscb.tick.negocio.entidades.Edificios</class>
-    <class>mscb.tick.negocio.entidades.Configuracion</class>
+    <class>mscb.tick.negocio.entidades.Usuarios</class>
     <properties>
+      <property name="eclipselink.canonicalmodel.subpackage" value="uno"/>
       <property name="javax.persistence.jdbc.url" value="jdbc:mysql://10.20.130.242:3306/ticket?zeroDateTimeBehavior=convertToNull"/>
+      <property name="javax.persistence.jdbc.user" value="administrador"/>
+      <property name="javax.persistence.jdbc.driver" value="com.mysql.jdbc.Driver"/>
+      <property name="javax.persistence.jdbc.password" value="cavaliere"/>
+      <property name="javax.persistence.schema-generation.database.action" value="create"/>
+    </properties>
+  </persistence-unit>
+  <persistence-unit name="10.20.110.20" transaction-type="RESOURCE_LOCAL">
+    <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
+    <class>mscb.tick.negocio.entidades.Areas</class>
+    <class>mscb.tick.negocio.entidades.Asuntos</class>
+    <class>mscb.tick.negocio.entidades.Configuracion</class>
+    <class>mscb.tick.negocio.entidades.Edificios</class>
+    <class>mscb.tick.negocio.entidades.Empleados</class>
+    <class>mscb.tick.negocio.entidades.EstadoActualPgm</class>
+    <class>mscb.tick.negocio.entidades.Estados</class>
+    <class>mscb.tick.negocio.entidades.EstadosPgm</class>
+    <class>mscb.tick.negocio.entidades.HistorialTickets</class>
+    <class>mscb.tick.negocio.entidades.Permisos</class>
+    <class>mscb.tick.negocio.entidades.RazonesTransferencias</class>
+    <class>mscb.tick.negocio.entidades.Roles</class>
+    <class>mscb.tick.negocio.entidades.Servicios</class>
+    <class>mscb.tick.negocio.entidades.Tickets</class>
+    <class>mscb.tick.negocio.entidades.Usuarios</class>
+    <properties>
+      <property name="eclipselink.canonicalmodel.subpackage" value="dos"/>
+      <property name="javax.persistence.jdbc.url" value="jdbc:mysql://10.20.110.20:3306/ticket?zeroDateTimeBehavior=convertToNull"/>
       <property name="javax.persistence.jdbc.user" value="administrador"/>
       <property name="javax.persistence.jdbc.driver" value="com.mysql.jdbc.Driver"/>
       <property name="javax.persistence.jdbc.password" value="cavaliere"/>

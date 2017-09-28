@@ -12,6 +12,7 @@ if ($_POST['nombre_usuario']) {
 	$nombre_usuario=htmlentities($_POST['nombre_usuario']);
 	$contrasenia=md5($_POST['contrasenia']);
 	if ($contrasenia==NULL) {
+		mysqli_close($link);
 		header ("Location: ../index.php?nopass");
 		exit();
 	}else{
@@ -19,6 +20,7 @@ if ($_POST['nombre_usuario']) {
 		$data = mysqli_fetch_array($query);
 		if($data['contrasenia'] != $contrasenia) {
 			//echo "No a introducido una contrasenia correcta";
+			mysqli_close($link);
 			header ("Location: ../index.php?errorpass");
 			exit();
 		}else{
@@ -45,15 +47,18 @@ if ($_POST['nombre_usuario']) {
 			$query = mysqli_query("UPDATE usuarios SET id_extreme='".$id_extreme."' WHERE nombre_usuario='".$nombre_usuario2."'") or die(mysql_error());
 			}
 			if($data['activo'] != 1){
+				mysqli_close($link);
 				header("Location: ../index.php?erroractiv");
 				exit();
 			}
+			mysqli_close($link);
 			header ("Location: ../inicio.php");
 			exit();
 			}
 	}
 }
 }else{
+	mysqli_close($link);
 	header("Location: ../index.php?errorpass");
 	exit();
 }

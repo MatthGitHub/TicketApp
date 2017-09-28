@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
+import mscb.tick.gui.main.Main;
 import mscb.tick.negocio.controladores.ServiciosJpaController;
 import mscb.tick.negocio.entidades.Asuntos;
 import mscb.tick.negocio.entidades.Servicios;
@@ -22,7 +23,8 @@ public class AsuntoSecundarioServ {
     private List <Servicios> miLista;
     private List <Servicios> aux;
     
-    private EntityManagerFactory emf = Persistence.createEntityManagerFactory("TicketneitorPU");
+    private String PU = Main.getServer();
+    private EntityManagerFactory emf = EntitiesManager.getEntityManagerFactory();
     private ServiciosJpaController jpa = new ServiciosJpaController(emf);
     private static AsuntoSecundarioServ esto;
     

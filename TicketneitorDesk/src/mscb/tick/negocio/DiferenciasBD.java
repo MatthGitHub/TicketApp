@@ -46,7 +46,12 @@ public class DiferenciasBD {
     }
 
     private void cargarCache() {
-        cacheDatos = TicketServ.getTicketServ().buscarPorUsuarioAsunto().size();
+        try{
+            cacheDatos = TicketServ.getTicketServ().buscarPorUsuarioAsunto().size();
+        }catch(Exception e){
+            System.err.println("Carga catché - Aun no se conecto el usuario"+e);
+        }
+        
     }
 
 }

@@ -8,6 +8,7 @@ package mscb.tick.negocio;
 import java.util.List;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
+import mscb.tick.gui.main.Main;
 import mscb.tick.negocio.controladores.PermisosJpaController;
 import mscb.tick.negocio.entidades.Permisos;
 import mscb.tick.negocio.entidades.Roles;
@@ -17,7 +18,8 @@ import mscb.tick.negocio.entidades.Roles;
  * @author Administrador
  */
 public class PermisoServ {
-    private EntityManagerFactory emf = Persistence.createEntityManagerFactory("TicketneitorPU");
+    private String PU = Main.getServer();
+    private EntityManagerFactory emf = EntitiesManager.getEntityManagerFactory();
     private PermisosJpaController jpa = new PermisosJpaController(emf);
     private static PermisoServ esto;
     

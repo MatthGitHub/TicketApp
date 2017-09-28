@@ -13,6 +13,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import javax.persistence.Query;
+import mscb.tick.gui.main.Main;
 import mscb.tick.negocio.controladores.TicketsJpaController;
 import mscb.tick.negocio.controladores.exceptions.IllegalOrphanException;
 import mscb.tick.negocio.controladores.exceptions.NonexistentEntityException;
@@ -30,20 +31,18 @@ public class TicketServ {
     
     private EstadoServ estad;
     private static TicketServ esto;
-    private static EntityManagerFactory emf;
-    private TicketsJpaController jpa;
-    
+    private static String PU = Main.getServer();
+    private static EntityManagerFactory emf = EntitiesManager.getEntityManagerFactory();
+    private TicketsJpaController jpa = new TicketsJpaController(emf);
     
     private TicketServ(){
-        emf = Persistence.createEntityManagerFactory("TicketneitorPU");
-        jpa = new TicketsJpaController(emf);
     }
      
     public static TicketServ getTicketServ(){
         if(esto == null){
             esto = new TicketServ();
         }
-        emf.getCache().evictAll();
+        emf.getCache().evict(Tickets.class);
         return esto;
     }
     public int nuevoTicket(Tickets nuevo){
@@ -79,16 +78,15 @@ public class TicketServ {
             }
         }
         
-        
         return aux;
     }
     
     public List<Tickets> traerTodosPorArea(Areas area){
-        EntityManager em = emf.createEntityManager();
+        EntityManager em = EntitiesManager.getEnetityManager();
         
         List<Tickets> aux = new ArrayList<>();
 
-        em.getTransaction().begin();
+        //em.getTransaction().begin();
         q = em.createNativeQuery("SELECT DISTINCT * FROM tickets t \n" +
                                 "JOIN historial_tickets ht ON ht.fk_ticket = t.id_ticket\n" +
                                 "JOIN servicios s ON t.servicio = s.id_asuntoS\n" +
@@ -107,16 +105,18 @@ public class TicketServ {
         q.setParameter(1, LoginEJB.usuario.getIdUsuario());
         q.setParameter(2, area.getIdArea());
         aux = q.getResultList();
+        /*em.clear();
+        em.close();*/
         return aux;
     }
     
     
      public List <Tickets> buscar(String id){
-        EntityManager em = emf.createEntityManager();
+        EntityManager em = EntitiesManager.getEnetityManager();
         
         List<Tickets> aux = new ArrayList<>();
         
-        em.getTransaction().begin();
+        //em.getTransaction().begin();
         q = em.createNativeQuery("SELECT DISTINCT * FROM tickets t \n" +
                                 "JOIN historial_tickets ht ON ht.fk_ticket = t.id_ticket\n" +
                                 "JOIN servicios s ON t.servicio = s.id_asuntoS\n" +
@@ -145,15 +145,49 @@ public class TicketServ {
         q.setParameter(2, "%"+id+"%");
         q.setParameter(3,id);
         aux = q.getResultList();
+        /*em.clear();
+        em.close();*/
+        return aux;
+    }
+     
+     public List <Tickets> buscarPorUsuario(String id){
+        EntityManager em = EntitiesManager.getEnetityManager();
+        
+        List<Tickets> aux = new ArrayList<>();
+        
+        //em.getTransaction().begin();
+        q = em.createNativeQuery("SELECT DISTINCT * FROM tickets t \n" +
+                                "JOIN historial_tickets ht ON ht.fk_ticket = t.id_ticket\n" +
+                                "JOIN servicios s ON t.servicio = s.id_asuntoS\n" +
+                                "JOIN asuntos a ON a.id_asuntoP = s.pertenece\n" +
+                                "JOIN estados e ON e.id_estado = ht.fk_estado\n" +
+                                "JOIN encargado_servicios es ON es.asunto = s.id_asuntoS\n" +
+                                "JOIN usuarios u2 ON u2.id_usuario = t.creador\n" +
+                                "LEFT JOIN usuarios u3 ON u3.id_usuario = ht.fk_usuario\n"+
+                                "LEFT JOIN edificios ed ON t.fkEdificio = ed.id_edificio\n" +
+                                "WHERE e.id_estado NOT IN (5,7)"+
+                                " AND ht.id_historial IN "+
+                                "(SELECT id_historial FROM "+
+                                "(SELECT MAX(id_historial) as id_historial,fk_ticket "+
+                                "FROM historial_tickets GROUP by fk_ticket ) AS ht2)"+
+                                " AND es.usuario = ?1 "+
+                                "AND u3.nombre_usuario LIKE ?2\n"+
+                                "ORDER by t.id_ticket",Tickets.class);
+        q.setParameter(1, LoginEJB.usuario.getIdUsuario());
+        q.setParameter(2, "%"+id+"%");
+        q.setParameter(3,id);
+        aux = q.getResultList();
+        /*em.clear();
+        em.close();*/
         return aux;
     }
      
      public List <Tickets> buscarTodos(String id){
-        EntityManager em = emf.createEntityManager();
+        EntityManager em = EntitiesManager.getEnetityManager();
         
         List<Tickets> aux = new ArrayList<>();
         
-        em.getTransaction().begin();
+        //em.getTransaction().begin();
         q = em.createNativeQuery("SELECT DISTINCT * FROM tickets t \n" +
                                 "JOIN historial_tickets ht ON ht.fk_ticket = t.id_ticket\n" +
                                 "JOIN servicios s ON t.servicio = s.id_asuntoS\n" +
@@ -182,6 +216,8 @@ public class TicketServ {
         q.setParameter(3,id);
         System.out.println();
         aux = q.getResultList();
+        /*em.clear();
+        em.close();*/
         return aux;
     }
     
@@ -194,7 +230,7 @@ public class TicketServ {
         
         List<Tickets> aux = new ArrayList<>();
 
-        em.getTransaction().begin();
+        //em.getTransaction().begin();
         q = em.createNativeQuery("SELECT DISTINCT * FROM tickets t \n" +
                                 "JOIN historial_tickets ht ON ht.fk_ticket = t.id_ticket\n" +
                                 "JOIN servicios s ON t.servicio = s.id_asuntoS\n" +
@@ -209,13 +245,15 @@ public class TicketServ {
                                 "ORDER by t.id_ticket",Tickets.class);
         q.setParameter(1, LoginEJB.usuario.getIdUsuario());
         aux = q.getResultList();
+        /*em.clear();
+        em.close();*/
         return aux;
     }
     
     public List <Tickets> buscarPorUsuarioAsuntoSinEnEspera(){
         EntityManager em = emf.createEntityManager();
         List<Tickets> aux = new ArrayList<>();
-        em.getTransaction().begin();
+        //em.getTransaction().begin();
         q = em.createNativeQuery("SELECT DISTINCT * FROM tickets t \n" +
                                 "JOIN historial_tickets ht ON ht.fk_ticket = t.id_ticket\n" +
                                 "JOIN servicios s ON t.servicio = s.id_asuntoS\n" +
@@ -230,6 +268,8 @@ public class TicketServ {
                                 "ORDER by t.id_ticket",Tickets.class);
         q.setParameter(1, LoginEJB.usuario.getIdUsuario());
         aux = q.getResultList();
+        /*em.clear();
+        em.close();*/
         return aux;
         
     }
@@ -249,7 +289,8 @@ public class TicketServ {
     }
     
     public Tickets buscarUno(int id){
-        return jpa.findTickets(id);
+        Tickets tick = jpa.findTickets(id);
+        return tick;
     }
     
     public int modificarTicket(Tickets miTick){

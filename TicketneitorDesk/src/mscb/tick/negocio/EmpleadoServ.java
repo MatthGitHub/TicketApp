@@ -10,6 +10,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import javax.persistence.Query;
+import mscb.tick.gui.main.Main;
 import mscb.tick.negocio.controladores.EmpleadosJpaController;
 import mscb.tick.negocio.entidades.Empleados;
 
@@ -19,7 +20,8 @@ import mscb.tick.negocio.entidades.Empleados;
  */
 public class EmpleadoServ {
     private static Query q;
-    private EntityManagerFactory emf = Persistence.createEntityManagerFactory("TicketneitorPU");
+    private String PU = Main.getServer();
+    private EntityManagerFactory emf = EntitiesManager.getEntityManagerFactory();
     private EmpleadosJpaController jpa = new EmpleadosJpaController(emf);
     private static EmpleadoServ esto;
     

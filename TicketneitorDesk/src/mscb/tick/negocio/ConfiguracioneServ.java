@@ -5,8 +5,11 @@
  */
 package mscb.tick.negocio;
 
+import java.util.ArrayList;
+import java.util.List;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
+import mscb.tick.gui.main.Main;
 import mscb.tick.negocio.controladores.ConfiguracionJpaController;
 import mscb.tick.negocio.entidades.Configuracion;
 
@@ -16,7 +19,8 @@ import mscb.tick.negocio.entidades.Configuracion;
  */
 public class ConfiguracioneServ {
     private static ConfiguracioneServ estaClase;
-    EntityManagerFactory emf = Persistence.createEntityManagerFactory("TicketneitorPU");
+    private String PU = Main.getServer();
+    private EntityManagerFactory emf = Persistence.createEntityManagerFactory("10.20.130.242");
     ConfiguracionJpaController jpa = new ConfiguracionJpaController(emf);
     
     private ConfiguracioneServ(){
@@ -41,6 +45,18 @@ public class ConfiguracioneServ {
     
     public Configuracion getUltimaVersion(){
         return jpa.findConfiguracion(1);
+    }
+    
+    public List<Configuracion> getServidores(){
+        List<Configuracion> miLista = jpa.findConfiguracionEntities();
+        List<Configuracion> aux = new ArrayList<>();
+        
+        for(int i = 0; i< miLista.size(); i++){
+            if(miLista.get(i).getIdConfiguracion() > 1){
+                aux.add(miLista.get(i));
+            }
+        }
+        return aux;
     }
     
 }

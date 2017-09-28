@@ -11,6 +11,7 @@ import java.util.Comparator;
 import java.util.List;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
+import mscb.tick.gui.main.Main;
 import mscb.tick.negocio.controladores.AsuntosJpaController;
 import mscb.tick.negocio.controladores.ServiciosJpaController;
 import mscb.tick.negocio.controladores.exceptions.NonexistentEntityException;
@@ -22,7 +23,8 @@ import mscb.tick.negocio.entidades.Asuntos;
  * @author Administrador
  */
 public class AsuntoPrincipalServ {
-    private EntityManagerFactory emf = Persistence.createEntityManagerFactory("TicketneitorPU");
+    private String PU = Main.getServer();
+    private EntityManagerFactory emf = EntitiesManager.getEntityManagerFactory();
     private AsuntosJpaController jpa = new AsuntosJpaController(emf);
     private static AsuntoPrincipalServ esto;
     
