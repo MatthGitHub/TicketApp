@@ -81,6 +81,8 @@ public class NuevoTicket extends MenuP {
         b = 0;
         this.mainFrame = mainFrame;
         setVisible(true);
+        lblDefecto.setText(LoginEJB.usuario.getFkEmpleado().getFkArea().getNombreArea());
+        txt_areaSolicitante.setText(LoginEJB.usuario.getFkEmpleado().getFkArea().getNombreArea());
         txtA_obs.setLineWrap(true);
         txtArchivo.setVisible(false);
         lblAsunto.setVisible(false);
@@ -93,7 +95,7 @@ public class NuevoTicket extends MenuP {
         cmbx_asuntoPrincipal.setVisible(false);
         cmbx_asuntoSecundario.setVisible(false);
         cmbx_usuarios.setVisible(false);
-        textAutoAcompleter = new TextAutoCompleter(txt_areaE);
+        textAutoAcompleter = new TextAutoCompleter(txt_areaSolicitante);
         textAutoAcompleter.setMode(0);
         textAutoAcompleter.setCaseSensitive(false);
         textAutoAcompleter2 = new TextAutoCompleter(txt_edificio);
@@ -182,9 +184,7 @@ public class NuevoTicket extends MenuP {
         }
        
     }
-	
-    
-      
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -207,7 +207,7 @@ public class NuevoTicket extends MenuP {
         lblAsunto = new javax.swing.JLabel();
         lblServicio = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
-        txt_areaE = new javax.swing.JTextField();
+        txt_areaSolicitante = new javax.swing.JTextField();
         txt_patrimonio = new javax.swing.JTextField();
         jLabel6 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
@@ -226,6 +226,8 @@ public class NuevoTicket extends MenuP {
         txt_n_nota = new javax.swing.JTextField();
         jLabel9 = new javax.swing.JLabel();
         txt_edificio = new javax.swing.JTextField();
+        lblDefecto = new javax.swing.JLabel();
+        jLabel11 = new javax.swing.JLabel();
 
         setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Nuevo pedido a sistemas", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("SansSerif", 0, 18), java.awt.Color.white)); // NOI18N
 
@@ -320,13 +322,13 @@ public class NuevoTicket extends MenuP {
         jLabel5.setBackground(new java.awt.Color(0, 102, 204));
         jLabel5.setFont(new java.awt.Font("SansSerif", 3, 14)); // NOI18N
         jLabel5.setForeground(new java.awt.Color(0, 108, 118));
-        jLabel5.setText("Area emisora:");
+        jLabel5.setText("Area solicitante:");
 
-        txt_areaE.setFont(new java.awt.Font("SansSerif", 0, 11)); // NOI18N
-        txt_areaE.setForeground(new java.awt.Color(0, 108, 118));
-        txt_areaE.addActionListener(new java.awt.event.ActionListener() {
+        txt_areaSolicitante.setFont(new java.awt.Font("SansSerif", 0, 11)); // NOI18N
+        txt_areaSolicitante.setForeground(new java.awt.Color(0, 108, 118));
+        txt_areaSolicitante.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txt_areaEActionPerformed(evt);
+                txt_areaSolicitanteActionPerformed(evt);
             }
         });
 
@@ -361,7 +363,7 @@ public class NuevoTicket extends MenuP {
 
         jLabel4.setFont(new java.awt.Font("SansSerif", 1, 12)); // NOI18N
         jLabel4.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel4.setText("* (Campos obligatorios)");
+        jLabel4.setText(" (Campos obligatorios)");
 
         lblusuario.setBackground(new java.awt.Color(0, 102, 204));
         lblusuario.setFont(new java.awt.Font("SansSerif", 3, 14)); // NOI18N
@@ -437,6 +439,13 @@ public class NuevoTicket extends MenuP {
             }
         });
 
+        lblDefecto.setFont(new java.awt.Font("SansSerif", 1, 12)); // NOI18N
+        lblDefecto.setForeground(new java.awt.Color(204, 0, 0));
+
+        jLabel11.setFont(new java.awt.Font("SansSerif", 1, 12)); // NOI18N
+        jLabel11.setForeground(new java.awt.Color(204, 0, 0));
+        jLabel11.setText("Si area solicitante queda en blanco por defecto será:");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -444,8 +453,6 @@ public class NuevoTicket extends MenuP {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel4)
-                    .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 454, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 185, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -459,49 +466,60 @@ public class NuevoTicket extends MenuP {
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 741, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(asteriscoAsunto, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(lblAsunto))
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(asteriscoArea, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jLabel1))
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(asteriscoServicio, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(lblServicio))
-                            .addComponent(lblusuario))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(cmbx_asuntoPrincipal, 0, 590, Short.MAX_VALUE)
-                            .addComponent(cmbx_areas, 0, 590, Short.MAX_VALUE)
-                            .addComponent(cmbx_asuntoSecundario, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(cmbx_usuarios, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel7)
                             .addComponent(jLabel5)
-                            .addComponent(jLabel6))
-                        .addGap(57, 57, 57)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                            .addComponent(txt_areaE, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 164, Short.MAX_VALUE)
-                            .addComponent(txt_patrimonio, javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(txt_solicita))
-                        .addGap(18, 18, Short.MAX_VALUE)
+                            .addComponent(jLabel6)
+                            .addComponent(jLabel4))
+                        .addGap(40, 40, 40)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                .addComponent(jLabel8)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jLabel11)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(txt_n_nota, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(lblDefecto, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                    .addComponent(txt_areaSolicitante, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 164, Short.MAX_VALUE)
+                                    .addComponent(txt_patrimonio, javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(txt_solicita))
+                                .addGap(18, 18, Short.MAX_VALUE)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                        .addComponent(jLabel8)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(txt_n_nota, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(jLabel10)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(txt_area_nota, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                        .addComponent(jLabel9)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(txt_edificio, javax.swing.GroupLayout.PREFERRED_SIZE, 146, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addGap(0, 0, Short.MAX_VALUE))))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 454, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(asteriscoAsunto, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(lblAsunto))
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(asteriscoArea, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(jLabel1))
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(asteriscoServicio, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(lblServicio))
+                                    .addComponent(lblusuario))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jLabel10)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(txt_area_nota, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                .addComponent(jLabel9)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(txt_edificio, javax.swing.GroupLayout.PREFERRED_SIZE, 146, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(cmbx_asuntoPrincipal, 0, 590, Short.MAX_VALUE)
+                                    .addComponent(cmbx_areas, 0, 590, Short.MAX_VALUE)
+                                    .addComponent(cmbx_asuntoSecundario, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(cmbx_usuarios, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
@@ -533,7 +551,11 @@ public class NuevoTicket extends MenuP {
                     .addComponent(lblusuario)
                     .addComponent(cmbx_usuarios, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(8, 8, 8)
-                .addComponent(jLabel4)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jLabel11, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(lblDefecto, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(layout.createSequentialGroup()
@@ -547,7 +569,7 @@ public class NuevoTicket extends MenuP {
                                 .addComponent(txt_edificio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                 .addComponent(jLabel5)
-                                .addComponent(txt_areaE, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addComponent(txt_areaSolicitante, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addGap(6, 6, 6)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(txt_patrimonio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -627,6 +649,7 @@ public class NuevoTicket extends MenuP {
 
     private void btn_guardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_guardarActionPerformed
         // TODO add your handling code here:
+        int error = 0;
         serviciosEst = EstadoServ.getEstadoServ();
         serviciosT = TicketServ.getTicketServ();
         miTick = new Tickets();
@@ -634,15 +657,23 @@ public class NuevoTicket extends MenuP {
         miTick.setServicio((Servicios) cmbx_asuntoSecundario.getSelectedItem());
         miTick.setFecha(fecha);
         miTick.setCreador(LoginEJB.usuario);
+        if(!txt_areaSolicitante.getText().trim().isEmpty()){
+            Areas solicitante = AreaServ.getAreaServ().getSolicitante(txt_areaSolicitante.getText());
+            if(solicitante != null){
+                miTick.setFkareaSolicitante(solicitante);
+            }else{
+                JOptionPane.showMessageDialog(this, "El area no existe en el sistema.");
+                error = 1;
+            }
+        }else{
+                miTick.setFkareaSolicitante(LoginEJB.usuario.getFkEmpleado().getFkArea());
+            }
         String observacion = "";
         if(!txtA_obs.getText().trim().isEmpty()){
             observacion = observacion + txtA_obs.getText()+"\n";
         }
         if(!txt_solicita.getText().trim().isEmpty()){
             observacion = observacion + "Solicita: "+txt_solicita.getText()+"\n";
-        }
-        if(!txt_areaE.getText().trim().isEmpty()){
-            observacion = observacion + "Area emisora: "+txt_areaE.getText()+"\n";
         }
         if(!observacion.trim().isEmpty()){
             miTick.setObservacion(observacion);
@@ -668,7 +699,8 @@ public class NuevoTicket extends MenuP {
         }
         miTick.setNotaEntrada(txt_n_nota.getText()+"-"+txt_area_nota.getText().trim());
         //Creo el historial de enviado
-        if(serviciosT.nuevoTicket(miTick) == 0){
+        
+        if((error == 0)&&(serviciosT.nuevoTicket(miTick) == 0)){
             //JOptionPane.showMessageDialog(mainFrame, "Ticket enviado...");
             HistorialServ serviciosH = HistorialServ.getHistorialServ();
             HistorialTickets miHis = new HistorialTickets();
@@ -716,9 +748,10 @@ public class NuevoTicket extends MenuP {
         
     }//GEN-LAST:event_cmbx_areasActionPerformed
 
-    private void txt_areaEActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txt_areaEActionPerformed
+    private void txt_areaSolicitanteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txt_areaSolicitanteActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_txt_areaEActionPerformed
+        
+    }//GEN-LAST:event_txt_areaSolicitanteActionPerformed
 
     private void cmbx_usuariosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbx_usuariosActionPerformed
         // TODO add your handling code here:
@@ -782,6 +815,7 @@ public class NuevoTicket extends MenuP {
     private javax.swing.JComboBox cmbx_usuarios;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
+    private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -792,11 +826,12 @@ public class NuevoTicket extends MenuP {
     private javax.swing.JLabel jLabel9;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel lblAsunto;
+    private javax.swing.JLabel lblDefecto;
     private javax.swing.JLabel lblServicio;
     private javax.swing.JLabel lblusuario;
     private javax.swing.JTextArea txtA_obs;
     private javax.swing.JLabel txtArchivo;
-    private javax.swing.JTextField txt_areaE;
+    private javax.swing.JTextField txt_areaSolicitante;
     private javax.swing.JTextField txt_area_nota;
     private javax.swing.JTextField txt_edificio;
     private javax.swing.JTextField txt_n_nota;

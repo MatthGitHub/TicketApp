@@ -68,6 +68,7 @@ if($tipo == 'ticket'){
         && $_POST['interno'] > 99 && $_POST['interno'] < 999){
       // Si entramos es que todo se ha realizado correctamente
       $asunto = $_POST['asunto'];
+      $area = $_SESSION['area'];
   		$servicio = $_POST['servicios'];
   		$obs = $_POST['observacion']."\r\n"." - Numero de interno: ".$_POST['interno']."\r\n"."Adjunto: ".$_FILES["archivo"]['name'];
       $fecha = date('Y-m-d');
@@ -85,8 +86,8 @@ if($tipo == 'ticket'){
       mysqli_set_charset($link,'utf8');
 
       // Con esta sentencia SQL insertaremos los datos en la base de datos
-      mysqli_query($link,"INSERT INTO tickets (fecha,creador,servicio,observacion)
-      VALUES ('{$fecha}','{$usuario}','{$servicio}','{$obs}')");
+      mysqli_query($link,"INSERT INTO tickets (fecha,creador,servicio,observacion,fk_areaSolicitante)
+      VALUES ('{$fecha}','{$usuario}','{$servicio}','{$obs}',$area)");
       // Ahora comprobaremos que todo ha ido correctamente
       $my_error = mysqli_error($link);
       $idTicket = mysqli_insert_id($link);

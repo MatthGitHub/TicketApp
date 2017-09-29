@@ -36,6 +36,9 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Areas.findByCorreo", query = "SELECT a FROM Areas a WHERE a.correo = :correo")})
 public class Areas implements Serializable {
 
+    @OneToMany(mappedBy = "fkareaSolicitante")
+    private List<Tickets> ticketsList;
+
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -139,6 +142,15 @@ public class Areas implements Serializable {
     @Override
     public String toString() {
         return this.nombreArea;
+    }
+
+    @XmlTransient
+    public List<Tickets> getTicketsList() {
+        return ticketsList;
+    }
+
+    public void setTicketsList(List<Tickets> ticketsList) {
+        this.ticketsList = ticketsList;
     }
     
 }

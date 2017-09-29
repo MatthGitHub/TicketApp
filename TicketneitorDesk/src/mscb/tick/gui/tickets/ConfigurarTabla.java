@@ -316,7 +316,7 @@ public class ConfigurarTabla extends MenuP {
 
         cbxAreaEmisora.setFont(new java.awt.Font("SansSerif", 1, 14)); // NOI18N
         cbxAreaEmisora.setForeground(new java.awt.Color(0, 102, 102));
-        cbxAreaEmisora.setText("Area emisora");
+        cbxAreaEmisora.setText("Area solicitante");
 
         cbxCreador.setFont(new java.awt.Font("SansSerif", 1, 14)); // NOI18N
         cbxCreador.setForeground(new java.awt.Color(0, 102, 102));
@@ -380,7 +380,7 @@ public class ConfigurarTabla extends MenuP {
                     .addComponent(cbxAsunto)
                     .addComponent(cbxNotaE)
                     .addComponent(cbxAreaEmisora))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 105, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 87, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(cbxLugar)
                     .addComponent(cbxReceptor)

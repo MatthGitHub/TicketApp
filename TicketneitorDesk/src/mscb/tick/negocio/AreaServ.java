@@ -25,6 +25,9 @@ public class AreaServ {
     private AreasJpaController jpa = new AreasJpaController(emf);
     private List<Areas> miLista;
     private static AreaServ esto;
+    private static Query q;
+    
+    
     private AreaServ(){
         
     }
@@ -91,5 +94,24 @@ public class AreaServ {
                 + "WHERE a.nombreArea LIKE :patron");
         q.setParameter("patron", "%"+ patron+"%");
         return q.getResultList();
+    }
+    
+    public Areas getSolicitante(String nombre){
+        EntityManager em = EntitiesManager.getEnetityManager();
+        Areas aux;
+        q = em.createNativeQuery("SELECT *"
+                                + " FROM areas"
+                                + " WHERE nombre_area LIKE ?1",Areas.class);
+        q.setParameter(1, nombre);
+        try {
+            aux = (Areas) q.getSingleResult();
+        } catch (Exception e) {
+            aux = null;
+            System.err.println("Error en getSolicitante: "+e);
+        }
+        
+        /*em.clear();
+        em.close();*/
+        return aux;
     }
 }

@@ -426,7 +426,7 @@ public class BandejaEnviados extends MenuP {
         if(evt.getSource() == jt_tickets){
             if(evt.getClickCount() == 2){
                 if((jt_tickets.getSelectedRow() != -1)&&(jt_tickets.getSelectedRowCount() == 1)){
-                    mainFrame.Observaciones(serviciosT.buscarUno(Integer.parseInt(modelo.getValueAt(jt_tickets.getSelectedRow(), 0).toString())));
+                    mainFrame.detalleTicket(serviciosT.buscarUno(Integer.parseInt(modelo.getValueAt(jt_tickets.getSelectedRow(), 0).toString())).getUltimoHistorial());
                 }else{
                     JOptionPane.showMessageDialog(mainFrame, "Debe seleccionar una y solo una fila!");
                 }

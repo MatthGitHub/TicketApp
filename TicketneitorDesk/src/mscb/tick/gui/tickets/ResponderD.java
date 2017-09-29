@@ -5,6 +5,7 @@
  */
 package mscb.tick.gui.tickets;
 
+import java.awt.Dimension;
 import javax.swing.JFrame;
 import mscb.tick.negocio.entidades.Tickets;
 import mscb.tick.gui.main.Main;
@@ -24,7 +25,8 @@ public class ResponderD extends javax.swing.JDialog {
         super(parent, modal);
         initComponents();
         setDefaultCloseOperation(0);
-        setResizable(false);
+        setMinimumSize(new Dimension(800,480));
+        setPreferredSize(new Dimension(800,655));
         //setLocationRelativeTo(null);
         setTitle("Responder ticket");
         this.mainFrame = (Main) parent;

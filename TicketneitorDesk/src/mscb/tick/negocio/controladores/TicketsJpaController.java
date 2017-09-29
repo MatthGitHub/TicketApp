@@ -12,6 +12,8 @@ import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 import mscb.tick.negocio.entidades.Usuarios;
 import mscb.tick.negocio.entidades.Servicios;
+import mscb.tick.negocio.entidades.Edificios;
+import mscb.tick.negocio.entidades.Areas;
 import mscb.tick.negocio.entidades.HistorialTickets;
 import java.util.ArrayList;
 import java.util.List;
@@ -54,6 +56,16 @@ public class TicketsJpaController implements Serializable {
                 servicio = em.getReference(servicio.getClass(), servicio.getIdasuntoS());
                 tickets.setServicio(servicio);
             }
+            Edificios fkEdificio = tickets.getFkEdificio();
+            if (fkEdificio != null) {
+                fkEdificio = em.getReference(fkEdificio.getClass(), fkEdificio.getIdEdificio());
+                tickets.setFkEdificio(fkEdificio);
+            }
+            Areas fkareaSolicitante = tickets.getFkareaSolicitante();
+            if (fkareaSolicitante != null) {
+                fkareaSolicitante = em.getReference(fkareaSolicitante.getClass(), fkareaSolicitante.getIdArea());
+                tickets.setFkareaSolicitante(fkareaSolicitante);
+            }
             List<HistorialTickets> attachedHistorialTicketsList = new ArrayList<HistorialTickets>();
             for (HistorialTickets historialTicketsListHistorialTicketsToAttach : tickets.getHistorialTicketsList()) {
                 historialTicketsListHistorialTicketsToAttach = em.getReference(historialTicketsListHistorialTicketsToAttach.getClass(), historialTicketsListHistorialTicketsToAttach.getIdHistorial());
@@ -68,6 +80,14 @@ public class TicketsJpaController implements Serializable {
             if (servicio != null) {
                 servicio.getTicketsList().add(tickets);
                 servicio = em.merge(servicio);
+            }
+            if (fkEdificio != null) {
+                fkEdificio.getTicketsList().add(tickets);
+                fkEdificio = em.merge(fkEdificio);
+            }
+            if (fkareaSolicitante != null) {
+                fkareaSolicitante.getTicketsList().add(tickets);
+                fkareaSolicitante = em.merge(fkareaSolicitante);
             }
             for (HistorialTickets historialTicketsListHistorialTickets : tickets.getHistorialTicketsList()) {
                 Tickets oldFkTicketOfHistorialTicketsListHistorialTickets = historialTicketsListHistorialTickets.getFkTicket();
@@ -96,6 +116,10 @@ public class TicketsJpaController implements Serializable {
             Usuarios creadorNew = tickets.getCreador();
             Servicios servicioOld = persistentTickets.getServicio();
             Servicios servicioNew = tickets.getServicio();
+            Edificios fkEdificioOld = persistentTickets.getFkEdificio();
+            Edificios fkEdificioNew = tickets.getFkEdificio();
+            Areas fkareaSolicitanteOld = persistentTickets.getFkareaSolicitante();
+            Areas fkareaSolicitanteNew = tickets.getFkareaSolicitante();
             List<HistorialTickets> historialTicketsListOld = persistentTickets.getHistorialTicketsList();
             List<HistorialTickets> historialTicketsListNew = tickets.getHistorialTicketsList();
             List<String> illegalOrphanMessages = null;
@@ -117,6 +141,14 @@ public class TicketsJpaController implements Serializable {
             if (servicioNew != null) {
                 servicioNew = em.getReference(servicioNew.getClass(), servicioNew.getIdasuntoS());
                 tickets.setServicio(servicioNew);
+            }
+            if (fkEdificioNew != null) {
+                fkEdificioNew = em.getReference(fkEdificioNew.getClass(), fkEdificioNew.getIdEdificio());
+                tickets.setFkEdificio(fkEdificioNew);
+            }
+            if (fkareaSolicitanteNew != null) {
+                fkareaSolicitanteNew = em.getReference(fkareaSolicitanteNew.getClass(), fkareaSolicitanteNew.getIdArea());
+                tickets.setFkareaSolicitante(fkareaSolicitanteNew);
             }
             List<HistorialTickets> attachedHistorialTicketsListNew = new ArrayList<HistorialTickets>();
             for (HistorialTickets historialTicketsListNewHistorialTicketsToAttach : historialTicketsListNew) {
@@ -141,6 +173,22 @@ public class TicketsJpaController implements Serializable {
             if (servicioNew != null && !servicioNew.equals(servicioOld)) {
                 servicioNew.getTicketsList().add(tickets);
                 servicioNew = em.merge(servicioNew);
+            }
+            if (fkEdificioOld != null && !fkEdificioOld.equals(fkEdificioNew)) {
+                fkEdificioOld.getTicketsList().remove(tickets);
+                fkEdificioOld = em.merge(fkEdificioOld);
+            }
+            if (fkEdificioNew != null && !fkEdificioNew.equals(fkEdificioOld)) {
+                fkEdificioNew.getTicketsList().add(tickets);
+                fkEdificioNew = em.merge(fkEdificioNew);
+            }
+            if (fkareaSolicitanteOld != null && !fkareaSolicitanteOld.equals(fkareaSolicitanteNew)) {
+                fkareaSolicitanteOld.getTicketsList().remove(tickets);
+                fkareaSolicitanteOld = em.merge(fkareaSolicitanteOld);
+            }
+            if (fkareaSolicitanteNew != null && !fkareaSolicitanteNew.equals(fkareaSolicitanteOld)) {
+                fkareaSolicitanteNew.getTicketsList().add(tickets);
+                fkareaSolicitanteNew = em.merge(fkareaSolicitanteNew);
             }
             for (HistorialTickets historialTicketsListNewHistorialTickets : historialTicketsListNew) {
                 if (!historialTicketsListOld.contains(historialTicketsListNewHistorialTickets)) {
@@ -202,6 +250,16 @@ public class TicketsJpaController implements Serializable {
             if (servicio != null) {
                 servicio.getTicketsList().remove(tickets);
                 servicio = em.merge(servicio);
+            }
+            Edificios fkEdificio = tickets.getFkEdificio();
+            if (fkEdificio != null) {
+                fkEdificio.getTicketsList().remove(tickets);
+                fkEdificio = em.merge(fkEdificio);
+            }
+            Areas fkareaSolicitante = tickets.getFkareaSolicitante();
+            if (fkareaSolicitante != null) {
+                fkareaSolicitante.getTicketsList().remove(tickets);
+                fkareaSolicitante = em.merge(fkareaSolicitante);
             }
             em.remove(tickets);
             em.getTransaction().commit();

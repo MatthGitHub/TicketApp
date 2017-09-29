@@ -44,12 +44,9 @@ import mscb.tick.negocio.UsuarioServ;
     @NamedQuery(name = "Tickets.findByTiempoResolucion", query = "SELECT t FROM Tickets t WHERE t.tiempoResolucion = :tiempoResolucion")})
 public class Tickets implements Serializable,Comparable<Tickets> {
 
-    @Basic(optional = false)
-    @Column(name = "hora")
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date hora;
-    @Column(name = "fk_areaSolicitante")
-    private Integer fkareaSolicitante;
+    @JoinColumn(name = "fk_areaSolicitante", referencedColumnName = "id_area")
+    @ManyToOne
+    private Areas fkareaSolicitante;
 
     @JoinColumn(name = "fkEdificio", referencedColumnName = "id_edificio")
     @ManyToOne
@@ -253,20 +250,12 @@ public class Tickets implements Serializable,Comparable<Tickets> {
         this.fkEdificio = fkEdificio;
     }
 
-    public Date getHora() {
-        return hora;
-    }
-
-    public void setHora(Date hora) {
-        this.hora = hora;
-    }
-
-    public Integer getFkareaSolicitante() {
+    public Areas getFkareaSolicitante() {
         return fkareaSolicitante;
     }
 
-    public void setFkareaSolicitante(Integer fkareaSolicitante) {
+    public void setFkareaSolicitante(Areas fkareaSolicitante) {
         this.fkareaSolicitante = fkareaSolicitante;
     }
-    
+
 }

@@ -12,7 +12,6 @@ import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.text.DateFormat;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -27,10 +26,6 @@ import javax.swing.JOptionPane;
 import javax.swing.JPopupMenu;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableModel;
-import javax.swing.table.TableRowSorter;
-import mscb.tick.negocio.entidades.Estados;
-import mscb.tick.negocio.entidades.HistorialTickets;
 import mscb.tick.negocio.entidades.Tickets;
 import mscb.tick.negocio.EstadoServ;
 import mscb.tick.negocio.HistorialServ;
@@ -345,7 +340,7 @@ public class BandejaTickets extends MenuP {
             }else{
                 v[2] = miLista.get(i).getFkEdificio().getNombre();
             }
-            v[3] = miLista.get(i).getCreador().getFkEmpleado().getFkArea().getNombreArea();
+            v[3] = miLista.get(i).getFkareaSolicitante().getNombreArea();
             v[4] = miLista.get(i).getCreador().getNombreUsuario();
             v[5] = miLista.get(i).getUltimoEstado().getNombre();
             if(miLista.get(i).getUltimoHistorial().getHora() != null){
@@ -521,18 +516,8 @@ public class BandejaTickets extends MenuP {
         jScrollPane1 = new javax.swing.JScrollPane();
         jt_tickets = new javax.swing.JTable();
         lblNombreUsuario = new javax.swing.JLabel();
-        btn_responder = new javax.swing.JButton();
-        btn_enEspera = new javax.swing.JButton();
-        btn_tomar = new javax.swing.JButton();
-        btn_transferir = new javax.swing.JButton();
-        btn_resuelto = new javax.swing.JButton();
         btn_refrescar = new javax.swing.JButton();
-        btn_volver = new javax.swing.JButton();
-        btn_responder1 = new javax.swing.JButton();
-        btn_trabajando = new javax.swing.JButton();
-        btn_ver_adjunto = new javax.swing.JButton();
         lblCantidadTickets = new javax.swing.JLabel();
-        btn_control = new javax.swing.JButton();
         cmbx_areas = new javax.swing.JComboBox();
         btn_patrimonio1 = new javax.swing.JButton();
         btn_patrimonio2 = new javax.swing.JButton();
@@ -560,7 +545,7 @@ public class BandejaTickets extends MenuP {
 
             },
             new String [] {
-                "Nº Ticket", "Fecha", "Lugar de trabajo", "Area emisora", "Creador", "Estado", "Hora", "Observacion", "Asunto", "Receptor", "Patrimonio", "Adjunto", "Nota entrada", "Nota salida"
+                "Nº Ticket", "Fecha", "Lugar de trabajo", "Area solicitante", "Creador", "Estado", "Hora", "Observacion", "Asunto", "Receptor", "Patrimonio", "Adjunto", "Nota entrada", "Nota salida"
             }
         ) {
             Class[] types = new Class [] {
@@ -640,61 +625,6 @@ public class BandejaTickets extends MenuP {
         lblNombreUsuario.setForeground(new java.awt.Color(255, 255, 255));
         lblNombreUsuario.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
 
-        btn_responder.setBackground(new java.awt.Color(153, 153, 153));
-        btn_responder.setFont(new java.awt.Font("SansSerif", 1, 10)); // NOI18N
-        btn_responder.setForeground(new java.awt.Color(0, 108, 118));
-        btn_responder.setIcon(new javax.swing.ImageIcon(getClass().getResource("/mscb/tick/resources/imagenes/icons/reply-email_small.png"))); // NOI18N
-        btn_responder.setText("Detalle");
-        btn_responder.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btn_responderActionPerformed(evt);
-            }
-        });
-
-        btn_enEspera.setBackground(new java.awt.Color(153, 153, 153));
-        btn_enEspera.setFont(new java.awt.Font("SansSerif", 1, 10)); // NOI18N
-        btn_enEspera.setForeground(new java.awt.Color(0, 108, 118));
-        btn_enEspera.setIcon(new javax.swing.ImageIcon(getClass().getResource("/mscb/tick/resources/imagenes/icons/loading.png"))); // NOI18N
-        btn_enEspera.setText("En espera");
-        btn_enEspera.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btn_enEsperaActionPerformed(evt);
-            }
-        });
-
-        btn_tomar.setBackground(new java.awt.Color(153, 153, 153));
-        btn_tomar.setFont(new java.awt.Font("SansSerif", 1, 10)); // NOI18N
-        btn_tomar.setForeground(new java.awt.Color(0, 108, 118));
-        btn_tomar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/mscb/tick/resources/imagenes/icons/ok.png"))); // NOI18N
-        btn_tomar.setText("Aceptar");
-        btn_tomar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btn_tomarActionPerformed(evt);
-            }
-        });
-
-        btn_transferir.setBackground(new java.awt.Color(153, 153, 153));
-        btn_transferir.setFont(new java.awt.Font("SansSerif", 1, 10)); // NOI18N
-        btn_transferir.setForeground(new java.awt.Color(0, 108, 118));
-        btn_transferir.setIcon(new javax.swing.ImageIcon(getClass().getResource("/mscb/tick/resources/imagenes/icons/transfer.png"))); // NOI18N
-        btn_transferir.setText("Transferir");
-        btn_transferir.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btn_transferirActionPerformed(evt);
-            }
-        });
-
-        btn_resuelto.setBackground(new java.awt.Color(153, 153, 153));
-        btn_resuelto.setFont(new java.awt.Font("SansSerif", 1, 10)); // NOI18N
-        btn_resuelto.setForeground(new java.awt.Color(0, 108, 118));
-        btn_resuelto.setIcon(new javax.swing.ImageIcon(getClass().getResource("/mscb/tick/resources/imagenes/icons/check.png"))); // NOI18N
-        btn_resuelto.setText("Resoluciones");
-        btn_resuelto.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btn_resueltoActionPerformed(evt);
-            }
-        });
-
         btn_refrescar.setBackground(new java.awt.Color(153, 153, 153));
         btn_refrescar.setFont(new java.awt.Font("SansSerif", 1, 10)); // NOI18N
         btn_refrescar.setForeground(new java.awt.Color(0, 108, 118));
@@ -706,64 +636,10 @@ public class BandejaTickets extends MenuP {
             }
         });
 
-        btn_volver.setBackground(new java.awt.Color(153, 153, 153));
-        btn_volver.setFont(new java.awt.Font("SansSerif", 1, 12)); // NOI18N
-        btn_volver.setForeground(new java.awt.Color(0, 108, 118));
-        btn_volver.setIcon(new javax.swing.ImageIcon(getClass().getResource("/mscb/tick/resources/imagenes/icons/back-arrow.png"))); // NOI18N
-        btn_volver.setText("Volver");
-        btn_volver.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btn_volverActionPerformed(evt);
-            }
-        });
-
-        btn_responder1.setBackground(new java.awt.Color(153, 153, 153));
-        btn_responder1.setFont(new java.awt.Font("SansSerif", 1, 10)); // NOI18N
-        btn_responder1.setForeground(new java.awt.Color(0, 108, 118));
-        btn_responder1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/mscb/tick/resources/imagenes/icons/print.png"))); // NOI18N
-        btn_responder1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btn_responder1ActionPerformed(evt);
-            }
-        });
-
-        btn_trabajando.setBackground(new java.awt.Color(153, 153, 153));
-        btn_trabajando.setFont(new java.awt.Font("SansSerif", 1, 10)); // NOI18N
-        btn_trabajando.setForeground(new java.awt.Color(0, 108, 118));
-        btn_trabajando.setIcon(new javax.swing.ImageIcon(getClass().getResource("/mscb/tick/resources/imagenes/icons/work.png"))); // NOI18N
-        btn_trabajando.setText("En trabajo");
-        btn_trabajando.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btn_trabajandoActionPerformed(evt);
-            }
-        });
-
-        btn_ver_adjunto.setBackground(new java.awt.Color(153, 153, 153));
-        btn_ver_adjunto.setFont(new java.awt.Font("SansSerif", 1, 10)); // NOI18N
-        btn_ver_adjunto.setForeground(new java.awt.Color(0, 108, 118));
-        btn_ver_adjunto.setIcon(new javax.swing.ImageIcon(getClass().getResource("/mscb/tick/resources/imagenes/icons/attachment.png"))); // NOI18N
-        btn_ver_adjunto.setText("Ver adjunto");
-        btn_ver_adjunto.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btn_ver_adjuntoActionPerformed(evt);
-            }
-        });
-
         lblCantidadTickets.setBackground(new java.awt.Color(0, 102, 204));
         lblCantidadTickets.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         lblCantidadTickets.setForeground(new java.awt.Color(255, 255, 255));
         lblCantidadTickets.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-
-        btn_control.setBackground(new java.awt.Color(153, 153, 153));
-        btn_control.setFont(new java.awt.Font("SansSerif", 1, 10)); // NOI18N
-        btn_control.setForeground(new java.awt.Color(0, 108, 118));
-        btn_control.setIcon(new javax.swing.ImageIcon(getClass().getResource("/mscb/tick/resources/imagenes/icons/work.png"))); // NOI18N
-        btn_control.setText("Control");
-        btn_control.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btn_controlActionPerformed(evt);
-            }
-        });
 
         cmbx_areas.setBackground(new java.awt.Color(153, 153, 153));
         cmbx_areas.setFont(new java.awt.Font("SansSerif", 1, 14)); // NOI18N
@@ -805,43 +681,21 @@ public class BandejaTickets extends MenuP {
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jScrollPane1)
-                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addComponent(btn_tomar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                        .addGap(38, 38, 38)
-                                        .addComponent(btn_transferir, javax.swing.GroupLayout.DEFAULT_SIZE, 149, Short.MAX_VALUE))
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addComponent(btn_volver, javax.swing.GroupLayout.DEFAULT_SIZE, 119, Short.MAX_VALUE)
-                                        .addGap(31, 31, 31)
-                                        .addComponent(btn_ver_adjunto, javax.swing.GroupLayout.DEFAULT_SIZE, 139, Short.MAX_VALUE)))
-                                .addGap(35, 35, 35)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addComponent(btn_responder, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                        .addGap(15, 15, 15)
-                                        .addComponent(btn_resuelto, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                        .addGap(26, 26, 26)
-                                        .addComponent(btn_responder1, javax.swing.GroupLayout.DEFAULT_SIZE, 74, Short.MAX_VALUE)
-                                        .addGap(18, 18, 18)
-                                        .addComponent(btn_refrescar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addComponent(btn_enEspera, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                        .addGap(46, 46, 46)
-                                        .addComponent(btn_trabajando, javax.swing.GroupLayout.DEFAULT_SIZE, 149, Short.MAX_VALUE)
-                                        .addGap(38, 38, 38)
-                                        .addComponent(btn_control, javax.swing.GroupLayout.DEFAULT_SIZE, 133, Short.MAX_VALUE)))))
+                        .addComponent(jScrollPane1)
                         .addContainerGap())
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                            .addComponent(btn_patrimonio1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(lblNombreUsuario, javax.swing.GroupLayout.DEFAULT_SIZE, 175, Short.MAX_VALUE))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(210, 210, 210)
+                                .addComponent(lblNombreUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 175, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(btn_patrimonio1)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(btn_refrescar)))
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(cmbx_areas, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(cmbx_areas, 0, 47, Short.MAX_VALUE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addComponent(txt_id, javax.swing.GroupLayout.PREFERRED_SIZE, 342, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(layout.createSequentialGroup()
@@ -859,35 +713,21 @@ public class BandejaTickets extends MenuP {
                         .addGap(11, 11, 11)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(txt_id, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(cmbx_areas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addComponent(lblNombreUsuario, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(cmbx_areas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(8, 8, 8))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addGap(9, 9, 9)
+                        .addComponent(lblNombreUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)))
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(btn_patrimonio1, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(btn_patrimonio1, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(btn_refrescar, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                         .addComponent(btn_patrimonio2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
                         .addComponent(lblCantidadTickets, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 22, Short.MAX_VALUE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 406, Short.MAX_VALUE)
-                .addGap(8, 8, 8)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                .addComponent(btn_tomar, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(btn_control, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(btn_transferir, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(btn_enEspera, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(btn_trabajando, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(btn_responder1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                .addComponent(btn_ver_adjunto, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(btn_volver, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(btn_responder, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(btn_resuelto, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                    .addComponent(btn_refrescar, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 503, Short.MAX_VALUE)
                 .addContainerGap())
         );
     }// </editor-fold>//GEN-END:initComponents
@@ -914,15 +754,6 @@ public class BandejaTickets extends MenuP {
         llenarTabla();
     }//GEN-LAST:event_btn_refrescarActionPerformed
 
-    private void btn_volverActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_volverActionPerformed
-        // TODO add your handling code here:
-       this.setVisible(false);
-       mainFrame.menuPrincipal();
-       estePanel = null;
-       System.gc();
-        
-    }//GEN-LAST:event_btn_volverActionPerformed
-
     private void jt_ticketsMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jt_ticketsMouseClicked
         // TODO add your handling code here:
         if(evt.getSource() == jt_tickets){
@@ -935,179 +766,6 @@ public class BandejaTickets extends MenuP {
             }
         }
     }//GEN-LAST:event_jt_ticketsMouseClicked
-
-    private void btn_responder1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_responder1ActionPerformed
-        // TODO add your handling code here:
-         if((jt_tickets.getSelectedRow() != -1)&&(jt_tickets.getSelectedRowCount() == 1)){
-            report.reporteMiTicket(Integer.parseInt(modelo.getValueAt(jt_tickets.getSelectedRow(), 0).toString()));
-        }else{
-            JOptionPane.showMessageDialog(mainFrame, "Debe seleccionar una y solo una fila!");
-        }
-    }//GEN-LAST:event_btn_responder1ActionPerformed
-
-    private void btn_trabajandoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_trabajandoActionPerformed
-        // TODO add your handling code here:
-        if((jt_tickets.getSelectedRow() != -1)&&(jt_tickets.getSelectedRowCount() == 1)){
-            if(!modelo.getValueAt(jt_tickets.getSelectedRow(), 4).equals("Trabajando")){
-                Tickets miTicket = serviciosT.buscarUno(Integer.parseInt(modelo.getValueAt(jt_tickets.getSelectedRow(),0).toString()));
-                EstadoServ esta = EstadoServ.getEstadoServ();
-                Estados estado = esta.traerEstado(6);
-                HistorialTickets his = new HistorialTickets();
-                fecha = new Date();
-                his.setFecha(fecha);
-                his.setHora(fecha);
-                his.setFkEstado(estado);
-                his.setFkTicket(miTicket);
-                his.setFkUsuario(LoginEJB.usuario);
-                his.setResolucion(miTicket.getResolucion());
-                servH.nuevo(his);
-                llenarTabla();
-            }else{
-                JOptionPane.showMessageDialog(mainFrame, "El ticket ya se encuentra trabajando!!");
-            }
-        }else{
-            JOptionPane.showMessageDialog(mainFrame, "Debe seleccionar una y solo una fila!");
-        }
-    }//GEN-LAST:event_btn_trabajandoActionPerformed
-
-    private void btn_resueltoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_resueltoActionPerformed
-        // TODO add your handling code here:
-        if((jt_tickets.getSelectedRow() != -1)&&(jt_tickets.getSelectedRowCount() == 1)){
-            if(!modelo.getValueAt(jt_tickets.getSelectedRow(), 4).equals("Resuelto")){
-                Tickets miTicket = serviciosT.buscarUno(Integer.parseInt(modelo.getValueAt(jt_tickets.getSelectedRow(),0).toString()));
-                mainFrame.resolucionTicket(miTicket);
-                llenarTabla();
-            }else{
-                JOptionPane.showMessageDialog(mainFrame, "El ticket ya se encuentra en resuelto!!");
-            }
-        }else{
-            JOptionPane.showMessageDialog(mainFrame, "Debe seleccionar una y solo una fila!");
-        }
-    }//GEN-LAST:event_btn_resueltoActionPerformed
-
-    private void btn_tomarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_tomarActionPerformed
-        // TODO add your handling code here:
-        if((jt_tickets.getSelectedRow() != -1)&&(jt_tickets.getSelectedRowCount() == 1)){
-            String usuarioAct = modelo.getValueAt(jt_tickets.getSelectedRow(), 6).toString();
-            System.out.println(usuarioAct);
-
-            //Verifica si el ticket le pertenece a alguien
-            if(usuarioAct.equalsIgnoreCase("No aun")){
-                Tickets miTicket = serviciosT.buscarUno(Integer.parseInt(modelo.getValueAt(jt_tickets.getSelectedRow(),0).toString()));
-                HistorialTickets his = new HistorialTickets();
-                esta = EstadoServ.getEstadoServ();
-                fecha = new Date();
-                his.setFecha(fecha);
-                his.setHora(fecha);
-                his.setFkEstado(esta.traerEstado(2));
-                his.setFkTicket(miTicket);
-                his.setFkUsuario(LoginEJB.usuario);
-                servH.nuevo(his);
-                llenarTabla();
-            }else{
-                //Verifica si el ticket ya le pertenece al que quiere tomarlo
-                if(usuarioAct.equalsIgnoreCase(LoginEJB.usuario.getNombreUsuario())){
-                    JOptionPane.showMessageDialog(this, "Este ticket ya le pertence!", "Error", JOptionPane.ERROR_MESSAGE);
-                }else{// Si no cambia el ticket de propietario
-                    Tickets miTicket = serviciosT.buscarUno(Integer.parseInt(modelo.getValueAt(jt_tickets.getSelectedRow(),0).toString()));
-                    HistorialTickets his = new HistorialTickets();
-                    esta = EstadoServ.getEstadoServ();
-                    fecha = new Date();
-                    his.setFecha(fecha);
-                    his.setHora(fecha);
-                    his.setFkEstado(esta.traerEstado(2));
-                    his.setFkTicket(miTicket);
-                    his.setFkUsuario(LoginEJB.usuario);
-                    servH.nuevo(his);
-                    llenarTabla();
-                }
-
-            }
-        }else{
-            JOptionPane.showMessageDialog(this, "Debe seleccionar una y solo una fila!");
-        }
-    }//GEN-LAST:event_btn_tomarActionPerformed
-
-    private void btn_transferirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_transferirActionPerformed
-        // TODO add your handling code here:
-        if((jt_tickets.getSelectedRow() != -1)&&(jt_tickets.getSelectedRowCount() == 1)){
-            int ide = Integer.parseInt(modelo.getValueAt(jt_tickets.getSelectedRow(), 0).toString());
-            mainFrame.transferirTicket(serviciosT.buscarUno(ide));
-            llenarTabla();
-        }else{
-            JOptionPane.showMessageDialog(mainFrame, "Debe seleccionar una y solo una fila!");
-        }
-    }//GEN-LAST:event_btn_transferirActionPerformed
-
-    private void btn_responderActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_responderActionPerformed
-        // TODO add your handling code here:
-        if((jt_tickets.getSelectedRow() != -1)&&(jt_tickets.getSelectedRowCount() == 1)){
-            mainFrame.Respuestas(serviciosT.buscarUno(Integer.parseInt(modelo.getValueAt(jt_tickets.getSelectedRow(), 0).toString())));
-        }else{
-            JOptionPane.showMessageDialog(mainFrame, "Debe seleccionar una y solo una fila!");
-        }
-    }//GEN-LAST:event_btn_responderActionPerformed
-
-    private void btn_enEsperaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_enEsperaActionPerformed
-        // TODO add your handling code here:
-        if((jt_tickets.getSelectedRow() != -1)&&(jt_tickets.getSelectedRowCount() == 1)){
-            if(!modelo.getValueAt(jt_tickets.getSelectedRow(), 4).equals("En espera")){
-                Tickets miTicket = serviciosT.buscarUno(Integer.parseInt(modelo.getValueAt(jt_tickets.getSelectedRow(),0).toString()));
-                EstadoServ esta = EstadoServ.getEstadoServ();
-                Estados estado = esta.traerEstado(3);
-                HistorialTickets his = new HistorialTickets();
-                fecha = new Date();
-                his.setFecha(fecha);
-                his.setHora(fecha);
-                his.setFkEstado(estado);
-                his.setFkTicket(miTicket);
-                his.setFkUsuario(LoginEJB.usuario);
-                his.setResolucion(miTicket.getResolucion());
-                servH.nuevo(his);
-                llenarTabla();
-            }else{
-                JOptionPane.showMessageDialog(mainFrame, "El ticket ya se encuentra en espera!!");
-            }
-        }else{
-            JOptionPane.showMessageDialog(mainFrame, "Debe seleccionar una y solo una fila!");
-        }
-    }//GEN-LAST:event_btn_enEsperaActionPerformed
-
-    private void btn_ver_adjuntoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_ver_adjuntoActionPerformed
-        // TODO add your handling code here:
-        if(serviciosT.buscarUno(Integer.parseInt(modelo.getValueAt(jt_tickets.getSelectedRow(), 0).toString())).getAdjunto() != null){
-            //String arch = "\\\\10.20.130.242\\www\\TicketWeb\\archivos\\"+serviciosT.buscarUno(Integer.parseInt(modelo.getValueAt(jt_tickets.getSelectedRow(), 0).toString())).getAdjunto();
-            String arch = "file://"+Main.getServer()+"/www/TicketWeb/archivos/"+serviciosT.buscarUno(Integer.parseInt(modelo.getValueAt(jt_tickets.getSelectedRow(), 0).toString())).getAdjunto();
-            abrirArchivo(arch);
-        }else{
-            JOptionPane.showMessageDialog(this, "Este ticket no posse adjunto");
-        }
-    }//GEN-LAST:event_btn_ver_adjuntoActionPerformed
-
-    private void btn_controlActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_controlActionPerformed
-        // TODO add your handling code here:
-        if((jt_tickets.getSelectedRow() != -1)&&(jt_tickets.getSelectedRowCount() == 1)){
-            if(!modelo.getValueAt(jt_tickets.getSelectedRow(), 4).equals("Control")){
-                Tickets miTicket = serviciosT.buscarUno(Integer.parseInt(modelo.getValueAt(jt_tickets.getSelectedRow(),0).toString()));
-                EstadoServ esta = EstadoServ.getEstadoServ();
-                Estados estado = esta.traerEstado(8);
-                HistorialTickets his = new HistorialTickets();
-                fecha = new Date();
-                his.setFecha(fecha);
-                his.setHora(fecha);
-                his.setFkEstado(estado);
-                his.setFkTicket(miTicket);
-                his.setFkUsuario(LoginEJB.usuario);
-                his.setResolucion(miTicket.getResolucion());
-                servH.nuevo(his);
-                llenarTabla();
-            }else{
-                JOptionPane.showMessageDialog(mainFrame, "El ticket ya se encuentra en control!!");
-            }
-        }else{
-            JOptionPane.showMessageDialog(mainFrame, "Debe seleccionar una y solo una fila!");
-        }
-    }//GEN-LAST:event_btn_controlActionPerformed
 
     private void cmbx_areasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbx_areasActionPerformed
         // TODO add your handling code here:
@@ -1187,19 +845,9 @@ public class BandejaTickets extends MenuP {
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btn_control;
-    private javax.swing.JButton btn_enEspera;
     private javax.swing.JButton btn_patrimonio1;
     private javax.swing.JButton btn_patrimonio2;
     private javax.swing.JButton btn_refrescar;
-    private javax.swing.JButton btn_responder;
-    private javax.swing.JButton btn_responder1;
-    private javax.swing.JButton btn_resuelto;
-    private javax.swing.JButton btn_tomar;
-    private javax.swing.JButton btn_trabajando;
-    private javax.swing.JButton btn_transferir;
-    private javax.swing.JButton btn_ver_adjunto;
-    private javax.swing.JButton btn_volver;
     private javax.swing.JComboBox cmbx_areas;
     private javax.swing.JScrollPane jScrollPane1;
     public javax.swing.JTable jt_tickets;

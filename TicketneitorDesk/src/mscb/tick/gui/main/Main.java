@@ -7,8 +7,11 @@ package mscb.tick.gui.main;
 
 
 import java.awt.Dialog;
+import java.awt.GraphicsConfiguration;
+import java.awt.GraphicsDevice;
 import java.awt.Image;
 import java.awt.Toolkit;
+import java.awt.Window;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
@@ -53,7 +56,6 @@ import mscb.tick.gui.tickets.CambiarEstadoTicketD;
 import mscb.tick.gui.tickets.ConfigurarTabla;
 import mscb.tick.gui.tickets.ModificarNotaSalida;
 import mscb.tick.gui.tickets.ModificarPatrimonio;
-import mscb.tick.gui.tickets.ObservacionD;
 import mscb.tick.gui.tickets.ResolucionD;
 import mscb.tick.gui.tickets.ResponderD;
 import mscb.tick.gui.tickets.RespuestaD;
@@ -109,7 +111,6 @@ public class Main extends javax.swing.JFrame {
     private BandejaEnviados bandejaSalida;
     private ConfigurarTabla configTabla;
     
-    private ObservacionD observacion;
     private Tickets miTick;
     
     private ModificarPatrimonio patri;
@@ -167,11 +168,13 @@ public class Main extends javax.swing.JFrame {
         System.out.println("Server: "+server);
         version.setIdConfiguracion(1);
         version.setNombre("version");
-        version.setDescripcion("6.4.4");
+        version.setDescripcion("6.5.0");
         mySystemTray = MySystemTray.getMySystemTray(this);
+        
         setDefaultCloseOperation(0);
         setResizable(false);
         setLocationRelativeTo(null);
+        
         actualizador = new Actualizador(this);
         ventanaLogin();
         actualizador.start();
@@ -626,19 +629,6 @@ public class Main extends javax.swing.JFrame {
         revalidate();
     }
     
-    /**
-     * Muestra ventana con observacion
-     * @param miTick
-     */
-    public void Observaciones(Tickets miTick){
-        if(observacion == null){
-            observacion = new ObservacionD(this,true,miTick);
-        }else{
-            observacion.Observacion(miTick);
-            observacion.setVisible(true);
-        }
-        revalidate();
-    }
     
     /**
      * Formulario de respuesta para tickets
@@ -647,7 +637,7 @@ public class Main extends javax.swing.JFrame {
      */
     public void Respuestas(Tickets miTick){
         if(responder == null){
-            responder = new ResponderD(this,true,miTick);
+            responder = new ResponderD(this,false,miTick);
         }else{
             responder.ResponderM(miTick);
             responder.setVisible(true);

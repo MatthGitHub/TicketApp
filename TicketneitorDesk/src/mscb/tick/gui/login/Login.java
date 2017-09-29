@@ -206,7 +206,7 @@ public class Login extends MenuP {
     private void pswr_claveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_pswr_claveActionPerformed
         // TODO add your handling code here:
         if (pswr_clave.getText().trim().length() > 0) {
-            btn_entrar.requestFocus();
+            btn_entrarActionPerformed(evt);
         } else {
             JOptionPane.showMessageDialog(this, "Ingrese una clave!", "Error", JOptionPane.ERROR_MESSAGE);
         }

@@ -107,6 +107,7 @@ public class AccionMenu extends AbstractAction {
                 his.setHora(fecha);
                 his.setFkEstado(esta.traerEstado(2));
                 his.setFkTicket(miTick);
+                his.setResolucion(miTick.getResolucion());
                 his.setFkUsuario(LoginEJB.usuario);
                 HistorialServ.getHistorialServ().nuevo(his);
                 BandejaTickets.getBandejaTickets(Main.getMainFrame()).llenarTabla();

@@ -50,8 +50,16 @@ public class DetalleTicketDialog extends javax.swing.JDialog {
         dateFormatter = DateFormat.getDateInstance(DateFormat.SHORT, Locale.US);
         txtNumTicket.setText(miBase.getFkTicket().getIdTicket().toString());
         txtFecha.setText(dateFormatter.format(miBase.getFkTicket().getFecha()));
-        txtUsuarioE.setText(miBase.getFkTicket().getUltimoUsuario().getFkEmpleado().getNombre()+" "+miBase.getFkTicket().getUltimoUsuario().getFkEmpleado().getApellido());
-        txtUsuarioR.setText(miBase.getFkUsuario().getFkEmpleado().getNombre()+" "+miBase.getFkUsuario().getFkEmpleado().getApellido());
+        if(miBase.getFkUsuario() == null){
+            txtUsuarioR.setText("Sin");
+        }else{
+            txtUsuarioR.setText(miBase.getFkUsuario().getFkEmpleado().getNombre()+" "+miBase.getFkUsuario().getFkEmpleado().getApellido());
+        }
+        if(miBase.getFkTicket().getUltimoUsuario() == null){
+             txtUsuarioE.setText(miBase.getFkTicket().getCreador().getFkEmpleado().getApellido()+" "+miBase.getFkTicket().getCreador().getFkEmpleado().getNombre());
+        }else{
+            txtUsuarioE.setText(miBase.getFkTicket().getUltimoUsuario().getFkEmpleado().getNombre()+" "+miBase.getFkTicket().getUltimoUsuario().getFkEmpleado().getApellido());
+        }
         txtAObs.setText(miBase.getFkTicket().getObservacion());
         txtAReso.setText(miBase.getResolucion());
         txtAreaE.setText(miBase.getFkTicket().getCreador().getFkEmpleado().getFkArea().getNombreArea());

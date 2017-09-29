@@ -124,6 +124,7 @@ public class BaseConocimientoV extends MenuP {
             }else{
                 v[8] = miLista.get(i).getFkTicket().getNotaSalida();
             }
+            v[9] = miLista.get(i).getFkTicket().getFkareaSolicitante().getNombreArea();
             modelo.addRow(v);
             cant++;
         }
@@ -159,11 +160,11 @@ public class BaseConocimientoV extends MenuP {
 
             },
             new String [] {
-                "Nº ticket", "Emisor", "Fecha entrada", "Receptor", "Fecha resuelto", "Asunto", "Servicio", "Patrimonio", "Nota salida"
+                "Nº ticket", "Emisor", "Fecha entrada", "Receptor", "Fecha resuelto", "Asunto", "Servicio", "Patrimonio", "Nota salida", "Area solicitante"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false, false, false, false
+                false, false, false, false, false, false, false, false, true, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -266,12 +267,12 @@ public class BaseConocimientoV extends MenuP {
 
     private void txt_id2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txt_id2MouseClicked
         // TODO add your handling code here:
-        txt_id.setText("");
+        txt_id2.setText("");
     }//GEN-LAST:event_txt_id2MouseClicked
 
     private void txt_id2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txt_id2ActionPerformed
         // TODO add your handling code here:
-        if(txt_id.getText().trim().length() >0){
+        if(txt_id2.getText().trim().length() >0){
             llenarTablaBuscador(servH.buscarTodosResueltosPorArea(LoginEJB.usuario.getFkEmpleado().getFkArea(), txt_id2.getText().trim()));
         }
     }//GEN-LAST:event_txt_id2ActionPerformed
@@ -282,8 +283,6 @@ public class BaseConocimientoV extends MenuP {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jt_conocimiento;
     private javax.swing.JLabel lblCant;
-    private javax.swing.JTextField txt_id;
-    private javax.swing.JTextField txt_id1;
     private javax.swing.JTextField txt_id2;
     // End of variables declaration//GEN-END:variables
 }

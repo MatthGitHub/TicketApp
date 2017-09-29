@@ -19,6 +19,7 @@ import mscb.tick.negocio.controladores.exceptions.IllegalOrphanException;
 import mscb.tick.negocio.controladores.exceptions.NonexistentEntityException;
 import mscb.tick.negocio.entidades.Areas;
 import mscb.tick.negocio.entidades.Asuntos;
+import mscb.tick.negocio.entidades.Tickets;
 
 /**
  *
@@ -42,6 +43,9 @@ public class AreasJpaController implements Serializable {
         if (areas.getAsuntosList() == null) {
             areas.setAsuntosList(new ArrayList<Asuntos>());
         }
+        if (areas.getTicketsList() == null) {
+            areas.setTicketsList(new ArrayList<Tickets>());
+        }
         EntityManager em = null;
         try {
             em = getEntityManager();
@@ -58,6 +62,12 @@ public class AreasJpaController implements Serializable {
                 attachedAsuntosList.add(asuntosListAsuntosToAttach);
             }
             areas.setAsuntosList(attachedAsuntosList);
+            List<Tickets> attachedTicketsList = new ArrayList<Tickets>();
+            for (Tickets ticketsListTicketsToAttach : areas.getTicketsList()) {
+                ticketsListTicketsToAttach = em.getReference(ticketsListTicketsToAttach.getClass(), ticketsListTicketsToAttach.getIdTicket());
+                attachedTicketsList.add(ticketsListTicketsToAttach);
+            }
+            areas.setTicketsList(attachedTicketsList);
             em.persist(areas);
             for (Empleados empleadosListEmpleados : areas.getEmpleadosList()) {
                 Areas oldFkAreaOfEmpleadosListEmpleados = empleadosListEmpleados.getFkArea();
@@ -75,6 +85,15 @@ public class AreasJpaController implements Serializable {
                 if (oldFkAreaOfAsuntosListAsuntos != null) {
                     oldFkAreaOfAsuntosListAsuntos.getAsuntosList().remove(asuntosListAsuntos);
                     oldFkAreaOfAsuntosListAsuntos = em.merge(oldFkAreaOfAsuntosListAsuntos);
+                }
+            }
+            for (Tickets ticketsListTickets : areas.getTicketsList()) {
+                Areas oldFkareaSolicitanteOfTicketsListTickets = ticketsListTickets.getFkareaSolicitante();
+                ticketsListTickets.setFkareaSolicitante(areas);
+                ticketsListTickets = em.merge(ticketsListTickets);
+                if (oldFkareaSolicitanteOfTicketsListTickets != null) {
+                    oldFkareaSolicitanteOfTicketsListTickets.getTicketsList().remove(ticketsListTickets);
+                    oldFkareaSolicitanteOfTicketsListTickets = em.merge(oldFkareaSolicitanteOfTicketsListTickets);
                 }
             }
             em.getTransaction().commit();
@@ -95,6 +114,8 @@ public class AreasJpaController implements Serializable {
             List<Empleados> empleadosListNew = areas.getEmpleadosList();
             List<Asuntos> asuntosListOld = persistentAreas.getAsuntosList();
             List<Asuntos> asuntosListNew = areas.getAsuntosList();
+            List<Tickets> ticketsListOld = persistentAreas.getTicketsList();
+            List<Tickets> ticketsListNew = areas.getTicketsList();
             List<String> illegalOrphanMessages = null;
             for (Empleados empleadosListOldEmpleados : empleadosListOld) {
                 if (!empleadosListNew.contains(empleadosListOldEmpleados)) {
@@ -129,6 +150,13 @@ public class AreasJpaController implements Serializable {
             }
             asuntosListNew = attachedAsuntosListNew;
             areas.setAsuntosList(asuntosListNew);
+            List<Tickets> attachedTicketsListNew = new ArrayList<Tickets>();
+            for (Tickets ticketsListNewTicketsToAttach : ticketsListNew) {
+                ticketsListNewTicketsToAttach = em.getReference(ticketsListNewTicketsToAttach.getClass(), ticketsListNewTicketsToAttach.getIdTicket());
+                attachedTicketsListNew.add(ticketsListNewTicketsToAttach);
+            }
+            ticketsListNew = attachedTicketsListNew;
+            areas.setTicketsList(ticketsListNew);
             areas = em.merge(areas);
             for (Empleados empleadosListNewEmpleados : empleadosListNew) {
                 if (!empleadosListOld.contains(empleadosListNewEmpleados)) {
@@ -149,6 +177,23 @@ public class AreasJpaController implements Serializable {
                     if (oldFkAreaOfAsuntosListNewAsuntos != null && !oldFkAreaOfAsuntosListNewAsuntos.equals(areas)) {
                         oldFkAreaOfAsuntosListNewAsuntos.getAsuntosList().remove(asuntosListNewAsuntos);
                         oldFkAreaOfAsuntosListNewAsuntos = em.merge(oldFkAreaOfAsuntosListNewAsuntos);
+                    }
+                }
+            }
+            for (Tickets ticketsListOldTickets : ticketsListOld) {
+                if (!ticketsListNew.contains(ticketsListOldTickets)) {
+                    ticketsListOldTickets.setFkareaSolicitante(null);
+                    ticketsListOldTickets = em.merge(ticketsListOldTickets);
+                }
+            }
+            for (Tickets ticketsListNewTickets : ticketsListNew) {
+                if (!ticketsListOld.contains(ticketsListNewTickets)) {
+                    Areas oldFkareaSolicitanteOfTicketsListNewTickets = ticketsListNewTickets.getFkareaSolicitante();
+                    ticketsListNewTickets.setFkareaSolicitante(areas);
+                    ticketsListNewTickets = em.merge(ticketsListNewTickets);
+                    if (oldFkareaSolicitanteOfTicketsListNewTickets != null && !oldFkareaSolicitanteOfTicketsListNewTickets.equals(areas)) {
+                        oldFkareaSolicitanteOfTicketsListNewTickets.getTicketsList().remove(ticketsListNewTickets);
+                        oldFkareaSolicitanteOfTicketsListNewTickets = em.merge(oldFkareaSolicitanteOfTicketsListNewTickets);
                     }
                 }
             }
@@ -198,6 +243,11 @@ public class AreasJpaController implements Serializable {
             }
             if (illegalOrphanMessages != null) {
                 throw new IllegalOrphanException(illegalOrphanMessages);
+            }
+            List<Tickets> ticketsList = areas.getTicketsList();
+            for (Tickets ticketsListTickets : ticketsList) {
+                ticketsListTickets.setFkareaSolicitante(null);
+                ticketsListTickets = em.merge(ticketsListTickets);
             }
             em.remove(areas);
             em.getTransaction().commit();
