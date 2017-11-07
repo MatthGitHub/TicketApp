@@ -500,7 +500,6 @@ public class RolesV extends MenuP {
             Permisos permi = serviciosP.traerUno(Integer.parseInt(modeloF.getValueAt(jt_permisosF.getSelectedRow(), 0).toString()));
             miRol.getPermisosList().add(permi);
             if(serviciosR.modificar(miRol)){
-                JOptionPane.showMessageDialog(this, "Permiso agregado", "Exito", JOptionPane.INFORMATION_MESSAGE);
                 llenarTablaPermisosActuales(miRol);
                 llenarTablaPermisosFaltantes(miRol);
             }else{
@@ -517,7 +516,6 @@ public class RolesV extends MenuP {
             Permisos permi = serviciosP.traerUno(Integer.parseInt(modeloA.getValueAt(jt_permisosA.getSelectedRow(), 0).toString()));
             miRol.getPermisosList().remove(permi);
             if(serviciosR.modificar(miRol)){
-                JOptionPane.showMessageDialog(this, "Permiso quitado", "Exito", JOptionPane.INFORMATION_MESSAGE);
                 llenarTablaPermisosActuales(miRol);
                 llenarTablaPermisosFaltantes(miRol);
             }else{

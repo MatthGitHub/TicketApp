@@ -30,16 +30,20 @@ public class ModificarPatrimonio extends javax.swing.JDialog {
         setTitle("Cambiar patrimonio ticket");
         setLocationRelativeTo(mainFrame);
         setSize(230, 300);
-        lbl_ticket.setText(miTick.getIdTicket().toString());
-        lbl_patrimonio.setText(miTick.getPatrimonio());
         //setResizable(false);
         setDefaultCloseOperation(0);
-        this.miTick = miTick;
+        setearValores(miTick);
         setVisible(true);
     }
 
     private ModificarPatrimonio(JFrame jFrame, boolean b) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+    
+    public void setearValores(Tickets miTick){
+        this.miTick = miTick;
+        lbl_ticket.setText(miTick.getIdTicket().toString());
+        lbl_patrimonio.setText(miTick.getPatrimonio());
     }
     
       /**

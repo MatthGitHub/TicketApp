@@ -60,7 +60,7 @@
                   <Component id="cbxNotaE" alignment="0" min="-2" max="-2" attributes="0"/>
                   <Component id="cbxAreaEmisora" min="-2" max="-2" attributes="0"/>
               </Group>
-              <EmptySpace pref="87" max="32767" attributes="0"/>
+              <EmptySpace max="32767" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
                   <Component id="cbxLugar" alignment="0" min="-2" max="-2" attributes="0"/>
                   <Component id="cbxReceptor" alignment="0" min="-2" max="-2" attributes="0"/>
@@ -273,7 +273,7 @@
         <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
           <Color blue="66" green="66" red="0" type="rgb"/>
         </Property>
-        <Property name="text" type="java.lang.String" value="Nota entrada"/>
+        <Property name="text" type="java.lang.String" value="Nota entrada/Proyecto"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JCheckBox" name="cbxObservacion">
@@ -306,7 +306,7 @@
         <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
           <Color blue="66" green="66" red="0" type="rgb"/>
         </Property>
-        <Property name="text" type="java.lang.String" value="Nota salida"/>
+        <Property name="text" type="java.lang.String" value="Nota salida/Resolucion"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JCheckBox" name="cbxAreaEmisora">

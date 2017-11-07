@@ -70,14 +70,20 @@ if($tipo == 'ticket'){
       $asunto = $_POST['asunto'];
       $area = $_SESSION['area'];
   		$servicio = $_POST['servicios'];
-  		$obs = $_POST['observacion']."\r\n"." - Numero de interno: ".$_POST['interno']."\r\n"."Adjunto: ".$_FILES["archivo"]['name'];
+  		$obs = $_POST['observacion']."\r\n"." - Numero de interno: ".$_POST['interno'];
       $fecha = date('Y-m-d');
       $time = time();
       $hora = date('Y-m-d H:i:s');
       $usuario = $_SESSION['id_usuario'];
-      $adjunto = $_FILES["archivo"]['name'];
-      $tipo_archivo = $_FILES["archivo"]['type'];
+      $adjuntos = $_FILES["archivos"]['name'];
+      $tipos = $_FILES["archivos"]['type'];
+      $tamanios = $_FILES["archivos"]['size'];
+      $cantidadAdjuntos = count($adjuntos);
+      $direcciones = $_FILES["archivos"]['tmp_name'];
+      $i = 0;
 
+      $mes = date('n');
+      $anio = date('Y');
       //echo "TIPO: ".$tipo_archivo;
       //exit();
 
@@ -93,73 +99,124 @@ if($tipo == 'ticket'){
       $idTicket = mysqli_insert_id($link);
       mysqli_query($link,"INSERT INTO historial_tickets (fk_ticket,fk_usuario,fecha,hora,fk_estado) VALUES ({$idTicket},'{$usuario}','{$fecha}','{$hora}',1)");
 
-      if ((strpos($tipo_archivo, "pdf") || strpos($tipo_archivo, "jpeg") || strpos($tipo_archivo, "doc") || strpos($tipo_archivo, "txt") || strpos($tipo_archivo, "docx"))){
+      while($i < $cantidadAdjuntos){
+        $adjunto = $adjuntos[$i];
+        $tipo_archivo = $tipos[$i];
+        $tamanio = $tamanios[$i];
+        $direccion = $direcciones[$i];
+        //echo "Cantidad: $cantidadAdjuntos Numero: $i Adjunto: $adjunto Tipo: $tipo_archivo Tamanio: $tamanio Direccion: $direccion";
 
 
-        switch($tipo_archivo){
+      //exit();
+        /*switch($tipo_archivo){
           case 'application/pdf':
-              $adjunto = $idTicket.'.pdf';
+              $adjunto = $adjunto.'.pdf';
               break;
           case 'text/plain':
-            $adjunto = $idTicket.'.txt';
+            $adjunto = $adjunto.'.txt';
             break;
           case 'application/vnd.openxmlformats-officedocument.wordprocessingml.document':
-            $adjunto = $idTicket.'.docx';
+            $adjunto = $adjunto.'.docx';
             break;
           case 'application/msword':
-            $adjunto = $idTicket.'.doc';
+            $adjunto = $adjunto.'.doc';
             break;
           case 'image/jpeg':
-            $adjunto = $idTicket.'.jpg';
+            $adjunto = $adjunto.'.jpg';
             break;
           case 'application/vnd.oasis.opendocument.text':
-            $adjunto = $idTicket.'.odt';
+            $adjunto = $adjunto.'.odt';
             break;
           case 'application/vnd.oasis.opendocument.spreadsheet':
-            $adjunto = $idTicket.'.ods';
+            $adjunto = $adjunto.'.ods';
             break;
-        }
-        mysqli_query($link,"UPDATE tickets SET adjunto = '$adjunto' WHERE id_ticket = $idTicket");
+        }*/
+          $sql = "INSERT INTO tickets_adjuntos VALUES ($idTicket,'$adjunto',$anio,$mes)";
+          $adjerror = mysqli_query($link,$sql);
 
-      }
-
-      if(!empty($my_error)) {
-          mysqli_close($link);
-          header ("Location: ticket_nuevo.php?errordat");
-
-      } else {
-        //--------------------------------------------------- Subo adjunto al servidor, dentro de la carpeta de archivos -----------------------------------------------------
-        $uploadedfileload="true";
-        $uploadedfile_size=$_FILES["archivo"]['size'];
-
-
-        echo $_FILES["archivo"]['name'];
-
-        if ($_FILES["archivo"]['size']>5000000){
-          $msg=$msg."El archivo es mayor que 5000KB, debes reduzcirlo antes de subirlo<BR>";
-          $uploadedfileload="false";
-        }
-
-       if (!(strpos($tipo_archivo, "pdf") || strpos($tipo_archivo, "jpeg") || strpos($tipo_archivo, "doc")|| strpos($tipo_archivo, "txt"))){
-          $msg=$msg." Tu archivo tiene que ser PDF o DOC. Otros archivos no son permitidos<BR>";
-          $uploadedfileload="false";
-        }
-
-        $file_name=$_FILES["archivo"]['name'];
-        $add="archivos/$adjunto";
-        if($uploadedfileload=="true"){
-          if(copy ($_FILES["archivo"]['tmp_name'], $add)){
-            echo " Ha sido subido satisfactoriamente";
-          }else{
-              echo "Error al subir el archivo";
+          if(!$adjerror){
+            echo "Error al adjuntar en BD: $adjerror -- SQL: $sql";
+            exit();
           }
-        }else{
-          echo $msg;
-        }
-        mysqli_close($link);
-        header ("Location: tickets_recientes.php");
 
-      }
+
+        if(!empty($my_error)) {
+            mysqli_close($link);
+            header ("Location: ticket_nuevo.php?errordat");
+
+        } else {
+          //--------------------------------------------------- Subo adjunto al servidor, dentro de la carpeta de archivos -----------------------------------------------------
+          $uploadedfileload="true";
+          $uploadedfile_size=$tamanio;
+
+          //echo $_FILES["archivo"]['name'];
+
+          if ($uploadedfile_size > 5000000){
+            $msg=$msg."El archivo es mayor que 5000KB, debes reduzcirlo antes de subirlo<BR>";
+            $uploadedfileload="false";
+          }
+
+         /*if (!(strpos($tipo_archivo, "pdf") || strpos($tipo_archivo, "jpeg") || strpos($tipo_archivo, "doc")|| strpos($tipo_archivo, "txt")|| strpos($tipo_archivo, "sql"))){
+            $msg=$msg." Tu archivo tiene que ser PDF o DOC. Otros archivos no son permitidos<BR>";
+            $uploadedfileload="false";
+          }*/
+
+
+          $carpetaAnio = "archivos/$anio";
+          $carpetaMes = "archivos/$anio/$mes";
+          $carpetaTicket = "archivos/$anio/$mes/$idTicket";
+
+          //Verifico si existe la carpeta con el año
+          if (!file_exists($carpetaAnio)) {
+              mkdir($carpetaAnio, 0777, true);
+          }else{
+            //Verifico si existe la carpeta con el mes
+            if (!file_exists($carpetaMes)) {
+                mkdir($carpetaMes, 0777, true);
+            }else{
+              //Verifico si existe la carpeta con el numero de ticket
+              if (!file_exists($carpetaTicket)) {
+                  mkdir($carpetaTicket, 0777, true);
+              }
+            }
+          }
+
+          //Verifico si existe la carpeta con el mes
+          if (!file_exists($carpetaMes)) {
+              mkdir($carpetaMes, 0777, true);
+          }else{
+            //Verifico si existe la carpeta con el numero de ticket
+            if (!file_exists($carpetaTicket)) {
+                mkdir($carpetaTicket, 0777, true);
+            }
+          }
+
+          //Verifico si existe la carpeta con el numero de ticket
+          if (!file_exists($carpetaTicket)) {
+              mkdir($carpetaTicket, 0777, true);
+          }
+
+
+          $file_name=$adjunto;
+          $add="archivos/$anio/$mes/$idTicket/$adjunto";
+          if($uploadedfileload=="true"){
+            if(copy ($direccion, $add)){
+              //echo "Adjunto: $adjunto Tipo: $tipo_archivo Tamanio: $tamanio Direccion: $direccion Final: $add";
+              //exit();
+              echo " Ha sido subido satisfactoriamente";
+            }else{
+                echo "Error al subir el archivo";
+            }
+          }else{
+            echo $msg;
+          }
+
+        }
+        //echo "Cantidad: $cantidadAdjuntos Numero: $i Adjunto: $adjunto Tipo: $tipo_archivo Tamanio: $tamanio Direccion: $direccion";
+        $i++;
+      }//Aca termina el FOR
+      mysqli_close($link);
+      header ("Location: tickets_recientes.php");
 
     } else {
         mysqli_close($link);

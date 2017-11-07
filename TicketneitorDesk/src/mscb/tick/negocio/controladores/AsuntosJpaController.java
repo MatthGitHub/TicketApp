@@ -19,6 +19,7 @@ import javax.persistence.EntityManagerFactory;
 import mscb.tick.negocio.controladores.exceptions.IllegalOrphanException;
 import mscb.tick.negocio.controladores.exceptions.NonexistentEntityException;
 import mscb.tick.negocio.entidades.Asuntos;
+import mscb.tick.negocio.entidades.Estados;
 
 /**
  *
@@ -39,6 +40,9 @@ public class AsuntosJpaController implements Serializable {
         if (asuntos.getServiciosList() == null) {
             asuntos.setServiciosList(new ArrayList<Servicios>());
         }
+        if (asuntos.getEstadosList() == null) {
+            asuntos.setEstadosList(new ArrayList<Estados>());
+        }
         EntityManager em = null;
         try {
             em = getEntityManager();
@@ -54,6 +58,12 @@ public class AsuntosJpaController implements Serializable {
                 attachedServiciosList.add(serviciosListServiciosToAttach);
             }
             asuntos.setServiciosList(attachedServiciosList);
+            List<Estados> attachedEstadosList = new ArrayList<Estados>();
+            for (Estados estadosListEstadosToAttach : asuntos.getEstadosList()) {
+                estadosListEstadosToAttach = em.getReference(estadosListEstadosToAttach.getClass(), estadosListEstadosToAttach.getIdEstado());
+                attachedEstadosList.add(estadosListEstadosToAttach);
+            }
+            asuntos.setEstadosList(attachedEstadosList);
             em.persist(asuntos);
             if (fkArea != null) {
                 fkArea.getAsuntosList().add(asuntos);
@@ -67,6 +77,10 @@ public class AsuntosJpaController implements Serializable {
                     oldPerteneceOfServiciosListServicios.getServiciosList().remove(serviciosListServicios);
                     oldPerteneceOfServiciosListServicios = em.merge(oldPerteneceOfServiciosListServicios);
                 }
+            }
+            for (Estados estadosListEstados : asuntos.getEstadosList()) {
+                estadosListEstados.getAsuntosList().add(asuntos);
+                estadosListEstados = em.merge(estadosListEstados);
             }
             em.getTransaction().commit();
         } finally {
@@ -86,6 +100,8 @@ public class AsuntosJpaController implements Serializable {
             Areas fkAreaNew = asuntos.getFkArea();
             List<Servicios> serviciosListOld = persistentAsuntos.getServiciosList();
             List<Servicios> serviciosListNew = asuntos.getServiciosList();
+            List<Estados> estadosListOld = persistentAsuntos.getEstadosList();
+            List<Estados> estadosListNew = asuntos.getEstadosList();
             List<String> illegalOrphanMessages = null;
             for (Servicios serviciosListOldServicios : serviciosListOld) {
                 if (!serviciosListNew.contains(serviciosListOldServicios)) {
@@ -109,6 +125,13 @@ public class AsuntosJpaController implements Serializable {
             }
             serviciosListNew = attachedServiciosListNew;
             asuntos.setServiciosList(serviciosListNew);
+            List<Estados> attachedEstadosListNew = new ArrayList<Estados>();
+            for (Estados estadosListNewEstadosToAttach : estadosListNew) {
+                estadosListNewEstadosToAttach = em.getReference(estadosListNewEstadosToAttach.getClass(), estadosListNewEstadosToAttach.getIdEstado());
+                attachedEstadosListNew.add(estadosListNewEstadosToAttach);
+            }
+            estadosListNew = attachedEstadosListNew;
+            asuntos.setEstadosList(estadosListNew);
             asuntos = em.merge(asuntos);
             if (fkAreaOld != null && !fkAreaOld.equals(fkAreaNew)) {
                 fkAreaOld.getAsuntosList().remove(asuntos);
@@ -127,6 +150,18 @@ public class AsuntosJpaController implements Serializable {
                         oldPerteneceOfServiciosListNewServicios.getServiciosList().remove(serviciosListNewServicios);
                         oldPerteneceOfServiciosListNewServicios = em.merge(oldPerteneceOfServiciosListNewServicios);
                     }
+                }
+            }
+            for (Estados estadosListOldEstados : estadosListOld) {
+                if (!estadosListNew.contains(estadosListOldEstados)) {
+                    estadosListOldEstados.getAsuntosList().remove(asuntos);
+                    estadosListOldEstados = em.merge(estadosListOldEstados);
+                }
+            }
+            for (Estados estadosListNewEstados : estadosListNew) {
+                if (!estadosListOld.contains(estadosListNewEstados)) {
+                    estadosListNewEstados.getAsuntosList().add(asuntos);
+                    estadosListNewEstados = em.merge(estadosListNewEstados);
                 }
             }
             em.getTransaction().commit();
@@ -173,6 +208,11 @@ public class AsuntosJpaController implements Serializable {
             if (fkArea != null) {
                 fkArea.getAsuntosList().remove(asuntos);
                 fkArea = em.merge(fkArea);
+            }
+            List<Estados> estadosList = asuntos.getEstadosList();
+            for (Estados estadosListEstados : estadosList) {
+                estadosListEstados.getAsuntosList().remove(asuntos);
+                estadosListEstados = em.merge(estadosListEstados);
             }
             em.remove(asuntos);
             em.getTransaction().commit();

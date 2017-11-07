@@ -300,7 +300,7 @@ public class ConfigurarTabla extends MenuP {
 
         cbxNotaE.setFont(new java.awt.Font("SansSerif", 1, 14)); // NOI18N
         cbxNotaE.setForeground(new java.awt.Color(0, 102, 102));
-        cbxNotaE.setText("Nota entrada");
+        cbxNotaE.setText("Nota entrada/Proyecto");
 
         cbxObservacion.setFont(new java.awt.Font("SansSerif", 1, 14)); // NOI18N
         cbxObservacion.setForeground(new java.awt.Color(0, 102, 102));
@@ -312,7 +312,7 @@ public class ConfigurarTabla extends MenuP {
 
         cbxNotaS.setFont(new java.awt.Font("SansSerif", 1, 14)); // NOI18N
         cbxNotaS.setForeground(new java.awt.Color(0, 102, 102));
-        cbxNotaS.setText("Nota salida");
+        cbxNotaS.setText("Nota salida/Resolucion");
 
         cbxAreaEmisora.setFont(new java.awt.Font("SansSerif", 1, 14)); // NOI18N
         cbxAreaEmisora.setForeground(new java.awt.Color(0, 102, 102));
@@ -380,7 +380,7 @@ public class ConfigurarTabla extends MenuP {
                     .addComponent(cbxAsunto)
                     .addComponent(cbxNotaE)
                     .addComponent(cbxAreaEmisora))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 87, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(cbxLugar)
                     .addComponent(cbxReceptor)

@@ -67,6 +67,7 @@ public class TransferenciaP extends MenuP {
         cmbx_asuntoSecundario.setVisible(false);
         cmbx_razones.setVisible(false);
         llenarAsuntoPrincipal();
+        cmbx_asuntoPrincipal.setSelectedIndex(0);
     }
     
     public static TransferenciaP getPanelTransferencia(Tickets miTick, TransferenciaD mainFrame){
@@ -187,7 +188,7 @@ public class TransferenciaP extends MenuP {
         jLabel2.setBackground(new java.awt.Color(0, 102, 204));
         jLabel2.setFont(new java.awt.Font("SansSerif", 3, 14)); // NOI18N
         jLabel2.setForeground(new java.awt.Color(0, 108, 118));
-        jLabel2.setText("Asunto Actual:");
+        jLabel2.setText("Servicio actual:");
 
         jLabel3.setBackground(new java.awt.Color(0, 102, 204));
         jLabel3.setFont(new java.awt.Font("SansSerif", 3, 14)); // NOI18N
@@ -324,9 +325,9 @@ public class TransferenciaP extends MenuP {
     private void btn_guardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_guardarActionPerformed
         // TODO add your handling code here:
         if(JOptionPane.showConfirmDialog(mainFrame, "Seguro desea transferir?","Confirmar",JOptionPane.YES_NO_OPTION) == 0){
+            Servicios viejo = miTick.getServicio();
             miTick.setServicio((Servicios) cmbx_asuntoSecundario.getSelectedItem());
             if(serviciosT.modificarTicket(miTick) == 0){
-                JOptionPane.showMessageDialog(this, "Ticket transferido");
                 Date fecha = new Date();
                 HistorialServ servH = HistorialServ.getHistorialServ();
                 HistorialTickets his = new HistorialTickets();
@@ -339,16 +340,13 @@ public class TransferenciaP extends MenuP {
                 
                 String reso = miTick.getResolucion();
                 if((reso == null)||(reso.isEmpty())){
-                    if(txtA_reso.getText().trim().isEmpty()){
-                        his.setResolucion(null);
-                    }else{
-                        his.setResolucion("Resolucion por "+LoginEJB.usuario+" : "+txtA_reso.getText());
-                    }
+                    his.setResolucion("Transferido por "+LoginEJB.usuario+"  "+txtA_reso.getText()+" de:"+viejo.getNombreasuntoS()+" a:"+miTick.getServicio().getNombreasuntoS());
                 }else{
-                    his.setResolucion(reso+"\nResolucion por "+LoginEJB.usuario+" : "+txtA_reso.getText());
+                    his.setResolucion("Transferido por "+LoginEJB.usuario+"  "+txtA_reso.getText()+" de:"+viejo.getNombreasuntoS()+" a:"+miTick.getServicio().getNombreasuntoS()+"\n Resolucion: "+reso);
                 }
                 servH.nuevo(his);
-                //BandejaTickets.getBandejaTickets(mainFrameO).llenarTabla();
+                BandejaTickets.getBandejaTickets(Main.getMainFrame()).llenarTabla();
+                ResponderP.getResponder().cargarEstados();
                 setVisible(false);
                 mainFrame.setVisible(false);
                 estePanel = null;

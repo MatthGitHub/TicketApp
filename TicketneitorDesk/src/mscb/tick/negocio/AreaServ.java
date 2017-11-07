@@ -96,7 +96,7 @@ public class AreaServ {
         return q.getResultList();
     }
     
-    public Areas getSolicitante(String nombre){
+    public Areas getSolicitantePorNombre(String nombre){
         EntityManager em = EntitiesManager.getEnetityManager();
         Areas aux;
         q = em.createNativeQuery("SELECT *"
@@ -114,4 +114,23 @@ public class AreaServ {
         em.close();*/
         return aux;
     }
+    
+    public Areas getSolicitantePorCodigo(String codigo){
+        EntityManager em = EntitiesManager.getEnetityManager();
+        Areas aux;
+        q = em.createNativeQuery("SELECT *"
+                                + " FROM areas"
+                                + " WHERE codigo = ?1",Areas.class);
+        q.setParameter(1, codigo);
+        try {
+            aux = (Areas) q.getSingleResult();
+        } catch (Exception e) {
+            aux = null;
+            System.err.println("Error en getSolicitantePorCodigo: "+e);
+        }
+        
+        /*em.clear();
+        em.close();*/
+        return aux;
+    } 
 }

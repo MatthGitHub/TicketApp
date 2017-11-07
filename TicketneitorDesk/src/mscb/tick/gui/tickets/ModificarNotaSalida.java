@@ -30,11 +30,9 @@ public class ModificarNotaSalida extends javax.swing.JDialog {
         setTitle("Cambiar numero nota salida ticket");
         setLocationRelativeTo(mainFrame);
         setSize(230, 300);
-        lbl_ticket.setText(miTick.getIdTicket().toString());
-        lbl_patrimonio.setText(miTick.getPatrimonio());
         //setResizable(false);
         setDefaultCloseOperation(0);
-        this.miTick = miTick;
+        setearValores(miTick);
         pack();
         setVisible(true);
     }
@@ -43,7 +41,11 @@ public class ModificarNotaSalida extends javax.swing.JDialog {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     
-    
+    public void setearValores(Tickets miTick){
+        this.miTick = miTick;
+        lbl_ticket.setText(miTick.getIdTicket().toString());
+        lbl_patrimonio.setText(miTick.getNotaSalida());
+    }
     
 
     /**
@@ -164,11 +166,11 @@ public class ModificarNotaSalida extends javax.swing.JDialog {
                         .addComponent(jLabel8)
                         .addGap(121, 121, 121))
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(txt_n_nota, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(txt_n_nota, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jLabel10)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(txt_area_nota, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(txt_area_nota, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
@@ -205,21 +207,25 @@ public class ModificarNotaSalida extends javax.swing.JDialog {
     private void btn_guardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_guardarActionPerformed
         // TODO add your handling code here:
        //Completo numero de nota para que cumpla con el estandar
-            if(txt_n_nota.getText().trim().length() < 4){
+            /*if(txt_n_nota.getText().trim().length() < 4){
                 for(int i = 0; i < 4-txt_n_nota.getText().trim().length();i++){
                     txt_n_nota.setText("0"+txt_n_nota.getText().trim());
                 }
-            }
-            if(txt_area_nota.getText().trim().isEmpty()){
+            }*/
+            /*if(txt_area_nota.getText().trim().isEmpty()){
                 txt_area_nota.setText("--------");
+            }*/
+            if((txt_n_nota.getText().trim().isEmpty())&&(txt_n_nota.getText().trim().isEmpty())){
+               JOptionPane.showMessageDialog(this, "Debe escribir un numero de nota!");
+            }else{
+                miTick.setNotaSalida(txt_n_nota.getText()+"-"+txt_area_nota.getText().trim());
+                TicketServ.getTicketServ().modificarTicket(miTick);
+                BandejaTickets tickete = BandejaTickets.getBandejaTickets(mainFrame);
+                tickete.llenarTabla();
+                setVisible(false);
+                dispose();
+                System.gc();
             }
-            miTick.setNotaSalida(txt_n_nota.getText()+"-"+txt_area_nota.getText().trim());
-            TicketServ.getTicketServ().modificarTicket(miTick);
-            BandejaTickets tickete = BandejaTickets.getBandejaTickets(mainFrame);
-            tickete.llenarTabla();
-            setVisible(false);
-            dispose();
-            System.gc();
     }//GEN-LAST:event_btn_guardarActionPerformed
 
     private void btn_cerrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_cerrarActionPerformed
@@ -235,19 +241,19 @@ public class ModificarNotaSalida extends javax.swing.JDialog {
 
     private void txt_n_notaKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txt_n_notaKeyTyped
         // TODO add your handling code here:
-        if(txt_n_nota.getText().length()== 4){
+       /* if(txt_n_nota.getText().length()== 4){
             evt.consume();
-        }
+        }*/
     }//GEN-LAST:event_txt_n_notaKeyTyped
 
     private void txt_area_notaKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txt_area_notaKeyTyped
         // TODO add your handling code here:
-        if (txt_area_nota.getText().length()== 8){
+       /* if (txt_area_nota.getText().length()== 8){
             txt_area_nota.setText(txt_area_nota.getText().toUpperCase());
             evt.consume();
         }else{
             txt_area_nota.setText(txt_area_nota.getText().toUpperCase());
-        }
+        }*/
     }//GEN-LAST:event_txt_area_notaKeyTyped
 
     /**

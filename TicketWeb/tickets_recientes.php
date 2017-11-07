@@ -2,9 +2,6 @@
 include('inc/config.php');
 include('inc/validar.php');
 
-
-
-
 $id_usuario =  $_SESSION["id_usuario"];
 // Conectar a la base de datos
 $link = mysqli_connect ($dbhost, $dbusername, $dbuserpass);
@@ -18,6 +15,28 @@ $query = mysqli_query($link,"SELECT id_ticket,ht.fecha,SUBSTRING(CAST(ht.hora AS
                               AND ht.fk_estado NOT IN (7,5)
                               AND ht.id_historial IN (SELECT MAX(id_historial) FROM historial_tickets WHERE fk_ticket = t.id_ticket)
                               ORDER by id_ticket DESC") or die(mysqli_error($link));
+
+function adjunto($idTicket){
+  $dbhost='localhost'; // Servidor
+  $dbusername='administrador'; // Nombre de usuario
+  $dbuserpass='cavaliere'; // Contraseña
+  $dbname='ticket'; // Nombre de la base de datos
+  $link = mysqli_connect ($dbhost, $dbusername, $dbuserpass);
+  mysqli_set_charset($link,'utf8');
+  mysqli_select_db($link,$dbname) or die('No se puede seleccionar la base de datos');
+  $stmt = mysqli_query($link,"SELECT * FROM `tickets_adjuntos` WHERE fk_ticket = $idTicket");
+
+  $cantidad = mysqli_num_rows($stmt);
+
+  if($cantidad > 0){
+    return true;
+  }else{
+    return false;
+  }
+
+}
+
+
 
 mysqli_close($link);
 ?>
@@ -104,8 +123,8 @@ mysqli_close($link);
 							<td> <?php echo $tickets['nombre']; ?> </td>
 							<td> <?php echo $tickets['observacion'];?></td>
               <td> <button type="submit" id="idTicket" name="idTicket" class="btn btn-sm btn-primary"  onclick="location.href='detalle_ticket_responder.php?idTicket=<?php echo $tickets['id_ticket']; ?>';"><i class="fa fa-address-book-o fa-fw"></i></button> </td>
-              <?php if($tickets['adjunto'] != null){ ?>
-                <td> <button type="submit" id="adjunto" name="adjunto" class="btn btn-sm btn-primary"  onclick="location.href='adjunto.php?adjunto=<?php echo $tickets['adjunto']; ?>';"><i class="fa fa-paperclip fa-fw"></i></button> </td>
+              <?php if(adjunto($tickets['id_ticket'])){ ?>
+                <td> <button type="submit" id="adjunto" name="adjunto" class="btn btn-sm btn-primary"  onclick="location.href='adjuntos_tickets.php?adjunto=<?php echo $tickets['id_ticket']; ?>';"><i class="fa fa-paperclip fa-fw"></i></button> </td>
               <?php } ?>
 						</tr>
 						<?php } ?>

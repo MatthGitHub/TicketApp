@@ -22,6 +22,7 @@ import javax.persistence.EntityManagerFactory;
 import mscb.tick.negocio.controladores.exceptions.IllegalOrphanException;
 import mscb.tick.negocio.controladores.exceptions.NonexistentEntityException;
 import mscb.tick.negocio.entidades.Tickets;
+import mscb.tick.negocio.entidades.TicketsAdjuntos;
 
 /**
  *
@@ -41,6 +42,9 @@ public class TicketsJpaController implements Serializable {
     public void create(Tickets tickets) {
         if (tickets.getHistorialTicketsList() == null) {
             tickets.setHistorialTicketsList(new ArrayList<HistorialTickets>());
+        }
+        if (tickets.getTicketsAdjuntosList() == null) {
+            tickets.setTicketsAdjuntosList(new ArrayList<TicketsAdjuntos>());
         }
         EntityManager em = null;
         try {
@@ -72,6 +76,12 @@ public class TicketsJpaController implements Serializable {
                 attachedHistorialTicketsList.add(historialTicketsListHistorialTicketsToAttach);
             }
             tickets.setHistorialTicketsList(attachedHistorialTicketsList);
+            List<TicketsAdjuntos> attachedTicketsAdjuntosList = new ArrayList<TicketsAdjuntos>();
+            for (TicketsAdjuntos ticketsAdjuntosListTicketsAdjuntosToAttach : tickets.getTicketsAdjuntosList()) {
+                ticketsAdjuntosListTicketsAdjuntosToAttach = em.getReference(ticketsAdjuntosListTicketsAdjuntosToAttach.getClass(), ticketsAdjuntosListTicketsAdjuntosToAttach.getTicketsAdjuntosPK());
+                attachedTicketsAdjuntosList.add(ticketsAdjuntosListTicketsAdjuntosToAttach);
+            }
+            tickets.setTicketsAdjuntosList(attachedTicketsAdjuntosList);
             em.persist(tickets);
             if (creador != null) {
                 creador.getTicketsList().add(tickets);
@@ -98,6 +108,15 @@ public class TicketsJpaController implements Serializable {
                     oldFkTicketOfHistorialTicketsListHistorialTickets = em.merge(oldFkTicketOfHistorialTicketsListHistorialTickets);
                 }
             }
+            for (TicketsAdjuntos ticketsAdjuntosListTicketsAdjuntos : tickets.getTicketsAdjuntosList()) {
+                Tickets oldTicketsOfTicketsAdjuntosListTicketsAdjuntos = ticketsAdjuntosListTicketsAdjuntos.getTickets();
+                ticketsAdjuntosListTicketsAdjuntos.setTickets(tickets);
+                ticketsAdjuntosListTicketsAdjuntos = em.merge(ticketsAdjuntosListTicketsAdjuntos);
+                if (oldTicketsOfTicketsAdjuntosListTicketsAdjuntos != null) {
+                    oldTicketsOfTicketsAdjuntosListTicketsAdjuntos.getTicketsAdjuntosList().remove(ticketsAdjuntosListTicketsAdjuntos);
+                    oldTicketsOfTicketsAdjuntosListTicketsAdjuntos = em.merge(oldTicketsOfTicketsAdjuntosListTicketsAdjuntos);
+                }
+            }
             em.getTransaction().commit();
         } finally {
             if (em != null) {
@@ -122,6 +141,8 @@ public class TicketsJpaController implements Serializable {
             Areas fkareaSolicitanteNew = tickets.getFkareaSolicitante();
             List<HistorialTickets> historialTicketsListOld = persistentTickets.getHistorialTicketsList();
             List<HistorialTickets> historialTicketsListNew = tickets.getHistorialTicketsList();
+            List<TicketsAdjuntos> ticketsAdjuntosListOld = persistentTickets.getTicketsAdjuntosList();
+            List<TicketsAdjuntos> ticketsAdjuntosListNew = tickets.getTicketsAdjuntosList();
             List<String> illegalOrphanMessages = null;
             for (HistorialTickets historialTicketsListOldHistorialTickets : historialTicketsListOld) {
                 if (!historialTicketsListNew.contains(historialTicketsListOldHistorialTickets)) {
@@ -129,6 +150,14 @@ public class TicketsJpaController implements Serializable {
                         illegalOrphanMessages = new ArrayList<String>();
                     }
                     illegalOrphanMessages.add("You must retain HistorialTickets " + historialTicketsListOldHistorialTickets + " since its fkTicket field is not nullable.");
+                }
+            }
+            for (TicketsAdjuntos ticketsAdjuntosListOldTicketsAdjuntos : ticketsAdjuntosListOld) {
+                if (!ticketsAdjuntosListNew.contains(ticketsAdjuntosListOldTicketsAdjuntos)) {
+                    if (illegalOrphanMessages == null) {
+                        illegalOrphanMessages = new ArrayList<String>();
+                    }
+                    illegalOrphanMessages.add("You must retain TicketsAdjuntos " + ticketsAdjuntosListOldTicketsAdjuntos + " since its tickets field is not nullable.");
                 }
             }
             if (illegalOrphanMessages != null) {
@@ -157,6 +186,13 @@ public class TicketsJpaController implements Serializable {
             }
             historialTicketsListNew = attachedHistorialTicketsListNew;
             tickets.setHistorialTicketsList(historialTicketsListNew);
+            List<TicketsAdjuntos> attachedTicketsAdjuntosListNew = new ArrayList<TicketsAdjuntos>();
+            for (TicketsAdjuntos ticketsAdjuntosListNewTicketsAdjuntosToAttach : ticketsAdjuntosListNew) {
+                ticketsAdjuntosListNewTicketsAdjuntosToAttach = em.getReference(ticketsAdjuntosListNewTicketsAdjuntosToAttach.getClass(), ticketsAdjuntosListNewTicketsAdjuntosToAttach.getTicketsAdjuntosPK());
+                attachedTicketsAdjuntosListNew.add(ticketsAdjuntosListNewTicketsAdjuntosToAttach);
+            }
+            ticketsAdjuntosListNew = attachedTicketsAdjuntosListNew;
+            tickets.setTicketsAdjuntosList(ticketsAdjuntosListNew);
             tickets = em.merge(tickets);
             if (creadorOld != null && !creadorOld.equals(creadorNew)) {
                 creadorOld.getTicketsList().remove(tickets);
@@ -201,6 +237,17 @@ public class TicketsJpaController implements Serializable {
                     }
                 }
             }
+            for (TicketsAdjuntos ticketsAdjuntosListNewTicketsAdjuntos : ticketsAdjuntosListNew) {
+                if (!ticketsAdjuntosListOld.contains(ticketsAdjuntosListNewTicketsAdjuntos)) {
+                    Tickets oldTicketsOfTicketsAdjuntosListNewTicketsAdjuntos = ticketsAdjuntosListNewTicketsAdjuntos.getTickets();
+                    ticketsAdjuntosListNewTicketsAdjuntos.setTickets(tickets);
+                    ticketsAdjuntosListNewTicketsAdjuntos = em.merge(ticketsAdjuntosListNewTicketsAdjuntos);
+                    if (oldTicketsOfTicketsAdjuntosListNewTicketsAdjuntos != null && !oldTicketsOfTicketsAdjuntosListNewTicketsAdjuntos.equals(tickets)) {
+                        oldTicketsOfTicketsAdjuntosListNewTicketsAdjuntos.getTicketsAdjuntosList().remove(ticketsAdjuntosListNewTicketsAdjuntos);
+                        oldTicketsOfTicketsAdjuntosListNewTicketsAdjuntos = em.merge(oldTicketsOfTicketsAdjuntosListNewTicketsAdjuntos);
+                    }
+                }
+            }
             em.getTransaction().commit();
         } catch (Exception ex) {
             String msg = ex.getLocalizedMessage();
@@ -237,6 +284,13 @@ public class TicketsJpaController implements Serializable {
                     illegalOrphanMessages = new ArrayList<String>();
                 }
                 illegalOrphanMessages.add("This Tickets (" + tickets + ") cannot be destroyed since the HistorialTickets " + historialTicketsListOrphanCheckHistorialTickets + " in its historialTicketsList field has a non-nullable fkTicket field.");
+            }
+            List<TicketsAdjuntos> ticketsAdjuntosListOrphanCheck = tickets.getTicketsAdjuntosList();
+            for (TicketsAdjuntos ticketsAdjuntosListOrphanCheckTicketsAdjuntos : ticketsAdjuntosListOrphanCheck) {
+                if (illegalOrphanMessages == null) {
+                    illegalOrphanMessages = new ArrayList<String>();
+                }
+                illegalOrphanMessages.add("This Tickets (" + tickets + ") cannot be destroyed since the TicketsAdjuntos " + ticketsAdjuntosListOrphanCheckTicketsAdjuntos + " in its ticketsAdjuntosList field has a non-nullable tickets field.");
             }
             if (illegalOrphanMessages != null) {
                 throw new IllegalOrphanException(illegalOrphanMessages);

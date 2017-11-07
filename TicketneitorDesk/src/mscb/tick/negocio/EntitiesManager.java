@@ -19,9 +19,13 @@ public class EntitiesManager {
     private static EntitiesManager estaClase;
     private static EntityManagerFactory emf;
     private static EntityManager em;
+    private static EntityManagerFactory emfPgm;
+    private static EntityManagerFactory emfPrincipal;
     
     private EntitiesManager(){
         emf = Persistence.createEntityManagerFactory(Main.getServer());
+        emfPgm = Persistence.createEntityManagerFactory("10.20.130.6");
+        emfPrincipal = Persistence.createEntityManagerFactory("10.20.130.242");
         em = emf.createEntityManager();
     }
     
@@ -39,9 +43,10 @@ public class EntitiesManager {
         return emf;
     }
     
+     
     public static EntityManager getEnetityManager(){
         if(em == null){
-            getEnetityManager();
+            getEntitieManager();
         }
         return em;
     }
@@ -51,5 +56,19 @@ public class EntitiesManager {
         em = null;
         emf = null;
         estaClase = null;
+    }
+    
+    public static EntityManagerFactory getEmfPgm(){
+        if(emfPgm == null){
+            getEntitieManager();
+        }
+        return emfPgm;
+    }
+    
+    public static EntityManagerFactory getEmfPrincipal(){
+        if(emfPrincipal == null){
+            getEntitieManager();
+        }
+        return emfPrincipal;
     }
 }

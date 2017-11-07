@@ -40,6 +40,7 @@ public class NuevoAsunto extends MenuP {
             cmbx_areas.setVisible(false);
             lblArea.setText(miArea.getNombreArea());
         }
+        txt_nombreAsunto.requestFocus();
         setVisible(true);
     }
     
@@ -128,6 +129,7 @@ public class NuevoAsunto extends MenuP {
         cmbx_visible.setBackground(new java.awt.Color(153, 153, 153));
         cmbx_visible.setFont(new java.awt.Font("SansSerif", 0, 11)); // NOI18N
         cmbx_visible.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Si", "No" }));
+        cmbx_visible.setSelectedIndex(1);
         cmbx_visible.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 cmbx_visibleActionPerformed(evt);
@@ -150,46 +152,38 @@ public class NuevoAsunto extends MenuP {
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addComponent(jLabel2)
-                                        .addGap(346, 346, 346))
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addComponent(cmbx_areas, 0, 381, Short.MAX_VALUE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)))
-                                .addComponent(lblArea, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(cmbx_visible, javax.swing.GroupLayout.PREFERRED_SIZE, 381, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(0, 0, Short.MAX_VALUE))
-                            .addComponent(txt_nombreAsunto))
-                        .addContainerGap())
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
                                 .addComponent(btn_salir)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addComponent(btn_nuevo))
                             .addComponent(jLabel3))
-                        .addGap(0, 0, Short.MAX_VALUE))))
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                                .addComponent(cmbx_visible, javax.swing.GroupLayout.PREFERRED_SIZE, 381, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(0, 0, Short.MAX_VALUE))
+                            .addComponent(txt_nombreAsunto, javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                                .addComponent(jLabel2)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(lblArea, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addComponent(cmbx_areas, javax.swing.GroupLayout.Alignment.LEADING, 0, 385, Short.MAX_VALUE))
+                        .addContainerGap())))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(0, 13, Short.MAX_VALUE)
-                        .addComponent(lblArea, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(86, 86, 86))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel2)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(cmbx_areas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jLabel3)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(cmbx_visible, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(lblArea, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(cmbx_areas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 25, Short.MAX_VALUE)
+                .addComponent(jLabel3)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(cmbx_visible, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(txt_nombreAsunto, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -212,38 +206,36 @@ public class NuevoAsunto extends MenuP {
     private void btn_nuevoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_nuevoActionPerformed
         // TODO add your handling code here:
         if(!txt_nombreAsunto.getText().trim().isEmpty()){
-            if(JOptionPane.showConfirmDialog(mainFrame, "Guardar?", "Confirmar", JOptionPane.YES_NO_OPTION) == 0){
-                serviciosA = AsuntoPrincipalServ.getAsuntoPrincipalServ();
-                miAsunto = new Asuntos();
-                miAsunto.setNombre(txt_nombreAsunto.getText());
-                if(cmbx_visible.getSelectedItem().equals("Si")){
-                    miAsunto.setVisible(true);
-                }
-                if(cmbx_visible.getSelectedItem().equals("No")){
-                    miAsunto.setVisible(false);
-                }
-                
-                if(miArea.getNombreArea().equals("nuevo")){
-                    miAsunto.setFkArea((Areas) cmbx_areas.getSelectedItem());
-                }else{
-                    miAsunto.setFkArea(miArea);
-                }
-                
-                if(serviciosA.nuevoAsunto(miAsunto)){
-                    asuntos = AsuntosPrin.getAsuntos(mainFrameO);
-                    if(!miArea.getNombreArea().equals("nuevo")){
-                        asuntos.llenarTabla();
-                    }                    
-                    JOptionPane.showMessageDialog(mainFrame, "Asunto cargado!");
-                }else{
-                    JOptionPane.showMessageDialog(mainFrame, "Error al cargar asunto!");
-                }
-                this.setVisible(false);
-                mainFrame.setVisible(false);
-                nuevoAsunto = null;
-                mainFrame = null;
-                System.gc();
+            serviciosA = AsuntoPrincipalServ.getAsuntoPrincipalServ();
+            miAsunto = new Asuntos();
+            miAsunto.setNombre(txt_nombreAsunto.getText());
+            if(cmbx_visible.getSelectedItem().equals("Si")){
+                miAsunto.setVisible(true);
             }
+            if(cmbx_visible.getSelectedItem().equals("No")){
+                miAsunto.setVisible(false);
+            }
+
+            if(miArea.getNombreArea().equals("nuevo")){
+                miAsunto.setFkArea((Areas) cmbx_areas.getSelectedItem());
+            }else{
+                miAsunto.setFkArea(miArea);
+            }
+
+            if(serviciosA.nuevoAsunto(miAsunto)){
+                asuntos = AsuntosPrin.getAsuntos(mainFrameO);
+                if(!miArea.getNombreArea().equals("nuevo")){
+                    asuntos.llenarTabla();
+                }                    
+            }else{
+                JOptionPane.showMessageDialog(mainFrame, "Error al cargar asunto!");
+            }
+            this.setVisible(false);
+            txt_nombreAsunto.requestFocus();
+            mainFrame.setVisible(false);
+            nuevoAsunto = null;
+            mainFrame = null;
+            System.gc();
         }
     }//GEN-LAST:event_btn_nuevoActionPerformed
 

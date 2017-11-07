@@ -113,11 +113,14 @@ public class BandejaTickets extends MenuP {
         if(mainFrame.validarPermisos(45)){
             popup.add(new AccionMenu("Modificar patrimonio",popup));
         }
+        if(mainFrame.validarPermisos(54)){
+            popup.add(new AccionMenu("Modificar nota de entrada",popup));
+        }
         if(mainFrame.validarPermisos(46)){
             popup.add(new AccionMenu("Modificar nota de salida",popup));
         }
         popup.add(new AccionMenu("Detalle",popup));
-        popup.add(new AccionMenu("Ver adjunto",popup));
+        popup.add(new AccionMenu("Ver adjuntos",popup));
         popup.add(new AccionMenu("Imprimir",popup));
         popup.add(new AccionMenu("Resoluciones",popup));
         
@@ -183,36 +186,6 @@ public class BandejaTickets extends MenuP {
     
     public void configurarTabla(JTable MiTabla) throws IOException{
         
-        // Instanciamos el TableRowSorter y lo añadimos al JTable
-        /*TableRowSorter<TableModel> elQueOrdena = new TableRowSorter<TableModel>(modelo);
-        elQueOrdena.setComparator(0, (String t, String t1) -> Integer.parseInt(t)-Integer.parseInt(t1));
-        elQueOrdena.setComparator(1, (String t, String t1) -> {
-            
-            Date d1 = null;
-            Date d2 = null;
-
-            DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
-            
-            try {
-                d1 = dateFormat.parse(t);
-                d2 = dateFormat.parse(t1);
-            } catch (ParseException ex) {
-                Logger.getLogger(BandejaEnviados.class.getName()).log(Level.SEVERE, null, ex);
-            }
-            
-            if(d1.compareTo(d2) < 0){
-                return -1;
-            }
-            if(d1.compareTo(d2) > 0){
-                return 1;
-            }
-            return 0;
-        });
-        
-        MiTabla.setRowSorter(elQueOrdena);*/
-        
-        //MiTabla.setIntercellSpacing(Dimension newSpacing);
-        //MiTabla.setRowHeight(row, rowHeight);
         configuracion = ConfigurarTabla.getConfigurarTabla(Main.getMainFrame());
         List<ListaConf> miConfig = configuracion.getListaDeConfiguracionTabla();
         //Configura tamaño de las filas
@@ -314,7 +287,9 @@ public class BandejaTickets extends MenuP {
     }
     
     private void validarPermisos(){
-        
+        if(mainFrame.validarPermisos(54)){
+            
+        }
     }
     
     public void llenarTabla() {
@@ -528,9 +503,12 @@ public class BandejaTickets extends MenuP {
         txt_id.setFont(new java.awt.Font("SansSerif", 0, 14)); // NOI18N
         txt_id.setForeground(new java.awt.Color(0, 108, 118));
         txt_id.setText("Usuario, Servicio, Patrimonio, Lugar de trabajo...");
-        txt_id.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                txt_idMouseClicked(evt);
+        txt_id.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                txt_idFocusGained(evt);
+            }
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                txt_idFocusLost(evt);
             }
         });
         txt_id.addActionListener(new java.awt.event.ActionListener() {
@@ -545,14 +523,14 @@ public class BandejaTickets extends MenuP {
 
             },
             new String [] {
-                "Nº Ticket", "Fecha", "Lugar de trabajo", "Area solicitante", "Creador", "Estado", "Hora", "Observacion", "Asunto", "Receptor", "Patrimonio", "Adjunto", "Nota entrada", "Nota salida"
+                "Nº Ticket", "Fecha", "Lugar de trabajo", "Area solicitante", "Creador", "Estado", "Hora", "Observacion", "Asunto", "Receptor", "Patrimonio", "Adjunto", "Nota entrada/Proyecto", "Nota salida/Resolucion"
             }
         ) {
             Class[] types = new Class [] {
                 java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.Object.class, java.lang.Object.class, java.lang.String.class, java.lang.Object.class, java.lang.Object.class, java.lang.String.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class
             };
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false, false, false, false, false, true, false, true, true
+                false, false, false, false, false, false, false, false, false, false, false, false, false, false
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -732,11 +710,6 @@ public class BandejaTickets extends MenuP {
         );
     }// </editor-fold>//GEN-END:initComponents
 
-    private void txt_idMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txt_idMouseClicked
-        // TODO add your handling code here:
-        txt_id.setText("");
-    }//GEN-LAST:event_txt_idMouseClicked
-
     private void txt_idActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txt_idActionPerformed
         // TODO add your handling code here:
         if(txt_id.getText().trim().length() >0){
@@ -783,14 +756,14 @@ public class BandejaTickets extends MenuP {
 
     private void jt_ticketsFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jt_ticketsFocusLost
         // TODO add your handling code here:
-        if(jt_tickets.isEditing()){
+        /*if(jt_tickets.isEditing()){
             //System.out.println("Focus lost");
-        }
+        }*/
     }//GEN-LAST:event_jt_ticketsFocusLost
 
     private void jt_ticketsFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jt_ticketsFocusGained
         // TODO add your handling code here:
-        if(jt_tickets.isCellSelected(jt_tickets.getSelectedRow(), 10)){
+        /*if(jt_tickets.isCellSelected(jt_tickets.getSelectedRow(), 10)){
             //System.out.println("Focus gained");
             Tickets miTick = serviciosT.getTicketServ().buscarUno(Integer.parseInt(modelo.getValueAt(jt_tickets.getSelectedRow(), 0).toString()));
             
@@ -832,7 +805,7 @@ public class BandejaTickets extends MenuP {
                     modificarAtributosTicket("NotaSalida",miTick);
                 }
             }
-        }
+        }*/
     }//GEN-LAST:event_jt_ticketsFocusGained
 
     private void btn_patrimonio2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_patrimonio2ActionPerformed
@@ -842,6 +815,16 @@ public class BandejaTickets extends MenuP {
         estePanel = null;
         System.gc();
     }//GEN-LAST:event_btn_patrimonio2ActionPerformed
+
+    private void txt_idFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txt_idFocusLost
+        // TODO add your handling code here:
+        txt_id.setText("Usuario, Servicio, Patrimonio, Lugar de trabajo...");
+    }//GEN-LAST:event_txt_idFocusLost
+
+    private void txt_idFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txt_idFocusGained
+        // TODO add your handling code here:
+        txt_id.setText("");
+    }//GEN-LAST:event_txt_idFocusGained
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

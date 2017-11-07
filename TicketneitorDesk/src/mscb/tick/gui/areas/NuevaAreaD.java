@@ -5,12 +5,15 @@
  */
 package mscb.tick.gui.areas;
 
+import com.mxrck.autocompleter.TextAutoCompleter;
+import java.util.List;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import mscb.tick.gui.main.Main;
-import mscb.tick.gui.usuarios.CambiarClavePanel;
 import mscb.tick.negocio.AreaServ;
+import mscb.tick.negocio.InOrganigramaServ;
 import mscb.tick.negocio.entidades.Areas;
+import mscb.tick.negocio.entidades.InOrganigrama;
 import mscb.tick.util.MenuP;
 
 /**
@@ -20,6 +23,8 @@ import mscb.tick.util.MenuP;
 public class NuevaAreaD extends javax.swing.JDialog {
     private Main mainFrameO;
     private AreaServ serviciosA;
+    private TextAutoCompleter textAutoAcompleter;
+    
     /**
      * Creates new form NuevaAreaD
      */
@@ -30,13 +35,31 @@ public class NuevaAreaD extends javax.swing.JDialog {
         setLocationRelativeTo(parent);
         setDefaultCloseOperation(0);
         setResizable(false);
+        textAutoAcompleter = new TextAutoCompleter(txt_areaSolicitante);
+        textAutoAcompleter.setMode(0);
+        textAutoAcompleter.setCaseSensitive(false);
+        llenarComboBox();
         pack();
         this.mainFrameO = (Main) parent;
         setTitle("Nueva area");
         setVisible(true);
         
     }
-   
+    
+    public void llenarComboBox(){
+        List<InOrganigrama> misAreas = InOrganigramaServ.getInOrganigramaServ().getAreasOrganigramaInexistentesEnTickets();
+        for(int i = 0; i < misAreas.size(); i++){
+            textAutoAcompleter.addItem(misAreas.get(i));
+        }
+    }
+    
+    public void limpiarCampos(){
+        txt_areaSolicitante.setText("");
+        txt_codigo.setText("");
+        txt_correo.setText("");
+        txt_direccion.setText("");
+        txt_nombre.setText("");
+    }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -56,17 +79,22 @@ public class NuevaAreaD extends javax.swing.JDialog {
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
+        jLabel4 = new javax.swing.JLabel();
+        txt_areaSolicitante = new javax.swing.JTextField();
+        btn_guardar1 = new javax.swing.JButton();
+        txt_codigo = new javax.swing.JTextField();
+        jLabel5 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
         jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Nueva area", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("SansSerif", 0, 18), new java.awt.Color(255, 255, 255))); // NOI18N
 
         txt_nombre.setBackground(new java.awt.Color(204, 204, 204));
-        txt_nombre.setFont(new java.awt.Font("SansSerif", 1, 11)); // NOI18N
+        txt_nombre.setFont(new java.awt.Font("SansSerif", 0, 11)); // NOI18N
         txt_nombre.setForeground(new java.awt.Color(0, 108, 118));
 
         txt_direccion.setBackground(new java.awt.Color(204, 204, 204));
-        txt_direccion.setFont(new java.awt.Font("SansSerif", 1, 11)); // NOI18N
+        txt_direccion.setFont(new java.awt.Font("SansSerif", 0, 11)); // NOI18N
         txt_direccion.setForeground(new java.awt.Color(0, 108, 118));
         txt_direccion.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -75,7 +103,7 @@ public class NuevaAreaD extends javax.swing.JDialog {
         });
 
         txt_correo.setBackground(new java.awt.Color(204, 204, 204));
-        txt_correo.setFont(new java.awt.Font("SansSerif", 1, 11)); // NOI18N
+        txt_correo.setFont(new java.awt.Font("SansSerif", 0, 11)); // NOI18N
         txt_correo.setForeground(new java.awt.Color(0, 108, 118));
 
         btn_volver.setBackground(new java.awt.Color(153, 153, 153));
@@ -112,6 +140,36 @@ public class NuevaAreaD extends javax.swing.JDialog {
         jLabel3.setForeground(new java.awt.Color(0, 108, 118));
         jLabel3.setText("Correo:");
 
+        jLabel4.setFont(new java.awt.Font("SansSerif", 3, 14)); // NOI18N
+        jLabel4.setForeground(new java.awt.Color(0, 108, 118));
+        jLabel4.setText("Area en el PGM:");
+
+        txt_areaSolicitante.setFont(new java.awt.Font("SansSerif", 0, 11)); // NOI18N
+        txt_areaSolicitante.setForeground(new java.awt.Color(0, 108, 118));
+        txt_areaSolicitante.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txt_areaSolicitanteActionPerformed(evt);
+            }
+        });
+
+        btn_guardar1.setBackground(new java.awt.Color(153, 153, 153));
+        btn_guardar1.setFont(new java.awt.Font("SansSerif", 1, 10)); // NOI18N
+        btn_guardar1.setForeground(new java.awt.Color(0, 108, 118));
+        btn_guardar1.setText("Traer");
+        btn_guardar1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_guardar1ActionPerformed(evt);
+            }
+        });
+
+        txt_codigo.setBackground(new java.awt.Color(204, 204, 204));
+        txt_codigo.setFont(new java.awt.Font("SansSerif", 0, 11)); // NOI18N
+        txt_codigo.setForeground(new java.awt.Color(0, 108, 118));
+
+        jLabel5.setFont(new java.awt.Font("SansSerif", 3, 14)); // NOI18N
+        jLabel5.setForeground(new java.awt.Color(0, 108, 118));
+        jLabel5.setText("Codigo area:");
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -120,42 +178,63 @@ public class NuevaAreaD extends javax.swing.JDialog {
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, 95, Short.MAX_VALUE)
-                            .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addComponent(btn_volver)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btn_guardar)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(jLabel4)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(txt_direccion, javax.swing.GroupLayout.PREFERRED_SIZE, 203, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(txt_nombre, javax.swing.GroupLayout.PREFERRED_SIZE, 203, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(txt_correo, javax.swing.GroupLayout.PREFERRED_SIZE, 203, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(132, 132, 132))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(btn_volver)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(btn_guardar)
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                            .addComponent(txt_areaSolicitante)
+                            .addComponent(btn_guardar1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED))
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(jLabel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addGap(32, 32, 32)))
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(txt_codigo, javax.swing.GroupLayout.DEFAULT_SIZE, 325, Short.MAX_VALUE)
+                            .addComponent(txt_nombre)
+                            .addComponent(txt_direccion)
+                            .addComponent(txt_correo))))
+                .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel4)
+                    .addComponent(txt_areaSolicitante, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(5, 5, 5)
+                .addComponent(btn_guardar1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(txt_codigo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel5))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(txt_nombre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel1))
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(txt_direccion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel2))
-                .addGap(18, 18, 18)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(txt_correo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel3))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel3, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(txt_correo, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btn_volver, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btn_guardar, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(55, Short.MAX_VALUE))
+                .addContainerGap())
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -190,13 +269,11 @@ public class NuevaAreaD extends javax.swing.JDialog {
             miArea.setNombreArea(txt_nombre.getText());
             miArea.setDireccion(txt_direccion.getText());
             miArea.setCorreo(txt_correo.getText().trim());
+            miArea.setCodigo(txt_codigo.getText());
             if(serviciosA.nueva(miArea)){
-                JOptionPane.showMessageDialog(this, "Area cargada!", "Finalizado", JOptionPane.INFORMATION_MESSAGE);
                 AreasV areasT = AreasV.getAreasV(mainFrameO);
                 areasT.llenarTabla();
-                txt_nombre.setText("");
-                txt_direccion.setText("");
-                txt_correo.setText("");
+                limpiarCampos();
                 this.setVisible(false);
                 this.dispose();
                 System.gc();
@@ -207,6 +284,24 @@ public class NuevaAreaD extends javax.swing.JDialog {
             JOptionPane.showMessageDialog(this, "Debe completar todos los campos", "Error", JOptionPane.ERROR_MESSAGE);
         }                    
     }//GEN-LAST:event_btn_guardarActionPerformed
+
+    private void txt_areaSolicitanteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txt_areaSolicitanteActionPerformed
+        // TODO add your handling code here:
+
+    }//GEN-LAST:event_txt_areaSolicitanteActionPerformed
+
+    private void btn_guardar1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_guardar1ActionPerformed
+        // TODO add your handling code here:
+        InOrganigrama solicitante = InOrganigramaServ.getInOrganigramaServ().getAreaPorConcepto(txt_areaSolicitante.getText());
+        if(solicitante == null){
+            JOptionPane.showMessageDialog(this, "El area del PGM no es correcta");
+        }else{
+            txt_nombre.setText(solicitante.getConcepto());
+            txt_codigo.setText(solicitante.getCodigoOrganigrama());
+            txt_direccion.setText("");
+            txt_correo.setText("");
+        }
+    }//GEN-LAST:event_btn_guardar1ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -252,11 +347,16 @@ public class NuevaAreaD extends javax.swing.JDialog {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btn_guardar;
+    private javax.swing.JButton btn_guardar1;
     private javax.swing.JButton btn_volver;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JTextField txt_areaSolicitante;
+    private javax.swing.JTextField txt_codigo;
     private javax.swing.JTextField txt_correo;
     private javax.swing.JTextField txt_direccion;
     private javax.swing.JTextField txt_nombre;

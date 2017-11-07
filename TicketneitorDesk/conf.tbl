@@ -2,13 +2,13 @@ RowSize	false
 NumTicket	true
 Fecha	true
 LugarTrabajo	false
-Estado	true
+Estado	false
 Hora	true
-Asunto	false
-Receptor	true
+Asunto	true
+Receptor	false
 Patrimonio	false
 Adjunto	true
-NotaEntrada	false
+NotaEntrada	true
 NotaSalida	false
 Observacion	true
 AreaEmisora	true

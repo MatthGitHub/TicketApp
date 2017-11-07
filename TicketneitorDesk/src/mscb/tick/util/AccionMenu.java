@@ -64,13 +64,16 @@ public class AccionMenu extends AbstractAction {
                 case "Modificar patrimonio":
                     modificarPatrimonio();
                     break;
+                case "Modificar nota de entrada":
+                    modificarNotaEntrada();
+                    break;
                 case "Modificar nota de salida":
                     modificarNotaSalida();
                     break;
                 case "Detalle":
                     responder();
                     break;
-                case "Ver adjunto":
+                case "Ver adjuntos":
                     verAdjunto();
                     break;
                 /*case "Ver resolucion":
@@ -160,6 +163,10 @@ public class AccionMenu extends AbstractAction {
             Main.getMainFrame().modificarPatrimonio(TicketServ.getTicketServ().buscarUno(Integer.parseInt(BandejaTickets.getBandejaTickets(Main.getMainFrame()).modelo.getValueAt(BandejaTickets.getBandejaTickets(Main.getMainFrame()).jt_tickets.getSelectedRow(),0).toString())));
         }
         
+        private void modificarNotaEntrada(){
+            Main.getMainFrame().modificarNotaEntrada(TicketServ.getTicketServ().buscarUno(Integer.parseInt(BandejaTickets.getBandejaTickets(Main.getMainFrame()).modelo.getValueAt(BandejaTickets.getBandejaTickets(Main.getMainFrame()).jt_tickets.getSelectedRow(),0).toString())));
+        }
+        
         private void modificarNotaSalida(){
             Main.getMainFrame().modificarNotaSalida(TicketServ.getTicketServ().buscarUno(Integer.parseInt(BandejaTickets.getBandejaTickets(Main.getMainFrame()).modelo.getValueAt(BandejaTickets.getBandejaTickets(Main.getMainFrame()).jt_tickets.getSelectedRow(),0).toString())));
         }
@@ -169,10 +176,11 @@ public class AccionMenu extends AbstractAction {
         }
         
         private void verAdjunto(){
-            if(TicketServ.getTicketServ().buscarUno(Integer.parseInt(BandejaTickets.getBandejaTickets(Main.getMainFrame()).modelo.getValueAt(BandejaTickets.getBandejaTickets(Main.getMainFrame()).jt_tickets.getSelectedRow(), 0).toString())).getAdjunto() != null){
+            if(TicketServ.getTicketServ().buscarUno(Integer.parseInt(BandejaTickets.getBandejaTickets(Main.getMainFrame()).modelo.getValueAt(BandejaTickets.getBandejaTickets(Main.getMainFrame()).jt_tickets.getSelectedRow(), 0).toString())).getTicketsAdjuntosList() != null){
             //String arch = "\\\\10.20.130.242\\www\\TicketWeb\\archivos\\"+serviciosT.buscarUno(Integer.parseInt(modelo.getValueAt(jt_tickets.getSelectedRow(), 0).toString())).getAdjunto();
-            String arch = "file://10.20.130.242/www/TicketWeb/archivos/"+TicketServ.getTicketServ().buscarUno(Integer.parseInt(BandejaTickets.getBandejaTickets(Main.getMainFrame()).modelo.getValueAt(BandejaTickets.getBandejaTickets(Main.getMainFrame()).jt_tickets.getSelectedRow(), 0).toString())).getAdjunto();
-            BandejaTickets.getBandejaTickets(Main.getMainFrame()).abrirArchivo(arch);
+            //String arch = "file://10.20.130.242/www/TicketWeb/archivos/"+TicketServ.getTicketServ().buscarUno(Integer.parseInt(BandejaTickets.getBandejaTickets(Main.getMainFrame()).modelo.getValueAt(BandejaTickets.getBandejaTickets(Main.getMainFrame()).jt_tickets.getSelectedRow(), 0).toString())).getAdjunto();
+            //BandejaTickets.getBandejaTickets(Main.getMainFrame()).abrirArchivo(arch);
+            Main.getMainFrame().adjuntosTickets(TicketServ.getTicketServ().buscarUno(Integer.parseInt(BandejaTickets.getBandejaTickets(Main.getMainFrame()).modelo.getValueAt(BandejaTickets.getBandejaTickets(Main.getMainFrame()).jt_tickets.getSelectedRow(), 0).toString())));
         }else{
             JOptionPane.showMessageDialog(Main.getMainFrame(), "Este ticket no posse adjunto");
         }

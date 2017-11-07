@@ -31,16 +31,25 @@ import java.net.MalformedURLException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.AbstractList;
+import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JTable;
 import javax.swing.filechooser.FileNameExtensionFilter;
+import javax.swing.table.DefaultTableModel;
 import jcifs.smb.NtlmPasswordAuthentication;
+import jcifs.smb.SmbException;
 import jcifs.smb.SmbFile;
 import mscb.tick.negocio.EdificioServ;
+import mscb.tick.negocio.TicketsAdjuntosServ;
 import mscb.tick.negocio.UsuarioServ;
 import mscb.tick.negocio.entidades.Edificios;
+import mscb.tick.negocio.entidades.TicketsAdjuntos;
+import mscb.tick.negocio.entidades.TicketsAdjuntosPK;
 import mscb.tick.negocio.entidades.Usuarios;
 import org.springframework.util.StringUtils;
 
@@ -70,8 +79,10 @@ public class NuevoTicket extends MenuP {
     //Crear un objeto FileChooser
     private JFileChooser fc;
     
-    private File archivoElegido;
-            
+    private List<File> archivoElegido;
+    private DefaultTableModel modelo;
+    private String anio;
+    private String mes;
     /**
      * Creates new form NuevoTicket
      */
@@ -84,7 +95,7 @@ public class NuevoTicket extends MenuP {
         lblDefecto.setText(LoginEJB.usuario.getFkEmpleado().getFkArea().getNombreArea());
         txt_areaSolicitante.setText(LoginEJB.usuario.getFkEmpleado().getFkArea().getNombreArea());
         txtA_obs.setLineWrap(true);
-        txtArchivo.setVisible(false);
+        txtA_obs.setWrapStyleWord(true);
         lblAsunto.setVisible(false);
         lblServicio.setVisible(false);
         asteriscoAsunto.setVisible(false);
@@ -102,15 +113,21 @@ public class NuevoTicket extends MenuP {
         textAutoAcompleter2.setMode(0);
         textAutoAcompleter2.setCaseSensitive(false);
         txt_n_nota.setText("0000");
+        txt_area_nota.setText("2017");
         llenarAreas();
         llenarEdificios();
         cmbx_areas.setSelectedItem(LoginEJB.usuario.getFkEmpleado().getFkArea());
         //Instanciamos
         fc = new JFileChooser();
         //Creamos el filtro
-        FileNameExtensionFilter filtro = new FileNameExtensionFilter("Textos", "txt","pdf","doc","docx");
+        FileNameExtensionFilter filtro = new FileNameExtensionFilter("Textos", "txt","pdf","doc","docx","odt","ods","xls");
         //Le indicamos el filtro
         fc.setFileFilter(filtro);
+        archivoElegido = new ArrayList<>();
+        modelo = (DefaultTableModel) jt_adjuntos.getModel();
+        Calendar c = Calendar.getInstance();
+        anio = Integer.toString(c.get(c.YEAR));
+        mes = Integer.toString(c.get(c.MONTH)+1);
     }
     
     public static NuevoTicket getNuevoTicket(Main mainFrame){
@@ -164,16 +181,71 @@ public class NuevoTicket extends MenuP {
         }
     }
     
-    
-    public static void copyFile(File source,String nombre){
+    /**
+     * Copia archivo de la maquina local al servidor
+     * @param source del archivo a copiar
+     * @param nombre del archivo
+     * @param carpeta El numero de ticket
+     */
+    public void copyFile(File source,String nombre,String carpeta){
 
         Path sourceP = Paths.get(source.getAbsolutePath());
         SmbFile newFile = null;
+        SmbFile newCarpetaTicket = null;
+        SmbFile newCarpetaAnio = null;
+        SmbFile newCarpetaMes = null;
+        
+        nombre = "smb://"+Main.getServer()+"/www/TicketWeb/archivos/"+anio+"/"+mes+"/"+carpeta+"/"+nombre;
+        
+        //System.out.println(nombre);
+
         try {
-            newFile = new SmbFile("smb://"+Main.getServer()+"/www/TicketWeb/archivos/"+nombre, new NtlmPasswordAuthentication("", "administrador", "cavaliere"));
+            newCarpetaTicket = new SmbFile("smb://"+Main.getServer()+"/www/TicketWeb/archivos/"+anio+"/"+mes+"/"+carpeta, new NtlmPasswordAuthentication("", "administrador", "cavaliere"));
+            newCarpetaAnio = new SmbFile("smb://"+Main.getServer()+"/www/TicketWeb/archivos/"+anio, new NtlmPasswordAuthentication("", "administrador", "cavaliere"));
+            newCarpetaMes = new SmbFile("smb://"+Main.getServer()+"/www/TicketWeb/archivos/"+anio+"/"+mes, new NtlmPasswordAuthentication("", "administrador", "cavaliere"));
+            
+            if(newCarpetaAnio.exists()){
+                if(newCarpetaMes.exists()){
+                    if(newCarpetaTicket.exists()){
+                        newFile = new SmbFile(nombre, new NtlmPasswordAuthentication("", "administrador", "cavaliere")); 
+                    }else{
+                        newCarpetaTicket.mkdirs();
+                        newFile = new SmbFile(nombre, new NtlmPasswordAuthentication("", "administrador", "cavaliere")); 
+                    }
+                }else{
+                    newCarpetaMes.mkdirs();
+                    if(newCarpetaTicket.exists()){
+                        newFile = new SmbFile(nombre, new NtlmPasswordAuthentication("", "administrador", "cavaliere")); 
+                    }else{
+                        newCarpetaTicket.mkdirs();
+                        newFile = new SmbFile(nombre, new NtlmPasswordAuthentication("", "administrador", "cavaliere")); 
+                    }
+                }
+            }else{
+                newCarpetaAnio.mkdirs();
+                if(newCarpetaMes.exists()){
+                    if(newCarpetaTicket.exists()){
+                        newFile = new SmbFile(nombre, new NtlmPasswordAuthentication("", "administrador", "cavaliere")); 
+                    }else{
+                        newCarpetaTicket.mkdirs();
+                        newFile = new SmbFile(nombre, new NtlmPasswordAuthentication("", "administrador", "cavaliere")); 
+                    }
+                }else{
+                    newCarpetaMes.mkdirs();
+                    if(newCarpetaTicket.exists()){
+                        newFile = new SmbFile(nombre, new NtlmPasswordAuthentication("", "administrador", "cavaliere")); 
+                    }else{
+                        newCarpetaTicket.mkdirs();
+                        newFile = new SmbFile(nombre, new NtlmPasswordAuthentication("", "administrador", "cavaliere")); 
+                    }
+                }
+            }
+            
         } catch (MalformedURLException ex) {
             Logger.getLogger(NuevoTicket.class.getName()).log(Level.SEVERE, null, ex);
             System.out.println("new SMBFile: "+ex);
+        } catch (SmbException ex) {
+            Logger.getLogger(NuevoTicket.class.getName()).log(Level.SEVERE, null, ex);
         }
         try (OutputStream out = newFile.getOutputStream())
         {
@@ -183,6 +255,32 @@ public class NuevoTicket extends MenuP {
             System.out.println(e);
         }
        
+    }
+    
+    public void llenarAdjuntos(List<File> archivos){
+        vaciarTabla(jt_adjuntos);
+        
+
+        File[] v = new File[1];
+        
+        for(int i = 0; i < archivos.size(); i++){
+            v[0] = archivos.get(i);
+            modelo.addRow(v);
+        }
+        revalidate();
+        
+    }
+    
+    private void vaciarTabla(JTable tabla) {
+        try {
+            DefaultTableModel modelo = (DefaultTableModel) tabla.getModel();
+            int filas = tabla.getRowCount();
+            for (int i = 0; filas > i; i++) {
+                modelo.removeRow(0);
+            }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Error al limpiar la tabla.");
+        }
     }
 
     /**
@@ -219,7 +317,6 @@ public class NuevoTicket extends MenuP {
         lblusuario = new javax.swing.JLabel();
         cmbx_usuarios = new javax.swing.JComboBox();
         btn_adjuntar = new javax.swing.JButton();
-        txtArchivo = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
         txt_area_nota = new javax.swing.JTextField();
         jLabel10 = new javax.swing.JLabel();
@@ -228,8 +325,11 @@ public class NuevoTicket extends MenuP {
         txt_edificio = new javax.swing.JTextField();
         lblDefecto = new javax.swing.JLabel();
         jLabel11 = new javax.swing.JLabel();
+        btn_eliminar = new javax.swing.JButton();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        jt_adjuntos = new javax.swing.JTable();
 
-        setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Nuevo pedido a sistemas", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("SansSerif", 0, 18), java.awt.Color.white)); // NOI18N
+        setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Nuevo ticket", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("SansSerif", 0, 18), java.awt.Color.white)); // NOI18N
 
         jLabel1.setBackground(new java.awt.Color(0, 102, 204));
         jLabel1.setFont(new java.awt.Font("SansSerif", 3, 14)); // NOI18N
@@ -391,17 +491,18 @@ public class NuevoTicket extends MenuP {
             }
         });
 
-        txtArchivo.setFont(new java.awt.Font("Tahoma", 2, 18)); // NOI18N
-        txtArchivo.setForeground(new java.awt.Color(255, 255, 255));
-        txtArchivo.setText("Adjunto: ");
-
         jLabel8.setBackground(new java.awt.Color(0, 102, 204));
         jLabel8.setFont(new java.awt.Font("SansSerif", 3, 14)); // NOI18N
         jLabel8.setForeground(new java.awt.Color(0, 108, 118));
-        jLabel8.setText("Nº de nota:");
+        jLabel8.setText("Nº de nota / Proyecto:");
 
         txt_area_nota.setFont(new java.awt.Font("SansSerif", 0, 11)); // NOI18N
         txt_area_nota.setForeground(new java.awt.Color(0, 108, 118));
+        txt_area_nota.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txt_area_notaActionPerformed(evt);
+            }
+        });
         txt_area_nota.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
                 txt_area_notaKeyTyped(evt);
@@ -446,6 +547,40 @@ public class NuevoTicket extends MenuP {
         jLabel11.setForeground(new java.awt.Color(204, 0, 0));
         jLabel11.setText("Si area solicitante queda en blanco por defecto será:");
 
+        btn_eliminar.setBackground(new java.awt.Color(153, 153, 153));
+        btn_eliminar.setFont(new java.awt.Font("SansSerif", 1, 10)); // NOI18N
+        btn_eliminar.setForeground(new java.awt.Color(0, 108, 118));
+        btn_eliminar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/mscb/tick/resources/imagenes/icons/delete.png"))); // NOI18N
+        btn_eliminar.setText("Eliminar registro");
+        btn_eliminar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_eliminarActionPerformed(evt);
+            }
+        });
+
+        jt_adjuntos.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "Adjuntos"
+            }
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        jt_adjuntos.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        jt_adjuntos.getTableHeader().setReorderingAllowed(false);
+        jScrollPane2.setViewportView(jt_adjuntos);
+        if (jt_adjuntos.getColumnModel().getColumnCount() > 0) {
+            jt_adjuntos.getColumnModel().getColumn(0).setResizable(false);
+        }
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -454,74 +589,76 @@ public class NuevoTicket extends MenuP {
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 185, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(txtArchivo, javax.swing.GroupLayout.PREFERRED_SIZE, 402, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(btn_adjuntar))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jScrollPane2)
+                            .addComponent(jScrollPane1)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel7)
+                                    .addComponent(jLabel5)
+                                    .addComponent(jLabel6)
+                                    .addComponent(jLabel4))
+                                .addGap(40, 40, 40)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel11)
+                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                        .addComponent(txt_areaSolicitante, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 164, Short.MAX_VALUE)
+                                        .addComponent(txt_patrimonio, javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addComponent(txt_solicita)))
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addGap(462, 462, 462)
+                                        .addComponent(lblDefecto, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(jLabel9, javax.swing.GroupLayout.Alignment.TRAILING)
+                                            .addComponent(jLabel8, javax.swing.GroupLayout.Alignment.TRAILING))
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                            .addGroup(layout.createSequentialGroup()
+                                                .addComponent(txt_n_nota)
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                                .addComponent(jLabel10)
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                                .addComponent(txt_area_nota, javax.swing.GroupLayout.PREFERRED_SIZE, 59, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                            .addComponent(txt_edificio, javax.swing.GroupLayout.PREFERRED_SIZE, 146, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addGroup(layout.createSequentialGroup()
+                                                .addComponent(asteriscoAsunto, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                                .addComponent(lblAsunto))
+                                            .addGroup(layout.createSequentialGroup()
+                                                .addComponent(asteriscoArea, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                                .addComponent(jLabel1))
+                                            .addGroup(layout.createSequentialGroup()
+                                                .addComponent(asteriscoServicio, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                                .addComponent(lblServicio))
+                                            .addComponent(lblusuario))
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                            .addComponent(cmbx_asuntoPrincipal, 0, 590, Short.MAX_VALUE)
+                                            .addComponent(cmbx_areas, 0, 590, Short.MAX_VALUE)
+                                            .addComponent(cmbx_asuntoSecundario, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                            .addComponent(cmbx_usuarios, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                                    .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 454, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 185, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(btn_adjuntar, javax.swing.GroupLayout.PREFERRED_SIZE, 159, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(btn_eliminar)))
+                                .addGap(0, 0, Short.MAX_VALUE)))
+                        .addContainerGap())
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(btn_volver)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(btn_guardar, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 741, Short.MAX_VALUE)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel7)
-                            .addComponent(jLabel5)
-                            .addComponent(jLabel6)
-                            .addComponent(jLabel4))
-                        .addGap(40, 40, 40)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel11)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(lblDefecto, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                            .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                    .addComponent(txt_areaSolicitante, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 164, Short.MAX_VALUE)
-                                    .addComponent(txt_patrimonio, javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(txt_solicita))
-                                .addGap(18, 18, Short.MAX_VALUE)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                        .addComponent(jLabel8)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(txt_n_nota, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(jLabel10)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(txt_area_nota, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                        .addComponent(jLabel9)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(txt_edificio, javax.swing.GroupLayout.PREFERRED_SIZE, 146, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                                .addGap(0, 0, Short.MAX_VALUE))))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 454, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addComponent(asteriscoAsunto, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(lblAsunto))
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addComponent(asteriscoArea, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(jLabel1))
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addComponent(asteriscoServicio, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(lblServicio))
-                                    .addComponent(lblusuario))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(cmbx_asuntoPrincipal, 0, 590, Short.MAX_VALUE)
-                                    .addComponent(cmbx_areas, 0, 590, Short.MAX_VALUE)
-                                    .addComponent(cmbx_asuntoSecundario, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(cmbx_usuarios, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
-                        .addGap(0, 0, Short.MAX_VALUE)))
-                .addContainerGap())
+                        .addComponent(btn_guardar, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(175, 175, 175))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -552,9 +689,8 @@ public class NuevoTicket extends MenuP {
                     .addComponent(cmbx_usuarios, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(8, 8, 8)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jLabel11, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(jLabel11, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jLabel4)
                     .addComponent(lblDefecto, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
@@ -583,17 +719,20 @@ public class NuevoTicket extends MenuP {
                         .addGap(61, 61, 61)))
                 .addComponent(jLabel3)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jLabel2)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(btn_adjuntar, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(txtArchivo, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 108, Short.MAX_VALUE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btn_guardar, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btn_volver, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addComponent(btn_adjuntar, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btn_eliminar, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(14, 14, 14)
+                .addComponent(jLabel2)
+                .addGap(7, 7, 7)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(23, 23, 23)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btn_volver, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btn_guardar, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -657,8 +796,10 @@ public class NuevoTicket extends MenuP {
         miTick.setServicio((Servicios) cmbx_asuntoSecundario.getSelectedItem());
         miTick.setFecha(fecha);
         miTick.setCreador(LoginEJB.usuario);
+        TicketsAdjuntos ta;
+        
         if(!txt_areaSolicitante.getText().trim().isEmpty()){
-            Areas solicitante = AreaServ.getAreaServ().getSolicitante(txt_areaSolicitante.getText());
+            Areas solicitante = AreaServ.getAreaServ().getSolicitantePorNombre(txt_areaSolicitante.getText());
             if(solicitante != null){
                 miTick.setFkareaSolicitante(solicitante);
             }else{
@@ -688,15 +829,7 @@ public class NuevoTicket extends MenuP {
         }
 
         miTick.setPatrimonio(txt_patrimonio.getText());
-        //Completo numero de nota para que cumpla con el estandar
-        if(txt_n_nota.getText().trim().length() < 4){
-            for(int i = 0; i < 4-txt_n_nota.getText().trim().length();i++){
-                txt_n_nota.setText("0"+txt_n_nota.getText().trim());
-            }
-        }
-        if(txt_area_nota.getText().trim().isEmpty()){
-            txt_area_nota.setText("--------");
-        }
+        
         miTick.setNotaEntrada(txt_n_nota.getText()+"-"+txt_area_nota.getText().trim());
         //Creo el historial de enviado
         
@@ -713,13 +846,34 @@ public class NuevoTicket extends MenuP {
             if(!cmbx_usuarios.getSelectedItem().equals("Sin")){
                 miHis.setFkUsuario((Usuarios) cmbx_usuarios.getSelectedItem());
             }
-            //Edito el ticket y le agrego el adjunto si es que hay
-            if(archivoElegido != null){
-            miTick.setAdjunto(miTick.getIdTicket()+"."+StringUtils.getFilenameExtension(archivoElegido.getPath()).toLowerCase());
-                if(serviciosT.modificarTicket(miTick) == 0){
-                    copyFile(archivoElegido,miTick.getIdTicket()+"."+StringUtils.getFilenameExtension(archivoElegido.getPath()).toLowerCase());
+            
+            
+            
+            if(archivoElegido.size() > 0){
+                 for(int i = 0; i < archivoElegido.size(); i++){
+                    ta = new TicketsAdjuntos();
+                    ta.setTickets(miTick);
+                    ta.setAnio(Integer.parseInt(anio));
+                    ta.setMes(Integer.parseInt(mes));
+                    ta.setTicketsAdjuntosPK(new TicketsAdjuntosPK(miTick.getIdTicket(), archivoElegido.get(i).getName().trim()));
+                     try {
+                         TicketsAdjuntosServ.getTicketsAdjuntosServ().nuevoAdjuntoTicket(ta);
+                     } catch (Exception ex) {
+                         Logger.getLogger(NuevoTicket.class.getName()).log(Level.SEVERE, null, ex);
+                     }
+                    miTick.getTicketsAdjuntosList().add(ta);
+                 }
+            }
+            
+            
+            
+            //miTick.setTicketsAdjuntosList(taList);
+            if(serviciosT.modificarTicket(miTick) == 0){
+                for(int i = 0; i < archivoElegido.size(); i++){
+                    copyFile(archivoElegido.get(i),archivoElegido.get(i).getName().trim(),miTick.getIdTicket().toString());
                 }
             }
+            
             serviciosH.nuevo(miHis);
             BandejaTickets.getBandejaTickets(mainFrame).llenarTabla();
             mainFrame.bandejaEntrada();
@@ -759,7 +913,6 @@ public class NuevoTicket extends MenuP {
 
     private void btn_adjuntarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_adjuntarActionPerformed
         // TODO add your handling code here:
-        txtArchivo.setVisible(true);
         //Mostrar la ventana para abrir archivo y recoger la respuesta
         //En el parámetro del showOpenDialog se indica la ventana
         //  al que estará asociado. Con el valor this se asocia a la
@@ -769,28 +922,29 @@ public class NuevoTicket extends MenuP {
         if (respuesta == JFileChooser.APPROVE_OPTION)
         {
             //Crear un objeto File con el archivo elegido
-            archivoElegido = fc.getSelectedFile();
+            archivoElegido.add(fc.getSelectedFile());
+            llenarAdjuntos(archivoElegido);
             //Mostrar el nombre del archivo en un campo de texto
-            txtArchivo.setText(txtArchivo.getText()+archivoElegido.getName());
+            //txtArchivo.setText(txtArchivo.getText()+archivoElegido.getName());
             //Llamo al metodo que copia el archivo al servidor
         }
     }//GEN-LAST:event_btn_adjuntarActionPerformed
 
     private void txt_n_notaKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txt_n_notaKeyTyped
         // TODO add your handling code here:
-        if(txt_n_nota.getText().length()== 4){
+        /*if(txt_n_nota.getText().length()== 4){
             evt.consume();
-        }
+        }*/
     }//GEN-LAST:event_txt_n_notaKeyTyped
 
     private void txt_area_notaKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txt_area_notaKeyTyped
         // TODO add your handling code here:
-        if (txt_area_nota.getText().length()== 8){
+        /*if (txt_area_nota.getText().length()== 8){
             txt_area_nota.setText(txt_area_nota.getText().toUpperCase());
             evt.consume();
         }else{
             txt_area_nota.setText(txt_area_nota.getText().toUpperCase());
-        }
+        }*/
     }//GEN-LAST:event_txt_area_notaKeyTyped
 
     private void txt_n_notaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txt_n_notaActionPerformed
@@ -801,12 +955,25 @@ public class NuevoTicket extends MenuP {
         // TODO add your handling code here:
     }//GEN-LAST:event_txt_edificioActionPerformed
 
+    private void txt_area_notaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txt_area_notaActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txt_area_notaActionPerformed
+
+    private void btn_eliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_eliminarActionPerformed
+        // TODO add your handling code here:
+        if(jt_adjuntos.getSelectedRowCount() != 0){
+            archivoElegido.remove(modelo.getValueAt(jt_adjuntos.getSelectedRow(),0));
+            llenarAdjuntos(archivoElegido);
+        }
+    }//GEN-LAST:event_btn_eliminarActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel asteriscoArea;
     private javax.swing.JLabel asteriscoAsunto;
     private javax.swing.JLabel asteriscoServicio;
     private javax.swing.JButton btn_adjuntar;
+    private javax.swing.JButton btn_eliminar;
     private javax.swing.JButton btn_guardar;
     private javax.swing.JButton btn_volver;
     private javax.swing.JComboBox cmbx_areas;
@@ -825,12 +992,13 @@ public class NuevoTicket extends MenuP {
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JTable jt_adjuntos;
     private javax.swing.JLabel lblAsunto;
     private javax.swing.JLabel lblDefecto;
     private javax.swing.JLabel lblServicio;
     private javax.swing.JLabel lblusuario;
     private javax.swing.JTextArea txtA_obs;
-    private javax.swing.JLabel txtArchivo;
     private javax.swing.JTextField txt_areaSolicitante;
     private javax.swing.JTextField txt_area_nota;
     private javax.swing.JTextField txt_edificio;

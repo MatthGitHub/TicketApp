@@ -7,19 +7,23 @@ package mscb.tick.gui.main;
 
 
 import java.awt.Dialog;
-import java.awt.GraphicsConfiguration;
-import java.awt.GraphicsDevice;
 import java.awt.Image;
 import java.awt.Toolkit;
-import java.awt.Window;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.InputStream;
+import java.net.MalformedURLException;
+import java.nio.file.Files;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
+import jcifs.smb.NtlmPasswordAuthentication;
+import jcifs.smb.SmbException;
+import jcifs.smb.SmbFile;
 import mscb.tick.gui.areas.AreasV;
 import mscb.tick.gui.areas.NuevaAreaD;
 import mscb.tick.gui.servicios.AsuntoSec;
@@ -43,6 +47,7 @@ import mscb.tick.gui.tickets.BandejaTickets;
 import mscb.tick.gui.tickets.NuevoTicket;
 import mscb.tick.gui.encargadoAsuntos.AsuntoSinEncargadoD;
 import mscb.tick.gui.encargadoAsuntos.MiServicios;
+import mscb.tick.gui.estados.EstadosAsuntos;
 import mscb.tick.negocio.entidades.Areas;
 import mscb.tick.negocio.entidades.Permisos;
 import mscb.tick.negocio.entidades.Usuarios;
@@ -50,10 +55,15 @@ import mscb.tick.gui.historialTicket.HistorialTicketV;
 import mscb.tick.negocio.LoginEJB;
 import mscb.tick.negocio.PermisoServ;
 import mscb.tick.gui.razonesTransf.Razones;
+import mscb.tick.gui.resoluciones.DetalleProyecto;
+import mscb.tick.gui.resoluciones.ProyectosResoluciones;
+import mscb.tick.gui.resoluciones.Resoluciones;
 import mscb.tick.gui.roles.RolesV;
+import mscb.tick.gui.tickets.AdjuntosD;
 import mscb.tick.gui.tickets.BandejaEnviados;
 import mscb.tick.gui.tickets.CambiarEstadoTicketD;
 import mscb.tick.gui.tickets.ConfigurarTabla;
+import mscb.tick.gui.tickets.ModificarNotaEntrada;
 import mscb.tick.gui.tickets.ModificarNotaSalida;
 import mscb.tick.gui.tickets.ModificarPatrimonio;
 import mscb.tick.gui.tickets.ResolucionD;
@@ -68,6 +78,8 @@ import mscb.tick.gui.usuarios.UsuariosV;
 import mscb.tick.negocio.ConfiguracioneServ;
 import mscb.tick.negocio.entidades.Configuracion;
 import mscb.tick.negocio.entidades.HistorialTickets;
+import mscb.tick.negocio.entidades.ResolucionesProyecto;
+import mscb.tick.negocio.entidades.TicketsAdjuntos;
 import mscb.tick.util.Funciones;
 import mscb.tick.util.MySystemTray;
 
@@ -106,7 +118,8 @@ public class Main extends javax.swing.JFrame {
     private NuevoEmpleado nuevoEmpleado;
     
     private EncargadoAsuntos asignarEncargado;
-        
+    private EstadosAsuntos estadosAsuntos;
+    
     private BandejaTickets bandejaEntrada;
     private BandejaEnviados bandejaSalida;
     private ConfigurarTabla configTabla;
@@ -115,6 +128,7 @@ public class Main extends javax.swing.JFrame {
     
     private ModificarPatrimonio patri;
     private ModificarNotaSalida salia;
+    private ModificarNotaEntrada entraa;
     
     private ResponderD responder;
     private RespuestaD respuesta;
@@ -122,6 +136,7 @@ public class Main extends javax.swing.JFrame {
     private EstadoPGMD cambiarPgm;
     private ResolucionD resoF;
     private CambiarEstadoTicketD cambiaEstadoTicket;
+    private AdjuntosD adjuntos;
     
     private AsuntosPrin asuntos;
     private NuevoAsuntoD nuevoAsunto;
@@ -141,6 +156,11 @@ public class Main extends javax.swing.JFrame {
     
     private EdificiosV edificiosV;
     private NuevoEdificio nuevoEdificio;
+    
+    private ProyectosResoluciones resproyect;
+    private DetalleProyecto detalleProy;
+    
+    private Resoluciones reso;
     
     private MySystemTray mySystemTray;
     private static BufferedWriter bw = null;
@@ -168,7 +188,7 @@ public class Main extends javax.swing.JFrame {
         System.out.println("Server: "+server);
         version.setIdConfiguracion(1);
         version.setNombre("version");
-        version.setDescripcion("6.5.0");
+        version.setDescripcion("6.6.0");
         mySystemTray = MySystemTray.getMySystemTray(this);
         
         setDefaultCloseOperation(0);
@@ -182,6 +202,7 @@ public class Main extends javax.swing.JFrame {
         conectarAlServidor();
         try{
             verificarVersion();
+            verificarLibreria();
         }catch(Exception e){
             JOptionPane.showMessageDialog(this, e+" - No hay conexion al servidor","Error", JOptionPane.ERROR_MESSAGE);
             salirPrograma();
@@ -367,6 +388,26 @@ public class Main extends javax.swing.JFrame {
             mi_sistema.setVisible(false);
         }
         
+        //Proyectos de Resolucion
+        if(permisosU.contains(serviciosP.traerUno(52))){
+            mi_resproyect.setVisible(true);
+        }else{
+            mi_resproyect.setVisible(false);
+        }
+        
+        //Resoluciones
+        if(permisosU.contains(serviciosP.traerUno(53))){
+            mi_resos.setVisible(true);
+        }else{
+            mi_resos.setVisible(false);
+        }
+        
+        //Resoluciones
+        if(permisosU.contains(serviciosP.traerUno(55))){
+            mi_estados.setVisible(true);
+        }else{
+            mi_estados.setVisible(false);
+        }
     }
     
     /**
@@ -555,7 +596,21 @@ public class Main extends javax.swing.JFrame {
         if(patri == null){
             patri = new ModificarPatrimonio(this, false, elTi);
         }else{
+            patri.setearValores(elTi);
             patri.setVisible(true);
+        }
+        revalidate();
+    }
+    
+     /**
+     * Ventana para modificar nota entrada de un ticket. Es un Frame
+     */
+    public void modificarNotaEntrada(Tickets elTi){
+        if(entraa == null){
+            entraa = new ModificarNotaEntrada(this, false, elTi);
+        }else{
+            entraa.setearValores(elTi);
+            entraa.setVisible(true);
         }
         revalidate();
     }
@@ -567,7 +622,7 @@ public class Main extends javax.swing.JFrame {
         if(salia == null){
             salia = new ModificarNotaSalida(this, false, elTi);
         }else{
-            //aiuda.panelInfoP();
+            salia.setearValores(elTi);
             salia.setVisible(true);
         }
         revalidate();
@@ -686,6 +741,20 @@ public class Main extends javax.swing.JFrame {
         }
         revalidate();
     }
+    
+    /**
+     * Ventana para dar de alta nueva area
+     */
+    public void adjuntosTickets(Tickets miTick){
+        if(adjuntos == null){
+            adjuntos = new AdjuntosD(this, true, miTick);
+        }else{
+            adjuntos.setearValores(miTick);
+            adjuntos.setVisible(true);
+        }
+        revalidate();
+    }
+    
     
     /**
      * Abre ventana para escribir la resolucion del ticket sin marcarlo resuelto
@@ -951,6 +1020,70 @@ public class Main extends javax.swing.JFrame {
     }
     
     /**
+     * Nueva nota
+     */
+    public void nuevaNota(){
+        
+    }
+    
+    /**
+     * Proyecto de resolucion
+     */
+    public void proyectosResolucion(){
+        resproyect = ProyectosResoluciones.getProyectosResoluciones(this);
+
+        if(!resproyect.isVisible()==false){
+            getContentPane().add(resproyect);
+        }else{
+            resproyect.setVisible(true);
+        }
+        revalidate();
+    }
+    
+    /**
+     * Ventana para dar de alta nueva area
+     */
+    public void detalleProyectoResolucion(ResolucionesProyecto miProy){
+        if(detalleProy == null){
+            detalleProy = new DetalleProyecto(this, true, miProy);
+        }else{
+            detalleProy.setearValores(miProy);
+            detalleProy.setVisible(true);
+        }
+        revalidate();
+    }
+    
+    /**
+     * Resoluciones
+     */
+    public void resoluciones(){
+        reso = Resoluciones.getResoluciones(this);
+
+        if(!reso.isVisible()==false){
+            getContentPane().add(reso);
+        }else{
+            reso.setVisible(true);
+        }
+        revalidate();
+    }
+    
+    
+    /**
+     * Resoluciones
+     */
+    public void estadosPorAsunto(){
+        estadosAsuntos = EstadosAsuntos.getEstadosAsuntos();
+
+        if(!estadosAsuntos.isVisible()==false){
+            getContentPane().add(estadosAsuntos);
+        }else{
+            estadosAsuntos.setVisible(true);
+        }
+        revalidate();
+    }
+    
+    
+    /**
      * Metodo para actualizar el programa
      */
     private void actualizarPrograma(){
@@ -984,6 +1117,74 @@ public class Main extends javax.swing.JFrame {
         System.exit(0);
     }
     
+    public boolean existeArchivo(File lib){
+         if(lib.exists()){
+            return true;
+        }else{
+            return false;
+        }
+    }
+    
+    public void verificarLibreria(){
+        
+        List<String> agregarLibrerias = new ArrayList<>();
+        List<String> borrarLibrerias = new ArrayList<>();
+        
+        /**
+         * Librerias a agregar
+         */
+        agregarLibrerias.add("lib/jtds-1.3.1.jar");
+        agregarLibrerias.add("lib/iText-5.0.5.jar");
+        /**
+         * Librferias a borrar
+         */
+        borrarLibrerias.add("lib/iText-2.1.7.js2.jar");
+        
+        /**
+         * Agrego las librerias nuevas
+         */
+        
+        for(int i = 0; i < agregarLibrerias.size(); i++){
+            File lib = new File(agregarLibrerias.get(i)).getAbsoluteFile();
+            if(lib.exists()){
+            
+            }else{
+                try {
+                    copiarLibreria(agregarLibrerias.get(i));
+                } catch (MalformedURLException ex) {
+                    Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+        }
+        
+        for(int i = 0; i < borrarLibrerias.size(); i++){
+            File lib = new File(borrarLibrerias.get(i)).getAbsoluteFile();
+            if(lib.exists()){
+                lib.delete();
+            }else{
+                System.out.println("No existe la libreria: "+borrarLibrerias.get(i));
+            }
+        }
+    }
+    
+    public void copiarLibreria(String lib) throws MalformedURLException{
+        String fuente = "smb://10.20.130.242/TicketneitorDeskUpdt/"+lib; 
+        NtlmPasswordAuthentication auth = new NtlmPasswordAuthentication("", "administrador", "cavaliere");
+        
+        SmbFile dir = new SmbFile(fuente, auth);
+        
+        System.out.println("Copiando libreria: "+lib);
+        
+        
+        InputStream in;
+        try {
+            in = dir.getInputStream();
+            Files.copy(in,new File(lib).toPath());
+        } catch (IOException ex) {
+           JOptionPane.showMessageDialog(this, "Error al copiar archivo: "+ex);
+        }
+    }
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -1001,6 +1202,8 @@ public class Main extends javax.swing.JFrame {
         mi_bandejaSalida = new javax.swing.JMenuItem();
         mi_nuevoTicket = new javax.swing.JMenuItem();
         mi_conocimiento = new javax.swing.JMenuItem();
+        mi_resproyect = new javax.swing.JMenuItem();
+        mi_resos = new javax.swing.JMenuItem();
         mi_conocimiento1 = new javax.swing.JMenuItem();
         mi_salir = new javax.swing.JMenuItem();
         mi_aactualizar = new javax.swing.JMenuItem();
@@ -1012,6 +1215,7 @@ public class Main extends javax.swing.JFrame {
         mi_areas = new javax.swing.JMenuItem();
         mi_asunutos = new javax.swing.JMenuItem();
         mi_servicios = new javax.swing.JMenuItem();
+        mi_estados = new javax.swing.JMenuItem();
         mi_razones = new javax.swing.JMenuItem();
         mi_usuarios = new javax.swing.JMenuItem();
         mi_asignar = new javax.swing.JMenuItem();
@@ -1019,6 +1223,7 @@ public class Main extends javax.swing.JFrame {
         mi_empleados = new javax.swing.JMenuItem();
         mi_sistema = new javax.swing.JMenuItem();
         mi_empleados1 = new javax.swing.JMenuItem();
+        jm_estadisticas = new javax.swing.JMenu();
 
         chkbx_thread.setText("jCheckBox1");
 
@@ -1039,7 +1244,7 @@ public class Main extends javax.swing.JFrame {
         });
         jM_archivo.add(mi_inicio);
 
-        mi_bandejaEntrada.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_I, java.awt.event.InputEvent.CTRL_MASK));
+        mi_bandejaEntrada.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_E, java.awt.event.InputEvent.CTRL_MASK));
         mi_bandejaEntrada.setFont(new java.awt.Font("SansSerif", 0, 11)); // NOI18N
         mi_bandejaEntrada.setText("Bandeja entrada");
         mi_bandejaEntrada.addActionListener(new java.awt.event.ActionListener() {
@@ -1049,7 +1254,7 @@ public class Main extends javax.swing.JFrame {
         });
         jM_archivo.add(mi_bandejaEntrada);
 
-        mi_bandejaSalida.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_O, java.awt.event.InputEvent.CTRL_MASK));
+        mi_bandejaSalida.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_S, java.awt.event.InputEvent.CTRL_MASK));
         mi_bandejaSalida.setFont(new java.awt.Font("SansSerif", 0, 11)); // NOI18N
         mi_bandejaSalida.setText("Bandeja enviados");
         mi_bandejaSalida.addActionListener(new java.awt.event.ActionListener() {
@@ -1078,6 +1283,24 @@ public class Main extends javax.swing.JFrame {
             }
         });
         jM_archivo.add(mi_conocimiento);
+
+        mi_resproyect.setFont(new java.awt.Font("SansSerif", 0, 11)); // NOI18N
+        mi_resproyect.setText("Proyectos de Resolucion");
+        mi_resproyect.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mi_resproyectActionPerformed(evt);
+            }
+        });
+        jM_archivo.add(mi_resproyect);
+
+        mi_resos.setFont(new java.awt.Font("SansSerif", 0, 11)); // NOI18N
+        mi_resos.setText("Resoluciones");
+        mi_resos.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mi_resosActionPerformed(evt);
+            }
+        });
+        jM_archivo.add(mi_resos);
 
         mi_conocimiento1.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_M, java.awt.event.InputEvent.CTRL_MASK));
         mi_conocimiento1.setFont(new java.awt.Font("SansSerif", 0, 11)); // NOI18N
@@ -1137,7 +1360,6 @@ public class Main extends javax.swing.JFrame {
         jM_configuracion.setText("Configuracion");
         jM_configuracion.setFont(new java.awt.Font("SansSerif", 0, 11)); // NOI18N
 
-        mi_edificios.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_E, java.awt.event.InputEvent.SHIFT_MASK | java.awt.event.InputEvent.CTRL_MASK));
         mi_edificios.setFont(new java.awt.Font("SansSerif", 0, 11)); // NOI18N
         mi_edificios.setText("Edificios");
         mi_edificios.addActionListener(new java.awt.event.ActionListener() {
@@ -1147,7 +1369,6 @@ public class Main extends javax.swing.JFrame {
         });
         jM_configuracion.add(mi_edificios);
 
-        mi_areas.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_A, java.awt.event.InputEvent.CTRL_MASK));
         mi_areas.setFont(new java.awt.Font("SansSerif", 0, 11)); // NOI18N
         mi_areas.setText("Areas");
         mi_areas.addActionListener(new java.awt.event.ActionListener() {
@@ -1157,7 +1378,6 @@ public class Main extends javax.swing.JFrame {
         });
         jM_configuracion.add(mi_areas);
 
-        mi_asunutos.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_A, java.awt.event.InputEvent.ALT_MASK));
         mi_asunutos.setFont(new java.awt.Font("SansSerif", 0, 11)); // NOI18N
         mi_asunutos.setText("Asuntos");
         mi_asunutos.addActionListener(new java.awt.event.ActionListener() {
@@ -1167,7 +1387,6 @@ public class Main extends javax.swing.JFrame {
         });
         jM_configuracion.add(mi_asunutos);
 
-        mi_servicios.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_S, java.awt.event.InputEvent.CTRL_MASK));
         mi_servicios.setFont(new java.awt.Font("SansSerif", 0, 11)); // NOI18N
         mi_servicios.setText("Servicios");
         mi_servicios.addActionListener(new java.awt.event.ActionListener() {
@@ -1177,7 +1396,15 @@ public class Main extends javax.swing.JFrame {
         });
         jM_configuracion.add(mi_servicios);
 
-        mi_razones.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_R, java.awt.event.InputEvent.CTRL_MASK));
+        mi_estados.setFont(new java.awt.Font("SansSerif", 0, 11)); // NOI18N
+        mi_estados.setText("Estados de asuntos");
+        mi_estados.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mi_estadosActionPerformed(evt);
+            }
+        });
+        jM_configuracion.add(mi_estados);
+
         mi_razones.setFont(new java.awt.Font("SansSerif", 0, 11)); // NOI18N
         mi_razones.setText("Razones de transferencia");
         mi_razones.addActionListener(new java.awt.event.ActionListener() {
@@ -1187,7 +1414,6 @@ public class Main extends javax.swing.JFrame {
         });
         jM_configuracion.add(mi_razones);
 
-        mi_usuarios.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_U, java.awt.event.InputEvent.CTRL_MASK));
         mi_usuarios.setFont(new java.awt.Font("SansSerif", 0, 11)); // NOI18N
         mi_usuarios.setText("Usuarios");
         mi_usuarios.addActionListener(new java.awt.event.ActionListener() {
@@ -1197,7 +1423,6 @@ public class Main extends javax.swing.JFrame {
         });
         jM_configuracion.add(mi_usuarios);
 
-        mi_asignar.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_U, java.awt.event.InputEvent.ALT_MASK));
         mi_asignar.setFont(new java.awt.Font("SansSerif", 0, 11)); // NOI18N
         mi_asignar.setText("Asignar servicios a usuario");
         mi_asignar.addActionListener(new java.awt.event.ActionListener() {
@@ -1207,7 +1432,6 @@ public class Main extends javax.swing.JFrame {
         });
         jM_configuracion.add(mi_asignar);
 
-        mi_roles.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_R, java.awt.event.InputEvent.ALT_MASK));
         mi_roles.setFont(new java.awt.Font("SansSerif", 0, 11)); // NOI18N
         mi_roles.setText("Roles");
         mi_roles.addActionListener(new java.awt.event.ActionListener() {
@@ -1217,7 +1441,6 @@ public class Main extends javax.swing.JFrame {
         });
         jM_configuracion.add(mi_roles);
 
-        mi_empleados.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_E, java.awt.event.InputEvent.CTRL_MASK));
         mi_empleados.setFont(new java.awt.Font("SansSerif", 0, 11)); // NOI18N
         mi_empleados.setText("Empleados");
         mi_empleados.addActionListener(new java.awt.event.ActionListener() {
@@ -1227,7 +1450,6 @@ public class Main extends javax.swing.JFrame {
         });
         jM_configuracion.add(mi_empleados);
 
-        mi_sistema.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_E, java.awt.event.InputEvent.CTRL_MASK));
         mi_sistema.setFont(new java.awt.Font("SansSerif", 0, 11)); // NOI18N
         mi_sistema.setText("Sistema");
         mi_sistema.addActionListener(new java.awt.event.ActionListener() {
@@ -1248,6 +1470,10 @@ public class Main extends javax.swing.JFrame {
         jM_configuracion.add(mi_empleados1);
 
         jMB_bar.add(jM_configuracion);
+
+        jm_estadisticas.setText("Estadisticas");
+        jm_estadisticas.setFont(new java.awt.Font("SansSerif", 0, 11)); // NOI18N
+        jMB_bar.add(jm_estadisticas);
 
         setJMenuBar(jMB_bar);
 
@@ -1403,6 +1629,27 @@ public class Main extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_mi_sistemaActionPerformed
 
+    private void mi_resproyectActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mi_resproyectActionPerformed
+        // TODO add your handling code here:
+        this.getContentPane().removeAll();
+        proyectosResolucion();
+        this.repaint();
+    }//GEN-LAST:event_mi_resproyectActionPerformed
+
+    private void mi_resosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mi_resosActionPerformed
+        // TODO add your handling code here:
+        this.getContentPane().removeAll();
+        resoluciones();
+        this.repaint();
+    }//GEN-LAST:event_mi_resosActionPerformed
+
+    private void mi_estadosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mi_estadosActionPerformed
+        // TODO add your handling code here:
+        this.getContentPane().removeAll();
+        estadosPorAsunto();
+        this.repaint();
+    }//GEN-LAST:event_mi_estadosActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -1441,6 +1688,7 @@ public class Main extends javax.swing.JFrame {
     private javax.swing.JMenu jM_archivo;
     private javax.swing.JMenu jM_configuracion;
     private javax.swing.JMenu jm_administracion;
+    private javax.swing.JMenu jm_estadisticas;
     private javax.swing.JMenuItem mi_aactualizar;
     private javax.swing.JMenuItem mi_administrar;
     private javax.swing.JMenuItem mi_areas;
@@ -1454,9 +1702,12 @@ public class Main extends javax.swing.JFrame {
     private javax.swing.JMenuItem mi_empleados;
     private javax.swing.JMenuItem mi_empleados1;
     private javax.swing.JMenuItem mi_estadoPGM;
+    private javax.swing.JMenuItem mi_estados;
     private javax.swing.JMenuItem mi_inicio;
     private javax.swing.JMenuItem mi_nuevoTicket;
     private javax.swing.JMenuItem mi_razones;
+    private javax.swing.JMenuItem mi_resos;
+    private javax.swing.JMenuItem mi_resproyect;
     private javax.swing.JMenuItem mi_roles;
     private javax.swing.JMenuItem mi_salir;
     private javax.swing.JMenuItem mi_servicios;

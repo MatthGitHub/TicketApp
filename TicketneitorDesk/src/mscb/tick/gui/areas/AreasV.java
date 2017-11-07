@@ -79,7 +79,7 @@ public class AreasV extends MenuP {
         String v[] = new String[4];
 
         for (int i = 0; i < miLista.size(); i++) {
-            v[0] = miLista.get(i).getIdArea().toString();
+            v[0] = miLista.get(i).getCodigo();
             v[1] = miLista.get(i).getNombreArea();
             if(miLista.get(i).getDireccion() == null){
                 v[2] = "No tiene";
@@ -102,7 +102,7 @@ public class AreasV extends MenuP {
         String v[] = new String[4];
 
         for (int i = 0; i < miLista.size(); i++) {
-            v[0] = miLista.get(i).getIdArea().toString();
+            v[0] = miLista.get(i).getCodigo();
             v[1] = miLista.get(i).getNombreArea();
             if(miLista.get(i).getDireccion() == null){
                 v[2] = "No tiene";
@@ -169,7 +169,7 @@ public class AreasV extends MenuP {
 
             },
             new String [] {
-                "ID", "Nombre", "Direccion", "Correo"
+                "Codigo organigrama", "Nombre", "Direccion", "Correo"
             }
         ) {
             Class[] types = new Class [] {

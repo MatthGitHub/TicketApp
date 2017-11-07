@@ -15,6 +15,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
@@ -35,6 +37,12 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Asuntos.findByIdasuntoP", query = "SELECT a FROM Asuntos a WHERE a.idasuntoP = :idasuntoP"),
     @NamedQuery(name = "Asuntos.findByNombre", query = "SELECT a FROM Asuntos a WHERE a.nombre = :nombre")})
 public class Asuntos implements Serializable,Comparable<Asuntos> {
+
+    @JoinTable(name = "asuntos_estados", joinColumns = {
+        @JoinColumn(name = "fk_asunto", referencedColumnName = "id_asuntoP")}, inverseJoinColumns = {
+        @JoinColumn(name = "fk_estados", referencedColumnName = "id_estado")})
+    @ManyToMany
+    private List<Estados> estadosList;
 
     @Basic(optional = false)
     @Column(name = "visible", nullable = false)
@@ -143,6 +151,15 @@ public class Asuntos implements Serializable,Comparable<Asuntos> {
 
     public void setVisible(boolean visible) {
         this.visible = visible;
+    }
+
+    @XmlTransient
+    public List<Estados> getEstadosList() {
+        return estadosList;
+    }
+
+    public void setEstadosList(List<Estados> estadosList) {
+        this.estadosList = estadosList;
     }
     
 }

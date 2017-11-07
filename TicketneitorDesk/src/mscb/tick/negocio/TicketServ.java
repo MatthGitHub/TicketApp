@@ -11,7 +11,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
-import javax.persistence.Persistence;
 import javax.persistence.Query;
 import mscb.tick.gui.main.Main;
 import mscb.tick.negocio.controladores.TicketsJpaController;
@@ -34,6 +33,7 @@ public class TicketServ {
     private static String PU = Main.getServer();
     private static EntityManagerFactory emf = EntitiesManager.getEntityManagerFactory();
     private TicketsJpaController jpa = new TicketsJpaController(emf);
+   
     
     private TicketServ(){
     }
@@ -45,6 +45,7 @@ public class TicketServ {
         emf.getCache().evict(Tickets.class);
         return esto;
     }
+    
     public int nuevoTicket(Tickets nuevo){
         
         EntityManager em = emf.createEntityManager();
@@ -69,18 +70,34 @@ public class TicketServ {
     }
     
     public List<Tickets> traerTodosPorArea(){
-        List<Tickets> miLista = jpa.findTicketsEntities();
+        /*List<Tickets> miLista = jpa.findTicketsEntities();
         List<Tickets> aux = new ArrayList<>();
         
         for(int i = 0; i < miLista.size(); i++){
             if(LoginEJB.usuario.getFkEmpleado().getFkArea().equals(miLista.get(i).getServicio().getPertenece().getFkArea())){
                 aux.add(miLista.get(i));
             }
-        }
+        }*/
+        EntityManager em = EntitiesManager.getEnetityManager();
         
+        List<Tickets> aux = new ArrayList<>();
+
+        //em.getTransaction().begin();
+        q = em.createNativeQuery("SELECT DISTINCT * FROM tickets t\n" +
+                                "JOIN servicios s ON t.servicio = s.id_asuntoS\n" +
+                                "JOIN asuntos a ON s.pertenece = a.id_asuntoP\n" +
+                                "WHERE a.fk_area = ?1",Tickets.class);
+        q.setParameter(1, LoginEJB.usuario.getFkEmpleado().getFkArea().getIdArea());
+        aux = q.getResultList();
+                                
         return aux;
     }
     
+    /**
+     * Trae todos los tickets por area y por servicios del usuario logueado
+     * @param area
+     * @return 
+     */
     public List<Tickets> traerTodosPorArea(Areas area){
         EntityManager em = EntitiesManager.getEnetityManager();
         
@@ -138,6 +155,8 @@ public class TicketServ {
                                 "OR u2.nombre_usuario LIKE ?2\n"+
                                 "OR u3.nombre_usuario LIKE ?2\n"+
                                 "OR t.patrimonio LIKE ?2\n"+
+                                "OR t.nota_entrada LIKE ?2\n"+
+                                "OR t.nota_salida LIKE ?2\n"+
                                 "OR t.observacion LIKE ?2)\n"+
                                 "OR t.id_ticket = ?3)\n"+
                                 "ORDER by t.id_ticket",Tickets.class);
@@ -326,5 +345,36 @@ public class TicketServ {
         return aux;
     }
     
-    
+    public Tickets buscarPorNotaEntrada(String nota){
+        EntityManager em = emf.createEntityManager();
+        Tickets aux = new Tickets();
+        q = em.createNativeQuery("SELECT DISTINCT * \n" +
+                                "FROM tickets t \n" +
+                                "JOIN historial_tickets ht ON ht.fk_ticket = t.id_ticket\n" +
+                                "JOIN servicios s ON t.servicio = s.id_asuntoS\n" +
+                                "JOIN asuntos a ON a.id_asuntoP = s.pertenece\n" +
+                                "JOIN estados e ON e.id_estado = ht.fk_estado\n" +
+                                "JOIN encargado_servicios es ON es.asunto = s.id_asuntoS\n" +
+                                "JOIN usuarios u2 ON u2.id_usuario = t.creador\n" +
+                                "LEFT JOIN usuarios u3 ON u3.id_usuario = ht.fk_usuario\n" +
+                                "LEFT JOIN edificios ed ON t.fkEdificio = ed.id_edificio\n" +
+                                "WHERE e.id_estado NOT IN (5,7)\n" +
+                                "AND ht.id_historial IN\n" +
+                                "(SELECT id_historial FROM\n" +
+                                "(SELECT MAX(id_historial) as id_historial,fk_ticket\n" +
+                                "FROM historial_tickets GROUP by fk_ticket ) AS ht2)\n" +
+                                "AND es.usuario = ?1\n" +
+                                "AND t.nota_entrada = ?2\n" +
+                                "ORDER by t.id_ticket",Tickets.class);
+        q.setParameter(1, LoginEJB.usuario.getIdUsuario());
+        q.setParameter(2, nota);
+        try {
+            aux = (Tickets) q.getSingleResult();
+            return aux;
+        } catch (Exception e) {
+            aux = null;
+            return aux;
+        }
+        
+    }
 }

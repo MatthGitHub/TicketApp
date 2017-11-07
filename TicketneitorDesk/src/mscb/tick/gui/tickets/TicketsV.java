@@ -449,6 +449,7 @@ public class TicketsV extends MenuP {
             HistorialTickets his = new HistorialTickets();
             his.setFkEstado(serviciosE.getEstadoServ().traerEstado(7));
             his.setFecha(fecha);
+            his.setHora(fecha);
             his.setFkTicket(miTick);
             his.setFkUsuario(LoginEJB.usuario);
             serviciosH.nuevo(his);

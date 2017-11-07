@@ -13,6 +13,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
@@ -32,6 +33,12 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Estados.findByIdEstado", query = "SELECT e FROM Estados e WHERE e.idEstado = :idEstado"),
     @NamedQuery(name = "Estados.findByNombre", query = "SELECT e FROM Estados e WHERE e.nombre = :nombre")})
 public class Estados implements Serializable {
+
+    @Basic(optional = false)
+    @Column(name = "general")
+    private boolean general;
+    @ManyToMany(mappedBy = "estadosList")
+    private List<Asuntos> asuntosList;
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -105,6 +112,23 @@ public class Estados implements Serializable {
     @Override
     public String toString() {
         return this.nombre;
+    }
+
+    public boolean getGeneral() {
+        return general;
+    }
+
+    public void setGeneral(boolean general) {
+        this.general = general;
+    }
+
+    @XmlTransient
+    public List<Asuntos> getAsuntosList() {
+        return asuntosList;
+    }
+
+    public void setAsuntosList(List<Asuntos> asuntosList) {
+        this.asuntosList = asuntosList;
     }
     
 }

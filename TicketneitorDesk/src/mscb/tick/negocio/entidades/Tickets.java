@@ -26,7 +26,7 @@ import javax.persistence.TemporalType;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 import mscb.tick.negocio.HistorialServ;
-import mscb.tick.negocio.UsuarioServ;
+
 
 /**
  *
@@ -43,6 +43,10 @@ import mscb.tick.negocio.UsuarioServ;
     @NamedQuery(name = "Tickets.findByPatrimonio", query = "SELECT t FROM Tickets t WHERE t.patrimonio = :patrimonio"),
     @NamedQuery(name = "Tickets.findByTiempoResolucion", query = "SELECT t FROM Tickets t WHERE t.tiempoResolucion = :tiempoResolucion")})
 public class Tickets implements Serializable,Comparable<Tickets> {
+
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "tickets")
+    private List<TicketsAdjuntos> ticketsAdjuntosList;
+
 
     @JoinColumn(name = "fk_areaSolicitante", referencedColumnName = "id_area")
     @ManyToOne
@@ -256,6 +260,15 @@ public class Tickets implements Serializable,Comparable<Tickets> {
 
     public void setFkareaSolicitante(Areas fkareaSolicitante) {
         this.fkareaSolicitante = fkareaSolicitante;
+    }
+
+    @XmlTransient
+    public List<TicketsAdjuntos> getTicketsAdjuntosList() {
+        return ticketsAdjuntosList;
+    }
+
+    public void setTicketsAdjuntosList(List<TicketsAdjuntos> ticketsAdjuntosList) {
+        this.ticketsAdjuntosList = ticketsAdjuntosList;
     }
 
 }

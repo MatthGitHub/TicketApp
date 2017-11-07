@@ -6,7 +6,7 @@ include('inc/validar.php');
 $link = mysqli_connect ($dbhost, $dbusername, $dbuserpass);
 mysqli_select_db($link,$dbname) or die('No se puede seleccionar la base de datos');
 mysqli_set_charset($link,'utf8');
-$query = mysqli_query($link,"SELECT DISTINCT id_area,nombre_area FROM asuntos JOIN areas ON fk_area = id_area") or die(mysql_error());
+$query = mysqli_query($link,"SELECT DISTINCT id_area,nombre_area FROM asuntos JOIN areas ON fk_area = id_area  WHERE visible = 1") or die(mysql_error());
 $query2 = mysqli_query($link,"SELECT * FROM servicios") or die(mysql_error());
 
 $strConsulta = "SELECT id_asuntoP, nombre FROM asuntos";
@@ -122,7 +122,7 @@ mysqli_close($link);
 						<div class="form-group">
 							<div class="input-group">
 								<div class='input-group'>
-									<span class="btn btn-default btn-file"><i class="fa fa-paperclip fa-fw"></i><input name="archivo" type="file" hidden>Seleccione un archivo...</span>
+									<span class="btn btn-default btn-file"><i class="fa fa-paperclip fa-fw"></i><input name="archivos[]" type="file" multiple="multiple" hidden>Seleccione un archivo...</span>
 								</div>
 							</div>
 						</div>

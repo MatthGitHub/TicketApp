@@ -84,5 +84,8 @@ public class AsuntoPrincipalServ {
         jpa.edit(asuntico);
     }
     
+    public void modificarAsunto(Asuntos asunto) throws NonexistentEntityException, Exception{
+        jpa.edit(asunto);
+    }
     
 }
