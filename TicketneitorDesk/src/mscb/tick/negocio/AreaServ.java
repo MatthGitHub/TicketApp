@@ -58,11 +58,13 @@ public class AreaServ {
     public boolean nueva(Areas miArea){
         try {
             jpa.create(miArea);
+            emf.getCache().evict(Areas.class);
             return true;
         } catch (Exception e) {
             System.out.println(e+" - Error al crear nueva area");
             return false;
         }
+        
     }
     
     public boolean eliminar(int id){
@@ -85,6 +87,16 @@ public class AreaServ {
         }
     }
     
+    
+    public Areas getArea(Integer id){
+        return jpa.findAreas(id);
+    }
+    
+    /**
+     * Busca areas segun el patron dado, pueden ser n areas.
+     * @param patron
+     * @return 
+     */
     public List<Areas> buscar(String patron){
         EntityManager em = emf.createEntityManager();
         Query q;
@@ -96,7 +108,12 @@ public class AreaServ {
         return q.getResultList();
     }
     
-    public Areas getSolicitantePorNombre(String nombre){
+    /**
+     * Busca un area especifica por nombre
+     * @param nombre
+     * @return 
+     */
+    public Areas getAreaPorNombre(String nombre){
         EntityManager em = EntitiesManager.getEnetityManager();
         Areas aux;
         q = em.createNativeQuery("SELECT *"

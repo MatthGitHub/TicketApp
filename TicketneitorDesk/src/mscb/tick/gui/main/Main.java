@@ -47,6 +47,8 @@ import mscb.tick.gui.tickets.BandejaTickets;
 import mscb.tick.gui.tickets.NuevoTicket;
 import mscb.tick.gui.encargadoAsuntos.AsuntoSinEncargadoD;
 import mscb.tick.gui.encargadoAsuntos.MiServicios;
+import mscb.tick.gui.estadisticas.EstadisticasAreasRecibidos;
+import mscb.tick.gui.estadisticas.EstadisticasUsuariosEmitidos;
 import mscb.tick.gui.estados.EstadosAsuntos;
 import mscb.tick.negocio.entidades.Areas;
 import mscb.tick.negocio.entidades.Permisos;
@@ -162,6 +164,9 @@ public class Main extends javax.swing.JFrame {
     
     private Resoluciones reso;
     
+    private EstadisticasAreasRecibidos estadAreas;
+    private EstadisticasUsuariosEmitidos estadUsuarios;    
+    
     private MySystemTray mySystemTray;
     private static BufferedWriter bw = null;
             
@@ -188,7 +193,7 @@ public class Main extends javax.swing.JFrame {
         System.out.println("Server: "+server);
         version.setIdConfiguracion(1);
         version.setNombre("version");
-        version.setDescripcion("6.6.0");
+        version.setDescripcion("6.7.0");
         mySystemTray = MySystemTray.getMySystemTray(this);
         
         setDefaultCloseOperation(0);
@@ -407,6 +412,13 @@ public class Main extends javax.swing.JFrame {
             mi_estados.setVisible(true);
         }else{
             mi_estados.setVisible(false);
+        }
+        
+        //Menu estadisticas
+        if(permisosU.contains(serviciosP.traerUno(56))){
+            jm_estadisticas.setVisible(true);
+        }else{
+            jm_estadisticas.setVisible(false);
         }
     }
     
@@ -1084,6 +1096,45 @@ public class Main extends javax.swing.JFrame {
     
     
     /**
+     * Estadisticas areas
+     */
+    public void estadisticasPorArea(){
+        estadAreas = EstadisticasAreasRecibidos.getEstadisticasAreasRecibidos();
+
+        if(!estadAreas.isVisible() == false){
+            getContentPane().add(estadAreas);
+        }else{
+            estadAreas.setVisible(true);
+        }
+        revalidate();
+    }
+    
+    /**
+     * Estadisticas areas
+     */
+    public void estadisticasPorUsuario(Integer idArea){
+        estadUsuarios = EstadisticasUsuariosEmitidos.getEstadisticasUsuarios(idArea);
+
+        if(!estadUsuarios.isVisible()==false){
+            getContentPane().add(estadUsuarios);
+        }else{
+            estadUsuarios.llenarTabla(idArea);
+            estadUsuarios.setVisible(true);
+        }
+        revalidate();
+    }
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    /**
      * Metodo para actualizar el programa
      */
     private void actualizarPrograma(){
@@ -1224,6 +1275,7 @@ public class Main extends javax.swing.JFrame {
         mi_sistema = new javax.swing.JMenuItem();
         mi_empleados1 = new javax.swing.JMenuItem();
         jm_estadisticas = new javax.swing.JMenu();
+        mi_ticketsArea = new javax.swing.JMenuItem();
 
         chkbx_thread.setText("jCheckBox1");
 
@@ -1473,6 +1525,16 @@ public class Main extends javax.swing.JFrame {
 
         jm_estadisticas.setText("Estadisticas");
         jm_estadisticas.setFont(new java.awt.Font("SansSerif", 0, 11)); // NOI18N
+
+        mi_ticketsArea.setFont(new java.awt.Font("SansSerif", 0, 11)); // NOI18N
+        mi_ticketsArea.setText("Tickets por area");
+        mi_ticketsArea.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mi_ticketsAreaActionPerformed(evt);
+            }
+        });
+        jm_estadisticas.add(mi_ticketsArea);
+
         jMB_bar.add(jm_estadisticas);
 
         setJMenuBar(jMB_bar);
@@ -1650,6 +1712,13 @@ public class Main extends javax.swing.JFrame {
         this.repaint();
     }//GEN-LAST:event_mi_estadosActionPerformed
 
+    private void mi_ticketsAreaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mi_ticketsAreaActionPerformed
+        // TODO add your handling code here:
+        this.getContentPane().removeAll();
+        estadisticasPorArea();
+        this.repaint();
+    }//GEN-LAST:event_mi_ticketsAreaActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -1712,6 +1781,7 @@ public class Main extends javax.swing.JFrame {
     private javax.swing.JMenuItem mi_salir;
     private javax.swing.JMenuItem mi_servicios;
     private javax.swing.JMenuItem mi_sistema;
+    private javax.swing.JMenuItem mi_ticketsArea;
     private javax.swing.JMenuItem mi_usuarios;
     // End of variables declaration//GEN-END:variables
 

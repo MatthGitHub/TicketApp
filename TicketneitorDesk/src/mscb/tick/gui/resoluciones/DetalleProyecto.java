@@ -50,6 +50,7 @@ import mscb.tick.util.MenuP;
  */
 public class DetalleProyecto extends javax.swing.JDialog {
     private ResolucionesProyecto miProy;
+    private String texto;
     /**
      * Creates new form DetalleTicket
      */
@@ -76,7 +77,7 @@ public class DetalleProyecto extends javax.swing.JDialog {
         txtA_obser.setWrapStyleWord(true);
         txtA_obser.setLineWrap(true);
         //la siguiente linea elimina todos los labes y lo que haya entre medio de ellos.
-        String texto = miProy.getTexto().replaceAll("<LABEL.*?>", "");
+        texto = miProy.getTexto().replaceAll("<LABEL.*?>", "");
         texto = texto.replaceAll("</LABEL>", "");
         txtA_obser.setText("Proveedor: \n"+"Tipo proyecto: "+miProy.getIdtiporesolucion().getDescripcion()+"\n"+"Observacion: "+miProy.getObservacion());
     }
@@ -350,7 +351,7 @@ public class DetalleProyecto extends javax.swing.JDialog {
                 
                 BandejaTickets.getBandejaTickets(Main.getMainFrame()).llenarTabla();
                 Main.getMainFrame().bandejaEntrada();
-                crearArchivoReso(txtA_obser.getText(), miTick.getIdTicket().toString(), miProy.getResolucionesProyectoPK().toString()+".pdf");
+                crearArchivoReso(texto, miTick.getIdTicket().toString(), miProy.getResolucionesProyectoPK().toString()+".pdf");
                 ta = new TicketsAdjuntos();
                 ta.setTickets(miTick);
                 ta.setAnio(c.get(c.YEAR));

@@ -12,6 +12,7 @@ import javax.swing.table.DefaultTableModel;
 import mscb.tick.negocio.EmpleadoServ;
 import mscb.tick.negocio.entidades.Empleados;
 import mscb.tick.gui.main.Main;
+import mscb.tick.negocio.LoginEJB;
 import mscb.tick.util.MenuP;
 
 /**
@@ -90,12 +91,22 @@ public class EmpleadosV extends MenuP {
     }
     
     public List<Empleados> cargarTodosLosEmpelados(){
-        miLista = serviciosE.traerTodos();
+        if(LoginEJB.usuario.getFkRol().getIdRol() == 1){
+           miLista = serviciosE.traerTodos(); 
+        }else{
+            miLista = serviciosE.traerTodosPorArea();
+        }
+        
         return miLista;
     }
     
     public List<Empleados> cargarEmpleadosBuscados(String patron){
-        miLista = serviciosE.traerEmpleados(patron);
+        if(LoginEJB.usuario.getFkRol().getIdRol() == 1){
+            miLista = serviciosE.traerEmpleados(patron);
+        }else{
+            miLista = serviciosE.traerEmpleadosPorArea(patron);
+        }
+        
         return miLista;
     }
     
@@ -128,7 +139,7 @@ public class EmpleadosV extends MenuP {
         jLabel1 = new javax.swing.JLabel();
         txt_busca = new javax.swing.JTextField();
 
-        setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Empleados", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("SansSerif", 0, 18), new java.awt.Color(255, 255, 255))); // NOI18N
+        setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Empleados", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("SansSerif", 0, 18), new java.awt.Color(0, 108, 118))); // NOI18N
 
         jt_empleados.setFont(new java.awt.Font("SansSerif", 0, 11)); // NOI18N
         jt_empleados.setModel(new javax.swing.table.DefaultTableModel(

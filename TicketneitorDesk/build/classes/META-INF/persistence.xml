@@ -18,6 +18,7 @@
     <class>mscb.tick.negocio.entidades.Tickets</class>
     <class>mscb.tick.negocio.entidades.Usuarios</class>
     <class>mscb.tick.negocio.entidades.TicketsAdjuntos</class>
+    <class>mscb.tick.negocio.entidades.Complejidad</class>
     <properties>
       <property name="eclipselink.canonicalmodel.subpackage" value="uno"/>
       <property name="javax.persistence.jdbc.url" value="jdbc:mysql://10.20.130.242:3306/ticket?zeroDateTimeBehavior=convertToNull"/>
@@ -45,6 +46,7 @@
     <class>mscb.tick.negocio.entidades.Tickets</class>
     <class>mscb.tick.negocio.entidades.Usuarios</class>
     <class>mscb.tick.negocio.entidades.TicketsAdjuntos</class>
+    <class>mscb.tick.negocio.entidades.Complejidad</class>
     <properties>
       <property name="eclipselink.canonicalmodel.subpackage" value="dos"/>
       <property name="javax.persistence.jdbc.url" value="jdbc:mysql://10.20.110.20:3306/ticket?zeroDateTimeBehavior=convertToNull"/>

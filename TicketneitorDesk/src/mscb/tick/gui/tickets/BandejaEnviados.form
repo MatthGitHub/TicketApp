@@ -6,7 +6,7 @@
       <Border info="org.netbeans.modules.form.compat2.border.TitledBorderInfo">
         <TitledBorder justification="2" title="Mis Tickets">
           <Font PropertyName="font" name="SansSerif" size="18" style="0"/>
-          <Color PropertyName="color" blue="ff" green="ff" id="white" palette="1" red="ff" type="palette"/>
+          <Color PropertyName="color" blue="76" green="6c" red="0" type="rgb"/>
         </TitledBorder>
       </Border>
     </Property>
@@ -185,7 +185,7 @@
           <Font name="Tekton Pro" size="24" style="3"/>
         </Property>
         <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-          <Color blue="ff" green="ff" red="ff" type="rgb"/>
+          <Color blue="76" green="6c" red="0" type="rgb"/>
         </Property>
         <Property name="horizontalAlignment" type="int" value="0"/>
       </Properties>

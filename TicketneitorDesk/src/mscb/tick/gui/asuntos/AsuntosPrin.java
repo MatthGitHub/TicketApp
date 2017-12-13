@@ -136,7 +136,7 @@ public class AsuntosPrin extends MenuP {
         jLabel1 = new javax.swing.JLabel();
         btn_nuevo1 = new javax.swing.JButton();
 
-        setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Asuntos", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("SansSerif", 0, 18), java.awt.Color.white)); // NOI18N
+        setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Asuntos", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("SansSerif", 0, 18), new java.awt.Color(0, 108, 118))); // NOI18N
 
         jt_asuntos.setFont(new java.awt.Font("SansSerif", 0, 11)); // NOI18N
         jt_asuntos.setForeground(new java.awt.Color(0, 108, 118));

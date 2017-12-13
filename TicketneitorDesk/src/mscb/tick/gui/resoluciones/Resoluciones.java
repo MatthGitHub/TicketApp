@@ -252,7 +252,7 @@ public class Resoluciones extends MenuP {
 
     private void txt_buscaFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txt_buscaFocusGained
         // TODO add your handling code here:
-        txt_busca.setText("");
+        txt_busca.setText("0000");
         
     }//GEN-LAST:event_txt_buscaFocusGained
 

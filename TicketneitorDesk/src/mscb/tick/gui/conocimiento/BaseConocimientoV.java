@@ -10,6 +10,8 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Locale;
+import javax.swing.JOptionPane;
+import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 import mscb.tick.negocio.LoginEJB;
 import mscb.tick.gui.main.Main;
@@ -52,10 +54,11 @@ public class BaseConocimientoV extends MenuP {
     }
     
     private void llenarTabla(){
+        vaciarTabla(jt_conocimiento);
         if(LoginEJB.usuario.getFkRol().getIdRol() == 1){
             miLista = servH.traerTodosResueltos();
         }else{
-             miLista = servH.traerTodosResueltosPorArea(LoginEJB.usuario.getFkEmpleado().getFkArea());
+             miLista = servH.traerTodosResueltosPorServicios();
         }
        
         String v[] = new String[9];
@@ -84,6 +87,11 @@ public class BaseConocimientoV extends MenuP {
             }else{
                 v[8] = miLista.get(i).getFkTicket().getNotaSalida();
             }
+            if((miLista.get(i).getFkTicket().getFkareaSolicitante()== null)){
+                v[8] = "";
+            }else{
+                v[8] = miLista.get(i).getFkTicket().getFkareaSolicitante().getNombreArea();
+            }
             modelo.addRow(v);
             cant++;
         }
@@ -97,8 +105,8 @@ public class BaseConocimientoV extends MenuP {
     }
     
     private void llenarTablaBuscador(List<HistorialTickets> miLista){
-        
-        String v[] = new String[9];
+        vaciarTabla(jt_conocimiento);
+        String v[] = new String[10];
         DateFormat dateFormatter;
         dateFormatter = DateFormat.getDateInstance(DateFormat.SHORT, Locale.UK);
         
@@ -136,6 +144,18 @@ public class BaseConocimientoV extends MenuP {
         
         revalidate();
     }
+    
+    private void vaciarTabla(JTable tabla) {
+        try {
+            DefaultTableModel modelo = (DefaultTableModel) tabla.getModel();
+            int filas = tabla.getRowCount();
+            for (int i = 0; filas > i; i++) {
+                modelo.removeRow(0);
+            }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Error al limpiar la tabla.");
+        }
+    }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -152,7 +172,7 @@ public class BaseConocimientoV extends MenuP {
         lblCant = new javax.swing.JLabel();
         txt_id2 = new javax.swing.JTextField();
 
-        setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Base de conocimiento", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("SansSerif", 0, 18), new java.awt.Color(255, 255, 255))); // NOI18N
+        setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Base de conocimiento", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("SansSerif", 0, 18), new java.awt.Color(0, 108, 118))); // NOI18N
 
         jt_conocimiento.setFont(new java.awt.Font("SansSerif", 0, 11)); // NOI18N
         jt_conocimiento.setModel(new javax.swing.table.DefaultTableModel(
@@ -202,9 +222,12 @@ public class BaseConocimientoV extends MenuP {
         txt_id2.setFont(new java.awt.Font("SansSerif", 0, 14)); // NOI18N
         txt_id2.setForeground(new java.awt.Color(0, 108, 118));
         txt_id2.setText("Nº de Ticket");
-        txt_id2.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                txt_id2MouseClicked(evt);
+        txt_id2.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                txt_id2FocusGained(evt);
+            }
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                txt_id2FocusLost(evt);
             }
         });
         txt_id2.addActionListener(new java.awt.event.ActionListener() {
@@ -265,17 +288,22 @@ public class BaseConocimientoV extends MenuP {
         }
     }//GEN-LAST:event_jt_conocimientoMouseClicked
 
-    private void txt_id2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txt_id2MouseClicked
-        // TODO add your handling code here:
-        txt_id2.setText("");
-    }//GEN-LAST:event_txt_id2MouseClicked
-
     private void txt_id2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txt_id2ActionPerformed
         // TODO add your handling code here:
         if(txt_id2.getText().trim().length() >0){
-            llenarTablaBuscador(servH.buscarTodosResueltosPorArea(LoginEJB.usuario.getFkEmpleado().getFkArea(), txt_id2.getText().trim()));
+            llenarTablaBuscador(servH.buscarTodosResueltosPorServicios(txt_id2.getText().trim()));
         }
     }//GEN-LAST:event_txt_id2ActionPerformed
+
+    private void txt_id2FocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txt_id2FocusGained
+        // TODO add your handling code here:
+        txt_id2.setText("");
+    }//GEN-LAST:event_txt_id2FocusGained
+
+    private void txt_id2FocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txt_id2FocusLost
+        // TODO add your handling code here:
+        txt_id2.setText("Nº de Ticket");
+    }//GEN-LAST:event_txt_id2FocusLost
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

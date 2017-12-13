@@ -100,7 +100,7 @@ if($tipo == 'ticket'){
       mysqli_query($link,"INSERT INTO historial_tickets (fk_ticket,fk_usuario,fecha,hora,fk_estado) VALUES ({$idTicket},'{$usuario}','{$fecha}','{$hora}',1)");
 
       while($i < $cantidadAdjuntos){
-        $adjunto = $adjuntos[$i];
+        $adjunto = str_replace(" ","",$adjuntos[$i]);
         $tipo_archivo = $tipos[$i];
         $tamanio = $tamanios[$i];
         $direccion = $direcciones[$i];
@@ -197,7 +197,6 @@ if($tipo == 'ticket'){
           }
 
 
-          $file_name=$adjunto;
           $add="archivos/$anio/$mes/$idTicket/$adjunto";
           if($uploadedfileload=="true"){
             if(copy ($direccion, $add)){

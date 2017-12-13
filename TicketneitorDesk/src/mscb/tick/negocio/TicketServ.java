@@ -17,6 +17,7 @@ import mscb.tick.negocio.controladores.TicketsJpaController;
 import mscb.tick.negocio.controladores.exceptions.IllegalOrphanException;
 import mscb.tick.negocio.controladores.exceptions.NonexistentEntityException;
 import mscb.tick.negocio.entidades.Areas;
+import mscb.tick.negocio.entidades.Estadisticas;
 import mscb.tick.negocio.entidades.Tickets;
 
 //import mscb.tick.login.Login;
@@ -30,7 +31,6 @@ public class TicketServ {
     
     private EstadoServ estad;
     private static TicketServ esto;
-    private static String PU = Main.getServer();
     private static EntityManagerFactory emf = EntitiesManager.getEntityManagerFactory();
     private TicketsJpaController jpa = new TicketsJpaController(emf);
    
@@ -77,7 +77,7 @@ public class TicketServ {
             if(LoginEJB.usuario.getFkEmpleado().getFkArea().equals(miLista.get(i).getServicio().getPertenece().getFkArea())){
                 aux.add(miLista.get(i));
             }
-        }*/
+        }
         EntityManager em = EntitiesManager.getEnetityManager();
         
         List<Tickets> aux = new ArrayList<>();
@@ -90,6 +90,30 @@ public class TicketServ {
         q.setParameter(1, LoginEJB.usuario.getFkEmpleado().getFkArea().getIdArea());
         aux = q.getResultList();
                                 
+        return aux;*/
+        
+        
+        EntityManager em = EntitiesManager.getEnetityManager();
+        
+        List<Tickets> aux = new ArrayList<>();
+
+        //em.getTransaction().begin();
+        q = em.createNativeQuery("SELECT DISTINCT * FROM tickets t \n" +
+                                "JOIN historial_tickets ht ON ht.fk_ticket = t.id_ticket\n" +
+                                "JOIN servicios s ON t.servicio = s.id_asuntoS\n" +
+                                "JOIN encargado_servicios es ON es.asunto = s.id_asuntoS\n"+
+                                "JOIN usuarios u ON u.id_usuario = t.creador\n" +
+                                "WHERE ht.id_historial IN "+
+                                "(SELECT id_historial FROM "+
+                                "(SELECT MAX(id_historial) as id_historial,fk_ticket "+
+                                "FROM historial_tickets GROUP by fk_ticket ) AS ht2)"+
+                                " AND es.usuario = ?1 "+
+                                "ORDER by t.id_ticket",Tickets.class);
+        q.setParameter(1, LoginEJB.usuario.getIdUsuario());
+        q.setParameter(2, LoginEJB.usuario.getFkEmpleado().getFkArea().getIdArea());
+        aux = q.getResultList();
+        /*em.clear();
+        em.close();*/
         return aux;
     }
     
@@ -375,6 +399,48 @@ public class TicketServ {
             aux = null;
             return aux;
         }
-        
     }
+    
+    public List<Estadisticas> getEstadisticasPorArea(){
+        List<Object[]> rawResultList;
+        EntityManager em = emf.createEntityManager();
+        List<Estadisticas> aux = new ArrayList<>(); 
+        
+        q = em.createNativeQuery("SELECT ar.nombre_area AS Area,COUNT(id_ticket) AS Cantidad \n" +
+                                "FROM tickets t\n" +
+                                "JOIN servicios s ON t.servicio = s.id_asuntoS\n" +
+                                "JOIN asuntos a ON s.pertenece = a.id_asuntoP\n" +
+                                "JOIN areas ar ON a.fk_area = ar.id_area\n" +
+                                "GROUP by ar.nombre_area");
+        rawResultList = q.getResultList();
+        
+        for (Object[] resultElement : rawResultList) {
+            Estadisticas adl = new Estadisticas((String)resultElement[0], Integer.parseInt(resultElement[1].toString()));
+            aux.add(adl);
+        }
+        return aux;
+    }
+    
+    public List<Estadisticas> getEstadisticasPorUsuarios(Integer idArea){
+        List<Object[]> rawResultList;
+        EntityManager em = emf.createEntityManager();
+        List<Estadisticas> aux = new ArrayList<>(); 
+        
+        q = em.createNativeQuery("SELECT u.nombre_usuario AS Usuario,COUNT(id_ticket) AS Cantidad\n" +
+                                "FROM tickets t\n" +
+                                "JOIN servicios s ON t.servicio = s.id_asuntoS\n" +
+                                "JOIN asuntos a ON s.pertenece = a.id_asuntoP\n" +
+                                "JOIN usuarios u ON t.creador = u.id_usuario\n" +
+                                "WHERE a.fk_area = ?1\n" +
+                                "GROUP by u.nombre_usuario");
+        q.setParameter(1, idArea);
+        rawResultList = q.getResultList();
+        
+        for (Object[] resultElement : rawResultList) {
+            Estadisticas adl = new Estadisticas((String)resultElement[0], Integer.parseInt(resultElement[1].toString()));
+            aux.add(adl);
+        }
+        return aux;
+    }
+    
 }

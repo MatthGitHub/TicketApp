@@ -240,7 +240,7 @@ public class BandejaEnviados extends MenuP {
         btn_volver = new javax.swing.JButton();
         btn_responder1 = new javax.swing.JButton();
 
-        setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Mis Tickets", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("SansSerif", 0, 18), java.awt.Color.white)); // NOI18N
+        setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Mis Tickets", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("SansSerif", 0, 18), new java.awt.Color(0, 108, 118))); // NOI18N
         setMinimumSize(new java.awt.Dimension(827, 569));
 
         txt_id.setFont(new java.awt.Font("SansSerif", 0, 14)); // NOI18N
@@ -296,7 +296,7 @@ public class BandejaEnviados extends MenuP {
 
         lblNombreUsuario.setBackground(new java.awt.Color(0, 102, 204));
         lblNombreUsuario.setFont(new java.awt.Font("Tekton Pro", 3, 24)); // NOI18N
-        lblNombreUsuario.setForeground(new java.awt.Color(255, 255, 255));
+        lblNombreUsuario.setForeground(new java.awt.Color(0, 108, 118));
         lblNombreUsuario.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
 
         btn_verResp.setBackground(new java.awt.Color(153, 153, 153));

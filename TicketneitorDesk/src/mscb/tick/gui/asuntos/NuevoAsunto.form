@@ -6,7 +6,7 @@
       <Border info="org.netbeans.modules.form.compat2.border.TitledBorderInfo">
         <TitledBorder justification="2" title="Nuevo Asunto">
           <Font PropertyName="font" name="SansSerif" size="18" style="0"/>
-          <Color PropertyName="color" blue="ff" green="ff" id="white" palette="1" red="ff" type="palette"/>
+          <Color PropertyName="color" blue="76" green="6c" red="0" type="rgb"/>
         </TitledBorder>
       </Border>
     </Property>

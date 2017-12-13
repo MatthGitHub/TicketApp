@@ -5,12 +5,15 @@
  */
 package mscb.tick.negocio;
 
+import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
+import javax.persistence.Query;
 import mscb.tick.gui.main.Main;
 import mscb.tick.negocio.controladores.HistorialTicketsJpaController;
 import mscb.tick.negocio.entidades.Areas;
@@ -55,22 +58,62 @@ public class HistorialServ {
         }
         return aux;
     }
-    
-    public List<HistorialTickets> traerTodosResueltosPorArea(Areas area){
-        List<HistorialTickets> aux = new ArrayList<>();
-        List<HistorialTickets> miLista = jpa.findHistorialTicketsEntities();
+    /**
+     * Trae todos los tickets resueltos de los servicios que tenga el usuario
+     * @param area
+     * @return 
+     */
+    public List<HistorialTickets> traerTodosResueltosPorServicios(){
+        //List<HistorialTickets> miLista = jpa.findHistorialTicketsEntities();
+        //List<HistorialTickets>  aux = new ArrayList<>();
         
-        for(int i = 0; i < miLista.size(); i++){
+        EntityManager em = EntitiesManager.getEnetityManager();
+        Query q;
+        List<HistorialTickets> aux2 = new ArrayList<>();
+        
+        /*for(int i = 0; i < miLista.size(); i++){
             if((miLista.get(i).getFkEstado().getIdEstado() == 5)&&(miLista.get(i).getFkTicket().getServicio().getPertenece().getFkArea().equals(area))){
                 aux.add(miLista.get(i));
             }
+        }*/
+        
+        
+        q = em.createNativeQuery("SELECT DISTINCT * FROM tickets t\n" +
+        "JOIN historial_tickets ht ON ht.fk_ticket = t.id_ticket\n" +
+        "JOIN servicios s ON t.servicio = s.id_asuntoS\n" +
+        "JOIN encargado_servicios es ON es.asunto = s.id_asuntoS\n"+
+        "JOIN usuarios u ON u.id_usuario = t.creador\n" +
+        "JOIN empleados em ON u.fk_empleado = em.id_empleado\n" +
+        "WHERE ht.fk_estado = 5\n" +
+        " AND ht.id_historial IN \n" +
+        "	(SELECT id_historial \n" +
+        "	FROM (SELECT MAX(id_historial) as id_historial,fk_ticket \n" +
+        "			FROM historial_tickets GROUP by fk_ticket ) AS ht2)\n" +
+        " AND es.usuario = ?1 \n" +
+        "ORDER by t.id_ticket",HistorialTickets.class);
+        q.setParameter(1, LoginEJB.usuario.getIdUsuario());
+        aux2 = q.getResultList();
+        
+        //System.out.println("Aux2:"+aux2.size()+" - Aux:"+aux.size());
+        
+        /*for(int i = 0 ; i < aux2.size() ; i++){
+            if(aux.contains(aux2.get(i))){
+                aux.remove(aux2.get(i));
+            }
         }
-        return aux;
+        
+        for(int i = 0; i < aux.size(); i++){
+            System.out.println("Aux:"+aux.get(i).getIdHistorial());
+        }*/
+        
+        return aux2;
     }
     
-    public List<HistorialTickets> buscarTodosResueltosPorArea(Areas area, String id){
-        List<HistorialTickets> aux = new ArrayList<>();
-        List<HistorialTickets> miLista = jpa.findHistorialTicketsEntities();
+    public List<HistorialTickets> buscarTodosResueltosPorServicios(String id){
+        List<HistorialTickets> aux;
+        EntityManager em = EntitiesManager.getEnetityManager();
+        Query q;
+        /*List<HistorialTickets> miLista = jpa.findHistorialTicketsEntities();
         
         for(int i = 0; i < miLista.size(); i++){
             if((miLista.get(i).getFkEstado().getIdEstado() == 5)
@@ -79,7 +122,34 @@ public class HistorialServ {
                 ||(miLista.get(i).getFkTicket().getCreador().getNombreUsuario().equals(id)))){
                 aux.add(miLista.get(i));
             }
-        }
+        }*/
+        
+        q = em.createNativeQuery("SELECT DISTINCT * FROM tickets t\n" +
+        "JOIN historial_tickets ht ON ht.fk_ticket = t.id_ticket\n" +
+        "JOIN servicios s ON t.servicio = s.id_asuntoS\n" +
+        "JOIN encargado_servicios es ON es.asunto = s.id_asuntoS\n"+
+        "JOIN usuarios u ON u.id_usuario = t.creador\n" +
+        "JOIN empleados em ON u.fk_empleado = em.id_empleado\n" +
+        "WHERE ht.fk_estado = 5\n" +
+        " AND ht.id_historial IN \n" +
+        "	(SELECT id_historial \n" +
+        "	FROM (SELECT MAX(id_historial) as id_historial,fk_ticket \n" +
+        "			FROM historial_tickets GROUP by fk_ticket ) AS ht2)\n" +
+        " AND es.usuario = ?1 \n"+ 
+        "AND ((s.nombre_asuntoS LIKE ?2\n" +
+                                "OR u.nombre_usuario LIKE ?2\n"+
+                                "OR t.patrimonio LIKE ?2\n"+
+                                "OR t.nota_entrada LIKE ?2\n"+
+                                "OR t.nota_salida LIKE ?2\n"+
+                                "OR t.observacion LIKE ?2)\n"+
+                                "OR t.id_ticket = ?3)\n"+
+        "ORDER by t.id_ticket",HistorialTickets.class);
+        q.setParameter(1, LoginEJB.usuario.getIdUsuario());
+        q.setParameter(2, "%"+id+"%");
+        q.setParameter(3,id);
+        aux = q.getResultList();
+        
+        
         return aux;
     }
     
@@ -128,28 +198,31 @@ public class HistorialServ {
     }
     
     public HistorialTickets buscarUltimo(Tickets miTick){
-        //List<HistorialTickets> miLista = jpa.findHistorialTicketsEntities();
-        //List<HistorialTickets> aux = new ArrayList<>();
-        //List<HistorialTickets> aux2 = new ArrayList<>();
-        HistorialTickets mayor = new HistorialTickets();
+         HistorialTickets miHis;
+        miHis = new HistorialTickets();
         List<HistorialTickets> miLista = miTick.getHistorialTicketsList();
-        mayor = miLista.get(0);
-        
-        //Busco todos los historiales del ticket 
-        /*for(int i = 0; i < miLista.size(); i++){
-            if(miLista.get(i).getFkTicket().equals(miTick)){
-                aux.add(miLista.get(i));
-                mayor = miLista.get(i);
-            }
-        }*/
+        miHis = miLista.get(0);
        
         // Ordeno para buscar el mayor
         for(int i = 0; i < miLista.size(); i++){
-            if(miLista.get(i).getIdHistorial() > mayor.getIdHistorial()){
-                mayor = miLista.get(i);
+            if(miLista.get(i).getIdHistorial() > miHis.getIdHistorial()){
+                miHis = miLista.get(i);
             }
         }
-        return mayor;
+        //ANDA MUY LENTO EL CODIGO DE ABAJO!
+        /*EntityManager em = EntitiesManager.getEnetityManager();
+        Query q = em.createNativeQuery("SELECT *\n" +
+                                        "FROM historial_tickets\n" +
+                                        "WHERE id_historial IN (SELECT MAX(id_historial)\n" +
+                                        "FROM historial_tickets \n" +
+                                        "WHERE fk_ticket = ?1)",HistorialTickets.class);
+        q.setParameter(1, miTick.getIdTicket());
+        
+        miHis = (HistorialTickets) q.getSingleResult();*/
+        //System.out.println("Ticket: "+miHis.getFkTicket()+" Historial: "+miHis.getIdHistorial());
+        
+        
+        return miHis;
     }
     
 }

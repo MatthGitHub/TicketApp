@@ -35,15 +35,15 @@ include('inc/validar.php');
 			<div class="row">
 				<div class="col-lg-5">
 					<p>
-						<a class="btn btn-lg btn-direct" href="ticket_nuevo.php" role="button">Nuevo ticket</a>
+						<a class="btn btn-lg btn-direct" href="ticket_nuevo.php" role="button"><img src="images/icons/ticket_nuevo.png" alt="Municipalidad Bariloche" align="center" style="margin:0px 0px 0px 0px" height="32" width="32">	Nuevo ticket</a>
 					</p>
 				</div>
 				<div class="col-lg-5">
 					<p>
-						<a class="btn btn-lg btn-direct" href="tickets.php" role="button">Tickets Resueltos</a>
+						<a class="btn btn-lg btn-direct" href="tickets.php" role="button"><img src="images/icons/resueltos.png" alt="Municipalidad Bariloche" align="center" style="margin:0px 0px 0px 0px" height="32" width="32">	Tickets Resueltos</a>
 					</p>
 					<p>
-						<a class="btn btn-lg btn-direct" href="tickets_recientes.php" role="button">Tickets Recientes</a>
+						<a class="btn btn-lg btn-direct" href="tickets_recientes.php" role="button"><img src="images/icons/recientes.png" alt="Municipalidad Bariloche" align="center" style="margin:0px 0px 0px 0px" height="32" width="32">	Tickets Recientes</a>
 					</p>
 				</div>
 			</div>

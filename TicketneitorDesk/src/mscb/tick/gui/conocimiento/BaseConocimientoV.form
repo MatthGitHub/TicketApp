@@ -6,7 +6,7 @@
       <Border info="org.netbeans.modules.form.compat2.border.TitledBorderInfo">
         <TitledBorder justification="2" title="Base de conocimiento">
           <Font PropertyName="font" name="SansSerif" size="18" style="0"/>
-          <Color PropertyName="color" blue="ff" green="ff" red="ff" type="rgb"/>
+          <Color PropertyName="color" blue="76" green="6c" red="0" type="rgb"/>
         </TitledBorder>
       </Border>
     </Property>
@@ -196,7 +196,8 @@
         <Property name="text" type="java.lang.String" value="N&#xba; de Ticket"/>
       </Properties>
       <Events>
-        <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="txt_id2MouseClicked"/>
+        <EventHandler event="focusGained" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="txt_id2FocusGained"/>
+        <EventHandler event="focusLost" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="txt_id2FocusLost"/>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="txt_id2ActionPerformed"/>
       </Events>
     </Component>

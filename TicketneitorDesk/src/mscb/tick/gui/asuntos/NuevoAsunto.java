@@ -78,7 +78,7 @@ public class NuevoAsunto extends MenuP {
         cmbx_visible = new javax.swing.JComboBox();
         jLabel3 = new javax.swing.JLabel();
 
-        setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Nuevo Asunto", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("SansSerif", 0, 18), java.awt.Color.white)); // NOI18N
+        setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Nuevo Asunto", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("SansSerif", 0, 18), new java.awt.Color(0, 108, 118))); // NOI18N
 
         jLabel1.setFont(new java.awt.Font("SansSerif", 3, 14)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(0, 108, 118));

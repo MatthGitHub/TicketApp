@@ -44,9 +44,46 @@ import mscb.tick.negocio.HistorialServ;
     @NamedQuery(name = "Tickets.findByTiempoResolucion", query = "SELECT t FROM Tickets t WHERE t.tiempoResolucion = :tiempoResolucion")})
 public class Tickets implements Serializable,Comparable<Tickets> {
 
+    
+
+    private static final long serialVersionUID = 1L;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Basic(optional = false)
+    @Column(name = "id_ticket")
+    private Integer idTicket;
+    
+    @Basic(optional = false)
+    @Column(name = "fecha")
+    @Temporal(TemporalType.DATE)
+    private Date fecha;
+    
+    @Column(name = "observacion")
+    private String observacion;
+    
+    @Column(name = "patrimonio")
+    private String patrimonio;
+    
+    @JoinColumn(name = "creador", referencedColumnName = "id_usuario")
+    @ManyToOne(optional = false)
+    private Usuarios creador;
+    
+    @JoinColumn(name = "servicio", referencedColumnName = "id_asuntoS")
+    @ManyToOne(optional = false)
+    private Servicios servicio;
+    
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "fkTicket")
+    private List<HistorialTickets> historialTicketsList;
+    
+    @JoinColumn(name = "fk_complejidad", referencedColumnName = "id_complejidad")
+    @ManyToOne
+    private Complejidad fkComplejidad;
+
+    @Column(name = "tiempoResolucion")
+    private Integer tiempoResolucion;
+    
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "tickets")
     private List<TicketsAdjuntos> ticketsAdjuntosList;
-
 
     @JoinColumn(name = "fk_areaSolicitante", referencedColumnName = "id_area")
     @ManyToOne
@@ -58,38 +95,10 @@ public class Tickets implements Serializable,Comparable<Tickets> {
 
     @Column(name = "nota_entrada")
     private String notaEntrada;
+    
     @Column(name = "nota_salida")
     private String notaSalida;
-
-    @Column(name = "adjunto")
-    private String adjunto;
-
-    private static final long serialVersionUID = 1L;
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Basic(optional = false)
-    @Column(name = "id_ticket")
-    private Integer idTicket;
-    @Basic(optional = false)
-    @Column(name = "fecha")
-    @Temporal(TemporalType.DATE)
-    private Date fecha;
-    @Column(name = "observacion")
-    private String observacion;
-    @Column(name = "patrimonio")
-    private String patrimonio;
-    @Column(name = "tiempoResolucion")
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date tiempoResolucion;
-    @JoinColumn(name = "creador", referencedColumnName = "id_usuario")
-    @ManyToOne(optional = false)
-    private Usuarios creador;
-    @JoinColumn(name = "servicio", referencedColumnName = "id_asuntoS")
-    @ManyToOne(optional = false)
-    private Servicios servicio;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "fkTicket")
-    private List<HistorialTickets> historialTicketsList;
-
+    
     public Tickets() {
     }
 
@@ -134,13 +143,6 @@ public class Tickets implements Serializable,Comparable<Tickets> {
         this.patrimonio = patrimonio;
     }
 
-    public Date getTiempoResolucion() {
-        return tiempoResolucion;
-    }
-
-    public void setTiempoResolucion(Date tiempoResolucion) {
-        this.tiempoResolucion = tiempoResolucion;
-    }
 
     public Usuarios getCreador() {
         return creador;
@@ -198,6 +200,7 @@ public class Tickets implements Serializable,Comparable<Tickets> {
     
     public Usuarios getUltimoUsuario(){
         HistorialServ his = HistorialServ.getHistorialServ();
+        
         return his.buscarUltimo(this).getFkUsuario();
     }
     
@@ -220,14 +223,6 @@ public class Tickets implements Serializable,Comparable<Tickets> {
             return 1;
         }
         return 0;
-    }
-
-    public String getAdjunto() {
-        return adjunto;
-    }
-
-    public void setAdjunto(String adjunto) {
-        this.adjunto = adjunto;
     }
 
     public String getNotaEntrada() {
@@ -269,6 +264,22 @@ public class Tickets implements Serializable,Comparable<Tickets> {
 
     public void setTicketsAdjuntosList(List<TicketsAdjuntos> ticketsAdjuntosList) {
         this.ticketsAdjuntosList = ticketsAdjuntosList;
+    }
+
+    public Integer getTiempoResolucion() {
+        return tiempoResolucion;
+    }
+
+    public void setTiempoResolucion(Integer tiempoResolucion) {
+        this.tiempoResolucion = tiempoResolucion;
+    }
+
+    public Complejidad getFkComplejidad() {
+        return fkComplejidad;
+    }
+
+    public void setFkComplejidad(Complejidad fkComplejidad) {
+        this.fkComplejidad = fkComplejidad;
     }
 
 }

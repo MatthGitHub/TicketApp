@@ -150,6 +150,30 @@ public class UsuariosV extends MenuP {
         revalidate();
     }
     
+    public void cargarTablaUsuariosBuscados(List<Usuarios> aCargar){
+        modelo = (DefaultTableModel) jt_usuarios.getModel();
+        String vector[] = new String[8];
+        vaciarTabla(jt_usuarios);
+        
+        for(int i = 0 ; i < aCargar.size(); i ++){
+            vector[0] = aCargar.get(i).getIdUsuario().toString();
+            vector[1] = aCargar.get(i).getNombreUsuario();
+            vector[2] = "*****";
+            vector[3] = aCargar.get(i).getFkEmpleado().getNombre();
+            vector[4] = aCargar.get(i).getFkEmpleado().getApellido();
+            vector[5] = aCargar.get(i).getFkEmpleado().getFkArea().getNombreArea();
+            vector[7] = aCargar.get(i).getFkRol().getNombreRol();
+            modelo.addRow(vector);
+            
+            if(aCargar.get(i).getActivo() == true ){
+                modelo.setValueAt(true, i, 6);
+            }else{
+                modelo.setValueAt(false, i, 6);
+            }
+        }
+        revalidate();
+    }
+    
     private void vaciarTabla(JTable tabla) {
         try {
             modelo = (DefaultTableModel) tabla.getModel();
@@ -181,6 +205,7 @@ public class UsuariosV extends MenuP {
         btn_resetClave = new javax.swing.JButton();
         btn_nuevo = new javax.swing.JButton();
         btn_cambiarTipo = new javax.swing.JButton();
+        txt_id = new javax.swing.JTextField();
 
         chkbx_activo.setText("jCheckBox1");
 
@@ -300,6 +325,23 @@ public class UsuariosV extends MenuP {
             }
         });
 
+        txt_id.setFont(new java.awt.Font("SansSerif", 0, 14)); // NOI18N
+        txt_id.setForeground(new java.awt.Color(0, 108, 118));
+        txt_id.setText("Usuario, nombre, apellido, legajo...");
+        txt_id.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                txt_idFocusGained(evt);
+            }
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                txt_idFocusLost(evt);
+            }
+        });
+        txt_id.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txt_idActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -322,11 +364,18 @@ public class UsuariosV extends MenuP {
                         .addComponent(btn_eliminar)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btn_nuevo))))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(txt_id, javax.swing.GroupLayout.PREFERRED_SIZE, 342, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 481, Short.MAX_VALUE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(txt_id, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 454, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btn_volver, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -437,6 +486,28 @@ public class UsuariosV extends MenuP {
         }
     }//GEN-LAST:event_btn_desactivarActionPerformed
 
+    private void txt_idFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txt_idFocusGained
+        // TODO add your handling code here:
+        txt_id.setText("");
+    }//GEN-LAST:event_txt_idFocusGained
+
+    private void txt_idFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txt_idFocusLost
+        // TODO add your handling code here:
+        txt_id.setText("Usuario, Servicio, Patrimonio, Lugar de trabajo...");
+    }//GEN-LAST:event_txt_idFocusLost
+
+    private void txt_idActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txt_idActionPerformed
+        // TODO add your handling code here:
+        if(txt_id.getText().trim().length() >0){
+            if(LoginEJB.usuario.getFkRol().getIdRol() == 1){
+                cargarTablaUsuariosBuscados(servicios.buscarUsuarios(txt_id.getText().trim()));
+            }else{
+                cargarTablaUsuariosBuscados(servicios.buscarUsuariosPorArea(txt_id.getText().trim()));
+            }
+
+        }
+    }//GEN-LAST:event_txt_idActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btn_activar;
@@ -449,5 +520,6 @@ public class UsuariosV extends MenuP {
     private javax.swing.JCheckBox chkbx_activo;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jt_usuarios;
+    private javax.swing.JTextField txt_id;
     // End of variables declaration//GEN-END:variables
 }

@@ -1,0 +1,17 @@
+- Sistema de Tickets (Ticketneitor): Sistema para manejo de tareas internas y pedidos por tickets. Tiene trazabilidad de los pedidos e historiales.
+	Tiene una interfaz web para que usuarios realicen los pedidos y un centro de control standalone para recibir y manejar los tickets recibidos.
+	Actualmente en: 
+			- Mantenimiento e Infraestructura
+			- Secretaria de Turismo y Produccion (Villegas y Civico)
+			- Direccion General de Contaduria
+			- Direccion de Sistemas (Abierto a recibir pedidos del resto de las areas por la parte web)
+
+- Integracion de modulo de resoluciones del pgm con sistema de tickets para carga de tareas de contaduria.
+
+- Sistema web de impresion de recibos no oficiales para sueldos de manos a la obra.
+
+- Sistema web de control de asistencia del personal.
+
+- Co-participacion sistema veterinaria. (Implementacion)
+
+- 

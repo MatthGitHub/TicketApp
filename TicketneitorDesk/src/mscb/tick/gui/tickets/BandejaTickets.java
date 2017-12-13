@@ -335,10 +335,10 @@ public class BandejaTickets extends MenuP {
             }else{
                 v[10] = miLista.get(i).getPatrimonio();
             }
-            if((miLista.get(i).getAdjunto() == null)||(miLista.get(i).getAdjunto().isEmpty())){
+            if(miLista.get(i).getFkComplejidad() == null){
                 v[11] = "";
             }else{
-                v[11] = miLista.get(i).getAdjunto();
+                v[11] = miLista.get(i).getFkComplejidad().getDescripcion();
             }
             if((miLista.get(i).getNotaEntrada() == null)||(miLista.get(i).getNotaEntrada().equals("0000---------"))){
                 v[12] = "";
@@ -401,10 +401,10 @@ public class BandejaTickets extends MenuP {
             }else{
                 v[10] = busca.get(i).getPatrimonio();
             }
-            if((busca.get(i).getAdjunto() == null)||(busca.get(i).getAdjunto().isEmpty())){
+            if(miLista.get(i).getFkComplejidad() == null){
                 v[11] = "";
             }else{
-                v[11] = busca.get(i).getAdjunto();
+                v[11] = miLista.get(i).getFkComplejidad().getDescripcion();
             }
             if((busca.get(i).getNotaEntrada() == null)||(busca.get(i).getNotaEntrada().equals("0000---------"))){
                 v[12] = "";
@@ -497,7 +497,7 @@ public class BandejaTickets extends MenuP {
         btn_patrimonio1 = new javax.swing.JButton();
         btn_patrimonio2 = new javax.swing.JButton();
 
-        setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Mis Tickets", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("SansSerif", 0, 18), java.awt.Color.white)); // NOI18N
+        setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Mis Tickets", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("SansSerif", 0, 18), new java.awt.Color(0, 108, 118))); // NOI18N
         setMinimumSize(new java.awt.Dimension(827, 569));
 
         txt_id.setFont(new java.awt.Font("SansSerif", 0, 14)); // NOI18N
@@ -523,7 +523,7 @@ public class BandejaTickets extends MenuP {
 
             },
             new String [] {
-                "Nº Ticket", "Fecha", "Lugar de trabajo", "Area solicitante", "Creador", "Estado", "Hora", "Observacion", "Asunto", "Receptor", "Patrimonio", "Adjunto", "Nota entrada/Proyecto", "Nota salida/Resolucion"
+                "Nº Ticket", "Fecha", "Lugar de trabajo", "Area solicitante", "Creador", "Estado", "Hora", "Observacion", "Asunto", "Receptor", "Patrimonio", "Complejidad", "Nota entrada/Proyecto", "Nota salida/Resolucion"
             }
         ) {
             Class[] types = new Class [] {
@@ -600,7 +600,7 @@ public class BandejaTickets extends MenuP {
 
         lblNombreUsuario.setBackground(new java.awt.Color(0, 102, 204));
         lblNombreUsuario.setFont(new java.awt.Font("Tekton Pro", 3, 24)); // NOI18N
-        lblNombreUsuario.setForeground(new java.awt.Color(255, 255, 255));
+        lblNombreUsuario.setForeground(new java.awt.Color(0, 108, 118));
         lblNombreUsuario.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
 
         btn_refrescar.setBackground(new java.awt.Color(153, 153, 153));
@@ -616,7 +616,7 @@ public class BandejaTickets extends MenuP {
 
         lblCantidadTickets.setBackground(new java.awt.Color(0, 102, 204));
         lblCantidadTickets.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
-        lblCantidadTickets.setForeground(new java.awt.Color(255, 255, 255));
+        lblCantidadTickets.setForeground(new java.awt.Color(0, 108, 118));
         lblCantidadTickets.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
 
         cmbx_areas.setBackground(new java.awt.Color(153, 153, 153));

@@ -76,6 +76,7 @@ mysqli_close($link);
       <?php include('inc/menu.php'); ?>
       <!-- Main component for a primary marketing message or call to action -->
       <div class="jumbotron">
+        <h4 class="text-center"><img src="images/icons/resueltos.png" alt="Municipalidad Bariloche" align="center" style="margin:0px 0px 0px 0px" height="64" width="64"></h4>
 	  		<h4 class="text-center bg-info">Listado Tickets Resueltos</h4>
         <div class="row">
               <table id="example" class="display" cellspacing="0" width="100%">

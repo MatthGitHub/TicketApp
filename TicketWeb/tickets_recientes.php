@@ -7,7 +7,7 @@ $id_usuario =  $_SESSION["id_usuario"];
 $link = mysqli_connect ($dbhost, $dbusername, $dbuserpass);
 mysqli_set_charset($link,'utf8');
 mysqli_select_db($link,$dbname) or die('No se puede seleccionar la base de datos');
-$query = mysqli_query($link,"SELECT id_ticket,ht.fecha,SUBSTRING(CAST(ht.hora AS CHAR),11,24) AS hora,nombre,observacion, resolucion,adjunto
+$query = mysqli_query($link,"SELECT id_ticket,ht.fecha,SUBSTRING(CAST(ht.hora AS CHAR),11,24) AS hora,nombre,observacion, resolucion
                               FROM tickets t
                               JOIN historial_tickets ht ON ht.fk_ticket = t.id_ticket
                               JOIN estados e ON ht.fk_estado = e.id_estado
@@ -100,6 +100,7 @@ mysqli_close($link);
 	<?php include('inc/menu.php'); ?>
 	<!-- Main component for a primary marketing message or call to action -->
 	<div class="jumbotron">
+    <h4 class="text-center"><img src="images/icons/recientes.png" alt="Municipalidad Bariloche" align="center" style="margin:0px 0px 0px 0px" height="64" width="64"></h4>
 		<h4 class="text-center bg-info">Listado Tickets Recientes</h4>
 			<div class="row">
 			  <table id="example" class="display" cellspacing="0" width="100%">

@@ -114,7 +114,7 @@ public class HistorialTicketV extends MenuP {
         lbl_numeroTicket = new javax.swing.JLabel();
         btn_volver1 = new javax.swing.JButton();
 
-        setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Historial de Ticket", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("SansSerif", 0, 18), new java.awt.Color(255, 255, 255))); // NOI18N
+        setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Historial de Ticket", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("SansSerif", 0, 18), new java.awt.Color(0, 108, 118))); // NOI18N
 
         jt_tickets.setFont(new java.awt.Font("SansSerif", 0, 11)); // NOI18N
         jt_tickets.setModel(new javax.swing.table.DefaultTableModel(

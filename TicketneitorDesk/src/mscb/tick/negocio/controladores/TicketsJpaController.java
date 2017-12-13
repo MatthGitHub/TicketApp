@@ -14,6 +14,7 @@ import mscb.tick.negocio.entidades.Usuarios;
 import mscb.tick.negocio.entidades.Servicios;
 import mscb.tick.negocio.entidades.Edificios;
 import mscb.tick.negocio.entidades.Areas;
+import mscb.tick.negocio.entidades.Complejidad;
 import mscb.tick.negocio.entidades.HistorialTickets;
 import java.util.ArrayList;
 import java.util.List;
@@ -70,6 +71,11 @@ public class TicketsJpaController implements Serializable {
                 fkareaSolicitante = em.getReference(fkareaSolicitante.getClass(), fkareaSolicitante.getIdArea());
                 tickets.setFkareaSolicitante(fkareaSolicitante);
             }
+            Complejidad fkComplejidad = tickets.getFkComplejidad();
+            if (fkComplejidad != null) {
+                fkComplejidad = em.getReference(fkComplejidad.getClass(), fkComplejidad.getIdComplejidad());
+                tickets.setFkComplejidad(fkComplejidad);
+            }
             List<HistorialTickets> attachedHistorialTicketsList = new ArrayList<HistorialTickets>();
             for (HistorialTickets historialTicketsListHistorialTicketsToAttach : tickets.getHistorialTicketsList()) {
                 historialTicketsListHistorialTicketsToAttach = em.getReference(historialTicketsListHistorialTicketsToAttach.getClass(), historialTicketsListHistorialTicketsToAttach.getIdHistorial());
@@ -98,6 +104,10 @@ public class TicketsJpaController implements Serializable {
             if (fkareaSolicitante != null) {
                 fkareaSolicitante.getTicketsList().add(tickets);
                 fkareaSolicitante = em.merge(fkareaSolicitante);
+            }
+            if (fkComplejidad != null) {
+                fkComplejidad.getTicketsList().add(tickets);
+                fkComplejidad = em.merge(fkComplejidad);
             }
             for (HistorialTickets historialTicketsListHistorialTickets : tickets.getHistorialTicketsList()) {
                 Tickets oldFkTicketOfHistorialTicketsListHistorialTickets = historialTicketsListHistorialTickets.getFkTicket();
@@ -139,6 +149,8 @@ public class TicketsJpaController implements Serializable {
             Edificios fkEdificioNew = tickets.getFkEdificio();
             Areas fkareaSolicitanteOld = persistentTickets.getFkareaSolicitante();
             Areas fkareaSolicitanteNew = tickets.getFkareaSolicitante();
+            Complejidad fkComplejidadOld = persistentTickets.getFkComplejidad();
+            Complejidad fkComplejidadNew = tickets.getFkComplejidad();
             List<HistorialTickets> historialTicketsListOld = persistentTickets.getHistorialTicketsList();
             List<HistorialTickets> historialTicketsListNew = tickets.getHistorialTicketsList();
             List<TicketsAdjuntos> ticketsAdjuntosListOld = persistentTickets.getTicketsAdjuntosList();
@@ -178,6 +190,10 @@ public class TicketsJpaController implements Serializable {
             if (fkareaSolicitanteNew != null) {
                 fkareaSolicitanteNew = em.getReference(fkareaSolicitanteNew.getClass(), fkareaSolicitanteNew.getIdArea());
                 tickets.setFkareaSolicitante(fkareaSolicitanteNew);
+            }
+            if (fkComplejidadNew != null) {
+                fkComplejidadNew = em.getReference(fkComplejidadNew.getClass(), fkComplejidadNew.getIdComplejidad());
+                tickets.setFkComplejidad(fkComplejidadNew);
             }
             List<HistorialTickets> attachedHistorialTicketsListNew = new ArrayList<HistorialTickets>();
             for (HistorialTickets historialTicketsListNewHistorialTicketsToAttach : historialTicketsListNew) {
@@ -225,6 +241,14 @@ public class TicketsJpaController implements Serializable {
             if (fkareaSolicitanteNew != null && !fkareaSolicitanteNew.equals(fkareaSolicitanteOld)) {
                 fkareaSolicitanteNew.getTicketsList().add(tickets);
                 fkareaSolicitanteNew = em.merge(fkareaSolicitanteNew);
+            }
+            if (fkComplejidadOld != null && !fkComplejidadOld.equals(fkComplejidadNew)) {
+                fkComplejidadOld.getTicketsList().remove(tickets);
+                fkComplejidadOld = em.merge(fkComplejidadOld);
+            }
+            if (fkComplejidadNew != null && !fkComplejidadNew.equals(fkComplejidadOld)) {
+                fkComplejidadNew.getTicketsList().add(tickets);
+                fkComplejidadNew = em.merge(fkComplejidadNew);
             }
             for (HistorialTickets historialTicketsListNewHistorialTickets : historialTicketsListNew) {
                 if (!historialTicketsListOld.contains(historialTicketsListNewHistorialTickets)) {
@@ -314,6 +338,11 @@ public class TicketsJpaController implements Serializable {
             if (fkareaSolicitante != null) {
                 fkareaSolicitante.getTicketsList().remove(tickets);
                 fkareaSolicitante = em.merge(fkareaSolicitante);
+            }
+            Complejidad fkComplejidad = tickets.getFkComplejidad();
+            if (fkComplejidad != null) {
+                fkComplejidad.getTicketsList().remove(tickets);
+                fkComplejidad = em.merge(fkComplejidad);
             }
             em.remove(tickets);
             em.getTransaction().commit();

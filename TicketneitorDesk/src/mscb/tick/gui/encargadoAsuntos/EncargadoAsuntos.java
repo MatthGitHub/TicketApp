@@ -200,7 +200,7 @@ public class EncargadoAsuntos extends MenuP {
         lbl_servicios = new javax.swing.JLabel();
         btn_quitar1 = new javax.swing.JButton();
 
-        setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Asignar asuntos", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("SansSerif", 0, 18), java.awt.Color.white)); // NOI18N
+        setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Asignar asuntos", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("SansSerif", 0, 18), new java.awt.Color(0, 108, 118))); // NOI18N
 
         cmbx_usuarios.setFont(new java.awt.Font("SansSerif", 0, 11)); // NOI18N
         cmbx_usuarios.setForeground(new java.awt.Color(0, 108, 118));

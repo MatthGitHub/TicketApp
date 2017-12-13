@@ -1,5 +1,5 @@
 <?php
-$dbhost='localhost'; // Servidor
+$dbhost='10.20.130.242'; // Servidor
 $dbusername='administrador'; // Nombre de usuario
 $dbuserpass='cavaliere'; // Contraseña
 $dbname='ticket'; // Nombre de la base de datos

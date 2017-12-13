@@ -34,6 +34,7 @@ include('inc/validar.php');
           <?php include('inc/menu.php'); ?>
       <!-- Main component for a primary marketing message or call to action -->
       <div class="jumbotron">
+        <h4 class="text-center"><img src="images/icons/pass.png" alt="Municipalidad Bariloche" align="center" style="margin:0px 0px 0px 0px" height="64" width="64"></h4>
 	  <h4 class="text-center bg-info">Cambiar clave</h4>
 
 <div class="container">

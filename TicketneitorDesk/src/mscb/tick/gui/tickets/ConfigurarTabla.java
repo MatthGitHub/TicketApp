@@ -238,7 +238,7 @@ public class ConfigurarTabla extends MenuP {
         jrPeque = new javax.swing.JRadioButton();
         jrGrande = new javax.swing.JRadioButton();
 
-        setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Configuracion de tabla de tickets", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("SansSerif", 0, 18), new java.awt.Color(255, 255, 255))); // NOI18N
+        setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Configuracion de tabla de tickets", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("SansSerif", 0, 18), new java.awt.Color(0, 108, 118))); // NOI18N
 
         btn_volver.setBackground(new java.awt.Color(153, 153, 153));
         btn_volver.setFont(new java.awt.Font("SansSerif", 1, 12)); // NOI18N
@@ -308,7 +308,7 @@ public class ConfigurarTabla extends MenuP {
 
         cbxAdjunto.setFont(new java.awt.Font("SansSerif", 1, 14)); // NOI18N
         cbxAdjunto.setForeground(new java.awt.Color(0, 102, 102));
-        cbxAdjunto.setText("Adjunto");
+        cbxAdjunto.setText("Complejidad");
 
         cbxNotaS.setFont(new java.awt.Font("SansSerif", 1, 14)); // NOI18N
         cbxNotaS.setForeground(new java.awt.Color(0, 102, 102));

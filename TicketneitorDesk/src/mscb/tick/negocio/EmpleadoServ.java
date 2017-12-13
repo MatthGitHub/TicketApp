@@ -40,6 +40,16 @@ public class EmpleadoServ {
         return jpa.findEmpleadosEntities();
     }
     
+    public List <Empleados> traerTodosPorArea(){
+         EntityManager em = emf.createEntityManager();
+        
+        q = em.createNativeQuery("SELECT * "
+                + "FROM empleados "
+                + "WHERE fk_area = ?1 ",Empleados.class);
+        q.setParameter(1, LoginEJB.usuario.getFkEmpleado().getFkArea().getIdArea());
+        return q.getResultList();
+    }
+    
     public Empleados traerEmpleado(int id){
         return jpa.findEmpleados(id);
     }
@@ -52,6 +62,19 @@ public class EmpleadoServ {
                 + "WHERE e.nombre LIKE :patron "
                 + "OR e.apellido LIKE :patron ");
         q.setParameter("patron", "%"+ patron+"%");
+        return q.getResultList();
+    }
+    
+    public List<Empleados> traerEmpleadosPorArea(String patron){
+        EntityManager em = emf.createEntityManager();
+        
+        q = em.createQuery("SELECT DISTINCT e "
+                + "FROM Empleados e "
+                + "WHERE fk_area = ?1 "
+                + "AND (e.nombre LIKE :patron "
+                + "OR e.apellido LIKE :patron) ");
+        q.setParameter("patron", "%"+ patron+"%");
+        q.setParameter(1, LoginEJB.usuario.getFkEmpleado().getFkArea().getIdArea());
         return q.getResultList();
     }
     

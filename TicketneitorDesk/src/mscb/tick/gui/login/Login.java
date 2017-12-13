@@ -117,7 +117,7 @@ public class Login extends MenuP {
 
         lbl_mensaje.setBackground(new java.awt.Color(242, 116, 116));
         lbl_mensaje.setFont(new java.awt.Font("SansSerif", 1, 12)); // NOI18N
-        lbl_mensaje.setForeground(new java.awt.Color(239, 239, 239));
+        lbl_mensaje.setForeground(new java.awt.Color(204, 0, 51));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);

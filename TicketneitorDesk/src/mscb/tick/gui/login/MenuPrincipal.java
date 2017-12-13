@@ -94,7 +94,7 @@ public class MenuPrincipal extends MenuP {
         jMenu2.setText("Edit");
         jMenuBar1.add(jMenu2);
 
-        setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Centro de Control de Tickets", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("SansSerif", 2, 24), java.awt.Color.white)); // NOI18N
+        setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Centro de Control de Tickets", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("SansSerif", 2, 24), new java.awt.Color(0, 108, 118))); // NOI18N
         setAutoscrolls(true);
         setFont(new java.awt.Font("SansSerif", 0, 11)); // NOI18N
 

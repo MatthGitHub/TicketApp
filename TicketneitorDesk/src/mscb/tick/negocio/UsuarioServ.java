@@ -10,14 +10,14 @@ import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
-import javax.persistence.Persistence;
+import javax.persistence.Query;
 import mscb.tick.gui.main.Main;
 import mscb.tick.negocio.controladores.UsuariosJpaController;
 import mscb.tick.negocio.controladores.exceptions.IllegalOrphanException;
 import mscb.tick.negocio.controladores.exceptions.NonexistentEntityException;
 import mscb.tick.negocio.entidades.Usuarios;
-import mscb.tick.negocio.MD5;
 import mscb.tick.negocio.entidades.Areas;
 import mscb.tick.negocio.entidades.Servicios;
 
@@ -45,7 +45,7 @@ public class UsuarioServ {
         return esto;
     }
     
-    public Usuarios buscarUsuario(String nombre, String clave){
+    public Usuarios login(String nombre, String clave){
         
         miLista = new ArrayList<>();
         miUsuario = new Usuarios();
@@ -215,6 +215,36 @@ public class UsuarioServ {
         Usuarios miUsu = new Usuarios();
         miUsu.setNombreUsuario("No");
         return miUsu;
+    }
+    
+    public List<Usuarios> buscarUsuarios(String patron){
+        EntityManager em = EntitiesManager.getEnetityManager();
+        
+        Query q = em.createNativeQuery("SELECT u.*\n" +
+                                        "FROM usuarios u\n" +
+                                        "JOIN empleados e ON u.fk_empleado = e.id_empleado\n" +
+                                        "WHERE e.nombre LIKE ?1\n" +
+                                        "OR e.apellido LIKE ?1\n" +
+                                        "OR e.legajo LIKE ?1\n" +
+                                        "OR u.nombre_usuario LIKE ?1",Usuarios.class);
+        q.setParameter(1,"%"+patron+"%");
+        return q.getResultList();
+    }
+    
+    public List<Usuarios> buscarUsuariosPorArea(String patron){
+        EntityManager em = EntitiesManager.getEnetityManager();
+        
+        Query q = em.createNativeQuery("SELECT u.*\n" +
+                                        "FROM usuarios u\n" +
+                                        "JOIN empleados e ON u.fk_empleado = e.id_empleado\n" +
+                                        "WHERE (e.nombre LIKE ?1\n" +
+                                        "OR e.apellido LIKE ?1\n" +
+                                        "OR e.legajo LIKE ?1\n" +
+                                        "OR u.nombre_usuario LIKE ?1)"
+                + "                      AND e.fk_area = ?2",Usuarios.class);
+        q.setParameter(1,"%"+patron+"%");
+        q.setParameter(2,LoginEJB.usuario.getFkEmpleado().getFkArea().getIdArea());
+        return q.getResultList();
     }
     
     public Usuarios buscarUnUsuario(int id){
