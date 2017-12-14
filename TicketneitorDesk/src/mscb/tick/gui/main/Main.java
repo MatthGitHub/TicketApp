@@ -193,7 +193,7 @@ public class Main extends javax.swing.JFrame {
         System.out.println("Server: "+server);
         version.setIdConfiguracion(1);
         version.setNombre("version");
-        version.setDescripcion("6.7.0");
+        version.setDescripcion("7.0.1");
         mySystemTray = MySystemTray.getMySystemTray(this);
         
         setDefaultCloseOperation(0);

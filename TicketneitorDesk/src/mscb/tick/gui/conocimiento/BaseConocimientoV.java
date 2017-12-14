@@ -61,7 +61,7 @@ public class BaseConocimientoV extends MenuP {
              miLista = servH.traerTodosResueltosPorServicios();
         }
        
-        String v[] = new String[9];
+        String v[] = new String[10];
         DateFormat dateFormatter;
         dateFormatter = DateFormat.getDateInstance(DateFormat.SHORT, Locale.UK);
         
@@ -88,9 +88,9 @@ public class BaseConocimientoV extends MenuP {
                 v[8] = miLista.get(i).getFkTicket().getNotaSalida();
             }
             if((miLista.get(i).getFkTicket().getFkareaSolicitante()== null)){
-                v[8] = "";
+                v[9] = "";
             }else{
-                v[8] = miLista.get(i).getFkTicket().getFkareaSolicitante().getNombreArea();
+                v[9] = miLista.get(i).getFkTicket().getFkareaSolicitante().getNombreArea();
             }
             modelo.addRow(v);
             cant++;
@@ -132,7 +132,11 @@ public class BaseConocimientoV extends MenuP {
             }else{
                 v[8] = miLista.get(i).getFkTicket().getNotaSalida();
             }
-            v[9] = miLista.get(i).getFkTicket().getFkareaSolicitante().getNombreArea();
+            if((miLista.get(i).getFkTicket().getFkareaSolicitante()== null)){
+                v[9] = "";
+            }else{
+                v[9] = miLista.get(i).getFkTicket().getFkareaSolicitante().getNombreArea();
+            }
             modelo.addRow(v);
             cant++;
         }
@@ -221,7 +225,7 @@ public class BaseConocimientoV extends MenuP {
 
         txt_id2.setFont(new java.awt.Font("SansSerif", 0, 14)); // NOI18N
         txt_id2.setForeground(new java.awt.Color(0, 108, 118));
-        txt_id2.setText("Nº de Ticket");
+        txt_id2.setText("Nº de Ticket, Patrimonio, Observacion, usuario....");
         txt_id2.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusGained(java.awt.event.FocusEvent evt) {
                 txt_id2FocusGained(evt);

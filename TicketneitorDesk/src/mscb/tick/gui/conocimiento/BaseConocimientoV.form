@@ -193,7 +193,7 @@
         <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
           <Color blue="76" green="6c" red="0" type="rgb"/>
         </Property>
-        <Property name="text" type="java.lang.String" value="N&#xba; de Ticket"/>
+        <Property name="text" type="java.lang.String" value="N&#xba; de Ticket, Patrimonio, Observacion, usuario...."/>
       </Properties>
       <Events>
         <EventHandler event="focusGained" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="txt_id2FocusGained"/>

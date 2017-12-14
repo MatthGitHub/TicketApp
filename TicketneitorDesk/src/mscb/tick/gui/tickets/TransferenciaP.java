@@ -5,8 +5,10 @@
  */
 package mscb.tick.gui.tickets;
 
+import java.text.DateFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 import javax.swing.JOptionPane;
 import mscb.tick.negocio.AsuntoPrincipalServ;
 import mscb.tick.negocio.AsuntoSecundarioServ;
@@ -328,6 +330,8 @@ public class TransferenciaP extends MenuP {
             Servicios viejo = miTick.getServicio();
             miTick.setServicio((Servicios) cmbx_asuntoSecundario.getSelectedItem());
             if(serviciosT.modificarTicket(miTick) == 0){
+                DateFormat dateFormatter;
+                dateFormatter = DateFormat.getDateInstance(DateFormat.SHORT, Locale.UK);
                 Date fecha = new Date();
                 HistorialServ servH = HistorialServ.getHistorialServ();
                 HistorialTickets his = new HistorialTickets();
@@ -340,9 +344,9 @@ public class TransferenciaP extends MenuP {
                 
                 String reso = miTick.getResolucion();
                 if((reso == null)||(reso.isEmpty())){
-                    his.setResolucion("Transferido por "+LoginEJB.usuario+"  "+txtA_reso.getText()+" de:"+viejo.getNombreasuntoS()+" a:"+miTick.getServicio().getNombreasuntoS());
+                    his.setResolucion(dateFormatter.format(fecha)+" Transferido por "+LoginEJB.usuario+"  "+txtA_reso.getText()+" de: "+viejo.getPertenece().getNombre()+" - "+viejo.getNombreasuntoS()+"\n a: "+miTick.getServicio().getPertenece().getNombre()+" - "+miTick.getServicio().getNombreasuntoS());
                 }else{
-                    his.setResolucion("Transferido por "+LoginEJB.usuario+"  "+txtA_reso.getText()+" de:"+viejo.getNombreasuntoS()+" a:"+miTick.getServicio().getNombreasuntoS()+"\n Resolucion: "+reso);
+                    his.setResolucion(dateFormatter.format(fecha)+" Transferido por "+LoginEJB.usuario+"  "+txtA_reso.getText()+" de: "+viejo.getPertenece().getNombre()+" - "+viejo.getNombreasuntoS()+"\n a: "+miTick.getServicio().getPertenece().getNombre()+" - "+miTick.getServicio().getNombreasuntoS()+"\n Resolucion: "+reso);
                 }
                 servH.nuevo(his);
                 BandejaTickets.getBandejaTickets(Main.getMainFrame()).llenarTabla();

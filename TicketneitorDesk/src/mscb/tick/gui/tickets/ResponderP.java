@@ -452,6 +452,7 @@ public class ResponderP extends MenuP {
 
         txt_area_nota.setFont(new java.awt.Font("SansSerif", 0, 11)); // NOI18N
         txt_area_nota.setForeground(new java.awt.Color(0, 108, 118));
+        txt_area_nota.setText("2017");
         txt_area_nota.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
                 txt_area_notaKeyTyped(evt);
@@ -770,25 +771,29 @@ public class ResponderP extends MenuP {
         Date fecha = new Date();
         HistorialTickets his = new HistorialTickets();
         miTick = TicketServ.getTicketServ().buscarUno(miTick.getIdTicket());
-        System.out.println("Obs: "+miTick.getObservacion());
+        //System.out.println("Obs: "+miTick.getObservacion());
         String obs = miTick.getObservacion();
-
-        if((obs == null)||(obs.isEmpty())){
-            miTick.setObservacion(dateFormatter.format(fecha)+" Mensaje de "+LoginEJB.usuario.getNombreUsuario()+": "+txtA_respuesta.getText());
-        }else{
-            miTick.setObservacion(obs+"\n"+dateFormatter.format(fecha)+" Mensaje de "+LoginEJB.usuario.getNombreUsuario()+": "+txtA_respuesta.getText());
+        
+        if(!txtA_respuesta.getText().trim().isEmpty()){
+            if((obs == null)||(obs.isEmpty())){
+                miTick.setObservacion(dateFormatter.format(fecha)+" Mensaje de "+LoginEJB.usuario.getNombreUsuario()+": "+txtA_respuesta.getText());
+            }else{
+                miTick.setObservacion(obs+"\n"+dateFormatter.format(fecha)+" Mensaje de "+LoginEJB.usuario.getNombreUsuario()+": "+txtA_respuesta.getText());
+            }
+            his.setFkEstado(EstadoServ.getEstadoServ().traerEstado(4));
+            his.setFkUsuario(LoginEJB.usuario);
+            his.setFkTicket(miTick);
+            his.setFecha(fecha);
+            his.setHora(fecha);
+            his.setResolucion(miTick.getResolucion());
+            TicketServ.getTicketServ().modificarTicket(miTick);
+            HistorialServ.getHistorialServ().nuevo(his);
+            actualizarLabelEstado();
+            txtA_respuesta.setText("");
+            txtA_respuesta.requestFocus();
+            panelMisti.llenarTabla();
         }
-        his.setFkEstado(EstadoServ.getEstadoServ().traerEstado(4));
-        his.setFkUsuario(LoginEJB.usuario);
-        his.setFkTicket(miTick);
-        his.setFecha(fecha);
-        his.setHora(fecha);
-        his.setResolucion(miTick.getResolucion());
-        TicketServ.getTicketServ().modificarTicket(miTick);
-        HistorialServ.getHistorialServ().nuevo(his);
-        actualizarLabelEstado();
-        txtA_respuesta.setText("");
-        panelMisti.llenarTabla();
+       
     }//GEN-LAST:event_btn_enviarMensajeActionPerformed
 
     private void btn_tomarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_tomarActionPerformed
@@ -901,14 +906,14 @@ public class ResponderP extends MenuP {
         // TODO add your handling code here:
         if(JOptionPane.showConfirmDialog(mainFrame,"Seguro desea enviar?","Confirmar",JOptionPane.YES_NO_OPTION) == 0){
             //Completo numero de nota para que cumpla con el estandar
-            if(txt_n_nota.getText().trim().length() < 4){
+            /*if(txt_n_nota.getText().trim().length() < 4){
                 for(int i = 0; i < 4-txt_n_nota.getText().trim().length();i++){
                     txt_n_nota.setText("0"+txt_n_nota.getText().trim());
                 }
-            }
-            if(txt_area_nota.getText().trim().isEmpty()){
+            }*/
+            /*if(txt_area_nota.getText().trim().isEmpty()){
                 txt_area_nota.setText("--------");
-            }
+            }*/
             miTick.setNotaSalida(txt_n_nota.getText()+"-"+txt_area_nota.getText().trim());
             
             long milisegundos_dia = 24 * 60 * 60 * 1000;
