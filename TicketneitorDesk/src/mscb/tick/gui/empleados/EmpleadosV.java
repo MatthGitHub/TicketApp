@@ -91,7 +91,7 @@ public class EmpleadosV extends MenuP {
     }
     
     public List<Empleados> cargarTodosLosEmpelados(){
-        if(LoginEJB.usuario.getFkRol().getIdRol() == 1){
+        if(mainFrame.validarPermisos(60)){
            miLista = serviciosE.traerTodos(); 
         }else{
             miLista = serviciosE.traerTodosPorArea();
@@ -101,7 +101,7 @@ public class EmpleadosV extends MenuP {
     }
     
     public List<Empleados> cargarEmpleadosBuscados(String patron){
-        if(LoginEJB.usuario.getFkRol().getIdRol() == 1){
+        if(mainFrame.validarPermisos(60)){
             miLista = serviciosE.traerEmpleados(patron);
         }else{
             miLista = serviciosE.traerEmpleadosPorArea(patron);

@@ -5,6 +5,7 @@
  */
 package mscb.tick.gui.empleados;
 
+import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
@@ -13,6 +14,7 @@ import mscb.tick.negocio.EmpleadoServ;
 import mscb.tick.negocio.entidades.Areas;
 import mscb.tick.negocio.entidades.Empleados;
 import mscb.tick.gui.main.Main;
+import mscb.tick.negocio.LoginEJB;
 import mscb.tick.util.MenuP;
 
 /**
@@ -43,7 +45,13 @@ public class NuevoEmpleado extends MenuP {
     
     private void llenarComboBox(){
         serviciosA = AreaServ.getAreaServ();
-        List<Areas> misA = serviciosA.traerTodas();
+        List<Areas> misA;
+        if(mainFrame.validarPermisos(60)){
+            misA = serviciosA.traerTodas();
+        }else{
+            misA = new ArrayList<>();
+            misA.add(LoginEJB.usuario.getFkEmpleado().getFkArea());
+        }
         
         for(int i = 0; i < misA.size(); i++){
             cmbx_areas.addItem(misA.get(i));

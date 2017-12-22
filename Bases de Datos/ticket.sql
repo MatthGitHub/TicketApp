@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 13-12-2017 a las 14:47:01
+-- Tiempo de generación: 22-12-2017 a las 10:50:31
 -- Versión del servidor: 5.7.11
 -- Versión de PHP: 7.0.4
 
@@ -182,7 +182,8 @@ INSERT INTO `areas` (`id_area`, `codigo`, `nombre_area`, `direccion`, `correo`) 
 (102083, '992     ', 'Direc. de Mantenimiento', 's/c', 's/c'),
 (102084, '993     ', 'Mesa de Entradas Nº 3 - Mitre', 's/c', 's/c'),
 (102085, '996     ', 'Direccion de Presupuesto Participativo', 's/c', 's/c'),
-(102086, '997     ', 'Biblioteca Pública Municipal', 's/c', 's/c');
+(102086, '997     ', 'Biblioteca Pública Municipal', 's/c', 's/c'),
+(102087, '987', 'Puesto Sanitario', 'caminera', 'puestocamineromscb@bariloche.gov.ar');
 
 -- --------------------------------------------------------
 
@@ -247,7 +248,9 @@ INSERT INTO `asuntos` (`id_asuntoP`, `nombre`, `fk_area`, `visible`) VALUES
 (62, 'DDC - Tareas', 9196, 0),
 (63, 'DF - Habilitaciones', 9196, 0),
 (64, 'DF - Obras / Area tecnica', 9196, 0),
-(65, 'DF - Fiscalizazcion', 9196, 0);
+(65, 'DF - Fiscalizazcion', 9196, 0),
+(66, 'Servicios', 9214, 1),
+(67, 'Internos', 9214, 0);
 
 -- --------------------------------------------------------
 
@@ -322,7 +325,7 @@ CREATE TABLE `configuracion` (
 --
 
 INSERT INTO `configuracion` (`id_configuracion`, `nombre`, `descripcion`, `obligatorio`) VALUES
-(1, 'version', '6.7.0', 0),
+(1, 'version', '7.0.2', 0),
 (3, 'Sistemas', '10.20.130.242', NULL),
 (4, 'Mantenimiento', '10.20.110.20', NULL);
 
@@ -6067,6 +6070,7 @@ INSERT INTO `encargado_servicios` (`usuario`, `asunto`) VALUES
 (28, 241),
 (28, 242),
 (28, 243),
+(28, 244),
 (28, 245),
 (28, 246),
 (28, 247),
@@ -6099,6 +6103,7 @@ INSERT INTO `encargado_servicios` (`usuario`, `asunto`) VALUES
 (28, 339),
 (28, 340),
 (28, 341),
+(28, 342),
 (28, 343),
 (28, 344),
 (28, 345),
@@ -6109,7 +6114,9 @@ INSERT INTO `encargado_servicios` (`usuario`, `asunto`) VALUES
 (28, 350),
 (28, 351),
 (28, 352),
+(28, 353),
 (28, 357),
+(28, 366),
 (29, 48),
 (29, 59),
 (29, 60),
@@ -7035,6 +7042,24 @@ INSERT INTO `encargado_servicios` (`usuario`, `asunto`) VALUES
 (106, 254),
 (106, 256),
 (106, 262),
+(462, 388),
+(462, 389),
+(462, 390),
+(462, 391),
+(462, 392),
+(462, 393),
+(462, 394),
+(462, 395),
+(462, 396),
+(547, 388),
+(547, 389),
+(547, 390),
+(547, 391),
+(547, 392),
+(547, 393),
+(547, 394),
+(547, 395),
+(547, 396),
 (684, 371),
 (684, 374),
 (684, 375),
@@ -7047,7 +7072,16 @@ INSERT INTO `encargado_servicios` (`usuario`, `asunto`) VALUES
 (686, 373),
 (687, 374),
 (688, 372),
-(689, 375);
+(689, 375),
+(696, 388),
+(696, 389),
+(696, 390),
+(696, 391),
+(696, 392),
+(696, 393),
+(696, 394),
+(696, 395),
+(696, 396);
 
 -- --------------------------------------------------------
 
@@ -11515,7 +11549,6 @@ INSERT INTO `historial_tickets` (`id_historial`, `fk_ticket`, `fk_usuario`, `fec
 (5552, 2717, 104, '2017-11-16', '2017-11-16 17:41:32', 2, NULL, NULL),
 (5553, 2686, 81, '2017-11-17', '2017-11-17 12:33:14', 5, NULL, NULL),
 (5555, 2719, NULL, '2017-11-17', '2017-11-17 12:51:04', 1, NULL, NULL),
-(5556, 2720, 298, '2017-11-17', '2017-11-17 12:49:32', 1, NULL, NULL),
 (5557, 2721, NULL, '2017-11-17', '2017-11-17 12:55:48', 1, NULL, NULL),
 (5558, 2719, 82, '2017-11-17', '2017-11-17 13:22:56', 2, NULL, NULL),
 (5559, 2722, NULL, '2017-11-17', '2017-11-17 13:36:46', 1, NULL, NULL),
@@ -11524,7 +11557,6 @@ INSERT INTO `historial_tickets` (`id_historial`, `fk_ticket`, `fk_usuario`, `fec
 (5562, 2723, NULL, '2017-11-17', '2017-11-17 14:26:53', 1, NULL, NULL),
 (5563, 2724, NULL, '2017-11-17', '2017-11-17 14:31:44', 1, NULL, NULL),
 (5564, 2724, 99, '2017-11-17', '2017-11-17 14:32:51', 2, NULL, NULL),
-(5565, 2720, 16, '2017-11-17', '2017-11-17 15:02:18', 4, NULL, NULL),
 (5566, 2678, 16, '2017-11-17', '2017-11-17 15:05:51', 5, 'Resolucion por gdinardo - 232 : mant.gral (cclenear/defrag/scan) - limpieza - lubricacion cooler', NULL),
 (5567, 1132, 16, '2017-11-17', '2017-11-17 15:07:11', 5, 'Resolucion por etomatis - 11263 : se pasa checkdisk y el error persiste, se hace una reparacion de windows y el problema se soluciono\nResolucion por etomatis - 11263 : Ahora pide validad Windows xp y no permite abrir el validador de windows, se prueba terminar con la fecha a ver si obliga a validar y sino se reinstal\nResolucion por etomatis - 11263 : se paso hdd regenerator y el disco presenta fallas, se saca la info y se reinstala con otro disco recuperado, se pasa toda la info y quedo funcionando bien, no se puede instalar el programa draftsight para edicion de archivos de autocad\nResolucion por gdinardo - 232 : sereemplaza por pc super2(marcos) - limpieza lubricacion mant.gral se pasa la info // se entrega y deja de funcional el autocad. Abre pero se cuelga al querer abrir un archivo. Funciona en administrador y usuario prueba-\nSe borra el usuario obras y se vuelve a confugurar\nResolucion por gdinardo - 232 : se saca la info, se borra usurio y se hace de nuevo', NULL),
 (5568, 2725, NULL, '2017-11-17', '2017-11-17 15:26:28', 1, NULL, NULL),
@@ -11599,7 +11631,6 @@ INSERT INTO `historial_tickets` (`id_historial`, `fk_ticket`, `fk_usuario`, `fec
 (5643, 2758, 16, '2017-11-22', '2017-11-22 17:03:53', 1, 'Resolucion por gdinardo - 232 : tiene placa de video nvidia GF210. Se corrio test del hiren y dio errores en sectores de la memoria de video.\nResolucion por gdinardo - 232 : se le hace ment.gral - virus de autocad', NULL),
 (5644, 2663, 16, '2017-11-22', '2017-11-22 17:05:30', 5, 'Resolucion por gdinardo - 232 : se pasa la info a pc nueva\n\nResolucion por gdinardo - 232 : se hace mant.gral. se psa la info a otra particion y se pasa info de andres y se le da a andres', NULL),
 (5645, 2727, 16, '2017-11-22', '2017-11-22 17:06:40', 5, 'Resolucion por gdinardo - 232 : se pasa la info y se entrega. No se pueden configurar HP1015 y 1022', NULL),
-(5646, 2720, 16, '2017-11-22', '2017-11-22 17:06:54', 5, NULL, NULL),
 (5647, 1175, 16, '2017-11-22', '2017-11-22 17:08:21', 5, 'Resolucion por etomatis - 11263 : la pc se configuro para reemplazar una pc de obras particulares, se espera a que traigan la pc para reemplazar\nResolucion por gdinardo - 232 : se reemplaza pc de clara (45083) por PC 52052 (nueva)\nResolucion por gdinardo - 232 : ', NULL),
 (5648, 1074, 16, '2017-11-22', '2017-11-22 17:10:51', 3, 'Resolucion por gdinardo - 232 : se cambio el cable de red\n\nResolucion por gdinardo - 232 : 17/10: vuelve a fallar en la red windows. Aparece cartel de Generic Host , se trae al taller\nResolucion por gdinardo - 232 : se le instalan parche - borrar temp de los usuarios - mant.gral.', NULL),
 (5649, 1074, 16, '2017-11-22', '2017-11-22 17:11:05', 5, 'Resolucion por gdinardo - 232 : se cambio el cable de red\n\nResolucion por gdinardo - 232 : 17/10: vuelve a fallar en la red windows. Aparece cartel de Generic Host , se trae al taller\nResolucion por gdinardo - 232 : se le instalan parche - borrar temp de los usuarios - mant.gral.\nResolucion por gdinardo - 232 : no volvio a reclamar falla', NULL),
@@ -11738,10 +11769,10 @@ INSERT INTO `historial_tickets` (`id_historial`, `fk_ticket`, `fk_usuario`, `fec
 (5796, 2819, 19, '2017-11-28', '2017-11-28 17:33:38', 1, NULL, NULL),
 (5797, 2819, 19, '2017-11-28', '2017-11-28 17:35:54', 1, 'Resolucion por etomatis - 11263 : se prendio, se conecto notebook y se dejo reproduciendo videos por mas de 2 horas y el proyector no presenta ninguna falla, no se detecto ningun problema con la calidad de imagen, se usaron los cables que vinieron junto al proyector para comprobar que estos no presenten fallas, funciona bien.', NULL),
 (5798, 2820, NULL, '2017-11-29', '2017-11-29 12:11:20', 1, NULL, NULL),
-(5799, 2821, NULL, '2017-11-29', '2017-11-29 12:12:45', 1, NULL, NULL);
-INSERT INTO `historial_tickets` (`id_historial`, `fk_ticket`, `fk_usuario`, `fecha`, `hora`, `fk_estado`, `resolucion`, `fk_razon`) VALUES
+(5799, 2821, NULL, '2017-11-29', '2017-11-29 12:12:45', 1, NULL, NULL),
 (5800, 2822, NULL, '2017-11-29', '2017-11-29 12:39:33', 1, NULL, NULL),
-(5801, 2823, 27, '2017-11-29', '2017-11-29 14:17:09', 1, NULL, NULL),
+(5801, 2823, 27, '2017-11-29', '2017-11-29 14:17:09', 1, NULL, NULL);
+INSERT INTO `historial_tickets` (`id_historial`, `fk_ticket`, `fk_usuario`, `fecha`, `hora`, `fk_estado`, `resolucion`, `fk_razon`) VALUES
 (5802, 2823, 27, '2017-11-29', '2017-11-29 14:18:02', 5, 'Resolucion por bovando - 999999 : Se modificaron las plantillas solicitadas', NULL),
 (5803, 2824, 19, '2017-11-29', '2017-11-29 14:36:20', 1, NULL, NULL),
 (5804, 2824, 19, '2017-11-29', '2017-11-29 14:38:47', 5, 'Resolucion por etomatis - 11263 : me conecte por VNC, se verificaron los archivos dbf y no superan los 160 mb, pero no guarda los mails en bandeja de enviados, se hace backup en otra carpeta y se elimina el dbf de elementos enviados, se compactan las carpetas y quedo funcionando bien', NULL),
@@ -12119,29 +12150,226 @@ INSERT INTO `historial_tickets` (`id_historial`, `fk_ticket`, `fk_usuario`, `fec
 (6198, 2971, NULL, '2017-12-13', '2017-12-13 14:56:32', 1, NULL, NULL),
 (6199, 2972, NULL, '2017-12-13', '2017-12-13 15:12:31', 1, NULL, NULL),
 (6200, 2973, NULL, '2017-12-13', '2017-12-13 15:33:06', 1, NULL, NULL),
-(6201, 2974, 3, '2017-12-13', '2017-12-13 16:54:36', 1, NULL, NULL),
-(6202, 2975, 3, '2017-12-13', '2017-12-13 16:57:09', 1, NULL, NULL),
 (6203, 2976, 21, '2017-12-13', '2017-12-13 17:16:34', 1, NULL, NULL),
 (6204, 2977, 21, '2017-12-13', '2017-12-13 17:17:44', 1, NULL, NULL),
 (6205, 2978, 21, '2017-12-13', '2017-12-13 17:20:13', 1, NULL, NULL),
-(6206, 2979, 3, '2017-12-13', '2017-12-13 17:18:05', 1, NULL, NULL),
-(6207, 2980, 3, '2017-12-13', '2017-12-13 17:20:15', 1, NULL, NULL),
-(6208, 2981, 3, '2017-12-13', '2017-12-13 17:20:41', 1, NULL, NULL),
-(6209, 2982, 3, '2017-12-13', '2017-12-13 17:26:25', 1, NULL, NULL),
-(6210, 2983, 3, '2017-12-13', '2017-12-13 17:34:50', 1, NULL, NULL),
 (6211, 2984, NULL, '2017-12-13', '2017-12-13 17:42:12', 1, NULL, NULL),
-(6212, 2985, 3, '2017-12-13', '2017-12-13 17:35:14', 1, NULL, NULL),
-(6213, 2986, 3, '2017-12-13', '2017-12-13 17:35:26', 1, NULL, NULL),
-(6214, 2987, 3, '2017-12-13', '2017-12-13 17:36:00', 1, NULL, NULL),
 (6215, 2907, 16, '2017-12-13', '2017-12-13 17:43:51', 5, 'Resolucion por gdinardo - 232 : lo instalo Seba', NULL),
 (6216, 2984, 82, '2017-12-13', '2017-12-13 17:44:42', 2, NULL, NULL),
 (6217, 2742, 16, '2017-12-13', '2017-12-13 17:44:40', 3, 'Resolucion por gdinardo - 232 : nombre oxc-9 - se pasa la info \nResolucion por gdinardo - 232 : no activa el draftsight, se probo con varios mail. Se opta por reinstalar la pc y probar\nResolucion por gdinardo - 232 : PC maxi vuelve al area como pc oxc-10. Se tira nuevo cable utp\nResolucion por gdinardo - 232 : se reinstala 2 veces y se logra activar draftsight (con mail leticiabarilo@gmail.com)', NULL),
-(6218, 2988, 3, '2017-12-13', '2017-12-13 17:37:34', 1, NULL, NULL),
 (6219, 2989, 16, '2017-12-13', '2017-12-13 17:48:08', 1, NULL, NULL),
-(6220, 2990, 3, '2017-12-13', '2017-12-13 17:42:26', 1, NULL, NULL),
-(6221, 2991, 3, '2017-12-13', '2017-12-13 17:42:37', 1, NULL, NULL),
-(6222, 2992, 3, '2017-12-13', '2017-12-13 17:42:47', 1, NULL, NULL),
-(6223, 2993, 3, '2017-12-13', '2017-12-13 17:44:35', 1, NULL, NULL);
+(6224, 2994, 25, '2017-12-13', '2017-12-13 17:57:29', 1, NULL, NULL),
+(6225, 2995, 16, '2017-12-13', '2017-12-13 18:02:56', 1, NULL, NULL),
+(6226, 2996, 16, '2017-12-13', '2017-12-13 18:04:52', 1, NULL, NULL),
+(6227, 2973, 104, '2017-12-13', '2017-12-13 19:46:09', 2, NULL, NULL),
+(6228, 2971, 104, '2017-12-13', '2017-12-13 19:46:37', 2, NULL, NULL),
+(6229, 2970, 104, '2017-12-13', '2017-12-13 19:47:48', 2, NULL, NULL),
+(6230, 2969, 104, '2017-12-13', '2017-12-13 19:50:08', 2, NULL, NULL),
+(6233, 2997, NULL, '2017-12-14', '2017-12-14 13:11:48', 1, NULL, NULL),
+(6234, 2998, NULL, '2017-12-14', '2017-12-14 13:16:59', 1, NULL, NULL),
+(6235, 2999, 80, '2017-12-14', '2017-12-14 13:46:14', 1, NULL, NULL),
+(6236, 3000, NULL, '2017-12-14', '2017-12-14 14:12:17', 1, NULL, NULL),
+(6237, 3001, NULL, '2017-12-14', '2017-12-14 14:14:09', 1, NULL, NULL),
+(6238, 3002, NULL, '2017-12-14', '2017-12-14 14:17:39', 1, NULL, NULL),
+(6239, 3003, NULL, '2017-12-14', '2017-12-14 14:33:57', 1, NULL, NULL),
+(6240, 3004, NULL, '2017-12-14', '2017-12-14 14:39:21', 1, NULL, NULL),
+(6241, 3005, NULL, '2017-12-14', '2017-12-14 14:46:05', 1, NULL, NULL),
+(6242, 3006, NULL, '2017-12-14', '2017-12-14 14:47:55', 1, NULL, NULL),
+(6243, 3007, NULL, '2017-12-14', '2017-12-14 14:50:12', 1, NULL, NULL),
+(6244, 2970, 103, '2017-12-14', '2017-12-14 15:22:29', 4, NULL, NULL),
+(6245, 3008, NULL, '2017-12-14', '2017-12-14 15:11:12', 1, NULL, NULL),
+(6246, 3009, 80, '2017-12-14', '2017-12-14 15:23:52', 1, NULL, NULL),
+(6247, 3010, 80, '2017-12-14', '2017-12-14 15:18:59', 1, NULL, NULL),
+(6248, 3010, 90, '2017-12-14', '2017-12-14 15:22:42', 4, NULL, NULL),
+(6249, 3006, 104, '2017-12-14', '2017-12-14 16:04:46', 2, NULL, NULL),
+(6250, 3005, 104, '2017-12-14', '2017-12-14 16:05:15', 2, NULL, NULL),
+(6251, 3004, 104, '2017-12-14', '2017-12-14 16:05:50', 2, NULL, NULL),
+(6252, 3003, 104, '2017-12-14', '2017-12-14 16:06:30', 2, NULL, NULL),
+(6253, 3002, 104, '2017-12-14', '2017-12-14 16:08:31', 4, NULL, NULL),
+(6254, 3001, 104, '2017-12-14', '2017-12-14 16:09:32', 4, NULL, NULL),
+(6255, 3000, 104, '2017-12-14', '2017-12-14 16:11:35', 2, NULL, NULL),
+(6256, 3011, 25, '2017-12-14', '2017-12-14 16:21:17', 1, NULL, NULL),
+(6257, 2995, 16, '2017-12-14', '2017-12-14 16:38:43', 5, 'Resolucion por gdinardo - 232 : se instalo una acualizacion de java que estaba pendiente y funciono la base de ooo', NULL),
+(6258, 3007, 81, '2017-12-14', '2017-12-14 17:10:11', 2, NULL, NULL),
+(6259, 3007, 81, '2017-12-14', '2017-12-14 17:10:19', 5, NULL, NULL),
+(6260, 2997, 81, '2017-12-14', '2017-12-14 17:10:42', 2, NULL, NULL),
+(6261, 2972, 81, '2017-12-14', '2017-12-14 17:10:55', 2, NULL, NULL),
+(6262, 2972, 81, '2017-12-14', '2017-12-14 17:11:04', 5, NULL, NULL),
+(6263, 2963, 81, '2017-12-14', '2017-12-14 17:11:22', 2, NULL, NULL),
+(6264, 3012, 692, '2017-12-14', '2017-12-14 17:26:56', 1, NULL, NULL),
+(6265, 3012, 21, '2017-12-14', '2017-12-14 17:34:34', 2, NULL, NULL),
+(6266, 3012, 21, '2017-12-14', '2017-12-14 17:34:38', 6, NULL, NULL),
+(6267, 3013, NULL, '2017-12-14', '2017-12-14 17:39:37', 1, NULL, NULL),
+(6268, 3012, 21, '2017-12-14', '2017-12-14 18:13:18', 4, NULL, NULL),
+(6269, 3012, 21, '2017-12-14', '2017-12-14 18:13:23', 5, 'Resolucion por eklein - 999991 : Se importaron las novedades en PGM.', NULL),
+(6270, 2999, 80, '2017-12-15', '2017-12-15 10:48:08', 4, NULL, NULL),
+(6271, 3009, 80, '2017-12-15', '2017-12-15 10:48:52', 4, NULL, NULL),
+(6272, 3009, 80, '2017-12-15', '2017-12-15 10:49:17', 4, NULL, NULL),
+(6273, 3009, 80, '2017-12-15', '2017-12-15 10:49:27', 5, NULL, NULL),
+(6274, 3014, NULL, '2017-12-15', '2017-12-15 11:23:14', 1, NULL, NULL),
+(6275, 3015, NULL, '2017-12-15', '2017-12-15 11:33:19', 1, NULL, NULL),
+(6276, 2999, 80, '2017-12-15', '2017-12-15 11:38:44', 5, NULL, NULL),
+(6277, 3010, 80, '2017-12-15', '2017-12-15 11:52:52', 4, NULL, NULL),
+(6278, 3014, 80, '2017-12-15', '2017-12-15 12:07:00', 5, NULL, NULL),
+(6279, 3016, NULL, '2017-12-15', '2017-12-15 12:26:55', 1, NULL, NULL),
+(6280, 3017, NULL, '2017-12-15', '2017-12-15 12:28:24', 1, NULL, NULL),
+(6281, 3015, 80, '2017-12-15', '2017-12-15 12:49:43', 4, NULL, NULL),
+(6282, 3014, 80, '2017-12-15', '2017-12-15 12:53:46', 1, NULL, NULL),
+(6283, 3010, 80, '2017-12-15', '2017-12-15 12:54:41', 5, NULL, NULL),
+(6284, 3018, NULL, '2017-12-15', '2017-12-15 13:36:16', 1, NULL, NULL),
+(6285, 3019, NULL, '2017-12-15', '2017-12-15 15:11:17', 1, NULL, NULL),
+(6286, 3020, NULL, '2017-12-15', '2017-12-15 15:13:52', 1, NULL, NULL),
+(6287, 3021, NULL, '2017-12-15', '2017-12-15 15:15:54', 1, NULL, NULL),
+(6288, 3022, NULL, '2017-12-15', '2017-12-15 15:17:41', 1, NULL, NULL),
+(6289, 3023, NULL, '2017-12-15', '2017-12-15 15:20:00', 1, NULL, NULL),
+(6290, 3024, NULL, '2017-12-15', '2017-12-15 16:58:03', 1, NULL, NULL),
+(6291, 3025, NULL, '2017-12-15', '2017-12-15 17:13:22', 1, NULL, NULL),
+(6292, 3026, NULL, '2017-12-15', '2017-12-15 17:14:53', 1, NULL, NULL),
+(6293, 3027, NULL, '2017-12-15', '2017-12-15 17:16:15', 1, NULL, NULL),
+(6294, 3018, 90, '2017-12-15', '2017-12-15 17:23:39', 4, NULL, NULL),
+(6295, 3018, 90, '2017-12-15', '2017-12-15 17:25:46', 4, NULL, NULL),
+(6296, 3024, 90, '2017-12-15', '2017-12-15 17:26:39', 4, NULL, NULL),
+(6297, 3014, 90, '2017-12-15', '2017-12-15 17:27:38', 4, NULL, NULL),
+(6298, 3014, 80, '2017-12-18', '2017-12-18 10:22:52', 5, NULL, NULL),
+(6299, 3024, 80, '2017-12-18', '2017-12-18 10:23:13', 5, NULL, NULL),
+(6300, 3018, 80, '2017-12-18', '2017-12-18 10:28:14', 4, NULL, NULL),
+(6301, 3019, 80, '2017-12-18', '2017-12-18 10:28:31', 1, NULL, NULL),
+(6302, 3018, 80, '2017-12-18', '2017-12-18 10:44:03', 5, NULL, NULL),
+(6303, 3028, NULL, '2017-12-18', '2017-12-18 10:45:58', 1, NULL, NULL),
+(6304, 3028, 85, '2017-12-18', '2017-12-18 10:59:46', 4, NULL, NULL),
+(6305, 3011, 19, '2017-12-18', '2017-12-18 12:06:15', 2, NULL, NULL),
+(6306, 3011, 19, '2017-12-18', '2017-12-18 12:07:56', 5, 'Resolucion por etomatis - 11263 : se hizo mantrenimiento general, se actualizo openoffice a la ultima version y se actualizaron programas. quedo funcionando bien. La pc tiene licencia de win7 y se puede aumentar la memoria para reinstalarla, se quedo que en enero vuelven a traerla para actualizarla a windows7', NULL),
+(6307, 2909, 19, '2017-12-18', '2017-12-18 12:08:34', 5, 'Resolucion por etomatis - 11263 : se instala y configura, se pasa toda la info. quedo funcionando bien\nResolucion por etomatis - 11263 : ', NULL),
+(6308, 3019, 90, '2017-12-18', '2017-12-18 12:26:14', 4, NULL, NULL),
+(6309, 3028, 80, '2017-12-18', '2017-12-18 12:27:56', 5, NULL, NULL),
+(6310, 3019, 80, '2017-12-18', '2017-12-18 12:30:27', 5, NULL, NULL),
+(6311, 3023, 97, '2017-12-18', '2017-12-18 12:57:31', 2, NULL, NULL),
+(6312, 3017, 97, '2017-12-18', '2017-12-18 12:57:52', 2, NULL, NULL),
+(6313, 3029, 21, '2017-12-18', '2017-12-18 13:22:20', 1, NULL, NULL),
+(6314, 3030, 21, '2017-12-18', '2017-12-18 13:37:12', 1, NULL, NULL),
+(6315, 3031, NULL, '2017-12-18', '2017-12-18 14:05:41', 1, NULL, NULL),
+(6316, 3032, 19, '2017-12-18', '2017-12-18 14:07:04', 1, NULL, NULL),
+(6317, 3033, NULL, '2017-12-18', '2017-12-18 14:08:46', 1, NULL, NULL),
+(6318, 3034, 16, '2017-12-18', '2017-12-18 14:09:01', 1, NULL, NULL),
+(6319, 3030, 21, '2017-12-18', '2017-12-18 14:11:57', 3, NULL, NULL),
+(6320, 3029, 21, '2017-12-18', '2017-12-18 14:12:24', 5, NULL, NULL),
+(6321, 3035, NULL, '2017-12-18', '2017-12-18 14:42:15', 1, NULL, NULL),
+(6322, 3030, 21, '2017-12-18', '2017-12-18 14:53:42', 6, NULL, NULL),
+(6323, 3036, 19, '2017-12-18', '2017-12-18 15:29:34', 1, NULL, NULL),
+(6324, 3032, 19, '2017-12-18', '2017-12-18 15:30:17', 1, 'Resolucion por etomatis - 11263 : se cambio fuente y la pc arranco normalmente, se actualizo antivirus y se hicieron pruebas y quedo funcionando bien', NULL),
+(6325, 3037, NULL, '2017-12-18', '2017-12-18 17:31:50', 1, NULL, NULL),
+(6326, 3037, 90, '2017-12-19', '2017-12-19 11:02:36', 4, NULL, NULL),
+(6327, 3036, 19, '2017-12-19', '2017-12-19 11:36:45', 5, 'Resolucion por etomatis - 11263 : problemas con la memoria, se cambio banco de memoria y se realizaron pruebas y quedo funcionando bien', NULL),
+(6328, 3038, NULL, '2017-12-19', '2017-12-19 12:05:19', 1, NULL, NULL),
+(6329, 3037, 90, '2017-12-19', '2017-12-19 12:19:50', 4, NULL, NULL),
+(6330, 3039, NULL, '2017-12-19', '2017-12-19 12:37:19', 1, NULL, NULL),
+(6331, 3040, NULL, '2017-12-19', '2017-12-19 12:42:09', 1, NULL, NULL),
+(6332, 3041, NULL, '2017-12-19', '2017-12-19 12:55:00', 1, NULL, NULL),
+(6333, 3030, 21, '2017-12-19', '2017-12-19 13:11:53', 5, NULL, NULL),
+(6334, 3042, NULL, '2017-12-19', '2017-12-19 13:16:19', 1, NULL, NULL),
+(6335, 3043, NULL, '2017-12-19', '2017-12-19 14:09:27', 1, NULL, NULL),
+(6336, 3044, NULL, '2017-12-19', '2017-12-19 14:25:51', 1, NULL, NULL),
+(6337, 3037, 80, '2017-12-19', '2017-12-19 14:23:18', 4, NULL, NULL),
+(6338, 3045, NULL, '2017-12-19', '2017-12-19 14:38:08', 1, NULL, NULL),
+(6339, 3046, NULL, '2017-12-19', '2017-12-19 14:39:55', 1, NULL, NULL),
+(6340, 3037, 90, '2017-12-19', '2017-12-19 14:59:45', 4, NULL, NULL),
+(6341, 3046, 104, '2017-12-19', '2017-12-19 15:16:26', 2, NULL, NULL),
+(6342, 3045, 104, '2017-12-19', '2017-12-19 15:20:00', 2, NULL, NULL),
+(6343, 3044, 104, '2017-12-19', '2017-12-19 15:21:30', 2, NULL, NULL),
+(6344, 3043, 104, '2017-12-19', '2017-12-19 15:22:03', 2, NULL, NULL),
+(6345, 3042, 104, '2017-12-19', '2017-12-19 15:34:38', 2, NULL, NULL),
+(6346, 3041, 104, '2017-12-19', '2017-12-19 15:36:24', 2, NULL, NULL),
+(6347, 3040, 104, '2017-12-19', '2017-12-19 15:37:29', 2, NULL, NULL),
+(6348, 3039, 104, '2017-12-19', '2017-12-19 15:38:22', 2, NULL, NULL),
+(6349, 3038, 104, '2017-12-19', '2017-12-19 15:38:48', 2, NULL, NULL),
+(6350, 3031, 104, '2017-12-19', '2017-12-19 15:40:26', 2, NULL, NULL),
+(6351, 3031, 104, '2017-12-19', '2017-12-19 15:40:32', 4, NULL, NULL),
+(6352, 3031, 104, '2017-12-19', '2017-12-19 15:40:38', 4, NULL, NULL),
+(6353, 3031, 104, '2017-12-19', '2017-12-19 15:40:44', 4, NULL, NULL),
+(6354, 3031, 104, '2017-12-19', '2017-12-19 15:41:19', 4, NULL, NULL),
+(6355, 3034, 19, '2017-12-19', '2017-12-19 15:45:39', 2, NULL, NULL),
+(6356, 3034, 19, '2017-12-19', '2017-12-19 15:45:49', 5, 'Resolucion por etomatis - 11263 : instalado, 2 en despacho de gobierno y 1 en jefatura de gabinete', NULL),
+(6357, 3032, 19, '2017-12-19', '2017-12-19 15:46:03', 5, 'Resolucion por etomatis - 11263 : se cambio fuente y la pc arranco normalmente, se actualizo antivirus y se hicieron pruebas y quedo funcionando bien\nResolucion por etomatis - 11263 : ', NULL),
+(6358, 3047, 16, '2017-12-19', '2017-12-19 16:14:09', 1, NULL, NULL),
+(6359, 3047, 16, '2017-12-19', '2017-12-19 16:16:25', 1, 'Resolucion por gdinardo - 232 : hubo que sacarle la pila y arranco. mant.gral.', NULL),
+(6360, 3040, 102, '2017-12-20', '2017-12-20 11:58:44', 2, NULL, NULL),
+(6361, 3048, NULL, '2017-12-20', '2017-12-20 13:34:38', 1, NULL, NULL),
+(6362, 3049, NULL, '2017-12-20', '2017-12-20 13:49:40', 1, NULL, NULL),
+(6363, 3050, NULL, '2017-12-20', '2017-12-20 13:53:07', 1, NULL, NULL),
+(6364, 3051, NULL, '2017-12-20', '2017-12-20 13:54:21', 1, NULL, NULL),
+(6365, 3052, NULL, '2017-12-20', '2017-12-20 13:56:26', 1, NULL, NULL),
+(6366, 3053, NULL, '2017-12-20', '2017-12-20 14:05:41', 1, NULL, NULL),
+(6367, 3054, NULL, '2017-12-20', '2017-12-20 15:13:39', 1, NULL, NULL),
+(6368, 3055, NULL, '2017-12-20', '2017-12-20 16:11:59', 1, NULL, NULL),
+(6369, 3056, NULL, '2017-12-20', '2017-12-20 16:21:33', 1, NULL, NULL),
+(6370, 3057, NULL, '2017-12-20', '2017-12-20 17:47:21', 1, NULL, NULL),
+(6371, 3058, NULL, '2017-12-20', '2017-12-20 17:55:41', 1, NULL, NULL),
+(6372, 3058, 19, '2017-12-20', '2017-12-20 17:56:35', 5, 'Resolucion por etomatis - 11263 : se cambia bandeja por otra de una hp 400 de tributario que esta en el taller como repuesto', NULL),
+(6373, 3059, 16, '2017-12-20', '2017-12-20 17:59:38', 1, NULL, NULL),
+(6374, 3060, 25, '2017-12-20', '2017-12-20 18:03:40', 1, NULL, NULL),
+(6375, 3052, 104, '2017-12-20', '2017-12-20 19:06:37', 2, NULL, NULL),
+(6376, 3051, 104, '2017-12-20', '2017-12-20 19:06:55', 2, NULL, NULL),
+(6377, 3048, 104, '2017-12-20', '2017-12-20 19:08:52', 4, NULL, NULL),
+(6378, 3055, 104, '2017-12-20', '2017-12-20 19:09:35', 4, NULL, NULL),
+(6379, 3054, 104, '2017-12-20', '2017-12-20 19:10:11', 2, NULL, NULL),
+(6380, 3057, 104, '2017-12-20', '2017-12-20 19:10:27', 2, NULL, NULL),
+(6381, 3050, 104, '2017-12-20', '2017-12-20 19:10:54', 2, NULL, NULL),
+(6382, 3037, 80, '2017-12-21', '2017-12-21 10:30:01', 5, NULL, NULL),
+(6383, 3015, 80, '2017-12-21', '2017-12-21 10:30:29', 5, NULL, NULL),
+(6384, 2973, 102, '2017-12-21', '2017-12-21 11:11:16', 2, NULL, NULL),
+(6385, 3061, 19, '2017-12-21', '2017-12-21 12:53:59', 1, NULL, NULL),
+(6386, 3061, 19, '2017-12-21', '2017-12-21 12:56:22', 1, 'Resolucion por etomatis - 11263 : Se hace usuario de sueldos y se deja desactivado el usuario de economia con toda la info que tenia Ariel Gomis. Se actualizan programas y se hace mantenimiento general. Se configura con ip del edificio de moreno y ruiz moreno.', NULL),
+(6387, 3062, 19, '2017-12-21', '2017-12-21 13:45:51', 1, NULL, NULL),
+(6388, 3062, 19, '2017-12-21', '2017-12-21 13:47:57', 1, 'Resolucion por etomatis - 11263 : pc transito9, se paso check disk y el problema de reinicio de windows se soluciono. se hace mantenimiento general y se entrega', NULL),
+(6389, 3060, 19, '2017-12-21', '2017-12-21 13:48:26', 2, NULL, NULL),
+(6390, 3060, 19, '2017-12-21', '2017-12-21 13:49:31', 2, 'Resolucion por etomatis - 11263 : Daniel soluciono el problema de la pantalla al iniciar windows, yo actualice programas y le realice mantenimiento general, se probo y no volvio a fallar al inicio. se entrega', NULL),
+(6391, 2865, 19, '2017-12-21', '2017-12-21 13:49:59', 2, NULL, NULL),
+(6392, 2865, 19, '2017-12-21', '2017-12-21 13:50:46', 5, 'Resolucion por etomatis - 11263 : se realizo mantenimiento general, se sopleteo y saco tierra, la pc no volvio a fallar. se entrega', NULL),
+(6393, 3063, NULL, '2017-12-21', '2017-12-21 14:01:57', 1, NULL, NULL),
+(6394, 2945, 98, '2017-12-21', '2017-12-21 14:04:38', 2, NULL, NULL),
+(6395, 2956, 98, '2017-12-21', '2017-12-21 14:05:00', 2, NULL, NULL),
+(6396, 3000, 98, '2017-12-21', '2017-12-21 14:07:12', 2, NULL, NULL),
+(6397, 3020, 98, '2017-12-21', '2017-12-21 14:07:31', 2, NULL, NULL),
+(6398, 3064, NULL, '2017-12-21', '2017-12-21 14:07:39', 1, NULL, NULL),
+(6399, 3064, 91, '2017-12-21', '2017-12-21 14:07:57', 2, NULL, NULL),
+(6400, 3065, NULL, '2017-12-21', '2017-12-21 14:26:44', 1, NULL, NULL),
+(6401, 3066, 19, '2017-12-21', '2017-12-21 14:27:11', 1, NULL, NULL),
+(6402, 3067, NULL, '2017-12-21', '2017-12-21 14:28:11', 1, NULL, NULL),
+(6403, 3066, 19, '2017-12-21', '2017-12-21 14:28:33', 1, 'Resolucion por etomatis - 11263 : La pc no enciende, se saco memoria y no hace nada, se reseteo bios y se saco pila y sigue sin hacer ningun tipo de pitido, problemas con el mother. se aviso a juan carlos y quedo que hablaba con lilian', NULL),
+(6404, 3060, 19, '2017-12-21', '2017-12-21 14:49:08', 2, 'Resolucion por etomatis - 11263 : Daniel soluciono el problema de la pantalla al iniciar windows, yo actualice programas y le realice mantenimiento general, se probo y no volvio a fallar al inicio. se entrega\nResolucion por etomatis - 11263 : se instalo pgm en el explorer de windows, se saco el icono de virtualbox asi no siguen usando la maquina virtual', NULL),
+(6405, 3065, 81, '2017-12-21', '2017-12-21 15:11:18', 2, NULL, NULL),
+(6406, 3065, 81, '2017-12-21', '2017-12-21 15:11:29', 5, NULL, NULL),
+(6407, 3049, 81, '2017-12-21', '2017-12-21 15:12:03', 2, NULL, NULL),
+(6408, 3049, 81, '2017-12-21', '2017-12-21 15:12:12', 5, NULL, NULL),
+(6409, 3016, 81, '2017-12-21', '2017-12-21 15:12:32', 2, NULL, NULL),
+(6410, 3026, 98, '2017-12-21', '2017-12-21 15:47:55', 2, NULL, NULL),
+(6411, 2703, 98, '2017-12-21', '2017-12-21 15:49:28', 2, NULL, NULL),
+(6412, 3033, 104, '2017-12-21', '2017-12-21 15:54:26', 2, NULL, NULL),
+(6413, 3035, 104, '2017-12-21', '2017-12-21 15:54:42', 2, NULL, NULL),
+(6414, 3021, 104, '2017-12-21', '2017-12-21 15:55:52', 2, NULL, NULL),
+(6415, 3022, 104, '2017-12-21', '2017-12-21 15:56:04', 2, NULL, NULL),
+(6416, 3013, 104, '2017-12-21', '2017-12-21 15:56:21', 2, NULL, NULL),
+(6417, 2961, 104, '2017-12-21', '2017-12-21 15:56:53', 2, NULL, NULL),
+(6418, 3027, 98, '2017-12-21', '2017-12-21 15:58:30', 2, NULL, NULL);
+INSERT INTO `historial_tickets` (`id_historial`, `fk_ticket`, `fk_usuario`, `fecha`, `hora`, `fk_estado`, `resolucion`, `fk_razon`) VALUES
+(6419, 3025, 98, '2017-12-21', '2017-12-21 15:58:43', 2, NULL, NULL),
+(6420, 3063, 98, '2017-12-21', '2017-12-21 16:02:19', 2, NULL, NULL),
+(6421, 2782, 98, '2017-12-21', '2017-12-21 16:45:32', 2, NULL, NULL),
+(6422, 2782, 91, '2017-12-21', '2017-12-21 16:45:58', 2, NULL, NULL),
+(6423, 2912, 81, '2017-12-21', '2017-12-21 16:57:58', 2, NULL, NULL),
+(6424, 2912, 81, '2017-12-21', '2017-12-21 16:58:06', 5, NULL, NULL),
+(6425, 2894, 81, '2017-12-21', '2017-12-21 16:58:20', 2, NULL, NULL),
+(6426, 2894, 81, '2017-12-21', '2017-12-21 16:58:28', 5, NULL, NULL),
+(6427, 2960, 101, '2017-12-21', '2017-12-21 17:32:17', 2, NULL, NULL),
+(6428, 3068, 80, '2017-12-21', '2017-12-21 17:36:00', 1, NULL, NULL),
+(6429, 3069, 3, '2017-12-21', '2017-12-21 17:46:53', 1, NULL, NULL),
+(6430, 3069, 547, '2017-12-21', '2017-12-21 17:54:32', 4, NULL, NULL),
+(6431, 3069, 547, '2017-12-21', '2017-12-21 17:56:24', 5, NULL, NULL),
+(6432, 3068, 80, '2017-12-22', '2017-12-22 10:24:22', 4, NULL, NULL),
+(6433, 3068, 80, '2017-12-22', '2017-12-22 10:24:28', 5, NULL, NULL),
+(6434, 3070, NULL, '2017-12-22', '2017-12-22 12:02:49', 1, NULL, NULL),
+(6435, 3067, 104, '2017-12-22', '2017-12-22 12:12:43', 2, NULL, NULL),
+(6436, 3070, 98, '2017-12-22', '2017-12-22 12:17:48', 2, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -12211,7 +12439,20 @@ INSERT INTO `permisos` (`id_permiso`, `nombre_permiso`) VALUES
 (54, 'Nota_entrada'),
 (55, 'estadosAsuntos'),
 (56, 'MenuEstadisticas'),
-(57, 'SelecComplejidad');
+(57, 'SelecComplejidad'),
+(58, 'TodosLosTickets'),
+(59, 'TodosLosUsuarios'),
+(60, 'TodosLosEmpleados');
+
+--
+-- Disparadores `permisos`
+--
+DELIMITER $$
+CREATE TRIGGER `BEFORE_DEL_PERMISOS` BEFORE DELETE ON `permisos` FOR EACH ROW BEGIN
+   
+END
+$$
+DELIMITER ;
 
 -- --------------------------------------------------------
 
@@ -12361,11 +12602,14 @@ INSERT INTO `roles_permisos` (`fk_rol`, `fk_permiso`) VALUES
 (1, 29),
 (3, 29),
 (4, 29),
+(6, 29),
 (1, 30),
 (3, 30),
 (4, 30),
+(6, 30),
 (1, 31),
 (3, 31),
+(6, 31),
 (1, 32),
 (3, 32),
 (6, 32),
@@ -12383,13 +12627,16 @@ INSERT INTO `roles_permisos` (`fk_rol`, `fk_permiso`) VALUES
 (1, 39),
 (1, 40),
 (3, 40),
+(4, 40),
 (6, 40),
 (1, 41),
 (1, 42),
 (3, 42),
+(4, 42),
 (6, 42),
 (1, 43),
 (3, 43),
+(4, 43),
 (1, 44),
 (3, 44),
 (4, 44),
@@ -12426,7 +12673,11 @@ INSERT INTO `roles_permisos` (`fk_rol`, `fk_permiso`) VALUES
 (1, 56),
 (3, 56),
 (1, 57),
-(3, 57);
+(3, 57),
+(1, 59),
+(3, 59),
+(1, 60),
+(3, 60);
 
 -- --------------------------------------------------------
 
@@ -12726,7 +12977,16 @@ INSERT INTO `servicios` (`id_asuntoS`, `nombre_asuntoS`, `pertenece`) VALUES
 (384, 'Tareas genericas', 65),
 (385, 'Jose', 65),
 (386, 'Martin', 65),
-(387, 'Sistema Veterinaria', 53);
+(387, 'Sistema Veterinaria', 53),
+(388, 'Limpieza y articulos', 66),
+(389, 'Cerrajeria', 66),
+(390, 'Fumigacion', 66),
+(391, 'Materiales', 66),
+(392, 'Alarmas', 66),
+(393, 'Atmosfericos', 66),
+(394, 'Vidrios', 66),
+(395, 'Reparaciones', 66),
+(396, 'Otros', 66);
 
 -- --------------------------------------------------------
 
@@ -14635,7 +14895,6 @@ INSERT INTO `tickets` (`id_ticket`, `fecha`, `creador`, `servicio`, `observacion
 (2716, '2017-11-16', 21, 366, 'Simulación de sueldos para pase del no rem. al basico\nSolicita: Diego Quintana\n', '', 24, 1, '0000-2017', '0000-2017', NULL, 9188),
 (2717, '2017-11-16', 91, 254, 'SUMINISTROS IFG S.R.L B-0003-00021113 $9.065,49---B-0003-00021112 $1.738,55////\n	EUSKAL B-000-00008327 $189,67---B-0003-00008328 $1.820,01 --- B-0003-00007789 $136,97 NOTA DE CRED.B-0003-00000353 $23,57\n	SORIA B-0041-00027693 $159,90\n', '', NULL, 1, '0000-2017', NULL, NULL, 9186),
 (2719, '2017-11-17', 91, 367, 'ANEXOS: OBRA PUBLICA INFRAESTRUCTURA GALPON/TALLER EN EL CORRALON MUNICIPAL $150.000---\n	OBRA EN CEMENTERIO MUNICIPAL $265.000 /$144.000/$72.000 ----\n	OBRA CONSTRUCCION PUENTE VILLA LOS COIHUES $180.000 --\n', '', NULL, 1, '0000-2017', NULL, NULL, 9186),
-(2720, '2017-11-17', 298, 246, 'prueba\r\n - Numero de interno: 151\n17/11/17 Mensaje de gdinardo: recibido', NULL, 120, 1, NULL, '0000-2017', NULL, 9192),
 (2721, '2017-11-17', 91, 251, 'SUMINISTROS NOTA Nº 394 -  PREADJUDICACION LIC.PRIV.Nº 026-17 DIA 21/11/17 --\n	NOTA Nº 395 - PREADJUDICACION LIC.PRIV.Nº 027-17 DIA 21/11/17 \n', '', 168, 1, '0000-2017', '0000-2017', NULL, 9186),
 (2722, '2017-11-17', 91, 251, 'SEC.DE OB.PUBLICAS : NOTA Nº 1398 SUSTITUCION FDO DE REPARO Nº 01 $25.000 EMPRESA SERGAS -RESOL.5512-I-15 ---\n	NOTA Nº 1399 CERT.DE OBRA Nº 01 $180.914,13 EMPRESA SERGAS - RESOL.Nº 5512-I-15 --\n	NOTA Nº 1452 SUSTITUCION FDO DE REPARO $ 200.000 EMPRESA ROQUE MOCCIOLA PEDIDO DE COT.04/2016 --\n	NOTA Nº 1453 CERT.DE OBRA Nº 01 $312.591 EMPRESA ROQUE MOCCIOLA PEDIDO DE COT.Nº 04/2016 --\n	NOTA Nº 1454 CERT.REDETERMINADO Nº 01 $ 80.286,38 EMPRESA ROQUE MOCCIOLA PEDIDO DE COT.Nº 04/2016 --\n	NOTA Nº 1400 CERT.DE OBRA REDETERMINADO $ 129.713,33 EMPRESA SERGAS RESOL Nº  5512-I-15\n', '', NULL, 1, '0000-2017', NULL, NULL, 9186),
 (2723, '2017-11-17', 91, 251, 'SEC.DE OB.PUBLICAS : NOTA Nº 1456 CERT.DE OFICIO Nº 01 EMPRESA ARLON CONC.DE PRECIOS Nº 14-17 --\n	NOTA Nº 1457 CERT.DE OFICIO Nº 02 EMPRESA ARLON CONC.DE PRECIOS Nº 14-17 --\n	NOTA Nº 1458 CERT.DE OFICIO Nº 03 EMPRESA ARLON CONC.DE PRECIOS Nº 14-17 --\n	NOTA Nº 1462 CERT.ADICIONAL Nº 02 $ 405.818,30 EMPRESA SERGAS LIC.PRIV.Nº 30-15\n', '', NULL, 1, '0000-2017', NULL, NULL, 9186),
@@ -14776,7 +15035,7 @@ INSERT INTO `tickets` (`id_ticket`, `fecha`, `creador`, `servicio`, `observacion
 (2862, '2017-12-01', 91, 263, 'Nº9332 $ 13,20 RESOL.3049 - COSTA GABRIELA\n', '', NULL, 1, '0000-2017', NULL, NULL, 9186),
 (2863, '2017-12-01', 91, 261, 'CONVENIO \n	USO DE ESPACIO C/ASOC.CENTRO DE JUBILADOS AMANCAY---\n	CONVENIO MARIA EUGENIA KEUMURDJI --\nADENDA CONTRATO \n	PATIÑO MAYER MATIAS \n', '', NULL, 1, '0000-2017', NULL, NULL, 9186),
 (2864, '2017-12-01', 91, 251, 'SUMINISTROS NOTA 413 - PREADJUDICACION LIC.PRIV.29-17 EL DIA 05/12/17\n', '', NULL, 1, '0000-2017', NULL, NULL, 9186),
-(2865, '2017-12-01', 16, 90, 'PC condor1: dice que se tilda\nSolicita: virginia\n', 'nlt', NULL, 1, '0000-2017', NULL, NULL, 9206),
+(2865, '2017-12-01', 16, 90, 'PC condor1: dice que se tilda\nSolicita: virginia\n', 'nlt', 480, 1, '0000-2017', '0000-2017', NULL, 9206),
 (2866, '2017-12-04', 105, 254, 'C-0001-00000010 ROMANO MARCELA NOEMI - LOCACION NOVIEMBRE - $15600\n', '', NULL, 1, '0000-2017', NULL, NULL, 9186),
 (2867, '2017-12-04', 105, 254, 'C-0002-00000011 - STUCKERT GUTIERREZ JOSE - LOCACION MES DE NOVIEMBRE $15600\n', '', NULL, 1, '0000-2017', NULL, NULL, 9186),
 (2868, '2017-12-04', 105, 254, 'C-0001-00000012 LLANCALAHUEN CARLOS ALBERTO LOCACION MES DE NOVIEMBRE $15600\n', '', NULL, 1, '0000-2017', NULL, NULL, 9186),
@@ -14805,7 +15064,7 @@ INSERT INTO `tickets` (`id_ticket`, `fecha`, `creador`, `servicio`, `observacion
 (2891, '2017-12-04', 91, 254, 'LOCACIONES MES DE NOV/17\nLOPEZ KAREN ELIANA C-0002-00000014 $15.600 ---\nOVANDO BRUNO ANDRES C-0003-00000016 $16.000 ---\nKEIN ESTEFANIA C-0003-00000011 $22.000 ---\nBENDITTI MATIAS C-0002-00000001 $ 16.000 ---\nMARIANA RIGONI C-0001-00000106 $17.000 --\nANA AMARANTA FERRARIA C-0004-00000151/152\n', '', NULL, 1, '0000-2017', NULL, NULL, 9186),
 (2892, '2017-12-04', 66, 110, 'BUENOS DIAS, POR FAVOR NECESITO CAMBIO DE ESTADO PARA LA PRESCRIPCIÓN DE LOS LISTADOS ADJUNTO LO MÁS PRONTO PISIBLE GRACIAS! .\r\n\r\nATTE: MARTHA \r\n - Numero de interno: 150\n04/12/17 Mensaje de avarano: solicitado a cordoba', NULL, 24, 1, NULL, '0000-2017', NULL, 9201),
 (2893, '2017-12-04', 66, 342, 'POR FAVOR NECESITO UN REPORTE CON TODAS LA EXENCIÓNES CARGADAS.\r\n\r\n - Numero de interno: 150\n06/12/17 Mensaje de avarano: Pueden utilizar el listado  /Tasas, Servicios, Obras e Impuestos /Exenciones /Listado de Exenciones.', NULL, 48, 1, NULL, '0000-2017', NULL, 9201),
-(2894, '2017-12-04', 91, 251, 'HACIENDA NOTA\n	Nº 490 - RESPUESTA A NOTA 935/936-DCG-17 HORAS EXTRAS\n', '', NULL, 1, '0000-2017', NULL, NULL, 9186),
+(2894, '2017-12-04', 91, 251, 'HACIENDA NOTA\n	Nº 490 - RESPUESTA A NOTA 935/936-DCG-17 HORAS EXTRAS\n', '', 408, 1, '0000-2017', '0000-2017', NULL, 9186),
 (2896, '2017-12-04', 16, 247, 'funciona mal la conexion de telefonica y genera problemas con la caja. Varian mucho los tiempos entre paquetes\nSolicita: yanina\n', 'nlt', 0, 1, '0000-2017', '0000-2017', 179, 102041),
 (2897, '2017-12-04', 66, 353, 'POR FAVOR NECESITO UN NUEVO ITEMS DE EXENCIÓN  ( LLAO LLAO RESORT S. A. DEL 15%\r\n - Numero de interno: 150\n05/12/17 Mensaje de mbenditti: Hola Martha, esto dentro de Tasa Personal verdad? Otra cosa, no lleva numero de ordenanza o articulo ni nada de eso el nombre?\n05/12/17 Mensaje de mbenditti: Tasa personal no, quice decir tasa inmueble.', NULL, NULL, NULL, NULL, NULL, NULL, 9201),
 (2898, '2017-12-04', 91, 254, 'LOCACIONES MES DE NOV/17\nDREXLER CAROLINA PAULA C-0002-00000004 $15.000 ---\nANGEL MARIA PAZ  C-0002-00000010 $15.000 ---\nLOPEZ IVANA ELIZABETH C-0003-00000015 $15.000 --\nMARIA JOSE AÑIÑIR C-0001-00000058 $15.000 ---\nMA BELEN SANTANDREU C-0001-00000003 $17.0000 ---\nRODRIGUEZ LAURA C-0001-00000062 $15.000 --\n', '', NULL, 1, '0000-2017', NULL, NULL, 9186),
@@ -14819,10 +15078,10 @@ INSERT INTO `tickets` (`id_ticket`, `fecha`, `creador`, `servicio`, `observacion
 (2906, '2017-12-04', 91, 254, 'LOCACIONES MES DE NOV/17\nALBANDOZ ALICIA EDITH C-0001-000000009 $19.000 ---\nFUENTES MELISA CAROL C-0001-00000227 $17.000 --\nBARRIA CELINA AYELEN C-0002-00000011 $15.600 --\nMARIA EUGENIA ORDOÑEZ C-0002-00000131 $26.000--\nCALFULEO JESUS ISMAEL C-0001-00000013 $14.000 --\nORTIZ URIBURU GUSTAVO C-0003-00000025 $6.650 --\n\n05/12/17 Mensaje de garismendi: CALFULEO ADEMÁS DE LA FACTURA Nº 0001-00000013, ADJUNTA LA Nº 0001-00000012 POR $ 14.000.- Y 0001-00000011 POR $ 14.000.-', '', NULL, 1, '0000-2017', NULL, NULL, 9186),
 (2907, '2017-12-04', 16, 247, 'solictan correo comerciointerioromiducmscb para la PC omiduc7\nSolicita: sergio ortiz\n', 'nlt', 216, 1, '0000-2017', '0000-2017', 175, 9240),
 (2908, '2017-12-04', 21, 241, 'BUEN DIA: Solicito anexar PEL al listado: Sueld-ListadoLiq.Pago Parcial Por Banco, en el punto 6: tipo de empleado.\nMuchas Gracias\nVanesa Noves\n\nDEPARTAMENTO DE SUELDOS\nSolicita: Vanesa Noves\n', '', 0, 1, '0000-2017', '0000-2017', NULL, 9191),
-(2909, '2017-12-05', 19, 247, 'pc señalizacion, pc para ploter nuevo, solicita se reinstale y se pase toda la info y configuracion para poder usarla con el ploter de corte nuevo.\nSolicita: gustavo dinardo\n', '50791', 0, 1, '0000-2017', '0000-2017', 168, 9215),
+(2909, '2017-12-05', 19, 247, 'pc señalizacion, pc para ploter nuevo, solicita se reinstale y se pase toda la info y configuracion para poder usarla con el ploter de corte nuevo.\nSolicita: gustavo dinardo\n', '50791', 312, 1, '0000-2017', '0000-2017', 168, 9215),
 (2910, '2017-12-05', 18, 110, 'alta de subcuotas de tasa municipal para cobrar muelle\nSolicita: Lilian\n', '', 0, 1, '0000-2017', '0000-2017', NULL, 9190),
 (2911, '2017-12-05', 91, 251, 'TRIBUNAL DE CONTRALOR NOTA\n	455 - IMPUTACIONES CARGAS SOCIALES\n\n06/12/17 Mensaje de mromano: La nota que recibo es la nº 445-TC-2017, por mismo concepto', '', NULL, 1, '0000-2017', NULL, NULL, 9186),
-(2912, '2017-12-05', 91, 251, 'ESC.LA LLAVE \n	NOTA 175- FORMULARIO 700 INCAA\n', '', NULL, 1, '0000-2017', NULL, NULL, 9186),
+(2912, '2017-12-05', 91, 251, 'ESC.LA LLAVE \n	NOTA 175- FORMULARIO 700 INCAA\n', '', 384, 1, '0000-2017', '0000-2017', NULL, 9186),
 (2913, '2017-12-05', 91, 257, 'Nº 2870/17 $48.486.284,77 COPARTICIPACION MES DE OCT/17\n', '', NULL, 1, '0000-2017', NULL, NULL, 9186),
 (2914, '2017-12-05', 91, 263, 'Nº 9423 $ 1.340,17 -MENDEZ LILIAN ---\nNº 9446/17 $14.500 - RESOL.Nº5724\n', '', NULL, 1, '0000-2017', NULL, NULL, 9186),
 (2915, '2017-12-05', 105, 254, 'TELLO MARIELA C-0001-00000013 $18000\nFILIPPINI MARIANO LUIS C-0012-00000032 $22000\nSCHWARZBOOCK PEDRO TOMAS C-0010-0000036 $22000\nCOSSANI SERGIO RAUL C-0001-0000012 $18000\nNOTA Nº71-SIP-17\n', '', NULL, 1, '0000-2017', NULL, NULL, 9186),
@@ -14872,30 +15131,93 @@ INSERT INTO `tickets` (`id_ticket`, `fecha`, `creador`, `servicio`, `observacion
 (2967, '2017-12-12', 91, 251, 'SEC.DE OB.PUBLICAS \n	NOTA Nº 1585 - CERT.DE OB.Nº16 EMPRESA CODISTEL LIC.PUBL.Nº 13-2014 --\n	NOTA Nº 1586 - CERT.DE OB.Nº09 EMPRESA CODISTEL LIC.PRIV.Nº 26-2016 --\n', '', NULL, 1, '0000-2017', NULL, NULL, 9186),
 (2968, '2017-12-12', 91, 255, 'ASOC.VECINAL SERV.DE AGUA LLAO-LLAO COMP.1.737 -\nCAMUZZI  80011-14116710-9/6711-6/6716-2/6725-9/6878-0/6912-7/6941-0/6998-7/7311-9/\n7586-4/7718-7/8081-9/8083-3/6517-6/6306-1/5700-5/5910-2/5911-7/5620-0/5689-8/5485-5/\n5489-4/5490-2/5491-7/5492-7/5471-2\n', '', NULL, 1, '0000-2017', NULL, NULL, 9186),
 (2969, '2017-12-13', 91, 254, 'MARIANA AYELEN VERBEKE C-0001-00000062 $15.000 MES DE NOV/17\nPEDRO CARMEN SOLEDAD  C-0002-0000006 $17.000 MES DE NOV/17\nHERRERA OCAMPO ALEXANDER MAXIMILIANO C-0001-00000139 $11.000 MES DE NOV/17\nGONZALEZ JULIO CESAR  C-0002-00000028 $25.000 MES DE NOV/17\nGOMEZ NATALIA C-0003-00000005 $13.000 MES DE NOV/17\n', '', NULL, 1, '0000-2017', NULL, NULL, 9186),
-(2970, '2017-12-13', 91, 254, 'PROVEEDORES\nLA VARENSE B-0003-00000748 EXP.82-17--\nFRILOP B-0018-00032600 EXP.84-17 --\nSORIA B-0041-00028384 EXP.86-17 --\nSORIA B-0041-00028404/403/402/401/400/399/398/397/396/395/394/393/392/\n391/390/389 EXP.89-17\n', '', NULL, 1, '0000-2017', NULL, NULL, 9186),
+(2970, '2017-12-13', 91, 254, 'PROVEEDORES\nLA VARENSE B-0003-00000748 EXP.82-17--\nFRILOP B-0018-00032600 EXP.84-17 --\nSORIA B-0041-00028384 EXP.86-17 --\nSORIA B-0041-00028404/403/402/401/400/399/398/397/396/395/394/393/392/\n391/390/389 EXP.89-17\n\n14/12/17 Mensaje de bwinkelman: FRILOP B-0018-00032608 EXP. 84-17', '', NULL, 1, '0000-2017', NULL, NULL, 9186),
 (2971, '2017-12-13', 91, 251, 'HACIENDA NOTA Nº\n	514-AVISO DE SUSPENSION DE SUMINISTROS CEB\n	515- AVISO DEUDA CAMUZZI \n', '', NULL, 1, '0000-2017', NULL, NULL, 9186),
-(2972, '2017-12-13', 91, 251, 'FORMULARIO AFIP - Nº 572 HUENTENAO  VERONICA \n', '', NULL, 1, '0000-2017', NULL, NULL, 9186),
+(2972, '2017-12-13', 91, 251, 'FORMULARIO AFIP - Nº 572 HUENTENAO  VERONICA \n', '', 24, 1, '0000-2017', '0000-2017', NULL, 9186),
 (2973, '2017-12-13', 91, 364, 'TRIBUNAL DE CONTRALOR EJECUCION MES DE NOVIEMBRE \n', '', NULL, 1, '0000-2017', NULL, NULL, 9186),
-(2974, '2017-12-13', 3, 347, 'Prueba adjunto\r\n - Numero de interno: 145', NULL, NULL, NULL, NULL, NULL, NULL, 38),
-(2975, '2017-12-13', 3, 138, 'Prueba adjunto 2\r\n - Numero de interno: 145', NULL, NULL, NULL, NULL, NULL, NULL, 38),
 (2976, '2017-12-13', 21, 66, 'Realizar un reporte de los Contratados por categoría por vencer con Legajo, Nombre, DNI, Area y Funcion\nSolicita: Daniela Vega\n', '', NULL, 1, '0000-2017', NULL, NULL, 38),
 (2977, '2017-12-13', 21, 132, 'Permiso para generar el reporte de vencimiento de contratos de empleados para DVEGA, DHERNANDEZ, MMUÑOZ\nSolicita: Daniela Vega\n', '', NULL, 1, '0000-2017', NULL, NULL, 9231),
 (2978, '2017-12-13', 21, 387, 'Modificar los puntos que vimos en la reunión del día 11/12/2017\nSolicita: Mili Higuera\n', '', NULL, 1, '0000-2017', NULL, NULL, 102020),
-(2979, '2017-12-13', 3, 138, 'Prueba ajdunto3\r\n - Numero de interno: 145', NULL, NULL, NULL, NULL, NULL, NULL, 38),
-(2980, '2017-12-13', 3, 138, 'Prueba adjunto4\r\n - Numero de interno: 145', NULL, NULL, NULL, NULL, NULL, NULL, 38),
-(2981, '2017-12-13', 3, 138, 'Prueba adjunto 5\r\n - Numero de interno: 145', NULL, NULL, NULL, NULL, NULL, NULL, 38),
-(2982, '2017-12-13', 3, 138, 'Prueba adjunto 6\r\n - Numero de interno: 145', NULL, NULL, NULL, NULL, NULL, NULL, 38),
-(2983, '2017-12-13', 3, 138, 'Prueba adjunto 6\r\n - Numero de interno: 145', NULL, NULL, NULL, NULL, NULL, NULL, 38),
 (2984, '2017-12-13', 91, 251, 'Nº 2908 $2.278.334,89  FDO SOLIDARIO MES DE OCT/17\n', '', NULL, 1, '0000-2017', NULL, NULL, 9186),
-(2985, '2017-12-13', 3, 138, 'Prueba adjunto 7\r\n - Numero de interno: 145', NULL, NULL, NULL, NULL, NULL, NULL, 38),
-(2986, '2017-12-13', 3, 138, 'Prueba adjunto 7\r\n - Numero de interno: 145', NULL, NULL, NULL, NULL, NULL, NULL, 38),
-(2987, '2017-12-13', 3, 138, 'Prueba adjunto 8\r\n - Numero de interno: 145', NULL, NULL, NULL, NULL, NULL, NULL, 38),
-(2988, '2017-12-13', 3, 138, 'Prueba adjunto 9\r\n - Numero de interno: 145', NULL, NULL, NULL, NULL, NULL, NULL, 38),
 (2989, '2017-12-13', 16, 90, 'PC RRHH4: dicen que se cuelga continuamente, se combina pasar a buscarla\nSolicita: griselda\n', 'nlt', NULL, 1, '0000-2017', NULL, 172, 9231),
-(2990, '2017-12-13', 3, 138, 'Prueba adjunto 9\r\n - Numero de interno: 145', NULL, NULL, NULL, NULL, NULL, NULL, 38),
-(2991, '2017-12-13', 3, 138, 'Prueba adjunto 9\r\n - Numero de interno: 145', NULL, NULL, NULL, NULL, NULL, NULL, 38),
-(2992, '2017-12-13', 3, 138, 'Prueba adjunto 9\r\n - Numero de interno: 145', NULL, NULL, NULL, NULL, NULL, NULL, 38),
-(2993, '2017-12-13', 3, 138, 'Prueba adjuintos 10\r\n - Numero de interno: 145', NULL, NULL, NULL, NULL, NULL, NULL, 38);
+(2994, '2017-12-13', 16, 90, 'PC caminera2:  solicitan mant.gral. porque dicen que anda mal\nSolicita: gladys pineda\n', '42854', NULL, 1, '0000-2017', NULL, 172, 102087),
+(2995, '2017-12-13', 16, 246, 'solicita instalar JRE para la base de datos del OpenOficce\nSolicita: julian lopez\n', 'nlt', 24, 1, '0000-2017', '0000-2017', 170, 9212),
+(2996, '2017-12-13', 16, 242, 'solicitan instalar plotter HP T120 nuevo\nSolicita: adriana conte\n', 'nlt', NULL, 1, '0000-2017', NULL, 170, 102080),
+(2997, '2017-12-14', 91, 251, 'HACIENDA NOTA Nº 512- ADJUNTA NOTA Nº 1069 DE DESP.LEGAL Y TECNICA \n	OFICIO AUTOS - ALIASSA CARLOS  -\n', '', NULL, 1, '0000-2017', NULL, NULL, 9186),
+(2998, '2017-12-14', 91, 369, 'SUMINISTROS NOTA 416 - POLIZA Nº300011$ 124,59  -COOP.DE TRAB.RUKAN \n', '', NULL, 1, '0000-2017', NULL, NULL, 9186),
+(2999, '2017-12-14', 86, 376, 'Hola Gla! Mientras estabas en reunion ingresaron estas dos notas, para tu conocimiento. Te parece que te vaya enviando por aqui lo que ingresa y al final del dia imprimo todo y firmamos? Igualmente te mostraré los papeles en si, salvo ahora que no estabas y no quería trabar todo por un alojamiento y 2 coordinadores.\n\nnota:1979	4988	presenta	DDJJ x 2 coords	America Travel		Alonso German	14/12/17	habilitaciones\nnota:1980	4990	presenta	F1 por explot nueva	Modern House…	Chodaszewski Walter	14/12/17	habilitaciones\n\n\nSolicita: Ingreso de notas\n\n15/12/17 Mensaje de gquezada: Fede, de verdad no tenes que trabar nada, como te dije, dale ingreso si son cosas de nuestro trabajo , podes informarme x este medio cuando no estoy y firmar la planilla vos que la realidad es para vos la doc.\nYo necesito conocer que llego, ejemplo american travel presenta dos coord.- hotel aspen solicita recategorizacion - asi breve.\ngracias.-', '', 24, 1, '0000-2017', '0000-2017', NULL, 9196),
+(3000, '2017-12-14', 91, 255, 'CAMUZZI 80011-14098637-6/98057-2/4116736-7/16734-5/6679-4/5700-5/\n	5492-7/1549-7/5688-0/5490-2/5489-4/4056-4--\nCEB 603929250/3893188/96781/918056 --\nCAMUZZI 80011-14114460-1/4088-7/4057-1/3837-9/3714-8/3350-6/\n	3352-0/6634-3/6635-0/6649-3/6662-7/6667-6/6671-6/\n	6681-7/6549-1/6603-5/6419-9/4169-1/41707/4171-7/4172-4/4285-1\n', '', NULL, 1, '0000-2017', NULL, NULL, 9186),
+(3001, '2017-12-14', 91, 251, 'SUMINISTROS NOTA Nº 418 - EXPEDIENTE Nº 84-17 COCLUIDO \n\n14/12/17 Mensaje de garismendi: CONCLUIDO', '', NULL, 1, '0000-2017', NULL, NULL, 9186),
+(3002, '2017-12-14', 91, 251, 'OBRAS X CONTRATOS NOTA\n	1617 - ACTA DE RECEPCION DEFINITIVA EMPRESA CODISTEL LIC.PRIV.Nº32-2015 ---\n	1616 - ACTA DE RECEPCION DEFINITIVA EMPRESA CODISTEL LIC.PRIV.Nº25-2016 ---\n\n14/12/17 Mensaje de garismendi: 1618-ACTA DE RECEPCIÓN ADEC CARP ASF Y BACHEO BESCHEDT', '', NULL, 1, '0000-2017', NULL, NULL, 9186),
+(3003, '2017-12-14', 91, 254, 'SORIA FACT.B-0041-00028385\n', '', NULL, 1, '0000-2017', NULL, NULL, 9186),
+(3004, '2017-12-14', 91, 261, 'CONTRATACION DE SERVICIO DE MOVILIDAD DIGITAL PARA CAPTURA DE ACTAS -MULTEO-MULTAS DIGITALES\nACTA INTENCION - ALTA PATAGONIA\n', '', NULL, 1, '0000-2017', NULL, NULL, 9186),
+(3005, '2017-12-14', 91, 263, 'Nº 9541 $71,14 RESOL.Nº 6498 --\nNº 9562 $ 16,15 RESOL.2501 --\n', '', NULL, 1, '0000-2017', NULL, NULL, 9186),
+(3006, '2017-12-14', 91, 257, 'Nº 2872 $1.409.578,62 COPARTICIPACION MES DE OCT/17\n', '', NULL, 1, '0000-2017', NULL, NULL, 9186),
+(3007, '2017-12-14', 91, 251, 'SUELDOS NOTA 907 - SOLICITUD DE HORAS EXTRAS\n', '', 0, 1, '0000-2017', '0000-2017', NULL, 9186),
+(3008, '2017-12-14', 90, 374, 'Hola Gladys.. te informo que está la solicitud de horas ENERO 2018 listo para enviar e incluye a los tres agentes de caminera, más tres agentes de esta oficina.. ya que a  Rivas y Andrade no los tengo en cuenta por la situación actual.. tampoco se si los inspectores de caminera tienen vacaciones en enero para solicitar menos horas.\n', '', NULL, 1, '0000-2017', NULL, NULL, 9196),
+(3009, '2017-12-14', 85, 385, 'Gla Moreno Zen solicito la baja turistica, recibi hoy la nota de la deleg lago moreno.\n\n15/12/17 Mensaje de gquezada: ok gracias Marie\n15/12/17 Mensaje de gquezada: ', '', 24, 1, '0000-2017', '0000-2017', NULL, 9196),
+(3010, '2017-12-14', 90, 385, 'Gladys te informo que por motivos de tomarse una razón particular Ortega Valeria.. el día de la fecha (14/12) les cambié el horario a los inspectores Manquillán - Mora Cid, los cuales deberían (según diagrama) trabajar en horario de 12 a 19 hs.. y lo hicieron de 08 a 15 hs por operativo en ruta..\nAdemás el día de mañana 15/12 se cambiaron el horario de jornada laboral (bajo mi autorización) los inspectores Ortega Valeria, la cual trabajaba de 08 a 15 hs y vendrá en horario de 13 a 20 hs;  y Manquillán Lucas que trabajaba de 13 a 20 hs y lo hará en horario de 08 a 15 hs..\nPor último, por razones de operación de su marido, la inspectora Ortega Valeria que debería trabajar el día lunes 18/12 en horario de 13 a 20 hs junto a inspectora Mora Cid Luisa no puede hacerlo y se presentarán ambas inspectoras a trabajar en horario de 08 a 15 hs... todo esto es para informar al Dpto de Personal en virtud del diagrama de horario presentado... y le recuerdo que a partir del 19/12 y hasta nuevo aviso no viene a trabajar Valeria Ortega\n\n14/12/17 Mensaje de jvera: Gladys por si no te llegó el mensaje anterior te informo que ya está lista la solicitud de horas extras de ENERO 2018 y contempla a los tres inspectores de caminera (ya que no tengo datos de cuando se toman vacaciones) y a tres inspectores activos de esta oficina.. MANQUILLAN - ORTEGA Y MORA CID.. gracias\n15/12/17 Mensaje de gquezada: Jose, bajo tu autorizacion queda descubiero el horario de la tarde que se informo se cubria.\nAnte estas decisiones tuyas, tambien deberas hacerte responsable ese dia en ese horario si algo ocurriere.\nEl cronograma de horarios se realiza porque tiene varios fines, pero el principal para la direccion es que tengamos inspectores en la calle, en ambos horarios. Una vez mas te pido que antes de decir a tu personal que si.- tengas la gentileza de consultarlo con esta direccion, que sere yo la responsable si dejamos descubierto un dia.\nTambien te voy a solicitar que cuando hagas estos cambios, PREPARES vos el correo para enviar a personal y yo o MArtin lo enviaremos', '', 24, 1, '0000-2017', '0000-2017', NULL, 9196),
+(3011, '2017-12-14', 16, 247, 'Pc omiduc4:  solicitan mant.gral. + reinstalar open oficce\nSolicita: guillermo perea\n', '39372', 96, 1, '0000-2017', '0000-2017', 172, 9240),
+(3012, '2017-12-14', 692, 366, 'Solicito la importación al sistema de las planillas de excell con los Mejores Brutos y Cantidad de días para liquidar el 2º SAC 2017.\r\n - Numero de interno: 438\n14/12/17 Mensaje de eklein: Se importaron las novedades en PGM.', NULL, 0, 1, NULL, '0000-2017', NULL, 9191),
+(3013, '2017-12-14', 91, 254, 'NAVARRETE RICARDO DANIEL  C-0002-00000064 $2.560 --\nBERTOTTO B-0007-00000205/206\n', '', NULL, 1, '0000-2017', NULL, NULL, 9186),
+(3014, '2017-12-15', 80, 385, 'Jose en acta de inspeccion 31543 al alt interlaken, no comprobaron la agencia AL SOL- ( no hay ingresos, y no pidieron coord)\n\nhe observado varias insp que no pudieron ser efectuadas , una sola se coordino por telefono. Sobre este tema que lo hemos hablado y cambiado en varias oportunidades, a solo efecto que NO VAYAN  sin conseguir poder ver el alojamiento, te pido uses el correo de inspectores o de secretariode turismo para coordinar con el contribuyente y que quede constancia de la comunicacion .\n\nHace un correo modelo :" informo a uds que el dia..... entre las 08 y 11 hs iremos a realizar la inspeccion anual de vuestro alojamiento, por lo que agradeceremos tenga persona para la atencion de los inspectores, caso contrario comunicarse con el tel 15 ........ a fin de coordinar fecha y horario"  \neste correo deberia salir una semana antes , creo.\n\n15/12/17 Mensaje de jvera: lo tomo y obviamente comenzaré  a utilizar la computadora que usabaa Karina para enviar los email con anterioriodad', '', 72, 1, '0000-2017', '0000-2017', NULL, 9196);
+INSERT INTO `tickets` (`id_ticket`, `fecha`, `creador`, `servicio`, `observacion`, `patrimonio`, `tiempoResolucion`, `fk_complejidad`, `nota_entrada`, `nota_salida`, `fkEdificio`, `fk_areaSolicitante`) VALUES
+(3015, '2017-12-15', 80, 385, 'Jose, tal lo conversado luego de la reunion con el juez de faltas, en cuanto a los alojamientos informales, NO dejar copia en buzon - no sirve - Deberemos hacer el seguimiento de cada informal por lo menos durante una semana, ingresar a la propiedad, y preguntar preguntar.\nEl juez no va hacer investigacion, el solo dicta sentencias.\nCon la copia de la publicidad y un acta de "Se deja copia en buzon" no puede hacer nada, es trabajo nuestro encontrar datos, indicios que hay infraccion.\nLa publicidad no es infraccion.\nReveer con tu personal, manera de hacer actas, prolijas, claras, concisas, Y SIN dejar en buzon.\nGracias\n\n15/12/17 Mensaje de gquezada: ', '', 144, 1, '0000-2017', '0000-2017', NULL, 9196),
+(3016, '2017-12-15', 83, 251, 'nota:521-sh-17\nAISSA CARLOS ALBERTO\nEXPTE 1/2017\nJUZGADO FEDERAL\n', '', NULL, 1, '0000-2017', NULL, NULL, 9186),
+(3017, '2017-12-15', 83, 251, 'NOTA :519-SH-2017\nPRONTO DESPACHO\nDEUDA CON LA AFIP\nFECHA:15/12/17\n', '', NULL, 1, '0000-2017', NULL, NULL, 9186),
+(3018, '2017-12-15', 80, 385, 'Jose, son las 10:30 y el inspector Lucas Manquillan no se encuentra trabajando. Solicito me informes por este medio , que tareas le otorgaste que una vez mas no fui notificada.\n\n\n15/12/17 Mensaje de jvera: Te informo que lo mandé al Corralón a buscar vale de nafta y cargarlo posteriormente.. que busque expedientes en obras (en caso de haber) y que vaya a Caminera a buscar ingresos de pax estudiantiles.. como Lorena me pidio que si saliamos en el auto la llevaramos, le dije a Lucas que la pasara a dejar donde vaya y que se pusiera de acuerdo con ella para traerla a la vuelta en caso de necesitarlo... No te dije que salia Lucas porque siempre tanto vos como Lorena o Gisela me dicen el día anterior que hay que llevar documentación o diligencias laborales y cuando ha sido algo urgente me avisan a primera hora.. al no tener ninguna novedad lo mando al inspector Lucas... y no te avisé por lo detallado anteriormente.. con relación a Lorena no me parece que sea relevante cumplir con avisarte que la llevan ya que también es parte de esta Secretaría y no le quitaba tiempo ni trabajo al inspector...cabe aclarar que siempre te informo si llevamos a alguien pero hoy estaba realizando el informe del operativo de ayer y se me pasó... disculpas \n15/12/17 Mensaje de jvera: Te informo el diagrama de trabajo de mañana 16/12/17 - ya coordiné con Fernanda la jefa de inspectores de tránsito para que venga uno o dos agentes a las 08:30 hs y salir a realizar operativo en ruta hasta las 11:30 hs aproximadamente. Luego vuelven a la oficina y realizan inspecc de turismo estudiantil- trabajan MORA CID - ORTEGA Y MANQUILLAN\n18/12/17 Mensaje de gquezada: Con repecto a la salida de Lucas, no me avisas siempre, al contrario siempre te "Olvidas"  pero ahora tenemos este medio que constara lo que ambos decimos y hacemos.\nTodo lo que tenga que ver con esta direccion para mi es relevante, y vos debes informarme. La que te dice si tenes que ir  o no soy yo. Una vez mas te recuerdo que estoy para cumplir la funcion de DIRECCION. \nY tambien una vez mas te informo esto no es personal, es LABORAL. CUMPLI CON LO TUYO Y DEJAME CUMPLIR CON LO MIO,  y ambos estaremos trabajando para el bien de nuestra sec.\nGracias JOse\n', '', 72, 1, '0000-2017', '0000-2017', NULL, 9196),
+(3019, '2017-12-15', 80, 385, 'Jose hacer urgente nota de salzano , vino diciendo que vos le autorizaste a trabajar\n\n18/12/17 Mensaje de jvera: Hola Gladys.. te informo que el Agente Manquillán Lucas no se presentó a trabajar en el día de la fecha (18/12) y no tengo datos de su ausencia..\n\nPor otro lado te informo lo de la Guía de turismo que le habló de mala manera a Luisa Mora Cid.. fue en el operativo de ruta del día 07 de diciembre.. la Agencia para la cual estaba trabajando es " Si Turismo " .. la Guía es la Nmro 366 - MAHMOUD Giselle Norma y desde adentro de la traffic se dirigió de mala manera y ofuscada hacia la inspectora diciéndole porqué no controlaban los micros chilenos que andan sin guia.. hablando en tono alto y delante de los pasajeros turistas.. a lo cual Mora Cid la invitó a bajar de la unidad y conversar correctamente y no accedió a ello', '', 72, 1, '0000-2017', '0000-2017', NULL, 9196),
+(3020, '2017-12-15', 83, 254, 'FACTURAS: CEB\n603896320/603935303/603895347/603895349/603931222/603932483/603930755/\n', '', NULL, 1, '0000-2017', NULL, NULL, 9186),
+(3021, '2017-12-15', 83, 261, 'CONTRATO DE LOCACION PRORROGA\nMURGIC IVAN.\nBERONIC MANDA(SUCESION).\n\n', '', NULL, 1, '0000-2017', NULL, NULL, 9186),
+(3022, '2017-12-15', 83, 258, 'ORDENES DE PAGO.\nINGRESOS BRUTOS DICIEMBRE /17\nIMPORTE:$177.830,63\n', '', NULL, 1, '0000-2017', NULL, NULL, 9186),
+(3023, '2017-12-15', 83, 258, 'ORDENES DE PAGO.\nINGRESOS BRUTOS DICIEMBRE /17\nIMPORTE:$177.830,63\n', '', NULL, 1, '0000-2017', NULL, NULL, 9186),
+(3024, '2017-12-15', 80, 385, 'Jose, solicito informe de las dos guias que maltrataron al personal en operativos realizados. ( dia de operativo, nombre guia , numero hab, y tipo de maltrato.\nMuchas gracias\n\n15/12/17 Mensaje de jvera: te lo hago el lunes a primera hora ... al igual que la nota sobre la fotógrafa Salzano', '', 72, 1, '0000-2017', '0000-2017', NULL, 9196),
+(3025, '2017-12-15', 83, 254, 'PROVEEDOR:SALAS FEDERICO\nC-0001-00000019\nMONTO:$14200\nLOCACION DE SERVICIO\n', '', NULL, 1, '0000-2017', NULL, NULL, 9186),
+(3026, '2017-12-15', 83, 254, 'PROOVEDOR:IBAÑEZ SCHWEBLIN PAULA ANDREA\nC-0003-00000004\nMONTO:$26000\nLOCACION DE SERVICIO\n\n', '', NULL, 1, '0000-2017', NULL, NULL, 9186),
+(3027, '2017-12-15', 83, 254, 'PROOVEDOR: PORTIELLO MARIA EUGENIA\nMONTO:$21000\nC-0002-00000017\nLOCACION DE SERVICIO\n', '', NULL, 1, '0000-2017', NULL, NULL, 9186),
+(3028, '2017-12-18', 80, 377, 'Marielita  hoy necesitaria que Fede termine con ingresos de caminera por favor\n\n\n18/12/17 Mensaje de mcortiz: bueno, le digo...', '', 0, 1, '0000-2017', '0000-2017', NULL, 9196),
+(3029, '2017-12-18', 21, 366, 'Poner Mejor Mes en la planilla de Mejor sueldo 2º SAC\nSolicita: Vanesa Noves\n', '', 0, 1, '0000-2017', '0000-2017', NULL, 9191),
+(3030, '2017-12-18', 29, 366, 'Hola Estefi: tal como acordamos, necesito que analices el impacto en el modulo de sueldos, conforme el cambio que se esta haciendo en el plan de cuentas de Egresos. Puntualmente, ver para que se usa el Area Administrativa yver tambien si el cambio tiene correspondencia con el Area Administrativa actual (no pareciera). Eso es lo que detectamos. Seria bueno analizar cualquier otro impacto que consideres posible.\nGracias\nSolicita:  Claudia Lo Russo\n', '', 24, 1, '0000-2017', '0000-2017', NULL, 38),
+(3031, '2017-12-18', 91, 260, 'TESORERIA ESTACIONAMIENTO MEDIDO  NOTA \n	Nº 967 COMISIONES E INTERESES $ 787,45 --\n	Nº 968 COMISIONES E INTERESES $ 388 --\n	Nº 969 COMISIONES E INTERESES $ 7730 --\nDEBITOS  Nº 970-BCO FRANCES  $3.148,38\n	971 -BCO CREDICOOP $2.069,28\n	972 -BCO CREDICOOP $1.946,15\n	\n	\n\n19/12/17 Mensaje de garismendi: No se recepciono la nota nº 967 de comisiones e intereses\n19/12/17 Mensaje de garismendi: \n19/12/17 Mensaje de garismendi: \n19/12/17 Mensaje de garismendi: NO SE RECEPCIONO LA NOTA Nº 967 EN ESTE TICKET', '', NULL, 1, '0000-2017', NULL, NULL, 9186),
+(3032, '2017-12-18', 16, 90, 'PC terminal3: no enciende\nSolicita: luca\n', '49126', 24, 1, '0000-2017', '0000-2017', 172, 9194),
+(3033, '2017-12-18', 91, 254, 'COOP.DE  TRABAJO INKA C-0001-00000019 $30.000 --\nCOOP.DE TRABAJO 17 DE JUNIO C-0002-0000014 $50.000\n', '', NULL, 1, '0000-2017', NULL, NULL, 9186),
+(3034, '2017-12-18', 16, 246, 'solicitan instalar el pidgin entre jefatura y despacho\nSolicita: glenda cohen\n', 'nlt', 24, 1, '0000-2017', '0000-2017', 173, 9197),
+(3035, '2017-12-18', 91, 262, 'LIQ. 2º SAC PLANTA PERMANENTE - CONTRATADOS - POLITICOS  $25.199.815\n', '', NULL, 1, '0000-2017', NULL, NULL, 9186),
+(3036, '2017-12-18', 19, 247, 'Pc tesoreria11 se friza cuando quiere iniciar windows\nSolicita: ruth\n', '38784', 24, 1, '0000-2017', '0000-2017', 168, 9192),
+(3037, '2017-12-18', 80, 385, 'Jose, tener presente de ir a hotel bariloche mountain, por acta 31548 del 14/12 se le dio 24 hs para habilitar coord. ( si no presentaron nada , infraccionar a hotel x no tener coord habilitados y a la agencia)\n\n19/12/17 Mensaje de jvera: ok Gladys.. \n\nTe informo que Lucas Manquillán me informo ayer cerca de las 14 hs que fue al médico y le dieron el día y que hoy 19/12 viene a trabajar normal.. por otro lado me llamó anoche Luisa Mora Cid e informó que fue a control y le dieron 24 hs de reposo por su pierna y el miércoles viene... y recordarte que hoy operan al marido de Valeria y no viene hasta nuevo aviso\n19/12/17 Mensaje de jvera: Hola Gladys te informo que la Agencia notificada (Viajes Totales) en el hotel mountain bariloche, ya se presentó y habilitó coordinadores\n19/12/17 Mensaje de gquezada: Ok gracias Jose. Por otro lado me preocupa que hoy solo tengas un inspector. A efectos de que tu area funcione te pido veas que esta pasando, y con cuanta gente vas a contar para estos dias que hay que (al menos) tener presencia.\nPor otro lado te recuerdo tema horas extras, por esta vez la dejaron pasasr. Proxima no la aceptan.\n19/12/17 Mensaje de jvera: Gladys lo de las horas extras ya tome nota y a principios del mes de enero las armo en la planilla y me hago cargo de enviarlas en tiempo y forma..\n\nCon relación al personal con que cuento hoy en la fecha y creo que hasta fines de mes por lo menos... serán dos.. MORA CID y MANQUILLAN.. lo de ORTEGA tengo que esperar el certificado médico por la operación de su esposo y veremos cuanto le dan.. a ANDRADE no la cuento más y RIVAS te repito que no me informó sobre el nuevo certificado de enfermedad pero tiene un mes más.. gracias\n', '', 72, 1, '0000-2017', '0000-2017', NULL, 9196),
+(3038, '2017-12-19', 91, 258, 'SUMINISTROS FDO DE CAJA\n	Nº 31-17 $ 63.842,15 S/RESOL.\n', '', NULL, 1, '0000-2017', NULL, NULL, 9186),
+(3039, '2017-12-19', 91, 254, 'PROVEEDORES \n	TECNICA RIVERO B-0006-0001601 $12.000 --\n	BELLOC SUR B-0003-00000341 $238.846,31\n', '', NULL, 1, '0000-2017', NULL, NULL, 9186),
+(3040, '2017-12-19', 91, 364, 'DEF.DEL PUEBLO \n	NOTA Nº 310 - EJECUCION MES DE DICIEMBRE 2017 --\nCONCEJO MUNICIPAL \n	EJECUCION MES DE DICIEMBRE 2017 \n', '', NULL, 1, '0000-2017', NULL, NULL, 9186),
+(3041, '2017-12-19', 91, 254, 'PROVEEDORES \nSORIA - B-0041-00028618 $ 159,90 EXP.86-17\nSORIA B-0041-00028623/624/625/626/627/628/629/\n	630/631/632/633/634/635/636/637/648 EXP.89-17--\nMAIQUE - B-0004-00015577/579/581/584/586/587/588/589/546/\n	547/648/649/650/651 EXP.87-17\n', '', NULL, 1, '0000-2017', NULL, NULL, 9186),
+(3042, '2017-12-19', 91, 254, '.MAIQUE DEL EXP.82-17\n	B-0004-00015337/338/339/341/343/346/347/348/\n	351/336/573/575/578/582/583/654/656/657/658/830---\nMAIQUE DEL EXP.87-17\n	B-0004-00015440/439/438/437/436/435/434/433/\n	432/431/430/429/428/427--\n', '', NULL, 1, '0000-2017', NULL, NULL, 9186),
+(3043, '2017-12-19', 91, 255, 'AGUAS RIONEGRINAS 47-0003-3144 $141 --\nTELEFONICA 073562307560622540000120171127 --\nCAMUZZI 8001114116307 \n', '', NULL, 1, '0000-2017', NULL, NULL, 9186),
+(3044, '2017-12-19', 91, 260, 'ESTACIONAMIENTO MEDIDO COMISIONES E INTERESES \n	NOTA Nº 967-$787,45 --\n	NOTA Nº 973-$2.282,45 --\n	NOTA Nº 974-$2.836,80 --\n	NOTA Nº 975-$3.590,25 --\n	NOTA Nº 976-$2.535,35 --\n	NOTA Nº 977-$2.955,20 --\n	NOTA Nº 980-$605,35 --\n	NOTA Nº 981-$332 --\n', '', NULL, 1, '0000-2017', NULL, NULL, 9186),
+(3045, '2017-12-19', 91, 260, 'NOTA Nº\n	978-BCO CREDICOOP $12.945,53/\n	982- BCO CREDICOOP $13.510,68--\n	983-BCO SANTANDER RIO $2.686,20 --\n	979- ESTAC.MEDIDO $693\nORDEN DE PAGO NOTA Nº\n	 966- OP $11.422,60\n', '', NULL, 1, '0000-2017', NULL, NULL, 9186),
+(3046, '2017-12-19', 91, 251, 'TESORERIA NOTA Nº 987 RECLAMO DE CUOTA ALIMENTARIA SRA CURINMARIELA/JUAN JOSE FIGUEROA\n', '', NULL, 1, '0000-2017', NULL, NULL, 9186),
+(3047, '2017-12-19', 16, 247, 'PC planeamiento9:  no enciende\nSolicita: alejandra nussbaum\n', '38081', 0, 1, '0000-2017', '0000-2017', 172, 9228),
+(3048, '2017-12-20', 91, 258, 'SUMINISTROS -FDO DE CAJA Nº 152.308,20 C/RESOL.\n\n20/12/17 Mensaje de garismendi: ENTRÓ SOLO LA RESOLUCIÓN DEL FONDO Nº 30 DE SUMINISTROS POR EL IMPORTE $ 152.30/8,20.-', '', NULL, 1, '0000-2017', NULL, NULL, 9186),
+(3049, '2017-12-20', 91, 251, 'DPTO DE PERSONAL  NOTA Nº 1323 - DESAFECTACION DE LA PASANTIA PEREZ FEDERICO\n', '', 24, 1, '0000-2017', '0000-2017', NULL, 9186),
+(3050, '2017-12-20', 91, 262, 'SUELDOS - LIQUIDACION MES DE DIC/17 $14.983,50 ACOMP.A PERSONAS E INSTITUCIONES \n', '', NULL, 1, '0000-2017', NULL, NULL, 9186),
+(3051, '2017-12-20', 91, 255, 'CEB - 603935104 $24.046,39\n', '', NULL, 1, '0000-2017', NULL, NULL, 9186),
+(3052, '2017-12-20', 91, 251, 'TURISMO Y PRODUCCION - PLANILLA DE CARGO - CAMARA FOTOGRAFICA\n', '', NULL, 1, '0000-2017', NULL, NULL, 9186),
+(3053, '2017-12-20', 19, 247, 'La pc deportes6 no puede imprimir, la pc tiene pgm e internet pero no puede imprimir, esto le ocurre bastante seguido. Pasar a ver.\nSolicita: Soledad\n', '', NULL, 1, '0000-2017', NULL, NULL, 102071),
+(3054, '2017-12-20', 91, 364, 'TRIBUNAL DE CONTRALOR NOTA 463- EJECUCION MES DE DIC/18\n', '', NULL, 1, '0000-2017', NULL, NULL, 9186),
+(3055, '2017-12-20', 91, 258, 'TESORERIA - FDO DE AJA S/RESOL. $245.877,16\n\n20/12/17 Mensaje de garismendi: FONDO DE CAJA ', '', NULL, 1, '0000-2017', NULL, NULL, 9186),
+(3056, '2017-12-20', 24, 90, 'La Pc se tildo no funciona no responde\nSolicita: zulma\n', '', NULL, 1, '0000-2017', NULL, NULL, 9215),
+(3057, '2017-12-20', 91, 251, 'SEC DE OBRAS PUBLICAS NOTA Nº \n	1500 - COMPRA DE PLANTAS PARA OBRA DE CALLE MITRE \n	 NOTA S/Nº CERT.Nº1 $370.000 REPARACION DE CALLE MITRE \n', '', NULL, 1, '0000-2017', NULL, NULL, 9186),
+(3058, '2017-12-20', 19, 92, 'hp 400 se le rompio la manija de la bandeja de toma de papel nro. 2\nSolicita: Marta\n', '41663', 0, 1, '0000-2017', '0000-2017', 168, 9187),
+(3059, '2017-12-20', 16, 247, 'PC playon-prn se esta colgando\nSolicita: marcela\n', 'nlt', NULL, 1, '0000-2017', NULL, NULL, 102081),
+(3060, '2017-12-20', 16, 90, 'PC profip8:  inicia windows y pierde pantalla\nSolicita: maria\n', '44873', 24, 1, '0000-2017', '0000-2017', 182, 9220),
+(3061, '2017-12-21', 19, 242, 'Pc economia5 perteneciente al secretario de hacienda, solicitan se pase a prestamo a sueldos.\nSolicita: juan carlos\n', '39751', 0, 1, '0000-2017', '0000-2017', 168, 9188),
+(3062, '2017-12-21', 19, 90, 'La pc al arrancar windows se reinicia\nSolicita: flavia\n', '39462', 0, 1, '0000-2017', '0000-2017', 168, 102059),
+(3063, '2017-12-21', 91, 251, 'HACIENDA - NOTA 525 SUSPENSION DE SUMINISTROS CEB\n', '', NULL, 1, '0000-2017', NULL, NULL, 9186),
+(3064, '2017-12-21', 91, 267, 'Nº 184-185-186-187-188-189-190-191-192-193-194-195-196-197-198-199-200-201-\n203-204-205-206-207-208-209-210-211-212-213-214-215-216\n', '', NULL, 1, '0000-2017', NULL, NULL, 9186),
+(3065, '2017-12-21', 91, 251, 'FORMULARIO AFIP -BLASQUIZ LAURA\n', '', 0, 1, '0000-2017', '0000-2017', NULL, 9186),
+(3066, '2017-12-21', 19, 242, 'Pc Autoconsulta, solicitaron por nota reinstalar y configurar para usar en fiscalizacion\nSolicita: Lilian\n', '38532', 0, 1, '0000-2017', '0000-2017', 168, 9201),
+(3067, '2017-12-21', 91, 258, 'TESORERIA CAJA CHICA Nº 25-17 $248.631,53 C/RESOL.\n', '', NULL, 1, '0000-2017', NULL, NULL, 9186),
+(3068, '2017-12-21', 90, 384, 'Gladys te informo que hoy 21/12 realizamos operativo en km 13 - sub comisaria 55 - desde 08:50 hasta 11:30 hs-- aproximadamente 10:15 hs se presentaron los inspectores de transito municipal (que trabajan en Deleg Cº Otto) - ya quedamos coordinados con el inspector Parra para hacer nuevamente operativo mañana 22/12 desde las 09 hs en adelante..  al volver fuimos hasta el Corralon a buscar nafta y pase a obras a buscar expedientes (traje uno)- y nafta no hay hasta mañana.. de ahi pasamos a buscar las bolsas personales de navidad que entrega el soyem.. (ya que estabamos en la zona).. Lucas y Luisa posteriormente inspecc el Hotel Aguas del Sur\n\n22/12/17 Mensaje de gquezada: ok gracias', '', 24, 1, '0000-2017', '0000-2017', NULL, 9196),
+(3069, '2017-12-21', 3, 390, 'esta lleno de ratas\r\n - Numero de interno: 145\n21/12/17 Mensaje de RVERA: manjeate', NULL, 0, 1, NULL, '0000-2017', NULL, 38),
+(3070, '2017-12-22', 91, 255, 'CAMUZZI GAS 80011-14115399-6 $374,44\n', '', NULL, 1, '0000-2017', NULL, NULL, 9186);
 
 -- --------------------------------------------------------
 
@@ -14950,34 +15272,11 @@ INSERT INTO `tickets_adjuntos` (`fk_ticket`, `adjunto`, `anio`, `mes`) VALUES
 (2586, '00007715-2017.pdf', 2017, 11),
 (2642, '00007307-2017.pdf', 2017, 11),
 (2702, 'errorCierreBalance.png', 2017, 11),
-(2720, '', 2017, 11),
-(2783, '', 2017, 11),
-(2784, '', 2017, 11),
-(2785, '', 2017, 11),
-(2813, '', 2017, 11),
-(2814, '', 2017, 11),
 (2892, '30517.odt', 2017, 12),
 (2892, '30727.odt', 2017, 12),
 (2892, '31628.odt', 2017, 12),
-(2893, '', 2017, 12),
-(2897, '', 2017, 12),
-(2948, '', 2017, 12),
 (2953, 'ActualizarClave.doc', 2017, 12),
-(2974, 'Cosas de la vida.txt', 2017, 12),
-(2975, 'Cosas de la vida.txt', 2017, 12),
-(2979, 'Cosas de la vida.txt', 2017, 12),
-(2980, 'Cosas de la vida.txt', 2017, 12),
-(2981, 'Cosas de la vida.txt', 2017, 12),
-(2982, 'Cosas de la vida.txt', 2017, 12),
-(2983, 'Cosas de la vida.txt', 2017, 12),
-(2985, 'Cosas de la vida.txt', 2017, 12),
-(2986, 'Cosas de la vida.txt', 2017, 12),
-(2987, 'Cosas de la vida.txt', 2017, 12),
-(2988, 'Cosas de la vida.txt', 2017, 12),
-(2990, 'Cosas de la vida.txt', 2017, 12),
-(2991, 'Cosas de la vida.txt', 2017, 12),
-(2992, 'Cosas de la vida.txt', 2017, 12),
-(2993, 'Cosasdelavida.txt', 2017, 12);
+(3069, '', 2017, 12);
 
 -- --------------------------------------------------------
 
@@ -15465,7 +15764,7 @@ INSERT INTO `usuarios` (`id_usuario`, `nombre_usuario`, `contrasenia`, `fk_emple
 (544, 'CPIEDRABUE     ', '119cfdda78d6eb10cb33fa329c735eb4', 3343, 1, 2, NULL),
 (545, 'mmartinez      ', '340f2a36d43c3b00e592cf08cef006f1', 3310, 1, 2, NULL),
 (546, 'AQUINELEN      ', '835bafd2c534a1830c0590774285ff88', 3407, 1, 2, NULL),
-(547, 'RVERA', 'd8ae5776067290c4712fa454006c8ec6', 3410, 1, 2, NULL),
+(547, 'RVERA', 'd8ae5776067290c4712fa454006c8ec6', 3410, 1, 4, NULL),
 (548, 'DMINOR', '8417b4b7a64929b9e6dea71c8c247959', 3409, 1, 2, NULL),
 (549, 'VOLIVIERI      ', '81836b7cd16991abb7febfd7832927fd', 3303, 1, 2, NULL),
 (550, 'NITURRA        ', '2edb343575be23ac74ebc110948bb693', 5426, 1, 2, NULL),
@@ -15613,7 +15912,8 @@ INSERT INTO `usuarios` (`id_usuario`, `nombre_usuario`, `contrasenia`, `fk_emple
 (692, 'cinalaf', '17d63b1625c816c22647a73e1482372b', 5983, 1, 2, NULL),
 (693, 'mcaupan', 'fc56459a18776e2a100854c16a1fd78b', 5984, 1, 2, NULL),
 (694, 'vnoves', 'bd69a680c233578a87e46f33dfdc78b1', 5985, 1, 2, NULL),
-(695, 'pcostanzo', '8d6dc35e506fc23349dd10ee68dabb64', 5986, 1, 2, NULL);
+(695, 'pcostanzo', '8d6dc35e506fc23349dd10ee68dabb64', 5986, 1, 2, NULL),
+(696, 'adandliker', '10b28c9abf3a62e9dcb63da27a7186d8', 3248, 1, 2, NULL);
 
 -- --------------------------------------------------------
 
@@ -16669,7 +16969,7 @@ ALTER TABLE `usuarios`
 -- AUTO_INCREMENT de la tabla `areas`
 --
 ALTER TABLE `areas`
-  MODIFY `id_area` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=102087;
+  MODIFY `id_area` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=102088;
 --
 -- AUTO_INCREMENT de la tabla `area_sistemas`
 --
@@ -16679,7 +16979,7 @@ ALTER TABLE `area_sistemas`
 -- AUTO_INCREMENT de la tabla `asuntos`
 --
 ALTER TABLE `asuntos`
-  MODIFY `id_asuntoP` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=66;
+  MODIFY `id_asuntoP` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=68;
 --
 -- AUTO_INCREMENT de la tabla `base_conocimiento`
 --
@@ -16719,12 +17019,12 @@ ALTER TABLE `estados_pgm`
 -- AUTO_INCREMENT de la tabla `historial_tickets`
 --
 ALTER TABLE `historial_tickets`
-  MODIFY `id_historial` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6224;
+  MODIFY `id_historial` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6437;
 --
 -- AUTO_INCREMENT de la tabla `permisos`
 --
 ALTER TABLE `permisos`
-  MODIFY `id_permiso` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=58;
+  MODIFY `id_permiso` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=61;
 --
 -- AUTO_INCREMENT de la tabla `razones_transferencias`
 --
@@ -16739,17 +17039,17 @@ ALTER TABLE `roles`
 -- AUTO_INCREMENT de la tabla `servicios`
 --
 ALTER TABLE `servicios`
-  MODIFY `id_asuntoS` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=388;
+  MODIFY `id_asuntoS` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=397;
 --
 -- AUTO_INCREMENT de la tabla `tickets`
 --
 ALTER TABLE `tickets`
-  MODIFY `id_ticket` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2994;
+  MODIFY `id_ticket` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3071;
 --
 -- AUTO_INCREMENT de la tabla `usuarios`
 --
 ALTER TABLE `usuarios`
-  MODIFY `id_usuario` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=696;
+  MODIFY `id_usuario` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=697;
 --
 -- Restricciones para tablas volcadas
 --

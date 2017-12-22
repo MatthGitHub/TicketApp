@@ -99,7 +99,7 @@ public class UsuariosV extends MenuP {
     }
     private List <Usuarios> traerUsuarios(){
         servicios = UsuarioServ.getUsuarioServ();
-        if(LoginEJB.usuario.getFkRol().getIdRol() == 1){
+        if(mainFrame.validarPermisos(59)){
             listaUsuarios = servicios.traerTodos();
         }else{
             listaUsuarios = servicios.traerPorArea(LoginEJB.usuario.getFkEmpleado().getFkArea());
@@ -499,7 +499,7 @@ public class UsuariosV extends MenuP {
     private void txt_idActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txt_idActionPerformed
         // TODO add your handling code here:
         if(txt_id.getText().trim().length() >0){
-            if(LoginEJB.usuario.getFkRol().getIdRol() == 1){
+            if(mainFrame.validarPermisos(59)){
                 cargarTablaUsuariosBuscados(servicios.buscarUsuarios(txt_id.getText().trim()));
             }else{
                 cargarTablaUsuariosBuscados(servicios.buscarUsuariosPorArea(txt_id.getText().trim()));

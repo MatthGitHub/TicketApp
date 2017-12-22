@@ -55,7 +55,7 @@ public class BaseConocimientoV extends MenuP {
     
     private void llenarTabla(){
         vaciarTabla(jt_conocimiento);
-        if(LoginEJB.usuario.getFkRol().getIdRol() == 1){
+        if(mainFrame.validarPermisos(58)){
             miLista = servH.traerTodosResueltos();
         }else{
              miLista = servH.traerTodosResueltosPorServicios();
@@ -95,7 +95,7 @@ public class BaseConocimientoV extends MenuP {
             modelo.addRow(v);
             cant++;
         }
-        if(LoginEJB.usuario.getFkRol().getIdRol() == 1){
+        if(mainFrame.validarPermisos(58)){
             lblCant.setText(Integer.toString(cant)+" Tickets resueltos de: "+serviciosT.traerTodos().size());
         }else{
              lblCant.setText(Integer.toString(cant)+" Tickets resueltos de: "+serviciosT.traerTodosPorArea().size());
@@ -140,7 +140,7 @@ public class BaseConocimientoV extends MenuP {
             modelo.addRow(v);
             cant++;
         }
-        if(LoginEJB.usuario.getFkRol().getIdRol() == 1){
+        if(mainFrame.validarPermisos(58)){
             lblCant.setText(Integer.toString(cant)+" Tickets resueltos de: "+serviciosT.traerTodos().size());
         }else{
              lblCant.setText(Integer.toString(cant)+" Tickets resueltos de: "+serviciosT.traerTodosPorArea().size());

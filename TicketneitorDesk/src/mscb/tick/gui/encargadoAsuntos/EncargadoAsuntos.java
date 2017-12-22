@@ -53,7 +53,7 @@ public class EncargadoAsuntos extends MenuP {
         miListaA = new ArrayList<>();
         this.setVisible(true);
         cargarComboBoxUsuarios();
-        cargarComboBoxAsuntoP();
+        
 
     }
 
@@ -67,7 +67,7 @@ public class EncargadoAsuntos extends MenuP {
     private void cargarComboBoxUsuarios() {
         serviciosU = UsuarioServ.getUsuarioServ();
         miListaU = new ArrayList<>();
-        if(LoginEJB.usuario.getFkRol().getIdRol() == 1){
+        if(mainFrame.validarPermisos(59)){
             miListaU = serviciosU.traerTodos();
         }else{
             miListaU = serviciosU.traerPorArea(LoginEJB.usuario.getFkEmpleado().getFkArea());
@@ -80,7 +80,7 @@ public class EncargadoAsuntos extends MenuP {
 
     private void cargarComboBoxAsuntoS() {
         serviciosA = AsuntoSecundarioServ.getAsuntoPrincipalServ();
-        if(!cmbx_asuntosP.getSelectedItem().equals(" ")){
+        if(cmbx_asuntosP.getItemCount() > 1){
             miListaA = serviciosA.traerPorAreaPrincipalyUsuario((Asuntos) cmbx_asuntosP.getSelectedItem(), (Usuarios) cmbx_usuarios.getSelectedItem());
             cmbx_asuntosS.removeAllItems();
             for (int i = 0; i < miListaA.size(); i++) {
@@ -94,16 +94,21 @@ public class EncargadoAsuntos extends MenuP {
      * Trae todos los asuntos si el rol es administrador, sino solo los correspondientes del area del usuario
      */
     private void cargarComboBoxAsuntoP() {
-        serviciosP = AsuntoPrincipalServ.getAsuntoPrincipalServ();
-        miListaP = new ArrayList<>();
-        if(LoginEJB.usuario.getFkRol().getIdRol() == 1){
-             miListaP = serviciosP.traerTodos();
-        }else{
-            miListaP = serviciosP.asuntosPorArea(LoginEJB.usuario.getFkEmpleado().getFkArea());
-        }
         
-        for (int i = 0; i < miListaP.size(); i++) {
-            cmbx_asuntosP.addItem(miListaP.get(i));
+        if(cmbx_usuarios.getItemCount() > 1){
+            serviciosP = AsuntoPrincipalServ.getAsuntoPrincipalServ();
+            //miListaP = new ArrayList<>();
+            if(mainFrame.validarPermisos(58)){
+                 miListaP = serviciosP.traerTodos();
+            }else{
+                miListaP = serviciosP.asuntosPorArea(((Usuarios) cmbx_usuarios.getSelectedItem()).getFkEmpleado().getFkArea());
+            }
+            
+            
+            
+            for (int i = 0; i < miListaP.size(); i++) {
+                cmbx_asuntosP.addItem(miListaP.get(i));
+            }
         }
     }
 
@@ -393,6 +398,9 @@ public class EncargadoAsuntos extends MenuP {
         cmbx_asuntosP.setVisible(true);
         lbl_asuntos.setVisible(true);
         user = (Usuarios) cmbx_usuarios.getSelectedItem();
+
+        cmbx_asuntosP.removeAllItems();
+        cargarComboBoxAsuntoP();
         cargarTabla();
         if(cmbx_asuntosS.isVisible()){
             cargarComboBoxAsuntoS();

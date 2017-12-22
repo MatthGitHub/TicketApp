@@ -73,7 +73,7 @@ public class BandejaTickets extends MenuP {
         mainFrame.setLocationRelativeTo(null);
         mainFrame.setTitle("Ticketneitor");
         //setSize(mainFrame.getSize());
-        if(LoginEJB.usuario.getFkRol().getIdRol() == 1){
+        if(mainFrame.validarPermisos(58)){
             cmbx_areas.setVisible(true);
         }else{
             cmbx_areas.setVisible(false);

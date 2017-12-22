@@ -96,7 +96,7 @@ public class TicketsV extends MenuP {
     
     public void llenarTabla() {
         vaciarTabla(jt_tickets);
-        if(LoginEJB.usuario.getFkRol().getIdRol() == 1){
+        if(mainFrame.validarPermisos(58)){
             miLista = serviciosT.traerTodos();
         }else{
             miLista = serviciosT.traerTodosPorArea();
