@@ -15,6 +15,7 @@ import mscb.tick.negocio.entidades.Empleados;
 import mscb.tick.negocio.entidades.Roles;
 import mscb.tick.negocio.entidades.Usuarios;
 import mscb.tick.gui.main.Main;
+import mscb.tick.negocio.LoginEJB;
 import mscb.tick.negocio.RoleServ;
 import mscb.tick.negocio.UsuarioServ;
 import mscb.tick.util.MenuP;
@@ -44,7 +45,12 @@ public class NuevoUsuario extends MenuP {
         this.mainFrameO = mainFrameO;
         modelo = (DefaultTableModel) jt_empleados.getModel();
         buscaE = EmpleadoServ.getEmpleadoServ();
-        listaEmp = buscaE.traerTodos();
+        if(mainFrameO.validarPermisos(60)){
+            listaEmp = buscaE.traerTodos();
+        }else{
+            listaEmp = buscaE.traerTodosPorArea();
+        }
+        
         llenarTabla(listaEmp);
         cargarCmBxPermisos();
         setSize(720, 450);
@@ -62,7 +68,12 @@ public class NuevoUsuario extends MenuP {
     private void cargarCmBxPermisos(){
         buscaP = RoleServ.getRoleServ();
         listaPer = new ArrayList<>();
-        listaPer = buscaP.traerTodos();
+        if(LoginEJB.usuario.getFkRol().getIdRol() == 1){
+            listaPer = buscaP.traerTodos();
+        }else{
+            listaPer.add(buscaP.traerUno(2));
+        }
+        
         
         for(int i = 0; i < listaPer.size(); i ++){
             cmbx_permisos.addItem(listaPer.get(i));

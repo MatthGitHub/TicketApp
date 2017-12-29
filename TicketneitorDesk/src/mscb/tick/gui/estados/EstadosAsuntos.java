@@ -5,10 +5,12 @@
  */
 package mscb.tick.gui.estados;
 
+import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
+import mscb.tick.gui.main.Main;
 import mscb.tick.negocio.AsuntoPrincipalServ;
 import mscb.tick.negocio.EstadoServ;
 import mscb.tick.negocio.LoginEJB;
@@ -42,7 +44,13 @@ public class EstadosAsuntos extends MenuP {
     }
     
     public void llenarComboBox(){
-        List<Asuntos> miLista = AsuntoPrincipalServ.getAsuntoPrincipalServ().asuntosPorArea(LoginEJB.usuario.getFkEmpleado().getFkArea());
+        List<Asuntos> miLista = new ArrayList<>();
+        if(Main.getMainFrame().validarPermisos(58)){
+            miLista = AsuntoPrincipalServ.getAsuntoPrincipalServ().traerTodos();
+        }else{
+            miLista = AsuntoPrincipalServ.getAsuntoPrincipalServ().asuntosPorArea(LoginEJB.usuario.getFkEmpleado().getFkArea());
+        }
+        
         for(int i = 0; i < miLista.size(); i++){
             cmbx_asunto.addItem(miLista.get(i));
         }
